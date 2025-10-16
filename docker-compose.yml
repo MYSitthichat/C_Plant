@@ -1,0 +1,35 @@
+services:
+  billing:
+    build:
+      context: ./New_billing
+      dockerfile: Dockerfile
+    container_name: billing_app
+    environment:
+      - DISPLAY=host.docker.internal:0.0
+    volumes:
+      - ./New_billing:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
+
+  control:
+    build:
+      context: ./New_Contol_plant
+      dockerfile: Dockerfile
+    container_name: control_app
+    environment:
+      - DISPLAY=host.docker.internal:0.0
+    volumes:
+      - ./New_Contol_plant:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
+
+  report:
+    build:
+      context: ./New_report
+      dockerfile: Dockerfile
+    container_name: report_app
+    environment:
+      - DISPLAY=host.docker.internal:0.0
+    volumes:
+      - ./New_report:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix

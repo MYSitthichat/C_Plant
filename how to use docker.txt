@@ -1,0 +1,23 @@
+#remove all to clean on active and none active
+docker system prune -a -f
+
+
+#remove <none> image
+docker image prune
+
+
+# Re-build all
+docker-compose down
+docker-compose build --no-cache
+
+
+#build one by one project
+ิ
+docker-compose build billing
+docker-compose up --force-recreate billing
+
+docker-compose build report
+docker-compose up --force-recreate report
+
+docker-compose build control
+docker-compose up --force-recreate control
