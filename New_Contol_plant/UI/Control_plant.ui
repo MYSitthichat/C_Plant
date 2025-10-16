@@ -6,31 +6,2464 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1450</width>
-    <height>800</height>
+    <width>1550</width>
+    <height>850</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1550</width>
+    <height>850</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1550</width>
+    <height>871</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>1550</width>
+    <height>850</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>1550</width>
+    <height>850</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <property name="minimumSize">
+    <size>
+     <width>1550</width>
+     <height>850</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1550</width>
+     <height>850</height>
+    </size>
+   </property>
+   <property name="sizeIncrement">
+    <size>
+     <width>1550</width>
+     <height>850</height>
+    </size>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>1550</width>
+     <height>850</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:rgb(255, 244, 235)</string>
+   </property>
+   <widget class="QTabWidget" name="main_tab">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>270</y>
-      <width>751</width>
-      <height>141</height>
+      <x>-10</x>
+      <y>0</y>
+      <width>1561</width>
+      <height>831</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>72</pointsize>
+      <family>TH Niramit AS</family>
+      <pointsize>24</pointsize>
+      <bold>true</bold>
      </font>
     </property>
-    <property name="text">
-     <string>Hello Controll</string>
+    <property name="styleSheet">
+     <string notr="true">background:rgb(255, 214, 201)</string>
     </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>20</width>
+      <height>20</height>
+     </size>
+    </property>
+    <widget class="QWidget" name="register_tab">
+     <attribute name="title">
+      <string>Register</string>
+     </attribute>
+     <widget class="QTreeWidget" name="reg_formula_treeWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>430</y>
+        <width>1545</width>
+        <height>350</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1545</width>
+        <height>350</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1545</width>
+        <height>350</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustIgnored</enum>
+      </property>
+      <property name="autoExpandDelay">
+       <number>3</number>
+      </property>
+      <property name="itemsExpandable">
+       <bool>true</bool>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="animated">
+       <bool>false</bool>
+      </property>
+      <property name="allColumnsShowFocus">
+       <bool>false</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>false</bool>
+      </property>
+      <property name="expandsOnDoubleClick">
+       <bool>false</bool>
+      </property>
+      <property name="columnCount">
+       <number>12</number>
+      </property>
+      <attribute name="headerMinimumSectionSize">
+       <number>50</number>
+      </attribute>
+      <attribute name="headerDefaultSectionSize">
+       <number>123</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>ลำดับ</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ชื่อสูตร</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>หิน1</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ทราย</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>หิน2</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>เถ้าลอย</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ปูน</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>น้ำ</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>น้ำยาเคมี 1</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>น้ำยาเคมี 2</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>age</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>slump</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <item>
+       <property name="text">
+        <string>3</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>133</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>132</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>1</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>123</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="reg_name_label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
+      <property name="text">
+       <string>ชื่อ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="reg_name_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>5</y>
+        <width>181</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>22</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="reg_telephone_label">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>10</y>
+        <width>61</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
+      <property name="text">
+       <string>เบอร์</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="reg_telephone_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>5</y>
+        <width>201</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>22</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="reg_address_label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>51</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
+      <property name="text">
+       <string>ที่อยู่</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="reg_address_textEdit">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>60</y>
+        <width>461</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>22</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="reg_number_car_lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>210</y>
+        <width>181</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>22</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="reg_number_car_label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>210</y>
+        <width>111</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
+      <property name="text">
+       <string>ทะเบียนรถ</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="reg_comment_label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>260</y>
+        <width>111</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
+      <property name="text">
+       <string>หมายเหตุ</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="reg_comment_textEdit">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>270</y>
+        <width>401</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>22</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>811</width>
+        <height>421</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <widget class="QComboBox" name="reg_formula_comboBox">
+       <property name="geometry">
+        <rect>
+         <x>620</x>
+         <y>5</y>
+         <width>171</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>ต้องการเก็บ</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ไม่ต้องการเก็บ</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="reg_formula_label">
+       <property name="geometry">
+        <rect>
+         <x>540</x>
+         <y>10</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>ลูกปูน</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="reg_amount_unit_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>620</x>
+         <y>60</y>
+         <width>131</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="reg_amount_unit_label">
+       <property name="geometry">
+        <rect>
+         <x>540</x>
+         <y>65</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>จำนวน</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="reg_amount_unit_label1">
+       <property name="geometry">
+        <rect>
+         <x>760</x>
+         <y>60</y>
+         <width>41</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>คิว</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="reg_amount_unit_label_2">
+       <property name="geometry">
+        <rect>
+         <x>540</x>
+         <y>115</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>ชื่อสูตร</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="reg_amount_unit_lineEdit_2">
+       <property name="geometry">
+        <rect>
+         <x>620</x>
+         <y>110</y>
+         <width>131</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="reg_save_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>530</x>
+         <y>180</y>
+         <width>271</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color:rgb(156, 255, 181); 
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
+       <property name="text">
+        <string>บันทึก</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="reg_clear_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>530</x>
+         <y>260</y>
+         <width>271</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(64, 255, 214);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
+       <property name="text">
+        <string>เคลียข้อมูล</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="reg_save_new_custommer_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>530</x>
+         <y>340</y>
+         <width>271</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(255, 167, 173);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
+       <property name="text">
+        <string>บันทึกลูกค้าใหม่</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QTreeWidget" name="reg_list_customer_treeWidget">
+      <property name="geometry">
+       <rect>
+        <x>830</x>
+        <y>60</y>
+        <width>725</width>
+        <height>360</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>725</width>
+        <height>360</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>725</width>
+        <height>360</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustIgnored</enum>
+      </property>
+      <property name="autoExpandDelay">
+       <number>3</number>
+      </property>
+      <property name="itemsExpandable">
+       <bool>true</bool>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="animated">
+       <bool>false</bool>
+      </property>
+      <property name="allColumnsShowFocus">
+       <bool>false</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>false</bool>
+      </property>
+      <property name="expandsOnDoubleClick">
+       <bool>false</bool>
+      </property>
+      <property name="columnCount">
+       <number>3</number>
+      </property>
+      <attribute name="headerMinimumSectionSize">
+       <number>50</number>
+      </attribute>
+      <attribute name="headerDefaultSectionSize">
+       <number>123</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>ชื่อ</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>เบอร์</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ที่อยู่</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <item>
+       <property name="text">
+        <string>ทดสอบ3</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>333333333</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>3333333333333333333</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ทดสอบ2</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>222222222</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>2222222222222222222222222</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>ทดสอบ1</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>111111111</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>1111111111111111111111</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="reg_lis_custommer_label">
+      <property name="geometry">
+       <rect>
+        <x>1150</x>
+        <y>10</y>
+        <width>131</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
+      <property name="text">
+       <string>รายชื่อลูกค้า</string>
+      </property>
+     </widget>
+     <zorder>groupBox</zorder>
+     <zorder>reg_formula_treeWidget</zorder>
+     <zorder>reg_name_label</zorder>
+     <zorder>reg_name_lineEdit</zorder>
+     <zorder>reg_telephone_label</zorder>
+     <zorder>reg_telephone_lineEdit</zorder>
+     <zorder>reg_address_label</zorder>
+     <zorder>reg_address_textEdit</zorder>
+     <zorder>reg_number_car_lineEdit</zorder>
+     <zorder>reg_number_car_label</zorder>
+     <zorder>reg_comment_label</zorder>
+     <zorder>reg_comment_textEdit</zorder>
+     <zorder>reg_list_customer_treeWidget</zorder>
+     <zorder>reg_lis_custommer_label</zorder>
+    </widget>
+    <widget class="QWidget" name="Mix_tab">
+     <attribute name="title">
+      <string>Mix</string>
+     </attribute>
+    </widget>
+    <widget class="QWidget" name="formula_tab">
+     <attribute name="title">
+      <string>Formula</string>
+     </attribute>
+     <widget class="QTreeWidget" name="for_formula_treeWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>1545</width>
+        <height>510</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>1545</width>
+        <height>510</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>1545</width>
+        <height>510</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustIgnored</enum>
+      </property>
+      <property name="autoExpandDelay">
+       <number>3</number>
+      </property>
+      <property name="itemsExpandable">
+       <bool>true</bool>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="animated">
+       <bool>false</bool>
+      </property>
+      <property name="allColumnsShowFocus">
+       <bool>false</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>false</bool>
+      </property>
+      <property name="expandsOnDoubleClick">
+       <bool>false</bool>
+      </property>
+      <property name="columnCount">
+       <number>12</number>
+      </property>
+      <attribute name="headerMinimumSectionSize">
+       <number>50</number>
+      </attribute>
+      <attribute name="headerDefaultSectionSize">
+       <number>123</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>ลำดับ</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ชื่อสูตร</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>หิน1</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ทราย</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>หิน2</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>เถ้าลอย</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>ปูน</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>น้ำ</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>น้ำยาเคมี 1</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>น้ำยาเคมี 2</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>age</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>slump</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
+      <item>
+       <property name="text">
+        <string>3</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>133</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+       <property name="text">
+        <string>333</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>132</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+       <property name="text">
+        <string>222</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>1</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>123</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+       <property name="text">
+        <string>111</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QGroupBox" name="for_config_formula_groupBox">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>520</y>
+        <width>1531</width>
+        <height>151</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
+      </property>
+      <property name="title">
+       <string>ปรับสูตร /  เพิ่มสูตร</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <widget class="QLabel" name="for_id_formula_label">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>40</y>
+         <width>61</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>ลำดับ</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_name_formula_label">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>40</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>ชื่อสูตร</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_id_formula_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_name_formula_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>90</y>
+         <width>131</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_rock_1_label">
+       <property name="geometry">
+        <rect>
+         <x>280</x>
+         <y>40</y>
+         <width>51</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>หิน1</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_sand_label">
+       <property name="geometry">
+        <rect>
+         <x>385</x>
+         <y>40</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>ทราย</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_rock_2_label">
+       <property name="geometry">
+        <rect>
+         <x>510</x>
+         <y>40</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>หิน2</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_fyash_label">
+       <property name="geometry">
+        <rect>
+         <x>625</x>
+         <y>40</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>เถ้าลอย</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_cement_label">
+       <property name="geometry">
+        <rect>
+         <x>780</x>
+         <y>40</y>
+         <width>41</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>ปูน</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_wather_label">
+       <property name="geometry">
+        <rect>
+         <x>895</x>
+         <y>40</y>
+         <width>41</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>น้ำ</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_chem_1_label">
+       <property name="geometry">
+        <rect>
+         <x>990</x>
+         <y>40</y>
+         <width>121</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>น้ำยาเคมี 1</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_chem_2_label">
+       <property name="geometry">
+        <rect>
+         <x>1120</x>
+         <y>40</y>
+         <width>121</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>น้ำยาเคมี 2</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_age_label">
+       <property name="geometry">
+        <rect>
+         <x>1290</x>
+         <y>40</y>
+         <width>51</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>อายุ</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="for_slump_label">
+       <property name="geometry">
+        <rect>
+         <x>1420</x>
+         <y>40</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>slump</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_rock_1_lineEdit_3">
+       <property name="geometry">
+        <rect>
+         <x>250</x>
+         <y>90</y>
+         <width>101</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_sand_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>90</y>
+         <width>111</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_rock_2_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>90</y>
+         <width>111</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_fyash_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>600</x>
+         <y>90</y>
+         <width>131</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_cement_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>740</x>
+         <y>90</y>
+         <width>111</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_wather_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>860</x>
+         <y>90</y>
+         <width>111</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_chem_1_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>980</x>
+         <y>90</y>
+         <width>121</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_chem_2_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>1110</x>
+         <y>90</y>
+         <width>131</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_age_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>1250</x>
+         <y>90</y>
+         <width>131</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="for_slump_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>1390</x>
+         <y>90</y>
+         <width>131</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="for_add_formula_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>680</y>
+        <width>241</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
+      <property name="text">
+       <string>เพิ่มสูตรใหม่</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="for_config_formula_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>680</y>
+        <width>241</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(255, 211, 107);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
+      <property name="text">
+       <string>แก้ไขสูตร</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="for_delete_formula_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>680</y>
+        <width>241</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
+      <property name="text">
+       <string>ลบสูตร</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="for_save_formula_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>770</x>
+        <y>680</y>
+        <width>241</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(121, 218, 94);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
+      <property name="text">
+       <string>บันทึกสูตร</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="for_cancel_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>1310</x>
+        <y>680</y>
+        <width>241</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+   	background:rgb(145, 145, 145);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
+      <property name="text">
+       <string>ยกเลิก</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
