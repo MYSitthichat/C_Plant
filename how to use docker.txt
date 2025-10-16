@@ -1,3 +1,14 @@
+#frist you can opan Docker-Desktop
+
+#next you can start app Xlaunch //// link download https://sourceforge.net/projects/vcxsrv/
+
+#in display for setup
+/// Click "Next" until you reach the Extra Setting page after running the software. 
+Then, pick "Turn off access control" and click "Next" to go to the last page. 
+Finally, select "Save settings file to desktop."  After you get the file, 
+double-click it to open it before you launch Docker. ///
+
+
 #remove all to clean on active and none active
 docker system prune -a -f
 
@@ -11,7 +22,7 @@ docker-compose down
 docker-compose build --no-cache
 
 
-#build one by one project
+#Re build one by one project
 ิ
 docker-compose build billing
 docker-compose up --force-recreate billing
@@ -21,3 +32,11 @@ docker-compose up --force-recreate report
 
 docker-compose build control
 docker-compose up --force-recreate control
+
+
+#run project
+docker-compose up billing
+
+docker-compose up report
+
+docker-compose up control
