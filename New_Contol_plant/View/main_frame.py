@@ -15,11 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QFrame,
-    QGroupBox, QHeaderView, QLabel, QLineEdit,
-    QMainWindow, QPushButton, QSizePolicy, QStatusBar,
-    QTabWidget, QTextEdit, QTreeWidget, QTreeWidgetItem,
-    QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDateTimeEdit,
+    QFrame, QGroupBox, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QPushButton, QSizePolicy,
+    QStatusBar, QTabWidget, QTextEdit, QTreeWidget,
+    QTreeWidgetItem, QWidget)
 
 class Ui_Control_Plant(object):
     def setupUi(self, Control_Plant):
@@ -37,16 +37,23 @@ class Ui_Control_Plant(object):
         self.centralwidget.setSizeIncrement(QSize(1550, 850))
         self.centralwidget.setBaseSize(QSize(1550, 850))
         self.centralwidget.setStyleSheet(u"background:rgb(255, 244, 235)")
-        self.main_tab = QTabWidget(self.centralwidget)
-        self.main_tab.setObjectName(u"main_tab")
-        self.main_tab.setGeometry(QRect(-10, 0, 1561, 831))
+        self.tab = QTabWidget(self.centralwidget)
+        self.tab.setObjectName(u"tab")
+        self.tab.setGeometry(QRect(-10, 0, 1561, 831))
+        self.tab.setMinimumSize(QSize(1561, 831))
+        self.tab.setMaximumSize(QSize(1561, 831))
+        self.tab.setBaseSize(QSize(1561, 831))
         font = QFont()
         font.setFamilies([u"TH Niramit AS"])
         font.setPointSize(24)
         font.setBold(True)
-        self.main_tab.setFont(font)
-        self.main_tab.setStyleSheet(u"background:rgb(255, 214, 201)")
-        self.main_tab.setIconSize(QSize(20, 20))
+        self.tab.setFont(font)
+        self.tab.setStyleSheet(u"background:rgb(255, 214, 201)")
+        self.tab.setTabPosition(QTabWidget.TabPosition.North)
+        self.tab.setIconSize(QSize(20, 20))
+        self.tab.setTabsClosable(False)
+        self.tab.setMovable(False)
+        self.tab.setTabBarAutoHide(False)
         self.register_tab = QWidget()
         self.register_tab.setObjectName(u"register_tab")
         self.reg_formula_treeWidget = QTreeWidget(self.register_tab)
@@ -150,7 +157,7 @@ class Ui_Control_Plant(object):
         self.reg_address_textEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
         self.reg_number_car_lineEdit = QLineEdit(self.register_tab)
         self.reg_number_car_lineEdit.setObjectName(u"reg_number_car_lineEdit")
-        self.reg_number_car_lineEdit.setGeometry(QRect(130, 210, 181, 41))
+        self.reg_number_car_lineEdit.setGeometry(QRect(130, 210, 111, 41))
         self.reg_number_car_lineEdit.setFont(font1)
         self.reg_number_car_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
         self.reg_number_car_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -275,6 +282,25 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
+        self.reg_dateTimeEdit = QDateTimeEdit(self.groupBox)
+        self.reg_dateTimeEdit.setObjectName(u"reg_dateTimeEdit")
+        self.reg_dateTimeEdit.setGeometry(QRect(320, 210, 201, 41))
+        font2 = QFont()
+        font2.setFamilies([u"TH Niramit AS"])
+        font2.setPointSize(18)
+        font2.setBold(True)
+        self.reg_dateTimeEdit.setFont(font2)
+        self.reg_dateTimeEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.reg_dateTimeEdit.setTime(QTime(0, 0, 0))
+        self.reg_dateTimeEdit.setCurrentSection(QDateTimeEdit.Section.AmPmSection)
+        self.reg_dateTimeEdit.setCalendarPopup(True)
+        self.reg_dateTimeEdit.setCurrentSectionIndex(5)
+        self.reg_dateTimeEdit.setTimeSpec(Qt.TimeSpec.LocalTime)
+        self.reg_date_time_label = QLabel(self.groupBox)
+        self.reg_date_time_label.setObjectName(u"reg_date_time_label")
+        self.reg_date_time_label.setGeometry(QRect(240, 210, 81, 41))
+        self.reg_date_time_label.setFont(font)
+        self.reg_date_time_label.setStyleSheet(u"background:rgb(255, 214, 201)")
         self.reg_list_customer_treeWidget = QTreeWidget(self.register_tab)
         __qtreewidgetitem4 = QTreeWidgetItem()
         __qtreewidgetitem4.setTextAlignment(2, Qt.AlignCenter);
@@ -322,7 +348,7 @@ class Ui_Control_Plant(object):
         self.reg_lis_custommer_label.setGeometry(QRect(1150, 10, 131, 41))
         self.reg_lis_custommer_label.setFont(font)
         self.reg_lis_custommer_label.setStyleSheet(u"background:rgb(255, 214, 201)")
-        self.main_tab.addTab(self.register_tab, "")
+        self.tab.addTab(self.register_tab, "")
         self.groupBox.raise_()
         self.reg_formula_treeWidget.raise_()
         self.reg_name_label.raise_()
@@ -339,7 +365,579 @@ class Ui_Control_Plant(object):
         self.reg_lis_custommer_label.raise_()
         self.Mix_tab = QWidget()
         self.Mix_tab.setObjectName(u"Mix_tab")
-        self.main_tab.addTab(self.Mix_tab, "")
+        self.Mix_tab.setMinimumSize(QSize(1555, 773))
+        self.Mix_tab.setMaximumSize(QSize(1555, 733))
+        self.Mix_tab.setBaseSize(QSize(1555, 773))
+        self.mix_detail_customer_groupBox = QGroupBox(self.Mix_tab)
+        self.mix_detail_customer_groupBox.setObjectName(u"mix_detail_customer_groupBox")
+        self.mix_detail_customer_groupBox.setGeometry(QRect(10, 0, 1545, 81))
+        self.mix_detail_customer_groupBox.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_detail_customer_groupBox.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.mix_detail_customer_groupBox.setFlat(False)
+        self.mix_detail_customer_groupBox.setCheckable(False)
+        self.mix_customer_name_lineEdit = QLineEdit(self.mix_detail_customer_groupBox)
+        self.mix_customer_name_lineEdit.setObjectName(u"mix_customer_name_lineEdit")
+        self.mix_customer_name_lineEdit.setGeometry(QRect(110, 20, 261, 41))
+        self.mix_customer_name_lineEdit.setFont(font1)
+        self.mix_customer_name_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_customer_name_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_customer_name_label = QLabel(self.mix_detail_customer_groupBox)
+        self.mix_customer_name_label.setObjectName(u"mix_customer_name_label")
+        self.mix_customer_name_label.setGeometry(QRect(10, 20, 91, 41))
+        self.mix_customer_name_label.setFont(font)
+        self.mix_customer_name_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_customer_formula_name_lineEdit = QLineEdit(self.mix_detail_customer_groupBox)
+        self.mix_customer_formula_name_lineEdit.setObjectName(u"mix_customer_formula_name_lineEdit")
+        self.mix_customer_formula_name_lineEdit.setGeometry(QRect(890, 20, 261, 41))
+        self.mix_customer_formula_name_lineEdit.setFont(font1)
+        self.mix_customer_formula_name_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_customer_formula_name_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_customer_formula_name_label = QLabel(self.mix_detail_customer_groupBox)
+        self.mix_customer_formula_name_label.setObjectName(u"mix_customer_formula_name_label")
+        self.mix_customer_formula_name_label.setGeometry(QRect(810, 20, 81, 41))
+        self.mix_customer_formula_name_label.setFont(font)
+        self.mix_customer_formula_name_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_customer_phone_lineEdit = QLineEdit(self.mix_detail_customer_groupBox)
+        self.mix_customer_phone_lineEdit.setObjectName(u"mix_customer_phone_lineEdit")
+        self.mix_customer_phone_lineEdit.setGeometry(QRect(510, 20, 261, 41))
+        self.mix_customer_phone_lineEdit.setFont(font1)
+        self.mix_customer_phone_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_customer_phone_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_customer_phone_label = QLabel(self.mix_detail_customer_groupBox)
+        self.mix_customer_phone_label.setObjectName(u"mix_customer_phone_label")
+        self.mix_customer_phone_label.setGeometry(QRect(410, 20, 91, 41))
+        self.mix_customer_phone_label.setFont(font)
+        self.mix_customer_phone_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_number_cube_label = QLabel(self.mix_detail_customer_groupBox)
+        self.mix_number_cube_label.setObjectName(u"mix_number_cube_label")
+        self.mix_number_cube_label.setGeometry(QRect(1180, 20, 91, 41))
+        self.mix_number_cube_label.setFont(font)
+        self.mix_number_cube_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_number_cube_lineEdit = QLineEdit(self.mix_detail_customer_groupBox)
+        self.mix_number_cube_lineEdit.setObjectName(u"mix_number_cube_lineEdit")
+        self.mix_number_cube_lineEdit.setGeometry(QRect(1260, 20, 221, 41))
+        self.mix_number_cube_lineEdit.setFont(font1)
+        self.mix_number_cube_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_number_cube_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_number_cube_unit_label = QLabel(self.mix_detail_customer_groupBox)
+        self.mix_number_cube_unit_label.setObjectName(u"mix_number_cube_unit_label")
+        self.mix_number_cube_unit_label.setGeometry(QRect(1490, 20, 41, 41))
+        self.mix_number_cube_unit_label.setFont(font)
+        self.mix_number_cube_unit_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_main_monitor_groupBox = QGroupBox(self.Mix_tab)
+        self.mix_main_monitor_groupBox.setObjectName(u"mix_main_monitor_groupBox")
+        self.mix_main_monitor_groupBox.setGeometry(QRect(10, 150, 1161, 461))
+        font3 = QFont()
+        font3.setFamilies([u"TH Niramit AS"])
+        font3.setPointSize(20)
+        font3.setBold(True)
+        self.mix_main_monitor_groupBox.setFont(font3)
+        self.mix_main_monitor_groupBox.setStyleSheet(u"background-color:rgb(206, 242, 255); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.mix_monitor_rock_1_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_rock_1_label.setObjectName(u"mix_monitor_rock_1_label")
+        self.mix_monitor_rock_1_label.setGeometry(QRect(30, 160, 120, 91))
+        self.mix_monitor_rock_1_label.setFont(font)
+        self.mix_monitor_rock_1_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_rock_1_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_rock_1_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_rock_1_label.setLineWidth(2)
+        self.mix_monitor_rock_1_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.mix_monitor_sand_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_sand_label.setObjectName(u"mix_monitor_sand_label")
+        self.mix_monitor_sand_label.setGeometry(QRect(170, 160, 120, 91))
+        self.mix_monitor_sand_label.setFont(font)
+        self.mix_monitor_sand_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_sand_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_sand_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_sand_label.setLineWidth(2)
+        self.mix_monitor_sand_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.mix_monitor_rock_2_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_rock_2_label.setObjectName(u"mix_monitor_rock_2_label")
+        self.mix_monitor_rock_2_label.setGeometry(QRect(310, 160, 120, 91))
+        self.mix_monitor_rock_2_label.setFont(font)
+        self.mix_monitor_rock_2_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_rock_2_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_rock_2_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_rock_2_label.setLineWidth(2)
+        self.mix_monitor_rock_2_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.mix_monitor_fyash_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_fyash_label.setObjectName(u"mix_monitor_fyash_label")
+        self.mix_monitor_fyash_label.setGeometry(QRect(590, 30, 120, 91))
+        self.mix_monitor_fyash_label.setFont(font)
+        self.mix_monitor_fyash_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_fyash_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_fyash_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_fyash_label.setLineWidth(2)
+        self.mix_monitor_fyash_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.mix_monitor_cement_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_cement_label.setObjectName(u"mix_monitor_cement_label")
+        self.mix_monitor_cement_label.setGeometry(QRect(460, 30, 120, 91))
+        self.mix_monitor_cement_label.setFont(font)
+        self.mix_monitor_cement_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_cement_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_cement_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_cement_label.setLineWidth(2)
+        self.mix_monitor_cement_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.mix_monitor_wather_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_wather_label.setObjectName(u"mix_monitor_wather_label")
+        self.mix_monitor_wather_label.setGeometry(QRect(720, 95, 120, 91))
+        self.mix_monitor_wather_label.setFont(font)
+        self.mix_monitor_wather_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_wather_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_wather_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_wather_label.setLineWidth(2)
+        self.mix_monitor_wather_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.mix_monitor_chem_2_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_chem_2_label.setObjectName(u"mix_monitor_chem_2_label")
+        self.mix_monitor_chem_2_label.setGeometry(QRect(1010, 155, 120, 91))
+        self.mix_monitor_chem_2_label.setFont(font)
+        self.mix_monitor_chem_2_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_chem_2_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_chem_2_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_chem_2_label.setLineWidth(2)
+        self.mix_monitor_chem_2_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.mix_monitor_chem_1_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_chem_1_label.setObjectName(u"mix_monitor_chem_1_label")
+        self.mix_monitor_chem_1_label.setGeometry(QRect(880, 155, 120, 91))
+        self.mix_monitor_chem_1_label.setFont(font)
+        self.mix_monitor_chem_1_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_chem_1_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_chem_1_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_chem_1_label.setLineWidth(2)
+        self.mix_monitor_chem_1_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.mix_monitor_rock_1_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_rock_1_lineEdit.setObjectName(u"mix_monitor_rock_1_lineEdit")
+        self.mix_monitor_rock_1_lineEdit.setGeometry(QRect(40, 205, 101, 41))
+        self.mix_monitor_rock_1_lineEdit.setFont(font1)
+        self.mix_monitor_rock_1_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_rock_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_sand_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_sand_lineEdit.setObjectName(u"mix_monitor_sand_lineEdit")
+        self.mix_monitor_sand_lineEdit.setGeometry(QRect(180, 205, 101, 41))
+        self.mix_monitor_sand_lineEdit.setFont(font1)
+        self.mix_monitor_sand_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_sand_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_rock_2_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_rock_2_lineEdit.setObjectName(u"mix_monitor_rock_2_lineEdit")
+        self.mix_monitor_rock_2_lineEdit.setGeometry(QRect(320, 205, 101, 41))
+        self.mix_monitor_rock_2_lineEdit.setFont(font1)
+        self.mix_monitor_rock_2_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_rock_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_cement_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_cement_lineEdit.setObjectName(u"mix_monitor_cement_lineEdit")
+        self.mix_monitor_cement_lineEdit.setGeometry(QRect(470, 75, 101, 41))
+        self.mix_monitor_cement_lineEdit.setFont(font1)
+        self.mix_monitor_cement_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_cement_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_fyash_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_fyash_lineEdit.setObjectName(u"mix_monitor_fyash_lineEdit")
+        self.mix_monitor_fyash_lineEdit.setGeometry(QRect(600, 75, 101, 41))
+        self.mix_monitor_fyash_lineEdit.setFont(font1)
+        self.mix_monitor_fyash_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_fyash_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_wather_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_wather_lineEdit.setObjectName(u"mix_monitor_wather_lineEdit")
+        self.mix_monitor_wather_lineEdit.setGeometry(QRect(730, 140, 101, 41))
+        self.mix_monitor_wather_lineEdit.setFont(font1)
+        self.mix_monitor_wather_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_wather_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_chem_1_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_chem_1_lineEdit.setObjectName(u"mix_monitor_chem_1_lineEdit")
+        self.mix_monitor_chem_1_lineEdit.setGeometry(QRect(890, 200, 101, 41))
+        self.mix_monitor_chem_1_lineEdit.setFont(font1)
+        self.mix_monitor_chem_1_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_chem_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_chem_2_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_chem_2_lineEdit.setObjectName(u"mix_monitor_chem_2_lineEdit")
+        self.mix_monitor_chem_2_lineEdit.setGeometry(QRect(1020, 200, 101, 41))
+        self.mix_monitor_chem_2_lineEdit.setFont(font1)
+        self.mix_monitor_chem_2_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_chem_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_mixer_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_mixer_label.setObjectName(u"mix_monitor_mixer_label")
+        self.mix_monitor_mixer_label.setGeometry(QRect(460, 270, 391, 111))
+        self.mix_monitor_mixer_label.setFont(font)
+        self.mix_monitor_mixer_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_mixer_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_mixer_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_mixer_label.setLineWidth(2)
+        self.mix_monitor_mixer_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_converyer_rock_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_converyer_rock_label.setObjectName(u"mix_monitor_converyer_rock_label")
+        self.mix_monitor_converyer_rock_label.setGeometry(QRect(30, 330, 401, 51))
+        self.mix_monitor_converyer_rock_label.setFont(font)
+        self.mix_monitor_converyer_rock_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_converyer_rock_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_converyer_rock_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_converyer_rock_label.setLineWidth(2)
+        self.mix_monitor_converyer_rock_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_vale_fyash_and_cement_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_vale_fyash_and_cement_label.setObjectName(u"mix_monitor_vale_fyash_and_cement_label")
+        self.mix_monitor_vale_fyash_and_cement_label.setGeometry(QRect(460, 200, 251, 51))
+        self.mix_monitor_vale_fyash_and_cement_label.setFont(font)
+        self.mix_monitor_vale_fyash_and_cement_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_vale_fyash_and_cement_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_vale_fyash_and_cement_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_vale_fyash_and_cement_label.setLineWidth(2)
+        self.mix_monitor_vale_fyash_and_cement_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_vale_wather_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_vale_wather_label.setObjectName(u"mix_monitor_vale_wather_label")
+        self.mix_monitor_vale_wather_label.setGeometry(QRect(720, 200, 121, 51))
+        self.mix_monitor_vale_wather_label.setFont(font)
+        self.mix_monitor_vale_wather_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_vale_wather_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_vale_wather_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_vale_wather_label.setLineWidth(2)
+        self.mix_monitor_vale_wather_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_pump_chem_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_pump_chem_label.setObjectName(u"mix_monitor_pump_chem_label")
+        self.mix_monitor_pump_chem_label.setGeometry(QRect(880, 330, 251, 51))
+        self.mix_monitor_pump_chem_label.setFont(font)
+        self.mix_monitor_pump_chem_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_pump_chem_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_pump_chem_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_pump_chem_label.setLineWidth(2)
+        self.mix_monitor_pump_chem_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_main_vale_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_main_vale_label.setObjectName(u"mix_monitor_main_vale_label")
+        self.mix_monitor_main_vale_label.setGeometry(QRect(460, 390, 391, 51))
+        self.mix_monitor_main_vale_label.setFont(font)
+        self.mix_monitor_main_vale_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_main_vale_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_main_vale_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_main_vale_label.setLineWidth(2)
+        self.mix_monitor_main_vale_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_sum_rock_and_sand_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_sum_rock_and_sand_label.setObjectName(u"mix_monitor_sum_rock_and_sand_label")
+        self.mix_monitor_sum_rock_and_sand_label.setGeometry(QRect(100, 270, 251, 51))
+        self.mix_monitor_sum_rock_and_sand_label.setFont(font)
+        self.mix_monitor_sum_rock_and_sand_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_sum_rock_and_sand_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_sum_rock_and_sand_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_sum_rock_and_sand_label.setLineWidth(2)
+        self.mix_monitor_sum_rock_and_sand_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.mix_monitor_sum_rock_and_sand_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_sum_rock_and_sand_lineEdit.setObjectName(u"mix_monitor_sum_rock_and_sand_lineEdit")
+        self.mix_monitor_sum_rock_and_sand_lineEdit.setGeometry(QRect(230, 275, 111, 41))
+        self.mix_monitor_sum_rock_and_sand_lineEdit.setFont(font1)
+        self.mix_monitor_sum_rock_and_sand_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_sum_rock_and_sand_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_sum_chem_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_sum_chem_lineEdit.setObjectName(u"mix_monitor_sum_chem_lineEdit")
+        self.mix_monitor_sum_chem_lineEdit.setGeometry(QRect(1010, 265, 111, 41))
+        self.mix_monitor_sum_chem_lineEdit.setFont(font1)
+        self.mix_monitor_sum_chem_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_sum_chem_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_sum_chem_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_sum_chem_label.setObjectName(u"mix_monitor_sum_chem_label")
+        self.mix_monitor_sum_chem_label.setGeometry(QRect(880, 260, 251, 51))
+        self.mix_monitor_sum_chem_label.setFont(font)
+        self.mix_monitor_sum_chem_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_sum_chem_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_sum_chem_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_sum_chem_label.setLineWidth(2)
+        self.mix_monitor_sum_chem_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.mix_monitor_sum_fyash_and_cement_label = QLabel(self.mix_main_monitor_groupBox)
+        self.mix_monitor_sum_fyash_and_cement_label.setObjectName(u"mix_monitor_sum_fyash_and_cement_label")
+        self.mix_monitor_sum_fyash_and_cement_label.setGeometry(QRect(460, 135, 251, 51))
+        self.mix_monitor_sum_fyash_and_cement_label.setFont(font)
+        self.mix_monitor_sum_fyash_and_cement_label.setStyleSheet(u"background:rgb(255, 184, 205)")
+        self.mix_monitor_sum_fyash_and_cement_label.setFrameShape(QFrame.Shape.Box)
+        self.mix_monitor_sum_fyash_and_cement_label.setFrameShadow(QFrame.Shadow.Plain)
+        self.mix_monitor_sum_fyash_and_cement_label.setLineWidth(2)
+        self.mix_monitor_sum_fyash_and_cement_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.mix_monitor_sum_fyash_and_cement_lineEdit = QLineEdit(self.mix_main_monitor_groupBox)
+        self.mix_monitor_sum_fyash_and_cement_lineEdit.setObjectName(u"mix_monitor_sum_fyash_and_cement_lineEdit")
+        self.mix_monitor_sum_fyash_and_cement_lineEdit.setGeometry(QRect(590, 140, 111, 41))
+        self.mix_monitor_sum_fyash_and_cement_lineEdit.setFont(font1)
+        self.mix_monitor_sum_fyash_and_cement_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.mix_monitor_sum_fyash_and_cement_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_monitor_sum_chem_label.raise_()
+        self.mix_monitor_rock_1_label.raise_()
+        self.mix_monitor_sand_label.raise_()
+        self.mix_monitor_rock_2_label.raise_()
+        self.mix_monitor_fyash_label.raise_()
+        self.mix_monitor_cement_label.raise_()
+        self.mix_monitor_wather_label.raise_()
+        self.mix_monitor_chem_2_label.raise_()
+        self.mix_monitor_chem_1_label.raise_()
+        self.mix_monitor_rock_1_lineEdit.raise_()
+        self.mix_monitor_sand_lineEdit.raise_()
+        self.mix_monitor_rock_2_lineEdit.raise_()
+        self.mix_monitor_cement_lineEdit.raise_()
+        self.mix_monitor_fyash_lineEdit.raise_()
+        self.mix_monitor_wather_lineEdit.raise_()
+        self.mix_monitor_chem_1_lineEdit.raise_()
+        self.mix_monitor_chem_2_lineEdit.raise_()
+        self.mix_monitor_mixer_label.raise_()
+        self.mix_monitor_converyer_rock_label.raise_()
+        self.mix_monitor_vale_fyash_and_cement_label.raise_()
+        self.mix_monitor_vale_wather_label.raise_()
+        self.mix_monitor_pump_chem_label.raise_()
+        self.mix_monitor_main_vale_label.raise_()
+        self.mix_monitor_sum_rock_and_sand_label.raise_()
+        self.mix_monitor_sum_rock_and_sand_lineEdit.raise_()
+        self.mix_monitor_sum_chem_lineEdit.raise_()
+        self.mix_monitor_sum_fyash_and_cement_label.raise_()
+        self.mix_monitor_sum_fyash_and_cement_lineEdit.raise_()
+        self.mix_monitor_status_groupBox = QGroupBox(self.Mix_tab)
+        self.mix_monitor_status_groupBox.setObjectName(u"mix_monitor_status_groupBox")
+        self.mix_monitor_status_groupBox.setGeometry(QRect(10, 605, 1161, 165))
+        self.mix_monitor_status_groupBox.setFont(font3)
+        self.mix_monitor_status_textEdit = QTextEdit(self.mix_monitor_status_groupBox)
+        self.mix_monitor_status_textEdit.setObjectName(u"mix_monitor_status_textEdit")
+        self.mix_monitor_status_textEdit.setGeometry(QRect(10, 30, 1141, 125))
+        self.mix_monitor_status_textEdit.setFont(font3)
+        self.mix_monitor_status_textEdit.setStyleSheet(u"background-color:rgb(255, 255, 255); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.mix_wieght_monitor_groupBox = QGroupBox(self.Mix_tab)
+        self.mix_wieght_monitor_groupBox.setObjectName(u"mix_wieght_monitor_groupBox")
+        self.mix_wieght_monitor_groupBox.setGeometry(QRect(1180, 290, 371, 481))
+        self.mix_wieght_monitor_groupBox.setFont(font3)
+        self.mix_wieght_monitor_groupBox.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.mix_wieght_monitor_groupBox.setAutoFillBackground(False)
+        self.mix_wieght_monitor_groupBox.setStyleSheet(u"")
+        self.mix_wieght_Loaded_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_label.setObjectName(u"mix_wieght_Loaded_label")
+        self.mix_wieght_Loaded_label.setGeometry(QRect(120, 30, 81, 41))
+        self.mix_wieght_Loaded_label.setFont(font3)
+        self.mix_wieght_target_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_target_label.setObjectName(u"mix_wieght_target_label")
+        self.mix_wieght_target_label.setGeometry(QRect(250, 30, 81, 41))
+        self.mix_wieght_target_label.setFont(font3)
+        self.mix_wieght_Loaded_rock_1_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_rock_1_lineEdit.setObjectName(u"mix_wieght_Loaded_rock_1_lineEdit")
+        self.mix_wieght_Loaded_rock_1_lineEdit.setGeometry(QRect(110, 80, 111, 41))
+        self.mix_wieght_Loaded_rock_1_lineEdit.setFont(font3)
+        self.mix_wieght_Loaded_rock_1_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_Loaded_rock_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_Loaded_rock_1_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_rock_1_label.setObjectName(u"mix_wieght_Loaded_rock_1_label")
+        self.mix_wieght_Loaded_rock_1_label.setGeometry(QRect(20, 80, 81, 41))
+        self.mix_wieght_Loaded_rock_1_label.setFont(font3)
+        self.mix_wieght_Loaded_sand_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_sand_label.setObjectName(u"mix_wieght_Loaded_sand_label")
+        self.mix_wieght_Loaded_sand_label.setGeometry(QRect(20, 130, 81, 41))
+        self.mix_wieght_Loaded_sand_label.setFont(font3)
+        self.mix_wieght_Loaded_rock_2_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_rock_2_label.setObjectName(u"mix_wieght_Loaded_rock_2_label")
+        self.mix_wieght_Loaded_rock_2_label.setGeometry(QRect(20, 180, 81, 41))
+        self.mix_wieght_Loaded_rock_2_label.setFont(font3)
+        self.mix_wieght_Loaded_cement_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_cement_label.setObjectName(u"mix_wieght_Loaded_cement_label")
+        self.mix_wieght_Loaded_cement_label.setGeometry(QRect(20, 230, 81, 41))
+        self.mix_wieght_Loaded_cement_label.setFont(font3)
+        self.mix_wieght_Loaded_fyash_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_fyash_label.setObjectName(u"mix_wieght_Loaded_fyash_label")
+        self.mix_wieght_Loaded_fyash_label.setGeometry(QRect(20, 280, 81, 41))
+        self.mix_wieght_Loaded_fyash_label.setFont(font3)
+        self.mix_wieght_Loaded_wather_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_wather_label.setObjectName(u"mix_wieght_Loaded_wather_label")
+        self.mix_wieght_Loaded_wather_label.setGeometry(QRect(20, 330, 81, 41))
+        self.mix_wieght_Loaded_wather_label.setFont(font3)
+        self.mix_wieght_Loaded_chem_1_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_chem_1_label.setObjectName(u"mix_wieght_Loaded_chem_1_label")
+        self.mix_wieght_Loaded_chem_1_label.setGeometry(QRect(20, 380, 81, 41))
+        self.mix_wieght_Loaded_chem_1_label.setFont(font3)
+        self.mix_wieght_Loaded_chem_2_label = QLabel(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_chem_2_label.setObjectName(u"mix_wieght_Loaded_chem_2_label")
+        self.mix_wieght_Loaded_chem_2_label.setGeometry(QRect(20, 430, 81, 41))
+        self.mix_wieght_Loaded_chem_2_label.setFont(font3)
+        self.mix_wieght_Loaded_sand_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_sand_lineEdit.setObjectName(u"mix_wieght_Loaded_sand_lineEdit")
+        self.mix_wieght_Loaded_sand_lineEdit.setGeometry(QRect(110, 130, 111, 41))
+        self.mix_wieght_Loaded_sand_lineEdit.setFont(font3)
+        self.mix_wieght_Loaded_sand_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_Loaded_sand_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_Loaded_rock_2_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_rock_2_lineEdit.setObjectName(u"mix_wieght_Loaded_rock_2_lineEdit")
+        self.mix_wieght_Loaded_rock_2_lineEdit.setGeometry(QRect(110, 180, 111, 41))
+        self.mix_wieght_Loaded_rock_2_lineEdit.setFont(font3)
+        self.mix_wieght_Loaded_rock_2_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_Loaded_rock_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_Loaded_cement_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_cement_lineEdit.setObjectName(u"mix_wieght_Loaded_cement_lineEdit")
+        self.mix_wieght_Loaded_cement_lineEdit.setGeometry(QRect(110, 230, 111, 41))
+        self.mix_wieght_Loaded_cement_lineEdit.setFont(font3)
+        self.mix_wieght_Loaded_cement_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_Loaded_cement_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_Loaded_fyash_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_fyash_lineEdit.setObjectName(u"mix_wieght_Loaded_fyash_lineEdit")
+        self.mix_wieght_Loaded_fyash_lineEdit.setGeometry(QRect(110, 280, 111, 41))
+        self.mix_wieght_Loaded_fyash_lineEdit.setFont(font3)
+        self.mix_wieght_Loaded_fyash_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_Loaded_fyash_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_Loaded_wather_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_wather_lineEdit.setObjectName(u"mix_wieght_Loaded_wather_lineEdit")
+        self.mix_wieght_Loaded_wather_lineEdit.setGeometry(QRect(110, 330, 111, 41))
+        self.mix_wieght_Loaded_wather_lineEdit.setFont(font3)
+        self.mix_wieght_Loaded_wather_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_Loaded_wather_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_Loaded_chem_1_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_chem_1_lineEdit.setObjectName(u"mix_wieght_Loaded_chem_1_lineEdit")
+        self.mix_wieght_Loaded_chem_1_lineEdit.setGeometry(QRect(110, 380, 111, 41))
+        self.mix_wieght_Loaded_chem_1_lineEdit.setFont(font3)
+        self.mix_wieght_Loaded_chem_1_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_Loaded_chem_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_Loaded_chem_2_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_Loaded_chem_2_lineEdit.setObjectName(u"mix_wieght_Loaded_chem_2_lineEdit")
+        self.mix_wieght_Loaded_chem_2_lineEdit.setGeometry(QRect(110, 430, 111, 41))
+        self.mix_wieght_Loaded_chem_2_lineEdit.setFont(font3)
+        self.mix_wieght_Loaded_chem_2_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_Loaded_chem_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_target_sand_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_target_sand_lineEdit.setObjectName(u"mix_wieght_target_sand_lineEdit")
+        self.mix_wieght_target_sand_lineEdit.setGeometry(QRect(240, 130, 111, 41))
+        self.mix_wieght_target_sand_lineEdit.setFont(font3)
+        self.mix_wieght_target_sand_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_target_sand_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_target_wather_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_target_wather_lineEdit.setObjectName(u"mix_wieght_target_wather_lineEdit")
+        self.mix_wieght_target_wather_lineEdit.setGeometry(QRect(240, 330, 111, 41))
+        self.mix_wieght_target_wather_lineEdit.setFont(font3)
+        self.mix_wieght_target_wather_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_target_wather_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_target_rock_2_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_target_rock_2_lineEdit.setObjectName(u"mix_wieght_target_rock_2_lineEdit")
+        self.mix_wieght_target_rock_2_lineEdit.setGeometry(QRect(240, 180, 111, 41))
+        self.mix_wieght_target_rock_2_lineEdit.setFont(font3)
+        self.mix_wieght_target_rock_2_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_target_rock_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_targrt_rock_1_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_targrt_rock_1_lineEdit.setObjectName(u"mix_wieght_targrt_rock_1_lineEdit")
+        self.mix_wieght_targrt_rock_1_lineEdit.setGeometry(QRect(240, 80, 111, 41))
+        self.mix_wieght_targrt_rock_1_lineEdit.setFont(font3)
+        self.mix_wieght_targrt_rock_1_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_targrt_rock_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_target_cement_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_target_cement_lineEdit.setObjectName(u"mix_wieght_target_cement_lineEdit")
+        self.mix_wieght_target_cement_lineEdit.setGeometry(QRect(240, 230, 111, 41))
+        self.mix_wieght_target_cement_lineEdit.setFont(font3)
+        self.mix_wieght_target_cement_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_target_cement_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_target_chem_2_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_target_chem_2_lineEdit.setObjectName(u"mix_wieght_target_chem_2_lineEdit")
+        self.mix_wieght_target_chem_2_lineEdit.setGeometry(QRect(240, 430, 111, 41))
+        self.mix_wieght_target_chem_2_lineEdit.setFont(font3)
+        self.mix_wieght_target_chem_2_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_target_chem_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_target_fyash_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_target_fyash_lineEdit.setObjectName(u"mix_wieght_target_fyash_lineEdit")
+        self.mix_wieght_target_fyash_lineEdit.setGeometry(QRect(240, 280, 111, 41))
+        self.mix_wieght_target_fyash_lineEdit.setFont(font3)
+        self.mix_wieght_target_fyash_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_target_fyash_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_target_chem_1_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_target_chem_1_lineEdit.setObjectName(u"mix_wieght_target_chem_1_lineEdit")
+        self.mix_wieght_target_chem_1_lineEdit.setGeometry(QRect(240, 380, 111, 41))
+        self.mix_wieght_target_chem_1_lineEdit.setFont(font3)
+        self.mix_wieght_target_chem_1_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_wieght_target_chem_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_result_groupBox = QGroupBox(self.Mix_tab)
+        self.mix_result_groupBox.setObjectName(u"mix_result_groupBox")
+        self.mix_result_groupBox.setGeometry(QRect(1180, 85, 371, 201))
+        self.mix_result_groupBox.setFont(font3)
+        self.mix_result_groupBox.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.mix_result_groupBox.setAutoFillBackground(False)
+        self.mix_result_groupBox.setStyleSheet(u"")
+        self.mix_result_load_lineEdit = QLineEdit(self.mix_result_groupBox)
+        self.mix_result_load_lineEdit.setObjectName(u"mix_result_load_lineEdit")
+        self.mix_result_load_lineEdit.setGeometry(QRect(180, 40, 101, 41))
+        self.mix_result_load_lineEdit.setFont(font3)
+        self.mix_result_load_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_result_load_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_result_load_label = QLabel(self.mix_result_groupBox)
+        self.mix_result_load_label.setObjectName(u"mix_result_load_label")
+        self.mix_result_load_label.setGeometry(QRect(10, 40, 161, 41))
+        self.mix_result_load_label.setFont(font3)
+        self.mix_result_mix_lineEdit = QLineEdit(self.mix_result_groupBox)
+        self.mix_result_mix_lineEdit.setObjectName(u"mix_result_mix_lineEdit")
+        self.mix_result_mix_lineEdit.setGeometry(QRect(180, 90, 101, 41))
+        self.mix_result_mix_lineEdit.setFont(font3)
+        self.mix_result_mix_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_result_mix_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_result_mix_success_lineEdit = QLineEdit(self.mix_result_groupBox)
+        self.mix_result_mix_success_lineEdit.setObjectName(u"mix_result_mix_success_lineEdit")
+        self.mix_result_mix_success_lineEdit.setGeometry(QRect(180, 140, 101, 41))
+        self.mix_result_mix_success_lineEdit.setFont(font3)
+        self.mix_result_mix_success_lineEdit.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.mix_result_mix_success_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_result_load_unit_label = QLabel(self.mix_result_groupBox)
+        self.mix_result_load_unit_label.setObjectName(u"mix_result_load_unit_label")
+        self.mix_result_load_unit_label.setGeometry(QRect(300, 40, 61, 41))
+        self.mix_result_load_unit_label.setFont(font3)
+        self.mix_result_mix_label = QLabel(self.mix_result_groupBox)
+        self.mix_result_mix_label.setObjectName(u"mix_result_mix_label")
+        self.mix_result_mix_label.setGeometry(QRect(10, 90, 161, 41))
+        self.mix_result_mix_label.setFont(font3)
+        self.mix_result_mix_success_label = QLabel(self.mix_result_groupBox)
+        self.mix_result_mix_success_label.setObjectName(u"mix_result_mix_success_label")
+        self.mix_result_mix_success_label.setGeometry(QRect(10, 140, 161, 41))
+        self.mix_result_mix_success_label.setFont(font3)
+        self.mix_result_mix_unit_label = QLabel(self.mix_result_groupBox)
+        self.mix_result_mix_unit_label.setObjectName(u"mix_result_mix_unit_label")
+        self.mix_result_mix_unit_label.setGeometry(QRect(300, 90, 61, 41))
+        self.mix_result_mix_unit_label.setFont(font3)
+        self.mix_result_mix_success_unit_label = QLabel(self.mix_result_groupBox)
+        self.mix_result_mix_success_unit_label.setObjectName(u"mix_result_mix_success_unit_label")
+        self.mix_result_mix_success_unit_label.setGeometry(QRect(300, 140, 61, 41))
+        self.mix_result_mix_success_unit_label.setFont(font3)
+        self.mix_cancel_load_pushButton = QPushButton(self.Mix_tab)
+        self.mix_cancel_load_pushButton.setObjectName(u"mix_cancel_load_pushButton")
+        self.mix_cancel_load_pushButton.setGeometry(QRect(900, 85, 271, 61))
+        self.mix_cancel_load_pushButton.setFont(font)
+        self.mix_cancel_load_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.mix_start_load_pushButton = QPushButton(self.Mix_tab)
+        self.mix_start_load_pushButton.setObjectName(u"mix_start_load_pushButton")
+        self.mix_start_load_pushButton.setGeometry(QRect(620, 85, 271, 61))
+        self.mix_start_load_pushButton.setFont(font)
+        self.mix_start_load_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.tab.addTab(self.Mix_tab, "")
+        self.mix_monitor_status_groupBox.raise_()
+        self.mix_detail_customer_groupBox.raise_()
+        self.mix_main_monitor_groupBox.raise_()
+        self.mix_wieght_monitor_groupBox.raise_()
+        self.mix_result_groupBox.raise_()
+        self.mix_cancel_load_pushButton.raise_()
+        self.mix_start_load_pushButton.raise_()
         self.formula_tab = QWidget()
         self.formula_tab.setObjectName(u"formula_tab")
         self.for_formula_treeWidget = QTreeWidget(self.formula_tab)
@@ -653,7 +1251,881 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.main_tab.addTab(self.formula_tab, "")
+        self.tab.addTab(self.formula_tab, "")
+        self.Debug_tab = QWidget()
+        self.Debug_tab.setObjectName(u"Debug_tab")
+        self.debug_control_groupBox = QGroupBox(self.Debug_tab)
+        self.debug_control_groupBox.setObjectName(u"debug_control_groupBox")
+        self.debug_control_groupBox.setGeometry(QRect(10, 0, 1545, 601))
+        self.debug_control_groupBox.setFont(font)
+        self.debug_open_rock_1_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_rock_1_pushButton.setObjectName(u"debug_open_rock_1_pushButton")
+        self.debug_open_rock_1_pushButton.setGeometry(QRect(50, 280, 111, 51))
+        self.debug_open_rock_1_pushButton.setFont(font3)
+        self.debug_open_rock_1_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_rock_1_label = QLabel(self.debug_control_groupBox)
+        self.debug_rock_1_label.setObjectName(u"debug_rock_1_label")
+        self.debug_rock_1_label.setGeometry(QRect(40, 240, 131, 161))
+        self.debug_rock_1_label.setFont(font3)
+        self.debug_rock_1_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_rock_1_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_close_rock_1_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_rock_1_pushButton.setObjectName(u"debug_close_rock_1_pushButton")
+        self.debug_close_rock_1_pushButton.setGeometry(QRect(50, 340, 111, 51))
+        self.debug_close_rock_1_pushButton.setFont(font3)
+        self.debug_close_rock_1_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_close_sand_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_sand_pushButton.setObjectName(u"debug_close_sand_pushButton")
+        self.debug_close_sand_pushButton.setGeometry(QRect(200, 340, 111, 51))
+        self.debug_close_sand_pushButton.setFont(font3)
+        self.debug_close_sand_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_sand_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_sand_pushButton.setObjectName(u"debug_open_sand_pushButton")
+        self.debug_open_sand_pushButton.setGeometry(QRect(200, 280, 111, 51))
+        self.debug_open_sand_pushButton.setFont(font3)
+        self.debug_open_sand_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_sand_label = QLabel(self.debug_control_groupBox)
+        self.debug_sand_label.setObjectName(u"debug_sand_label")
+        self.debug_sand_label.setGeometry(QRect(190, 240, 131, 161))
+        self.debug_sand_label.setFont(font3)
+        self.debug_sand_label.setStyleSheet(u"background-color:rgb(206, 242, 255); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_sand_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_rock_label = QLabel(self.debug_control_groupBox)
+        self.debug_rock_label.setObjectName(u"debug_rock_label")
+        self.debug_rock_label.setGeometry(QRect(340, 240, 131, 161))
+        self.debug_rock_label.setFont(font3)
+        self.debug_rock_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_rock_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_close_rock_2_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_rock_2_pushButton.setObjectName(u"debug_close_rock_2_pushButton")
+        self.debug_close_rock_2_pushButton.setGeometry(QRect(350, 340, 111, 51))
+        self.debug_close_rock_2_pushButton.setFont(font3)
+        self.debug_close_rock_2_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_rock_2_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_rock_2_pushButton.setObjectName(u"debug_open_rock_2_pushButton")
+        self.debug_open_rock_2_pushButton.setGeometry(QRect(350, 280, 111, 51))
+        self.debug_open_rock_2_pushButton.setFont(font3)
+        self.debug_open_rock_2_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_converyer_under_label = QLabel(self.debug_control_groupBox)
+        self.debug_converyer_under_label.setObjectName(u"debug_converyer_under_label")
+        self.debug_converyer_under_label.setGeometry(QRect(40, 410, 431, 71))
+        self.debug_converyer_under_label.setFont(font3)
+        self.debug_converyer_under_label.setStyleSheet(u"background-color:rgb(209, 195, 170); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_converyer_under_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.debug_open_converyer_under_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_converyer_under_pushButton.setObjectName(u"debug_open_converyer_under_pushButton")
+        self.debug_open_converyer_under_pushButton.setGeometry(QRect(190, 420, 121, 51))
+        self.debug_open_converyer_under_pushButton.setFont(font3)
+        self.debug_open_converyer_under_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_close_converyer_under_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_converyer_under_pushButton.setObjectName(u"debug_close_converyer_under_pushButton")
+        self.debug_close_converyer_under_pushButton.setGeometry(QRect(330, 420, 131, 51))
+        self.debug_close_converyer_under_pushButton.setFont(font3)
+        self.debug_close_converyer_under_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_converyer_top_label = QLabel(self.debug_control_groupBox)
+        self.debug_converyer_top_label.setObjectName(u"debug_converyer_top_label")
+        self.debug_converyer_top_label.setGeometry(QRect(40, 490, 431, 71))
+        self.debug_converyer_top_label.setFont(font3)
+        self.debug_converyer_top_label.setStyleSheet(u"background-color:rgb(255, 221, 135); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_converyer_top_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.debug_close_converyer_top_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_converyer_top_pushButton.setObjectName(u"debug_close_converyer_top_pushButton")
+        self.debug_close_converyer_top_pushButton.setGeometry(QRect(330, 500, 131, 51))
+        self.debug_close_converyer_top_pushButton.setFont(font3)
+        self.debug_close_converyer_top_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_converyer_top_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_converyer_top_pushButton.setObjectName(u"debug_open_converyer_top_pushButton")
+        self.debug_open_converyer_top_pushButton.setGeometry(QRect(190, 500, 121, 51))
+        self.debug_open_converyer_top_pushButton.setFont(font3)
+        self.debug_open_converyer_top_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_cement_label = QLabel(self.debug_control_groupBox)
+        self.debug_cement_label.setObjectName(u"debug_cement_label")
+        self.debug_cement_label.setGeometry(QRect(560, 50, 251, 101))
+        self.debug_cement_label.setFont(font3)
+        self.debug_cement_label.setStyleSheet(u"background-color:rgb(180, 194, 255); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_cement_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_close_cement_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_cement_pushButton.setObjectName(u"debug_close_cement_pushButton")
+        self.debug_close_cement_pushButton.setGeometry(QRect(690, 90, 111, 51))
+        self.debug_close_cement_pushButton.setFont(font3)
+        self.debug_close_cement_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_cement_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_cement_pushButton.setObjectName(u"debug_open_cement_pushButton")
+        self.debug_open_cement_pushButton.setGeometry(QRect(570, 90, 111, 51))
+        self.debug_open_cement_pushButton.setFont(font3)
+        self.debug_open_cement_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_close_fyash_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_fyash_pushButton.setObjectName(u"debug_close_fyash_pushButton")
+        self.debug_close_fyash_pushButton.setGeometry(QRect(950, 90, 111, 51))
+        self.debug_close_fyash_pushButton.setFont(font3)
+        self.debug_close_fyash_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_fyash_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_fyash_pushButton.setObjectName(u"debug_open_fyash_pushButton")
+        self.debug_open_fyash_pushButton.setGeometry(QRect(830, 90, 111, 51))
+        self.debug_open_fyash_pushButton.setFont(font3)
+        self.debug_open_fyash_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_fyash_label = QLabel(self.debug_control_groupBox)
+        self.debug_fyash_label.setObjectName(u"debug_fyash_label")
+        self.debug_fyash_label.setGeometry(QRect(820, 50, 251, 101))
+        self.debug_fyash_label.setFont(font3)
+        self.debug_fyash_label.setStyleSheet(u"background-color:rgb(255, 248, 143); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_fyash_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_vale_cement_label = QLabel(self.debug_control_groupBox)
+        self.debug_vale_cement_label.setObjectName(u"debug_vale_cement_label")
+        self.debug_vale_cement_label.setGeometry(QRect(560, 160, 511, 71))
+        self.debug_vale_cement_label.setFont(font3)
+        self.debug_vale_cement_label.setStyleSheet(u"background-color:rgb(168, 165, 221); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_vale_cement_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.debug_open_vale_cement_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_vale_cement_pushButton.setObjectName(u"debug_open_vale_cement_pushButton")
+        self.debug_open_vale_cement_pushButton.setGeometry(QRect(730, 170, 161, 51))
+        self.debug_open_vale_cement_pushButton.setFont(font3)
+        self.debug_open_vale_cement_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_close_vale_cement_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_vale_cement_pushButton.setObjectName(u"debug_close_vale_cement_pushButton")
+        self.debug_close_vale_cement_pushButton.setGeometry(QRect(900, 170, 161, 51))
+        self.debug_close_vale_cement_pushButton.setFont(font3)
+        self.debug_close_vale_cement_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_vale_wather_label = QLabel(self.debug_control_groupBox)
+        self.debug_vale_wather_label.setObjectName(u"debug_vale_wather_label")
+        self.debug_vale_wather_label.setGeometry(QRect(1160, 160, 351, 71))
+        self.debug_vale_wather_label.setFont(font3)
+        self.debug_vale_wather_label.setStyleSheet(u"background-color:rgb(206, 242, 255); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_vale_wather_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.debug_close_vale_wather_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_vale_wather_pushButton.setObjectName(u"debug_close_vale_wather_pushButton")
+        self.debug_close_vale_wather_pushButton.setGeometry(QRect(1370, 170, 131, 51))
+        self.debug_close_vale_wather_pushButton.setFont(font3)
+        self.debug_close_vale_wather_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_vale_wather_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_vale_wather_pushButton.setObjectName(u"debug_open_vale_wather_pushButton")
+        self.debug_open_vale_wather_pushButton.setGeometry(QRect(1240, 170, 121, 51))
+        self.debug_open_vale_wather_pushButton.setFont(font3)
+        self.debug_open_vale_wather_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_close_mixer_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_mixer_pushButton.setObjectName(u"debug_close_mixer_pushButton")
+        self.debug_close_mixer_pushButton.setGeometry(QRect(830, 350, 231, 51))
+        self.debug_close_mixer_pushButton.setFont(font3)
+        self.debug_close_mixer_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_mixer_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_mixer_pushButton.setObjectName(u"debug_open_mixer_pushButton")
+        self.debug_open_mixer_pushButton.setGeometry(QRect(570, 350, 231, 51))
+        self.debug_open_mixer_pushButton.setFont(font3)
+        self.debug_open_mixer_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_mixer_label = QLabel(self.debug_control_groupBox)
+        self.debug_mixer_label.setObjectName(u"debug_mixer_label")
+        self.debug_mixer_label.setGeometry(QRect(560, 300, 511, 121))
+        self.debug_mixer_label.setFont(font3)
+        self.debug_mixer_label.setStyleSheet(u"background-color:rgb(170, 255, 12); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_mixer_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_close_vale_mixer_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_vale_mixer_pushButton.setObjectName(u"debug_close_vale_mixer_pushButton")
+        self.debug_close_vale_mixer_pushButton.setGeometry(QRect(820, 500, 141, 51))
+        self.debug_close_vale_mixer_pushButton.setFont(font3)
+        self.debug_close_vale_mixer_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_vale_mixer_label = QLabel(self.debug_control_groupBox)
+        self.debug_vale_mixer_label.setObjectName(u"debug_vale_mixer_label")
+        self.debug_vale_mixer_label.setGeometry(QRect(660, 460, 311, 101))
+        self.debug_vale_mixer_label.setFont(font3)
+        self.debug_vale_mixer_label.setStyleSheet(u"background-color:rgb(255, 201, 202); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_vale_mixer_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_open_vale_mixer_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_vale_mixer_pushButton.setObjectName(u"debug_open_vale_mixer_pushButton")
+        self.debug_open_vale_mixer_pushButton.setGeometry(QRect(670, 500, 141, 51))
+        self.debug_open_vale_mixer_pushButton.setFont(font3)
+        self.debug_open_vale_mixer_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_close_chem_1_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_chem_1_pushButton.setObjectName(u"debug_close_chem_1_pushButton")
+        self.debug_close_chem_1_pushButton.setGeometry(QRect(1200, 400, 111, 51))
+        self.debug_close_chem_1_pushButton.setFont(font3)
+        self.debug_close_chem_1_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_chem_1_label = QLabel(self.debug_control_groupBox)
+        self.debug_chem_1_label.setObjectName(u"debug_chem_1_label")
+        self.debug_chem_1_label.setGeometry(QRect(1190, 300, 131, 161))
+        self.debug_chem_1_label.setFont(font3)
+        self.debug_chem_1_label.setStyleSheet(u"background-color:rgb(188, 255, 224); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_chem_1_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_open_chem_1_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_chem_1_pushButton.setObjectName(u"debug_open_chem_1_pushButton")
+        self.debug_open_chem_1_pushButton.setGeometry(QRect(1200, 340, 111, 51))
+        self.debug_open_chem_1_pushButton.setFont(font3)
+        self.debug_open_chem_1_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_chem_2_label = QLabel(self.debug_control_groupBox)
+        self.debug_chem_2_label.setObjectName(u"debug_chem_2_label")
+        self.debug_chem_2_label.setGeometry(QRect(1340, 300, 131, 161))
+        self.debug_chem_2_label.setFont(font3)
+        self.debug_chem_2_label.setStyleSheet(u"background-color:rgb(156, 255, 159); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_chem_2_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_close_chem_2_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_chem_2_pushButton.setObjectName(u"debug_close_chem_2_pushButton")
+        self.debug_close_chem_2_pushButton.setGeometry(QRect(1350, 400, 111, 51))
+        self.debug_close_chem_2_pushButton.setFont(font3)
+        self.debug_close_chem_2_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_chem_2_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_chem_2_pushButton.setObjectName(u"debug_open_chem_2_pushButton")
+        self.debug_open_chem_2_pushButton.setGeometry(QRect(1350, 340, 111, 51))
+        self.debug_open_chem_2_pushButton.setFont(font3)
+        self.debug_open_chem_2_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_vale_chem_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_vale_chem_pushButton.setObjectName(u"debug_open_vale_chem_pushButton")
+        self.debug_open_vale_chem_pushButton.setGeometry(QRect(1200, 510, 111, 51))
+        self.debug_open_vale_chem_pushButton.setFont(font3)
+        self.debug_open_vale_chem_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_vale_chem_label = QLabel(self.debug_control_groupBox)
+        self.debug_vale_chem_label.setObjectName(u"debug_vale_chem_label")
+        self.debug_vale_chem_label.setGeometry(QRect(1190, 470, 281, 101))
+        self.debug_vale_chem_label.setFont(font3)
+        self.debug_vale_chem_label.setStyleSheet(u"background-color:rgb(146, 220, 99); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_vale_chem_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_close_vale_chem_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_vale_chem_pushButton.setObjectName(u"debug_close_vale_chem_pushButton")
+        self.debug_close_vale_chem_pushButton.setGeometry(QRect(1350, 510, 111, 51))
+        self.debug_close_vale_chem_pushButton.setFont(font3)
+        self.debug_close_vale_chem_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_open_wather_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_wather_pushButton.setObjectName(u"debug_open_wather_pushButton")
+        self.debug_open_wather_pushButton.setGeometry(QRect(1220, 90, 111, 51))
+        self.debug_open_wather_pushButton.setFont(font3)
+        self.debug_open_wather_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_close_wather_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_wather_pushButton.setObjectName(u"debug_close_wather_pushButton")
+        self.debug_close_wather_pushButton.setGeometry(QRect(1340, 90, 111, 51))
+        self.debug_close_wather_pushButton.setFont(font3)
+        self.debug_close_wather_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.debug_wather_label = QLabel(self.debug_control_groupBox)
+        self.debug_wather_label.setObjectName(u"debug_wather_label")
+        self.debug_wather_label.setGeometry(QRect(1210, 50, 251, 101))
+        self.debug_wather_label.setFont(font3)
+        self.debug_wather_label.setStyleSheet(u"background-color:rgb(206, 242, 255); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_wather_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_plate_1_label = QLabel(self.debug_control_groupBox)
+        self.debug_plate_1_label.setObjectName(u"debug_plate_1_label")
+        self.debug_plate_1_label.setGeometry(QRect(30, 230, 451, 341))
+        self.debug_plate_1_label.setFont(font3)
+        self.debug_plate_1_label.setStyleSheet(u"background-color:rgb(0, 0, 0); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_plate_1_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_plate_2_label = QLabel(self.debug_control_groupBox)
+        self.debug_plate_2_label.setObjectName(u"debug_plate_2_label")
+        self.debug_plate_2_label.setGeometry(QRect(550, 40, 531, 531))
+        self.debug_plate_2_label.setFont(font3)
+        self.debug_plate_2_label.setStyleSheet(u"background-color:rgb(0, 0, 0); \n"
+"color: black;\n"
+"border: 2px solid ; \n"
+"border-radius: 10px;")
+        self.debug_plate_2_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_plate_3_label = QLabel(self.debug_control_groupBox)
+        self.debug_plate_3_label.setObjectName(u"debug_plate_3_label")
+        self.debug_plate_3_label.setGeometry(QRect(1150, 40, 371, 541))
+        self.debug_plate_3_label.setFont(font3)
+        self.debug_plate_3_label.setStyleSheet(u"background-color:rgb(0, 0, 0); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.debug_plate_3_label.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+        self.debug_plate_3_label.raise_()
+        self.debug_plate_2_label.raise_()
+        self.debug_plate_1_label.raise_()
+        self.debug_wather_label.raise_()
+        self.debug_vale_chem_label.raise_()
+        self.debug_chem_1_label.raise_()
+        self.debug_vale_mixer_label.raise_()
+        self.debug_mixer_label.raise_()
+        self.debug_fyash_label.raise_()
+        self.debug_sand_label.raise_()
+        self.debug_rock_1_label.raise_()
+        self.debug_open_rock_1_pushButton.raise_()
+        self.debug_close_rock_1_pushButton.raise_()
+        self.debug_close_sand_pushButton.raise_()
+        self.debug_open_sand_pushButton.raise_()
+        self.debug_rock_label.raise_()
+        self.debug_close_rock_2_pushButton.raise_()
+        self.debug_open_rock_2_pushButton.raise_()
+        self.debug_converyer_under_label.raise_()
+        self.debug_open_converyer_under_pushButton.raise_()
+        self.debug_close_converyer_under_pushButton.raise_()
+        self.debug_converyer_top_label.raise_()
+        self.debug_close_converyer_top_pushButton.raise_()
+        self.debug_open_converyer_top_pushButton.raise_()
+        self.debug_cement_label.raise_()
+        self.debug_close_cement_pushButton.raise_()
+        self.debug_open_cement_pushButton.raise_()
+        self.debug_close_fyash_pushButton.raise_()
+        self.debug_open_fyash_pushButton.raise_()
+        self.debug_vale_cement_label.raise_()
+        self.debug_open_vale_cement_pushButton.raise_()
+        self.debug_close_vale_cement_pushButton.raise_()
+        self.debug_vale_wather_label.raise_()
+        self.debug_close_vale_wather_pushButton.raise_()
+        self.debug_open_vale_wather_pushButton.raise_()
+        self.debug_close_mixer_pushButton.raise_()
+        self.debug_open_mixer_pushButton.raise_()
+        self.debug_close_vale_mixer_pushButton.raise_()
+        self.debug_open_vale_mixer_pushButton.raise_()
+        self.debug_close_chem_1_pushButton.raise_()
+        self.debug_open_chem_1_pushButton.raise_()
+        self.debug_chem_2_label.raise_()
+        self.debug_close_chem_2_pushButton.raise_()
+        self.debug_open_chem_2_pushButton.raise_()
+        self.debug_open_vale_chem_pushButton.raise_()
+        self.debug_close_vale_chem_pushButton.raise_()
+        self.debug_open_wather_pushButton.raise_()
+        self.debug_close_wather_pushButton.raise_()
+        self.debug_status_groupBox = QGroupBox(self.Debug_tab)
+        self.debug_status_groupBox.setObjectName(u"debug_status_groupBox")
+        self.debug_status_groupBox.setGeometry(QRect(10, 600, 1545, 171))
+        self.debug_status_groupBox.setFont(font)
+        self.debug_status_textEdit = QTextEdit(self.debug_status_groupBox)
+        self.debug_status_textEdit.setObjectName(u"debug_status_textEdit")
+        self.debug_status_textEdit.setGeometry(QRect(10, 40, 1525, 125))
+        self.debug_status_textEdit.setFont(font3)
+        self.debug_status_textEdit.setStyleSheet(u"background-color:rgb(255, 255, 255); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.tab.addTab(self.Debug_tab, "")
         Control_Plant.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(Control_Plant)
         self.statusbar.setObjectName(u"statusbar")
@@ -661,7 +2133,7 @@ class Ui_Control_Plant(object):
 
         self.retranslateUi(Control_Plant)
 
-        self.main_tab.setCurrentIndex(0)
+        self.tab.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(Control_Plant)
@@ -742,6 +2214,8 @@ class Ui_Control_Plant(object):
         self.reg_save_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01", None))
         self.reg_clear_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e04\u0e25\u0e35\u0e22\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25", None))
         self.reg_save_new_custommer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32\u0e43\u0e2b\u0e21\u0e48", None))
+        self.reg_dateTimeEdit.setDisplayFormat(QCoreApplication.translate("Control_Plant", u"d/M/yyyy h:mm AP", None))
+        self.reg_date_time_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e31\u0e19\u0e40\u0e27\u0e25\u0e32", None))
         ___qtreewidgetitem4 = self.reg_list_customer_treeWidget.headerItem()
         ___qtreewidgetitem4.setText(2, QCoreApplication.translate("Control_Plant", u"\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48", None));
         ___qtreewidgetitem4.setText(1, QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1a\u0e2d\u0e23\u0e4c", None));
@@ -764,8 +2238,53 @@ class Ui_Control_Plant(object):
         self.reg_list_customer_treeWidget.setSortingEnabled(__sortingEnabled1)
 
         self.reg_lis_custommer_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e23\u0e32\u0e22\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32", None))
-        self.main_tab.setTabText(self.main_tab.indexOf(self.register_tab), QCoreApplication.translate("Control_Plant", u"Register", None))
-        self.main_tab.setTabText(self.main_tab.indexOf(self.Mix_tab), QCoreApplication.translate("Control_Plant", u"Mix", None))
+        self.tab.setTabText(self.tab.indexOf(self.register_tab), QCoreApplication.translate("Control_Plant", u"Register", None))
+        self.mix_detail_customer_groupBox.setTitle("")
+        self.mix_customer_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32", None))
+        self.mix_customer_formula_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e39\u0e15\u0e23", None))
+        self.mix_customer_phone_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1a\u0e2d\u0e23\u0e4c\u0e42\u0e17\u0e23", None))
+        self.mix_number_cube_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e08\u0e33\u0e19\u0e27\u0e19", None))
+        self.mix_number_cube_unit_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e04\u0e34\u0e27", None))
+        self.mix_main_monitor_groupBox.setTitle("")
+        self.mix_monitor_rock_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e19 1", None))
+        self.mix_monitor_sand_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e17\u0e23\u0e32\u0e22", None))
+        self.mix_monitor_rock_2_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e19 2", None))
+        self.mix_monitor_fyash_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e16\u0e49\u0e32\u0e25\u0e2d\u0e22", None))
+        self.mix_monitor_cement_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0b\u0e35\u0e40\u0e21\u0e19\u0e15\u0e4c", None))
+        self.mix_monitor_wather_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33", None))
+        self.mix_monitor_chem_2_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32 2", None))
+        self.mix_monitor_chem_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32 1", None))
+        self.mix_monitor_mixer_label.setText(QCoreApplication.translate("Control_Plant", u"MIXER \u0e1c\u0e2a\u0e21", None))
+        self.mix_monitor_converyer_rock_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2a\u0e32\u0e22\u0e1e\u0e32\u0e19\u0e25\u0e33\u0e40\u0e25\u0e35\u0e22\u0e07", None))
+        self.mix_monitor_vale_fyash_and_cement_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e32\u0e25\u0e4c\u0e27\u0e1b\u0e39\u0e19/\u0e40\u0e16\u0e49\u0e32\u0e25\u0e2d\u0e22", None))
+        self.mix_monitor_vale_wather_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e32\u0e25\u0e4c\u0e27\u0e19\u0e49\u0e33", None))
+        self.mix_monitor_pump_chem_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e31\u0e49\u0e21\u0e19\u0e49\u0e33\u0e22\u0e32", None))
+        self.mix_monitor_main_vale_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e32\u0e25\u0e4c\u0e27\u0e1b\u0e25\u0e48\u0e2d\u0e22\u0e1b\u0e39\u0e19", None))
+        self.mix_monitor_sum_rock_and_sand_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e23\u0e27\u0e21\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14", None))
+        self.mix_monitor_sum_chem_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e23\u0e27\u0e21\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14", None))
+        self.mix_monitor_sum_fyash_and_cement_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e23\u0e27\u0e21\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14", None))
+        self.mix_monitor_status_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"\u0e2a\u0e16\u0e32\u0e19\u0e30\u0e01\u0e32\u0e23\u0e17\u0e33\u0e07\u0e32\u0e19", None))
+        self.mix_wieght_monitor_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e2b\u0e19\u0e31\u0e01", None))
+        self.mix_wieght_Loaded_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e42\u0e2b\u0e25\u0e14\u0e41\u0e25\u0e49\u0e27", None))
+        self.mix_wieght_target_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e49\u0e32\u0e2b\u0e21\u0e32\u0e22", None))
+        self.mix_wieght_Loaded_rock_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e19 1", None))
+        self.mix_wieght_Loaded_sand_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e17\u0e23\u0e32\u0e22", None))
+        self.mix_wieght_Loaded_rock_2_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e19 2", None))
+        self.mix_wieght_Loaded_cement_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0b\u0e35\u0e40\u0e21\u0e19\u0e15\u0e4c", None))
+        self.mix_wieght_Loaded_fyash_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e16\u0e49\u0e32\u0e25\u0e2d\u0e22", None))
+        self.mix_wieght_Loaded_wather_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33", None))
+        self.mix_wieght_Loaded_chem_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32 1", None))
+        self.mix_wieght_Loaded_chem_2_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32 2", None))
+        self.mix_result_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"\u0e2a\u0e23\u0e38\u0e1b\u0e01\u0e32\u0e23\u0e42\u0e2b\u0e25\u0e14", None))
+        self.mix_result_load_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e39\u0e19\u0e17\u0e35\u0e48\u0e15\u0e49\u0e2d\u0e07\u0e01\u0e32\u0e23\u0e42\u0e2b\u0e25\u0e14", None))
+        self.mix_result_load_unit_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e04\u0e34\u0e27\u0e1a\u0e34\u0e04", None))
+        self.mix_result_mix_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e39\u0e19\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e1c\u0e2a\u0e21", None))
+        self.mix_result_mix_success_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e39\u0e19\u0e17\u0e35\u0e48\u0e1c\u0e2a\u0e21\u0e40\u0e2a\u0e23\u0e47\u0e08", None))
+        self.mix_result_mix_unit_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e04\u0e34\u0e27\u0e1a\u0e34\u0e04", None))
+        self.mix_result_mix_success_unit_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e04\u0e34\u0e27\u0e1a\u0e34\u0e04", None))
+        self.mix_cancel_load_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01\u0e01\u0e32\u0e23\u0e42\u0e2b\u0e25\u0e14", None))
+        self.mix_start_load_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e23\u0e34\u0e48\u0e21\u0e01\u0e32\u0e23\u0e42\u0e2b\u0e25\u0e14", None))
+        self.tab.setTabText(self.tab.indexOf(self.Mix_tab), QCoreApplication.translate("Control_Plant", u"Mixer", None))
         ___qtreewidgetitem8 = self.for_formula_treeWidget.headerItem()
         ___qtreewidgetitem8.setText(11, QCoreApplication.translate("Control_Plant", u"slump", None));
         ___qtreewidgetitem8.setText(10, QCoreApplication.translate("Control_Plant", u"age", None));
@@ -841,6 +2360,57 @@ class Ui_Control_Plant(object):
         self.for_delete_formula_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e25\u0e1a\u0e2a\u0e39\u0e15\u0e23", None))
         self.for_save_formula_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01\u0e2a\u0e39\u0e15\u0e23", None))
         self.for_cancel_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01", None))
-        self.main_tab.setTabText(self.main_tab.indexOf(self.formula_tab), QCoreApplication.translate("Control_Plant", u"Formula", None))
+        self.tab.setTabText(self.tab.indexOf(self.formula_tab), QCoreApplication.translate("Control_Plant", u"Formula", None))
+        self.debug_control_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"\u0e04\u0e27\u0e1a\u0e04\u0e38\u0e21", None))
+        self.debug_open_rock_1_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_rock_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e19 1", None))
+        self.debug_close_rock_1_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_close_sand_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_sand_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_sand_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e17\u0e23\u0e32\u0e22", None))
+        self.debug_rock_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e19 2", None))
+        self.debug_close_rock_2_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_rock_2_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_converyer_under_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2a\u0e32\u0e22\u0e1e\u0e32\u0e19\u0e25\u0e48\u0e32\u0e07", None))
+        self.debug_open_converyer_under_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_close_converyer_under_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_converyer_top_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2a\u0e32\u0e22\u0e1e\u0e32\u0e19\u0e1a\u0e19", None))
+        self.debug_close_converyer_top_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_converyer_top_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_cement_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0b\u0e35\u0e40\u0e21\u0e19\u0e15\u0e4c", None))
+        self.debug_close_cement_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_cement_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_close_fyash_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_fyash_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_fyash_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e16\u0e49\u0e32\u0e25\u0e2d\u0e22", None))
+        self.debug_vale_cement_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e32\u0e25\u0e4c\u0e27\u0e1b\u0e39\u0e19/\u0e0b\u0e35\u0e40\u0e21\u0e19\u0e15\u0e4c", None))
+        self.debug_open_vale_cement_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_close_vale_cement_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_vale_wather_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e32\u0e25\u0e4c\u0e27\u0e19\u0e49\u0e33", None))
+        self.debug_close_vale_wather_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_vale_wather_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_close_mixer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_mixer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_mixer_label.setText(QCoreApplication.translate("Control_Plant", u"MIXER", None))
+        self.debug_close_vale_mixer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_vale_mixer_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e32\u0e25\u0e4c\u0e25\u0e1b\u0e25\u0e48\u0e2d\u0e22\u0e1b\u0e39\u0e19", None))
+        self.debug_open_vale_mixer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_close_chem_1_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_chem_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32\u0e40\u0e04\u0e21\u0e35 1", None))
+        self.debug_open_chem_1_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_chem_2_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32\u0e40\u0e04\u0e21\u0e35 2", None))
+        self.debug_close_chem_2_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_chem_2_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_open_vale_chem_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_vale_chem_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e32\u0e25\u0e4c\u0e25\u0e19\u0e49\u0e33\u0e22\u0e32", None))
+        self.debug_close_vale_chem_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_wather_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_close_wather_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_wather_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33", None))
+        self.debug_plate_1_label.setText("")
+        self.debug_plate_2_label.setText("")
+        self.debug_plate_3_label.setText("")
+        self.debug_status_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"\u0e2a\u0e16\u0e32\u0e19\u0e30", None))
+        self.tab.setTabText(self.tab.indexOf(self.Debug_tab), QCoreApplication.translate("Control_Plant", u"Debug", None))
     # retranslateUi
 
