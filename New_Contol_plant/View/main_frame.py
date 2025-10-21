@@ -249,11 +249,11 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.reg_save_new_custommer_pushButton = QPushButton(self.groupBox)
-        self.reg_save_new_custommer_pushButton.setObjectName(u"reg_save_new_custommer_pushButton")
-        self.reg_save_new_custommer_pushButton.setGeometry(QRect(530, 340, 271, 61))
-        self.reg_save_new_custommer_pushButton.setFont(font)
-        self.reg_save_new_custommer_pushButton.setStyleSheet(u"QPushButton {\n"
+        self.reg_save_new_customer_pushButton = QPushButton(self.groupBox)
+        self.reg_save_new_customer_pushButton.setObjectName(u"reg_save_new_customer_pushButton")
+        self.reg_save_new_customer_pushButton.setGeometry(QRect(530, 340, 271, 61))
+        self.reg_save_new_customer_pushButton.setFont(font)
+        self.reg_save_new_customer_pushButton.setStyleSheet(u"QPushButton {\n"
 "   	background:rgb(255, 167, 173);\n"
 "    color: black;\n"
 "    border: 2px solid #3498DB; \n"
@@ -312,6 +312,8 @@ class Ui_Control_Plant(object):
 "}")
         self.reg_list_customer_treeWidget = QTreeWidget(self.Register_tab)
         __qtreewidgetitem1 = QTreeWidgetItem()
+        __qtreewidgetitem1.setTextAlignment(3, Qt.AlignCenter);
+        __qtreewidgetitem1.setFont(3, font);
         __qtreewidgetitem1.setTextAlignment(2, Qt.AlignCenter);
         __qtreewidgetitem1.setFont(2, font);
         __qtreewidgetitem1.setTextAlignment(1, Qt.AlignCenter);
@@ -332,12 +334,12 @@ class Ui_Control_Plant(object):
         self.reg_list_customer_treeWidget.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
         self.reg_list_customer_treeWidget.setAutoExpandDelay(3)
         self.reg_list_customer_treeWidget.setItemsExpandable(True)
-        self.reg_list_customer_treeWidget.setSortingEnabled(True)
+        self.reg_list_customer_treeWidget.setSortingEnabled(False)
         self.reg_list_customer_treeWidget.setAnimated(False)
         self.reg_list_customer_treeWidget.setAllColumnsShowFocus(False)
         self.reg_list_customer_treeWidget.setWordWrap(False)
         self.reg_list_customer_treeWidget.setExpandsOnDoubleClick(False)
-        self.reg_list_customer_treeWidget.setColumnCount(3)
+        self.reg_list_customer_treeWidget.setColumnCount(4)
         self.reg_list_customer_treeWidget.header().setMinimumSectionSize(50)
         self.reg_list_customer_treeWidget.header().setDefaultSectionSize(123)
         self.reg_lis_custommer_label = QLabel(self.Register_tab)
@@ -345,6 +347,27 @@ class Ui_Control_Plant(object):
         self.reg_lis_custommer_label.setGeometry(QRect(1150, 10, 131, 41))
         self.reg_lis_custommer_label.setFont(font)
         self.reg_lis_custommer_label.setStyleSheet(u"background:rgb(255, 214, 201)")
+        self.reg_delete_customer_pushButton = QPushButton(self.Register_tab)
+        self.reg_delete_customer_pushButton.setObjectName(u"reg_delete_customer_pushButton")
+        self.reg_delete_customer_pushButton.setGeometry(QRect(1390, 5, 161, 51))
+        self.reg_delete_customer_pushButton.setFont(font2)
+        self.reg_delete_customer_pushButton.setStyleSheet(u"QPushButton {\n"
+"    background-color:rgb(255, 90, 106); \n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
         self.tab.addTab(self.Register_tab, "")
         self.groupBox.raise_()
         self.reg_formula_treeWidget.raise_()
@@ -360,6 +383,7 @@ class Ui_Control_Plant(object):
         self.reg_comment_textEdit.raise_()
         self.reg_list_customer_treeWidget.raise_()
         self.reg_lis_custommer_label.raise_()
+        self.reg_delete_customer_pushButton.raise_()
         self.Mix_tab = QWidget()
         self.Mix_tab.setObjectName(u"Mix_tab")
         self.Mix_tab.setMinimumSize(QSize(1555, 773))
@@ -2556,7 +2580,7 @@ class Ui_Control_Plant(object):
 
         self.retranslateUi(Control_Plant)
 
-        self.tab.setCurrentIndex(2)
+        self.tab.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(Control_Plant)
@@ -2592,15 +2616,17 @@ class Ui_Control_Plant(object):
         self.reg_formula_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e39\u0e15\u0e23", None))
         self.reg_save_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01", None))
         self.reg_clear_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e04\u0e25\u0e35\u0e22\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25", None))
-        self.reg_save_new_custommer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32\u0e43\u0e2b\u0e21\u0e48", None))
+        self.reg_save_new_customer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32\u0e43\u0e2b\u0e21\u0e48", None))
         self.reg_dateTimeEdit.setDisplayFormat(QCoreApplication.translate("Control_Plant", u"d/M/yyyy h:mm AP", None))
         self.reg_date_time_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e31\u0e19\u0e40\u0e27\u0e25\u0e32", None))
         self.reg_update_time_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e2d\u0e31\u0e1a\u0e40\u0e14\u0e15\u0e40\u0e27\u0e25\u0e32", None))
         ___qtreewidgetitem1 = self.reg_list_customer_treeWidget.headerItem()
-        ___qtreewidgetitem1.setText(2, QCoreApplication.translate("Control_Plant", u"\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48", None));
-        ___qtreewidgetitem1.setText(1, QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1a\u0e2d\u0e23\u0e4c", None));
-        ___qtreewidgetitem1.setText(0, QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d", None));
+        ___qtreewidgetitem1.setText(3, QCoreApplication.translate("Control_Plant", u"\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48", None));
+        ___qtreewidgetitem1.setText(2, QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1a\u0e2d\u0e23\u0e4c", None));
+        ___qtreewidgetitem1.setText(1, QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d", None));
+        ___qtreewidgetitem1.setText(0, QCoreApplication.translate("Control_Plant", u"\u0e25\u0e33\u0e14\u0e31\u0e1a", None));
         self.reg_lis_custommer_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e23\u0e32\u0e22\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32", None))
+        self.reg_delete_customer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e25\u0e1a\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32\u0e17\u0e35\u0e48\u0e40\u0e25\u0e37\u0e2d\u0e01", None))
         self.tab.setTabText(self.tab.indexOf(self.Register_tab), QCoreApplication.translate("Control_Plant", u"Register", None))
         self.mix_detail_customer_groupBox.setTitle("")
         self.mix_customer_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32", None))

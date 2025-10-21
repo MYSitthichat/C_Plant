@@ -106,7 +106,7 @@
      <enum>QTabWidget::TabPosition::North</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="iconSize">
      <size>
@@ -882,7 +882,7 @@ QPushButton:pressed {
         <string>เคลียข้อมูล</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="reg_save_new_custommer_pushButton">
+      <widget class="QPushButton" name="reg_save_new_customer_pushButton">
        <property name="geometry">
         <rect>
          <x>530</x>
@@ -1085,7 +1085,7 @@ QPushButton:pressed {
        <bool>true</bool>
       </property>
       <property name="sortingEnabled">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="animated">
        <bool>false</bool>
@@ -1100,7 +1100,7 @@ QPushButton:pressed {
        <bool>false</bool>
       </property>
       <property name="columnCount">
-       <number>3</number>
+       <number>4</number>
       </property>
       <attribute name="headerMinimumSectionSize">
        <number>50</number>
@@ -1108,6 +1108,21 @@ QPushButton:pressed {
       <attribute name="headerDefaultSectionSize">
        <number>123</number>
       </attribute>
+      <column>
+       <property name="text">
+        <string>ลำดับ</string>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="textAlignment">
+        <set>AlignCenter</set>
+       </property>
+      </column>
       <column>
        <property name="text">
         <string>ชื่อ</string>
@@ -1177,6 +1192,45 @@ QPushButton:pressed {
        <string>รายชื่อลูกค้า</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="reg_delete_customer_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>1390</x>
+        <y>5</y>
+        <width>161</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>18</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    background-color:rgb(255, 90, 106); 
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
+      <property name="text">
+       <string>ลบลูกค้าที่เลือก</string>
+      </property>
+     </widget>
      <zorder>groupBox</zorder>
      <zorder>reg_formula_treeWidget</zorder>
      <zorder>reg_name_label</zorder>
@@ -1191,6 +1245,7 @@ QPushButton:pressed {
      <zorder>reg_comment_textEdit</zorder>
      <zorder>reg_list_customer_treeWidget</zorder>
      <zorder>reg_lis_custommer_label</zorder>
+     <zorder>reg_delete_customer_pushButton</zorder>
     </widget>
     <widget class="QWidget" name="Mix_tab">
      <property name="minimumSize">

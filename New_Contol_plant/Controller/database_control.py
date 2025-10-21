@@ -9,7 +9,21 @@ class C_palne_Database():
         db_path = os.path.normpath(db_path) 
         self.db_path = db_path
     
-    def read_data_in_table_formula(self):
+    def delete_data_in_table_customer(self,id): # REG tab
+        query = """DELETE FROM customer WHERE id = ?;""" 
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query,(id,))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"error {e}")
+        finally:
+            if conn:
+                conn.close()
+                
+    def read_data_in_table_formula(self): #reg tab
         query = """SELECT id, formula_name, rock1_weight, sand_weight, rock2_weight, fly_ash_weight, cement_weight, 
                     water_weight, chemical1_weight, chemical2_weight, age, slump FROM 
                     concrete_formula WHERE status = 1;""" 
@@ -27,7 +41,7 @@ class C_palne_Database():
             if conn:
                 conn.close()
 
-    def update_data_to_table_customer(self,name,phone_number,address,formula_name,amount_concrete,car_number,child_cement,comment):
+    def update_data_to_table_customer(self,name,phone_number,address,formula_name,amount_concrete,car_number,child_cement,comment): # REG tab
         query = """INSERT INTO customer (name, phone_number,address,formula_name,amount,truck_number,batch_state,comments) VALUES (?,?,?,?,?,?,?,?);""" 
         conn = None
         try:
@@ -42,8 +56,8 @@ class C_palne_Database():
             if conn:
                 conn.close()
     
-    def read_data_in_table_customer(self):
-        query = """SELECT name, phone_number,address FROM customer;""" 
+    def read_data_in_table_customer(self): # REG tab
+        query = """SELECT id, name, phone_number,address FROM customer;""" 
         conn = None
         try:
             conn = sqlite3.connect(self.db_path)
@@ -57,8 +71,7 @@ class C_palne_Database():
         finally:
             if conn:
                 conn.close()
-    
-    
+
     def read_data_all_in_table_oder(self):
         query = "SELECT * FROM concrete_order;" 
         conn = None
@@ -67,7 +80,6 @@ class C_palne_Database():
             cursor = conn.cursor()
             cursor.execute(query)
             results = cursor.fetchall()
-            print(f"Read {len(results)} rows from concrete_order table.")
             return results
         except sqlite3.Error as e:
             print(f"error {e}")
