@@ -58,133 +58,133 @@ class MainController(QObject):
 
 
     def reg_save(self):
-        pass
+        print("reg save")
 
     def reg_clear(self):
-        pass
-    
+        print("reg clear")
+
     def reg_save_new_custommer(self):
-        pass
+        print("reg save new customer")
 
     def mix_start_load(self):
-        pass
+        print("mix start load")
 
     def mix_cancel_load(self):
-        pass
+        print("mix cancel load")
 
     def for_add_formula(self):
-        pass
+        print("for add formula")
 
     def for_config_formula(self):
-        pass
+        print("for config formula")
 
     def for_delete_formula(self):
-        pass
+        print("for delete formula")
 
     def for_save_formula(self):
-        pass
+        print("for save formula")
 
     def for_cancel(self):
-        pass
+        print("for cancel formula")
 
     def debug_open_rock_1(self):
-        pass
+        print("debug open rock 1")
 
     def debug_close_rock_1(self):
-        pass
+        print("debug close rock 1")
 
     def debug_open_rock_2(self):
-        pass
+        print("debug open rock 2")
 
     def debug_close_rock_2(self):
-        pass
+        print("debug close rock 2")
 
     def debug_open_sand(self):
-        pass
+        print("debug open sand")
 
     def debug_close_sand(self):
-        pass
+        print("debug close sand")
 
     def debug_open_converyer_under(self):
-        pass
+        print("debug open converyer under")
 
     def debug_close_converyer_under(self):
-        pass
+        print("debug close converyer under")
 
     def debug_open_converyer_top(self):
-        pass
+        print("debug open converyer top")
 
     def debug_close_converyer_top(self):
-        pass
+        print("debug close converyer top")
 
     def debug_open_cement(self):
-        pass
+        print("debug open cement")
 
     def debug_close_cement(self):
-        pass
+        print("debug close cement")
 
     def debug_open_fyash(self):
-        pass
+        print("debug open fyash")
 
     def debug_close_fyash(self):
-        pass
+        print("debug close fyash")
 
     def debug_open_vale_cement(self):
-        pass
+        print("debug open vale cement")
 
     def debug_close_vale_cement(self):
-        pass
+        print("debug close vale cement")
 
     def debug_open_mixer(self):
-        pass
+        print("debug open mixer")
 
     def debug_close_mixer(self):
-        pass
+        print("debug close mixer")
 
     def debug_open_vale_mixer(self):
-        pass
+        print("debug open vale mixer")
 
     def debug_close_vale_mixer(self):
-        pass
+        print("debug close vale mixer")
 
     def debug_open_water(self):
-        pass
+        print("debug open water")
 
     def debug_close_water(self):
-        pass
+        print("debug close water")
 
     def debug_open_vale_water(self):
-        pass
+        print("debug open vale water")
 
     def debug_close_vale_water(self):
-        pass
+        print("debug close vale water")
 
     def debug_open_chem_1(self):
-        pass
+        print("debug open chem 1")
 
     def debug_close_chem_1(self):
-        pass
+        print("debug close chem 1")
 
     def debug_open_chem_2(self):
-        pass
+        print("debug open chem 2")
 
     def debug_close_chem_2(self):
-        pass
+        print("debug close chem 2")
 
     def debug_open_vale_chem(self):
-        pass
+        print("debug open vale chem")
 
     def debug_close_vale_chem(self):
-        pass
+        print("debug close vale chem")
 
     def offset_save(self):
-        pass
+        print("offset save")
 
     def offset_edite(self):
-        pass
+        print("offset edite")
 
     def offset_cancel(self):
-        pass
+        print("offset cancel")
 
         
 # End methods
