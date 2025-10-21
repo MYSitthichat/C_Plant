@@ -1,10 +1,10 @@
 from View.view_main_frame import MainWindow
-from PySide6.QtCore import Slot , QObject 
+from PySide6.QtCore import Slot , QObject
 from PySide6.QtWidgets import QFileDialog,QMessageBox,QTreeWidgetItem
 from threading import Thread
 import time
 from datetime import datetime
-from Controller.control_database import C_palne_Database
+from Controller.database_control import C_palne_Database
 
 
 class MainController(QObject):   
@@ -15,6 +15,8 @@ class MainController(QObject):
         self.db = C_palne_Database()
         self.data_formula = []
         self.reg_add_formula()
+        self.reg_add_customer()
+        self.main_window.reg_update_time_pushButton.clicked.connect(self.main_window.update_datetime_to_now)
         self.main_window.reg_save_pushButton.clicked.connect(self.reg_save)
         self.main_window.reg_clear_pushButton.clicked.connect(self.reg_clear)
         self.main_window.reg_save_new_custommer_pushButton.clicked.connect(self.reg_save_new_custommer)
@@ -59,15 +61,20 @@ class MainController(QObject):
         self.main_window.offset_edite_pushButton.clicked.connect(self.offset_edite)
         self.main_window.offset_cancel_pushButton.clicked.connect(self.offset_cancel)
 
-    def reg_add_formula(self):
-        self.data_formula = self.db.read_data_all_data_in_table_formula()
-        # sorted_data = sorted(self.data_formula, key=lambda row: row[0], reverse=True)
-        # print(f"Loaded {sorted_data} formulas into the registration tree widget.")
-        for row in self.data_formula :
-            self.main_window.reg_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
+
 
     def reg_save(self):
         print("reg save")
+        date_time, name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment = self.main_window.get_data_from_reg_from()
+        if child_cement =="ต้องการเก็บ":
+            child_cement = 1
+        elif child_cement =="ไม่ต้องการเก็บ":
+            child_cement = 0
+        else:
+            pass
+        print(date_time, name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment)
+        self.db.update_data_to_table_customer(name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment)
+        self.reg_add_customer()
 
     def reg_clear(self):
         print("reg clear")
@@ -196,7 +203,16 @@ class MainController(QObject):
         print("offset cancel")
 
         
-
 # End methods
     def Show_main(self):
         self.main_window.Show()
+
+    def reg_add_formula(self):
+        self.data_formula = self.db.read_data_in_table_formula()
+        for row in self.data_formula :
+            self.main_window.reg_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
+            
+    def reg_add_customer(self):
+        self.data_customer = self.db.read_data_in_table_customer()
+        for row in self.data_customer :
+            self.main_window.reg_list_customer_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
