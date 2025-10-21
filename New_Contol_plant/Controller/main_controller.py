@@ -1,15 +1,20 @@
 from View.view_main_frame import MainWindow
 from PySide6.QtCore import Slot , QObject 
-from PySide6.QtWidgets import QFileDialog,QMessageBox
+from PySide6.QtWidgets import QFileDialog,QMessageBox,QTreeWidgetItem
 from threading import Thread
 import time
 from datetime import datetime
+from Controller.control_database import C_palne_Database
 
 
 class MainController(QObject):   
     def __init__(self):
         super(MainController, self).__init__()
         self.main_window = MainWindow()
+        
+        self.db = C_palne_Database()
+        self.data_formula = []
+        self.reg_add_formula()
         self.main_window.reg_save_pushButton.clicked.connect(self.reg_save)
         self.main_window.reg_clear_pushButton.clicked.connect(self.reg_clear)
         self.main_window.reg_save_new_custommer_pushButton.clicked.connect(self.reg_save_new_custommer)
@@ -54,7 +59,12 @@ class MainController(QObject):
         self.main_window.offset_edite_pushButton.clicked.connect(self.offset_edite)
         self.main_window.offset_cancel_pushButton.clicked.connect(self.offset_cancel)
 
-
+    def reg_add_formula(self):
+        self.data_formula = self.db.read_data_all_data_in_table_formula()
+        # sorted_data = sorted(self.data_formula, key=lambda row: row[0], reverse=True)
+        # print(f"Loaded {sorted_data} formulas into the registration tree widget.")
+        for row in self.data_formula :
+            self.main_window.reg_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
 
     def reg_save(self):
         print("reg save")
