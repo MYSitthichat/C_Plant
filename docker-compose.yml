@@ -33,3 +33,4 @@ services:
     volumes:
       - ./New_report:/app
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./DATA_BASE:/DATA_BASE
