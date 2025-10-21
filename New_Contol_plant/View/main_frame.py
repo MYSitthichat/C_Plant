@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'Control_plant.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.2
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -1683,11 +1683,11 @@ class Ui_Control_Plant(object):
 "border: 2px solid; \n"
 "border-radius: 10px;")
         self.debug_vale_wather_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
-        self.debug_close_vale_wather_pushButton = QPushButton(self.debug_control_groupBox)
-        self.debug_close_vale_wather_pushButton.setObjectName(u"debug_close_vale_wather_pushButton")
-        self.debug_close_vale_wather_pushButton.setGeometry(QRect(1370, 170, 131, 51))
-        self.debug_close_vale_wather_pushButton.setFont(font3)
-        self.debug_close_vale_wather_pushButton.setStyleSheet(u"\n"
+        self.debug_close_vale_water_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_vale_water_pushButton.setObjectName(u"debug_close_vale_water_pushButton")
+        self.debug_close_vale_water_pushButton.setGeometry(QRect(1370, 170, 131, 51))
+        self.debug_close_vale_water_pushButton.setFont(font3)
+        self.debug_close_vale_water_pushButton.setStyleSheet(u"\n"
 "QPushButton {\n"
 "   	background:rgb(255, 102, 105);\n"
 "    color: black;\n"
@@ -1705,11 +1705,11 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.debug_open_vale_wather_pushButton = QPushButton(self.debug_control_groupBox)
-        self.debug_open_vale_wather_pushButton.setObjectName(u"debug_open_vale_wather_pushButton")
-        self.debug_open_vale_wather_pushButton.setGeometry(QRect(1240, 170, 121, 51))
-        self.debug_open_vale_wather_pushButton.setFont(font3)
-        self.debug_open_vale_wather_pushButton.setStyleSheet(u"QPushButton {\n"
+        self.debug_open_vale_water_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_vale_water_pushButton.setObjectName(u"debug_open_vale_water_pushButton")
+        self.debug_open_vale_water_pushButton.setGeometry(QRect(1240, 170, 121, 51))
+        self.debug_open_vale_water_pushButton.setFont(font3)
+        self.debug_open_vale_water_pushButton.setStyleSheet(u"QPushButton {\n"
 "   	background:rgb(148, 212, 255);\n"
 "    color: black;\n"
 "    border: 2px solid #3498DB; \n"
@@ -1986,11 +1986,11 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.debug_open_wather_pushButton = QPushButton(self.debug_control_groupBox)
-        self.debug_open_wather_pushButton.setObjectName(u"debug_open_wather_pushButton")
-        self.debug_open_wather_pushButton.setGeometry(QRect(1220, 90, 111, 51))
-        self.debug_open_wather_pushButton.setFont(font3)
-        self.debug_open_wather_pushButton.setStyleSheet(u"QPushButton {\n"
+        self.debug_open_water_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_open_water_pushButton.setObjectName(u"debug_open_water_pushButton")
+        self.debug_open_water_pushButton.setGeometry(QRect(1220, 90, 111, 51))
+        self.debug_open_water_pushButton.setFont(font3)
+        self.debug_open_water_pushButton.setStyleSheet(u"QPushButton {\n"
 "   	background:rgb(148, 212, 255);\n"
 "    color: black;\n"
 "    border: 2px solid #3498DB; \n"
@@ -2007,11 +2007,11 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.debug_close_wather_pushButton = QPushButton(self.debug_control_groupBox)
-        self.debug_close_wather_pushButton.setObjectName(u"debug_close_wather_pushButton")
-        self.debug_close_wather_pushButton.setGeometry(QRect(1340, 90, 111, 51))
-        self.debug_close_wather_pushButton.setFont(font3)
-        self.debug_close_wather_pushButton.setStyleSheet(u"\n"
+        self.debug_close_water_pushButton = QPushButton(self.debug_control_groupBox)
+        self.debug_close_water_pushButton.setObjectName(u"debug_close_water_pushButton")
+        self.debug_close_water_pushButton.setGeometry(QRect(1340, 90, 111, 51))
+        self.debug_close_water_pushButton.setFont(font3)
+        self.debug_close_water_pushButton.setStyleSheet(u"\n"
 "QPushButton {\n"
 "   	background:rgb(255, 102, 105);\n"
 "    color: black;\n"
@@ -2098,8 +2098,8 @@ class Ui_Control_Plant(object):
         self.debug_open_vale_cement_pushButton.raise_()
         self.debug_close_vale_cement_pushButton.raise_()
         self.debug_vale_wather_label.raise_()
-        self.debug_close_vale_wather_pushButton.raise_()
-        self.debug_open_vale_wather_pushButton.raise_()
+        self.debug_close_vale_water_pushButton.raise_()
+        self.debug_open_vale_water_pushButton.raise_()
         self.debug_close_mixer_pushButton.raise_()
         self.debug_open_mixer_pushButton.raise_()
         self.debug_close_vale_mixer_pushButton.raise_()
@@ -2111,8 +2111,8 @@ class Ui_Control_Plant(object):
         self.debug_open_chem_2_pushButton.raise_()
         self.debug_open_vale_chem_pushButton.raise_()
         self.debug_close_vale_chem_pushButton.raise_()
-        self.debug_open_wather_pushButton.raise_()
-        self.debug_close_wather_pushButton.raise_()
+        self.debug_open_water_pushButton.raise_()
+        self.debug_close_water_pushButton.raise_()
         self.debug_status_groupBox = QGroupBox(self.Debug_tab)
         self.debug_status_groupBox.setObjectName(u"debug_status_groupBox")
         self.debug_status_groupBox.setGeometry(QRect(10, 600, 1545, 171))
@@ -2574,7 +2574,7 @@ class Ui_Control_Plant(object):
 
         self.retranslateUi(Control_Plant)
 
-        self.tab.setCurrentIndex(0)
+        self.tab.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(Control_Plant)
@@ -2828,8 +2828,8 @@ class Ui_Control_Plant(object):
         self.debug_open_vale_cement_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
         self.debug_close_vale_cement_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
         self.debug_vale_wather_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e32\u0e25\u0e4c\u0e27\u0e19\u0e49\u0e33", None))
-        self.debug_close_vale_wather_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
-        self.debug_open_vale_wather_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_close_vale_water_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_vale_water_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
         self.debug_close_mixer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
         self.debug_open_mixer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
         self.debug_mixer_label.setText(QCoreApplication.translate("Control_Plant", u"MIXER", None))
@@ -2845,8 +2845,8 @@ class Ui_Control_Plant(object):
         self.debug_open_vale_chem_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
         self.debug_vale_chem_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e32\u0e25\u0e4c\u0e25\u0e19\u0e49\u0e33\u0e22\u0e32", None))
         self.debug_close_vale_chem_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
-        self.debug_open_wather_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
-        self.debug_close_wather_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
+        self.debug_open_water_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
+        self.debug_close_water_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e34\u0e14", None))
         self.debug_wather_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33", None))
         self.debug_plate_1_label.setText("")
         self.debug_plate_2_label.setText("")
