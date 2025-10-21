@@ -16,6 +16,7 @@ class MainController(QObject):
         self.data_formula = []
         self.reg_add_formula()
         self.reg_add_customer()
+        self.for_add_formula()
         self.main_window.reg_update_time_pushButton.clicked.connect(self.main_window.update_datetime_to_now)
         self.main_window.reg_save_pushButton.clicked.connect(self.reg_save)
         self.main_window.reg_clear_pushButton.clicked.connect(self.reg_clear)
@@ -74,6 +75,7 @@ class MainController(QObject):
             pass
         print(date_time, name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment)
         self.db.update_data_to_table_customer(name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment)
+        self.main_window.clear_reg_form()
         self.reg_add_customer()
 
     def reg_clear(self):
@@ -206,6 +208,11 @@ class MainController(QObject):
 # End methods
     def Show_main(self):
         self.main_window.Show()
+
+    def for_add_formula(self):
+        self.data_formula = self.db.read_data_in_table_formula()
+        for row in self.data_formula :
+            self.main_window.for_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
 
     def reg_add_formula(self):
         self.data_formula = self.db.read_data_in_table_formula()

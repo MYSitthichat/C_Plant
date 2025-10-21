@@ -977,7 +977,7 @@ class Ui_Control_Plant(object):
         self.for_formula_treeWidget.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
         self.for_formula_treeWidget.setAutoExpandDelay(3)
         self.for_formula_treeWidget.setItemsExpandable(True)
-        self.for_formula_treeWidget.setSortingEnabled(True)
+        self.for_formula_treeWidget.setSortingEnabled(False)
         self.for_formula_treeWidget.setAnimated(False)
         self.for_formula_treeWidget.setAllColumnsShowFocus(False)
         self.for_formula_treeWidget.setWordWrap(False)
@@ -2556,7 +2556,7 @@ class Ui_Control_Plant(object):
 
         self.retranslateUi(Control_Plant)
 
-        self.tab.setCurrentIndex(0)
+        self.tab.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(Control_Plant)

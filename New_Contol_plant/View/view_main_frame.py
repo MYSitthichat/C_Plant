@@ -23,6 +23,17 @@ class MainWindow(QMainWindow,Ui_Control_Plant):
         formula_name = self.reg_formula_name_lineEdit.text()
         return date_time, name_customer, phone_number, address, formula_name,amount_concrete,car_number,child_cement,comment
 
+    def clear_reg_form(self):
+        self.reg_name_lineEdit.clear()
+        self.reg_telephone_lineEdit.clear()
+        self.reg_address_textEdit.clear()
+        self.update_datetime_to_now()
+        self.reg_number_car_lineEdit.clear()
+        self.reg_comment_textEdit.clear()
+        self.reg_child_cement_comboBox.setCurrentIndex(0)
+        self.reg_amount_unit_lineEdit.clear()
+        self.reg_formula_name_lineEdit.clear()
+        self.reg_list_customer_treeWidget.clear()
 
     def update_datetime_to_now(self):
         current_datetime = QDateTime.currentDateTime()
