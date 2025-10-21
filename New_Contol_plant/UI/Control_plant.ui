@@ -123,7 +123,7 @@
     <property name="tabBarAutoHide">
      <bool>false</bool>
     </property>
-    <widget class="QWidget" name="register_tab">
+    <widget class="QWidget" name="Register_tab">
      <attribute name="title">
       <string>Register</string>
      </attribute>
@@ -3455,7 +3455,7 @@ QPushButton:pressed {
      <zorder>mix_cancel_load_pushButton</zorder>
      <zorder>mix_start_load_pushButton</zorder>
     </widget>
-    <widget class="QWidget" name="formula_tab">
+    <widget class="QWidget" name="Formula_tab">
      <attribute name="title">
       <string>Formula</string>
      </attribute>
@@ -6476,6 +6476,1296 @@ border: 2px solid;
 border-radius: 10px;</string>
        </property>
       </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="Offset_tab">
+     <attribute name="title">
+      <string>Offset</string>
+     </attribute>
+     <widget class="QGroupBox" name="offset_setting_formular_groupBox">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>0</y>
+        <width>1021</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="title">
+       <string>Offset Setting ส่วนผสม</string>
+      </property>
+      <widget class="QLabel" name="offset_rock_1_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>หิน 1</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_rock_1_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>40</y>
+         <width>91</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_sand_1_label">
+       <property name="geometry">
+        <rect>
+         <x>380</x>
+         <y>40</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>ทราย 1</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_sand_1_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>40</y>
+         <width>91</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_rock_2_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>145</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>หิน 2</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_rock_2_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>145</y>
+         <width>91</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_sand_2_label">
+       <property name="geometry">
+        <rect>
+         <x>380</x>
+         <y>145</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>ทราย 2</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_sand_2_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>145</y>
+         <width>91</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_cement_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>250</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>ซีเมนต์</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_fyash_label">
+       <property name="geometry">
+        <rect>
+         <x>380</x>
+         <y>250</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>ไฟแอช</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_cement_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>250</y>
+         <width>91</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_fyash_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>250</y>
+         <width>91</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_wather_label">
+       <property name="geometry">
+        <rect>
+         <x>740</x>
+         <y>40</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>น้ำ</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_chem_1_label">
+       <property name="geometry">
+        <rect>
+         <x>740</x>
+         <y>145</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>น้ำยา 1</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_wather_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>820</x>
+         <y>40</y>
+         <width>91</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_chem_1_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>820</x>
+         <y>145</y>
+         <width>91</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_chem_2_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>820</x>
+         <y>250</y>
+         <width>91</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_chem_2_label">
+       <property name="geometry">
+        <rect>
+         <x>740</x>
+         <y>250</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>น้ำยา 2</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_11">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>40</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>กิโลกรัม</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_12">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>145</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>กิโลกรัม</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_13">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>250</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>กิโลกรัม</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="Line" name="line">
+       <property name="geometry">
+        <rect>
+         <x>325</x>
+         <y>25</y>
+         <width>5</width>
+         <height>301</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(0, 0, 0)</string>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Orientation::Vertical</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_8">
+       <property name="geometry">
+        <rect>
+         <x>560</x>
+         <y>40</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>กิโลกรัม</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_9">
+       <property name="geometry">
+        <rect>
+         <x>560</x>
+         <y>145</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>กิโลกรัม</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_10">
+       <property name="geometry">
+        <rect>
+         <x>560</x>
+         <y>250</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>กิโลกรัม</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="Line" name="line_2">
+       <property name="geometry">
+        <rect>
+         <x>685</x>
+         <y>25</y>
+         <width>5</width>
+         <height>301</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(0, 0, 0)</string>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Orientation::Vertical</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_5">
+       <property name="geometry">
+        <rect>
+         <x>920</x>
+         <y>40</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>กิโลกรัม</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_6">
+       <property name="geometry">
+        <rect>
+         <x>920</x>
+         <y>145</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>กิโลกรัม</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_7">
+       <property name="geometry">
+        <rect>
+         <x>920</x>
+         <y>250</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>กิโลกรัม</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <zorder>offset_chem_2_label</zorder>
+      <zorder>offset_cement_label</zorder>
+      <zorder>offset_rock_1_label</zorder>
+      <zorder>offset_rock_1_lineEdit</zorder>
+      <zorder>offset_sand_1_label</zorder>
+      <zorder>offset_sand_1_lineEdit</zorder>
+      <zorder>offset_rock_2_label</zorder>
+      <zorder>offset_rock_2_lineEdit</zorder>
+      <zorder>offset_sand_2_label</zorder>
+      <zorder>offset_sand_2_lineEdit</zorder>
+      <zorder>offset_fyash_label</zorder>
+      <zorder>offset_cement_lineEdit</zorder>
+      <zorder>offset_fyash_lineEdit</zorder>
+      <zorder>offset_wather_label</zorder>
+      <zorder>offset_chem_1_label</zorder>
+      <zorder>offset_wather_lineEdit</zorder>
+      <zorder>offset_chem_1_lineEdit</zorder>
+      <zorder>offset_chem_2_lineEdit</zorder>
+      <zorder>offset_unit_time_11</zorder>
+      <zorder>offset_unit_time_12</zorder>
+      <zorder>offset_unit_time_13</zorder>
+      <zorder>line</zorder>
+      <zorder>offset_unit_time_8</zorder>
+      <zorder>offset_unit_time_9</zorder>
+      <zorder>offset_unit_time_10</zorder>
+      <zorder>line_2</zorder>
+      <zorder>offset_unit_time_5</zorder>
+      <zorder>offset_unit_time_6</zorder>
+      <zorder>offset_unit_time_7</zorder>
+     </widget>
+     <widget class="QGroupBox" name="offset_setting_time_groupBox">
+      <property name="geometry">
+       <rect>
+        <x>1050</x>
+        <y>0</y>
+        <width>501</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>24</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="title">
+       <string>Offset Setting เวลาในการทำงาน</string>
+      </property>
+      <widget class="QLabel" name="offset_converyer_silo_time_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>381</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>เวลาก่อนสายพานด้านล่างทำงาน</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_converyer_silo_time_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>50</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_opan_cement_time_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>381</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>เวลาก่อนปล่อยปูนพร้อมน้ำ</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_opan_cement_time_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>120</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_run_mixer_time_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>190</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_run_mixer_time_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>180</y>
+         <width>381</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>เวลาในการ run mixer</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="offset_time_next_load_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>260</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_time_next_load_label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>250</y>
+         <width>381</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>เวลาก่อนที่จะเริ่มโหลดต่อไป</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>40</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>วินาที</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_2">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>110</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>วินาที</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_3">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>180</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>วินาที</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="offset_unit_time_4">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>250</y>
+         <width>71</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>วินาที</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <zorder>offset_time_next_load_label</zorder>
+      <zorder>offset_run_mixer_time_label</zorder>
+      <zorder>offset_converyer_silo_time_label</zorder>
+      <zorder>offset_converyer_silo_time_lineEdit</zorder>
+      <zorder>offset_opan_cement_time_label</zorder>
+      <zorder>offset_opan_cement_time_lineEdit</zorder>
+      <zorder>offset_run_mixer_time_lineEdit</zorder>
+      <zorder>offset_time_next_load_lineEdit</zorder>
+      <zorder>offset_unit_time</zorder>
+      <zorder>offset_unit_time_2</zorder>
+      <zorder>offset_unit_time_3</zorder>
+      <zorder>offset_unit_time_4</zorder>
+     </widget>
+     <widget class="QPushButton" name="offset_cancel_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>1390</x>
+        <y>340</y>
+        <width>151</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>20</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
+      <property name="text">
+       <string>ยกเลิก</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="offset_edite_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>1220</x>
+        <y>340</y>
+        <width>151</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>20</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(0, 170, 127);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
+      <property name="text">
+       <string>แก้ไข</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="offset_save_pushButton">
+      <property name="geometry">
+       <rect>
+        <x>1050</x>
+        <y>340</y>
+        <width>151</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>TH Niramit AS</family>
+        <pointsize>20</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
+      <property name="text">
+       <string>บันทึก</string>
+      </property>
      </widget>
     </widget>
    </widget>

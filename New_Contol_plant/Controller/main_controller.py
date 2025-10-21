@@ -1,5 +1,5 @@
 from View.view_main_frame import MainWindow
-from PySide6.QtCore import Slot , QObject
+from PySide6.QtCore import Slot , QObject 
 import csv
 from PySide6.QtWidgets import QFileDialog,QMessageBox
 from threading import Thread

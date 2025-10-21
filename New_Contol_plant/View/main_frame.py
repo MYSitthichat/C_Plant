@@ -54,9 +54,9 @@ class Ui_Control_Plant(object):
         self.tab.setTabsClosable(False)
         self.tab.setMovable(False)
         self.tab.setTabBarAutoHide(False)
-        self.register_tab = QWidget()
-        self.register_tab.setObjectName(u"register_tab")
-        self.reg_formula_treeWidget = QTreeWidget(self.register_tab)
+        self.Register_tab = QWidget()
+        self.Register_tab.setObjectName(u"Register_tab")
+        self.reg_formula_treeWidget = QTreeWidget(self.Register_tab)
         __qtreewidgetitem = QTreeWidgetItem()
         __qtreewidgetitem.setTextAlignment(11, Qt.AlignCenter);
         __qtreewidgetitem.setFont(11, font);
@@ -119,12 +119,12 @@ class Ui_Control_Plant(object):
         self.reg_formula_treeWidget.setColumnCount(12)
         self.reg_formula_treeWidget.header().setMinimumSectionSize(50)
         self.reg_formula_treeWidget.header().setDefaultSectionSize(123)
-        self.reg_name_label = QLabel(self.register_tab)
+        self.reg_name_label = QLabel(self.Register_tab)
         self.reg_name_label.setObjectName(u"reg_name_label")
         self.reg_name_label.setGeometry(QRect(20, 10, 41, 41))
         self.reg_name_label.setFont(font)
         self.reg_name_label.setStyleSheet(u"background:rgb(255, 214, 201)")
-        self.reg_name_lineEdit = QLineEdit(self.register_tab)
+        self.reg_name_lineEdit = QLineEdit(self.Register_tab)
         self.reg_name_lineEdit.setObjectName(u"reg_name_lineEdit")
         self.reg_name_lineEdit.setGeometry(QRect(70, 5, 181, 41))
         font1 = QFont()
@@ -134,49 +134,49 @@ class Ui_Control_Plant(object):
         self.reg_name_lineEdit.setFont(font1)
         self.reg_name_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
         self.reg_name_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.reg_telephone_label = QLabel(self.register_tab)
+        self.reg_telephone_label = QLabel(self.Register_tab)
         self.reg_telephone_label.setObjectName(u"reg_telephone_label")
         self.reg_telephone_label.setGeometry(QRect(260, 10, 61, 41))
         self.reg_telephone_label.setFont(font)
         self.reg_telephone_label.setStyleSheet(u"background:rgb(255, 214, 201)")
-        self.reg_telephone_lineEdit = QLineEdit(self.register_tab)
+        self.reg_telephone_lineEdit = QLineEdit(self.Register_tab)
         self.reg_telephone_lineEdit.setObjectName(u"reg_telephone_lineEdit")
         self.reg_telephone_lineEdit.setGeometry(QRect(330, 5, 201, 41))
         self.reg_telephone_lineEdit.setFont(font1)
         self.reg_telephone_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
         self.reg_telephone_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.reg_address_label = QLabel(self.register_tab)
+        self.reg_address_label = QLabel(self.Register_tab)
         self.reg_address_label.setObjectName(u"reg_address_label")
         self.reg_address_label.setGeometry(QRect(20, 60, 51, 41))
         self.reg_address_label.setFont(font)
         self.reg_address_label.setStyleSheet(u"background:rgb(255, 214, 201)")
-        self.reg_address_textEdit = QTextEdit(self.register_tab)
+        self.reg_address_textEdit = QTextEdit(self.Register_tab)
         self.reg_address_textEdit.setObjectName(u"reg_address_textEdit")
         self.reg_address_textEdit.setGeometry(QRect(70, 60, 461, 141))
         self.reg_address_textEdit.setFont(font1)
         self.reg_address_textEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
-        self.reg_number_car_lineEdit = QLineEdit(self.register_tab)
+        self.reg_number_car_lineEdit = QLineEdit(self.Register_tab)
         self.reg_number_car_lineEdit.setObjectName(u"reg_number_car_lineEdit")
         self.reg_number_car_lineEdit.setGeometry(QRect(130, 210, 111, 41))
         self.reg_number_car_lineEdit.setFont(font1)
         self.reg_number_car_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
         self.reg_number_car_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.reg_number_car_label = QLabel(self.register_tab)
+        self.reg_number_car_label = QLabel(self.Register_tab)
         self.reg_number_car_label.setObjectName(u"reg_number_car_label")
         self.reg_number_car_label.setGeometry(QRect(20, 210, 111, 41))
         self.reg_number_car_label.setFont(font)
         self.reg_number_car_label.setStyleSheet(u"background:rgb(255, 214, 201)")
-        self.reg_comment_label = QLabel(self.register_tab)
+        self.reg_comment_label = QLabel(self.Register_tab)
         self.reg_comment_label.setObjectName(u"reg_comment_label")
         self.reg_comment_label.setGeometry(QRect(20, 260, 111, 41))
         self.reg_comment_label.setFont(font)
         self.reg_comment_label.setStyleSheet(u"background:rgb(255, 214, 201)")
-        self.reg_comment_textEdit = QTextEdit(self.register_tab)
+        self.reg_comment_textEdit = QTextEdit(self.Register_tab)
         self.reg_comment_textEdit.setObjectName(u"reg_comment_textEdit")
         self.reg_comment_textEdit.setGeometry(QRect(130, 270, 401, 131))
         self.reg_comment_textEdit.setFont(font1)
         self.reg_comment_textEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
-        self.groupBox = QGroupBox(self.register_tab)
+        self.groupBox = QGroupBox(self.Register_tab)
         self.groupBox.setObjectName(u"groupBox")
         self.groupBox.setGeometry(QRect(10, 0, 811, 421))
         self.reg_formula_comboBox = QComboBox(self.groupBox)
@@ -301,7 +301,7 @@ class Ui_Control_Plant(object):
         self.reg_date_time_label.setGeometry(QRect(240, 210, 81, 41))
         self.reg_date_time_label.setFont(font)
         self.reg_date_time_label.setStyleSheet(u"background:rgb(255, 214, 201)")
-        self.reg_list_customer_treeWidget = QTreeWidget(self.register_tab)
+        self.reg_list_customer_treeWidget = QTreeWidget(self.Register_tab)
         __qtreewidgetitem4 = QTreeWidgetItem()
         __qtreewidgetitem4.setTextAlignment(2, Qt.AlignCenter);
         __qtreewidgetitem4.setFont(2, font);
@@ -343,12 +343,12 @@ class Ui_Control_Plant(object):
         self.reg_list_customer_treeWidget.setColumnCount(3)
         self.reg_list_customer_treeWidget.header().setMinimumSectionSize(50)
         self.reg_list_customer_treeWidget.header().setDefaultSectionSize(123)
-        self.reg_lis_custommer_label = QLabel(self.register_tab)
+        self.reg_lis_custommer_label = QLabel(self.Register_tab)
         self.reg_lis_custommer_label.setObjectName(u"reg_lis_custommer_label")
         self.reg_lis_custommer_label.setGeometry(QRect(1150, 10, 131, 41))
         self.reg_lis_custommer_label.setFont(font)
         self.reg_lis_custommer_label.setStyleSheet(u"background:rgb(255, 214, 201)")
-        self.tab.addTab(self.register_tab, "")
+        self.tab.addTab(self.Register_tab, "")
         self.groupBox.raise_()
         self.reg_formula_treeWidget.raise_()
         self.reg_name_label.raise_()
@@ -938,9 +938,9 @@ class Ui_Control_Plant(object):
         self.mix_result_groupBox.raise_()
         self.mix_cancel_load_pushButton.raise_()
         self.mix_start_load_pushButton.raise_()
-        self.formula_tab = QWidget()
-        self.formula_tab.setObjectName(u"formula_tab")
-        self.for_formula_treeWidget = QTreeWidget(self.formula_tab)
+        self.Formula_tab = QWidget()
+        self.Formula_tab.setObjectName(u"Formula_tab")
+        self.for_formula_treeWidget = QTreeWidget(self.Formula_tab)
         __qtreewidgetitem8 = QTreeWidgetItem()
         __qtreewidgetitem8.setTextAlignment(11, Qt.AlignCenter);
         __qtreewidgetitem8.setFont(11, font);
@@ -1003,7 +1003,7 @@ class Ui_Control_Plant(object):
         self.for_formula_treeWidget.setColumnCount(12)
         self.for_formula_treeWidget.header().setMinimumSectionSize(50)
         self.for_formula_treeWidget.header().setDefaultSectionSize(123)
-        self.for_config_formula_groupBox = QGroupBox(self.formula_tab)
+        self.for_config_formula_groupBox = QGroupBox(self.Formula_tab)
         self.for_config_formula_groupBox.setObjectName(u"for_config_formula_groupBox")
         self.for_config_formula_groupBox.setGeometry(QRect(20, 520, 1531, 151))
         self.for_config_formula_groupBox.setFont(font)
@@ -1143,7 +1143,7 @@ class Ui_Control_Plant(object):
         self.for_slump_lineEdit.setFont(font1)
         self.for_slump_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
         self.for_slump_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.for_add_formula_pushButton = QPushButton(self.formula_tab)
+        self.for_add_formula_pushButton = QPushButton(self.Formula_tab)
         self.for_add_formula_pushButton.setObjectName(u"for_add_formula_pushButton")
         self.for_add_formula_pushButton.setGeometry(QRect(20, 680, 241, 81))
         self.for_add_formula_pushButton.setFont(font)
@@ -1164,7 +1164,7 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.for_config_formula_pushButton = QPushButton(self.formula_tab)
+        self.for_config_formula_pushButton = QPushButton(self.Formula_tab)
         self.for_config_formula_pushButton.setObjectName(u"for_config_formula_pushButton")
         self.for_config_formula_pushButton.setGeometry(QRect(270, 680, 241, 81))
         self.for_config_formula_pushButton.setFont(font)
@@ -1186,7 +1186,7 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.for_delete_formula_pushButton = QPushButton(self.formula_tab)
+        self.for_delete_formula_pushButton = QPushButton(self.Formula_tab)
         self.for_delete_formula_pushButton.setObjectName(u"for_delete_formula_pushButton")
         self.for_delete_formula_pushButton.setGeometry(QRect(520, 680, 241, 81))
         self.for_delete_formula_pushButton.setFont(font)
@@ -1208,7 +1208,7 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.for_save_formula_pushButton = QPushButton(self.formula_tab)
+        self.for_save_formula_pushButton = QPushButton(self.Formula_tab)
         self.for_save_formula_pushButton.setObjectName(u"for_save_formula_pushButton")
         self.for_save_formula_pushButton.setGeometry(QRect(770, 680, 241, 81))
         self.for_save_formula_pushButton.setFont(font)
@@ -1230,7 +1230,7 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.for_cancel_pushButton = QPushButton(self.formula_tab)
+        self.for_cancel_pushButton = QPushButton(self.Formula_tab)
         self.for_cancel_pushButton.setObjectName(u"for_cancel_pushButton")
         self.for_cancel_pushButton.setGeometry(QRect(1310, 680, 241, 81))
         self.for_cancel_pushButton.setFont(font)
@@ -1251,7 +1251,7 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
-        self.tab.addTab(self.formula_tab, "")
+        self.tab.addTab(self.Formula_tab, "")
         self.Debug_tab = QWidget()
         self.Debug_tab.setObjectName(u"Debug_tab")
         self.debug_control_groupBox = QGroupBox(self.Debug_tab)
@@ -2126,6 +2126,447 @@ class Ui_Control_Plant(object):
 "border: 2px solid; \n"
 "border-radius: 10px;")
         self.tab.addTab(self.Debug_tab, "")
+        self.Offset_tab = QWidget()
+        self.Offset_tab.setObjectName(u"Offset_tab")
+        self.offset_setting_formular_groupBox = QGroupBox(self.Offset_tab)
+        self.offset_setting_formular_groupBox.setObjectName(u"offset_setting_formular_groupBox")
+        self.offset_setting_formular_groupBox.setGeometry(QRect(20, 0, 1021, 331))
+        self.offset_setting_formular_groupBox.setFont(font)
+        self.offset_rock_1_label = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_rock_1_label.setObjectName(u"offset_rock_1_label")
+        self.offset_rock_1_label.setGeometry(QRect(20, 40, 71, 61))
+        self.offset_rock_1_label.setFont(font3)
+        self.offset_rock_1_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_rock_1_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_rock_1_lineEdit = QLineEdit(self.offset_setting_formular_groupBox)
+        self.offset_rock_1_lineEdit.setObjectName(u"offset_rock_1_lineEdit")
+        self.offset_rock_1_lineEdit.setGeometry(QRect(100, 40, 91, 61))
+        self.offset_rock_1_lineEdit.setFont(font1)
+        self.offset_rock_1_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_rock_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_sand_1_label = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_sand_1_label.setObjectName(u"offset_sand_1_label")
+        self.offset_sand_1_label.setGeometry(QRect(380, 40, 71, 61))
+        self.offset_sand_1_label.setFont(font3)
+        self.offset_sand_1_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_sand_1_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_sand_1_lineEdit = QLineEdit(self.offset_setting_formular_groupBox)
+        self.offset_sand_1_lineEdit.setObjectName(u"offset_sand_1_lineEdit")
+        self.offset_sand_1_lineEdit.setGeometry(QRect(460, 40, 91, 61))
+        self.offset_sand_1_lineEdit.setFont(font1)
+        self.offset_sand_1_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_sand_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_rock_2_label = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_rock_2_label.setObjectName(u"offset_rock_2_label")
+        self.offset_rock_2_label.setGeometry(QRect(20, 145, 71, 61))
+        self.offset_rock_2_label.setFont(font3)
+        self.offset_rock_2_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_rock_2_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_rock_2_lineEdit = QLineEdit(self.offset_setting_formular_groupBox)
+        self.offset_rock_2_lineEdit.setObjectName(u"offset_rock_2_lineEdit")
+        self.offset_rock_2_lineEdit.setGeometry(QRect(100, 145, 91, 61))
+        self.offset_rock_2_lineEdit.setFont(font1)
+        self.offset_rock_2_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_rock_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_sand_2_label = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_sand_2_label.setObjectName(u"offset_sand_2_label")
+        self.offset_sand_2_label.setGeometry(QRect(380, 145, 71, 61))
+        self.offset_sand_2_label.setFont(font3)
+        self.offset_sand_2_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_sand_2_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_sand_2_lineEdit = QLineEdit(self.offset_setting_formular_groupBox)
+        self.offset_sand_2_lineEdit.setObjectName(u"offset_sand_2_lineEdit")
+        self.offset_sand_2_lineEdit.setGeometry(QRect(460, 145, 91, 61))
+        self.offset_sand_2_lineEdit.setFont(font1)
+        self.offset_sand_2_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_sand_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_cement_label = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_cement_label.setObjectName(u"offset_cement_label")
+        self.offset_cement_label.setGeometry(QRect(20, 250, 71, 61))
+        self.offset_cement_label.setFont(font3)
+        self.offset_cement_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_cement_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_fyash_label = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_fyash_label.setObjectName(u"offset_fyash_label")
+        self.offset_fyash_label.setGeometry(QRect(380, 250, 71, 61))
+        self.offset_fyash_label.setFont(font3)
+        self.offset_fyash_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_fyash_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_cement_lineEdit = QLineEdit(self.offset_setting_formular_groupBox)
+        self.offset_cement_lineEdit.setObjectName(u"offset_cement_lineEdit")
+        self.offset_cement_lineEdit.setGeometry(QRect(100, 250, 91, 61))
+        self.offset_cement_lineEdit.setFont(font1)
+        self.offset_cement_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_cement_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_fyash_lineEdit = QLineEdit(self.offset_setting_formular_groupBox)
+        self.offset_fyash_lineEdit.setObjectName(u"offset_fyash_lineEdit")
+        self.offset_fyash_lineEdit.setGeometry(QRect(460, 250, 91, 61))
+        self.offset_fyash_lineEdit.setFont(font1)
+        self.offset_fyash_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_fyash_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_wather_label = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_wather_label.setObjectName(u"offset_wather_label")
+        self.offset_wather_label.setGeometry(QRect(740, 40, 71, 61))
+        self.offset_wather_label.setFont(font3)
+        self.offset_wather_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_wather_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_chem_1_label = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_chem_1_label.setObjectName(u"offset_chem_1_label")
+        self.offset_chem_1_label.setGeometry(QRect(740, 145, 71, 61))
+        self.offset_chem_1_label.setFont(font3)
+        self.offset_chem_1_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_chem_1_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_wather_lineEdit = QLineEdit(self.offset_setting_formular_groupBox)
+        self.offset_wather_lineEdit.setObjectName(u"offset_wather_lineEdit")
+        self.offset_wather_lineEdit.setGeometry(QRect(820, 40, 91, 61))
+        self.offset_wather_lineEdit.setFont(font1)
+        self.offset_wather_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_wather_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_chem_1_lineEdit = QLineEdit(self.offset_setting_formular_groupBox)
+        self.offset_chem_1_lineEdit.setObjectName(u"offset_chem_1_lineEdit")
+        self.offset_chem_1_lineEdit.setGeometry(QRect(820, 145, 91, 61))
+        self.offset_chem_1_lineEdit.setFont(font1)
+        self.offset_chem_1_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_chem_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_chem_2_lineEdit = QLineEdit(self.offset_setting_formular_groupBox)
+        self.offset_chem_2_lineEdit.setObjectName(u"offset_chem_2_lineEdit")
+        self.offset_chem_2_lineEdit.setGeometry(QRect(820, 250, 91, 61))
+        self.offset_chem_2_lineEdit.setFont(font1)
+        self.offset_chem_2_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_chem_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_chem_2_label = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_chem_2_label.setObjectName(u"offset_chem_2_label")
+        self.offset_chem_2_label.setGeometry(QRect(740, 250, 71, 61))
+        self.offset_chem_2_label.setFont(font3)
+        self.offset_chem_2_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_chem_2_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_11 = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_unit_time_11.setObjectName(u"offset_unit_time_11")
+        self.offset_unit_time_11.setGeometry(QRect(200, 40, 81, 61))
+        self.offset_unit_time_11.setFont(font3)
+        self.offset_unit_time_11.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_11.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_12 = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_unit_time_12.setObjectName(u"offset_unit_time_12")
+        self.offset_unit_time_12.setGeometry(QRect(200, 145, 81, 61))
+        self.offset_unit_time_12.setFont(font3)
+        self.offset_unit_time_12.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_12.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_13 = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_unit_time_13.setObjectName(u"offset_unit_time_13")
+        self.offset_unit_time_13.setGeometry(QRect(200, 250, 81, 61))
+        self.offset_unit_time_13.setFont(font3)
+        self.offset_unit_time_13.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_13.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.line = QFrame(self.offset_setting_formular_groupBox)
+        self.line.setObjectName(u"line")
+        self.line.setGeometry(QRect(325, 25, 5, 301))
+        self.line.setStyleSheet(u"background:rgb(0, 0, 0)")
+        self.line.setFrameShape(QFrame.Shape.VLine)
+        self.line.setFrameShadow(QFrame.Shadow.Sunken)
+        self.offset_unit_time_8 = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_unit_time_8.setObjectName(u"offset_unit_time_8")
+        self.offset_unit_time_8.setGeometry(QRect(560, 40, 81, 61))
+        self.offset_unit_time_8.setFont(font3)
+        self.offset_unit_time_8.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_8.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_9 = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_unit_time_9.setObjectName(u"offset_unit_time_9")
+        self.offset_unit_time_9.setGeometry(QRect(560, 145, 81, 61))
+        self.offset_unit_time_9.setFont(font3)
+        self.offset_unit_time_9.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_9.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_10 = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_unit_time_10.setObjectName(u"offset_unit_time_10")
+        self.offset_unit_time_10.setGeometry(QRect(560, 250, 81, 61))
+        self.offset_unit_time_10.setFont(font3)
+        self.offset_unit_time_10.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_10.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.line_2 = QFrame(self.offset_setting_formular_groupBox)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setGeometry(QRect(685, 25, 5, 301))
+        self.line_2.setStyleSheet(u"background:rgb(0, 0, 0)")
+        self.line_2.setFrameShape(QFrame.Shape.VLine)
+        self.line_2.setFrameShadow(QFrame.Shadow.Sunken)
+        self.offset_unit_time_5 = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_unit_time_5.setObjectName(u"offset_unit_time_5")
+        self.offset_unit_time_5.setGeometry(QRect(920, 40, 81, 61))
+        self.offset_unit_time_5.setFont(font3)
+        self.offset_unit_time_5.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_5.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_6 = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_unit_time_6.setObjectName(u"offset_unit_time_6")
+        self.offset_unit_time_6.setGeometry(QRect(920, 145, 81, 61))
+        self.offset_unit_time_6.setFont(font3)
+        self.offset_unit_time_6.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_6.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_7 = QLabel(self.offset_setting_formular_groupBox)
+        self.offset_unit_time_7.setObjectName(u"offset_unit_time_7")
+        self.offset_unit_time_7.setGeometry(QRect(920, 250, 81, 61))
+        self.offset_unit_time_7.setFont(font3)
+        self.offset_unit_time_7.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_7.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_chem_2_label.raise_()
+        self.offset_cement_label.raise_()
+        self.offset_rock_1_label.raise_()
+        self.offset_rock_1_lineEdit.raise_()
+        self.offset_sand_1_label.raise_()
+        self.offset_sand_1_lineEdit.raise_()
+        self.offset_rock_2_label.raise_()
+        self.offset_rock_2_lineEdit.raise_()
+        self.offset_sand_2_label.raise_()
+        self.offset_sand_2_lineEdit.raise_()
+        self.offset_fyash_label.raise_()
+        self.offset_cement_lineEdit.raise_()
+        self.offset_fyash_lineEdit.raise_()
+        self.offset_wather_label.raise_()
+        self.offset_chem_1_label.raise_()
+        self.offset_wather_lineEdit.raise_()
+        self.offset_chem_1_lineEdit.raise_()
+        self.offset_chem_2_lineEdit.raise_()
+        self.offset_unit_time_11.raise_()
+        self.offset_unit_time_12.raise_()
+        self.offset_unit_time_13.raise_()
+        self.line.raise_()
+        self.offset_unit_time_8.raise_()
+        self.offset_unit_time_9.raise_()
+        self.offset_unit_time_10.raise_()
+        self.line_2.raise_()
+        self.offset_unit_time_5.raise_()
+        self.offset_unit_time_6.raise_()
+        self.offset_unit_time_7.raise_()
+        self.offset_setting_time_groupBox = QGroupBox(self.Offset_tab)
+        self.offset_setting_time_groupBox.setObjectName(u"offset_setting_time_groupBox")
+        self.offset_setting_time_groupBox.setGeometry(QRect(1050, 0, 501, 331))
+        self.offset_setting_time_groupBox.setFont(font)
+        self.offset_converyer_silo_time_label = QLabel(self.offset_setting_time_groupBox)
+        self.offset_converyer_silo_time_label.setObjectName(u"offset_converyer_silo_time_label")
+        self.offset_converyer_silo_time_label.setGeometry(QRect(20, 40, 381, 61))
+        self.offset_converyer_silo_time_label.setFont(font3)
+        self.offset_converyer_silo_time_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_converyer_silo_time_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_converyer_silo_time_lineEdit = QLineEdit(self.offset_setting_time_groupBox)
+        self.offset_converyer_silo_time_lineEdit.setObjectName(u"offset_converyer_silo_time_lineEdit")
+        self.offset_converyer_silo_time_lineEdit.setGeometry(QRect(300, 50, 91, 41))
+        self.offset_converyer_silo_time_lineEdit.setFont(font1)
+        self.offset_converyer_silo_time_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_converyer_silo_time_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_opan_cement_time_label = QLabel(self.offset_setting_time_groupBox)
+        self.offset_opan_cement_time_label.setObjectName(u"offset_opan_cement_time_label")
+        self.offset_opan_cement_time_label.setGeometry(QRect(20, 110, 381, 61))
+        self.offset_opan_cement_time_label.setFont(font3)
+        self.offset_opan_cement_time_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_opan_cement_time_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_opan_cement_time_lineEdit = QLineEdit(self.offset_setting_time_groupBox)
+        self.offset_opan_cement_time_lineEdit.setObjectName(u"offset_opan_cement_time_lineEdit")
+        self.offset_opan_cement_time_lineEdit.setGeometry(QRect(300, 120, 91, 41))
+        self.offset_opan_cement_time_lineEdit.setFont(font1)
+        self.offset_opan_cement_time_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_opan_cement_time_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_run_mixer_time_lineEdit = QLineEdit(self.offset_setting_time_groupBox)
+        self.offset_run_mixer_time_lineEdit.setObjectName(u"offset_run_mixer_time_lineEdit")
+        self.offset_run_mixer_time_lineEdit.setGeometry(QRect(300, 190, 91, 41))
+        self.offset_run_mixer_time_lineEdit.setFont(font1)
+        self.offset_run_mixer_time_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_run_mixer_time_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_run_mixer_time_label = QLabel(self.offset_setting_time_groupBox)
+        self.offset_run_mixer_time_label.setObjectName(u"offset_run_mixer_time_label")
+        self.offset_run_mixer_time_label.setGeometry(QRect(20, 180, 381, 61))
+        self.offset_run_mixer_time_label.setFont(font3)
+        self.offset_run_mixer_time_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_run_mixer_time_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_time_next_load_lineEdit = QLineEdit(self.offset_setting_time_groupBox)
+        self.offset_time_next_load_lineEdit.setObjectName(u"offset_time_next_load_lineEdit")
+        self.offset_time_next_load_lineEdit.setGeometry(QRect(300, 260, 91, 41))
+        self.offset_time_next_load_lineEdit.setFont(font1)
+        self.offset_time_next_load_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.offset_time_next_load_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.offset_time_next_load_label = QLabel(self.offset_setting_time_groupBox)
+        self.offset_time_next_load_label.setObjectName(u"offset_time_next_load_label")
+        self.offset_time_next_load_label.setGeometry(QRect(20, 250, 381, 61))
+        self.offset_time_next_load_label.setFont(font3)
+        self.offset_time_next_load_label.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_time_next_load_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time = QLabel(self.offset_setting_time_groupBox)
+        self.offset_unit_time.setObjectName(u"offset_unit_time")
+        self.offset_unit_time.setGeometry(QRect(410, 40, 71, 61))
+        self.offset_unit_time.setFont(font3)
+        self.offset_unit_time.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_2 = QLabel(self.offset_setting_time_groupBox)
+        self.offset_unit_time_2.setObjectName(u"offset_unit_time_2")
+        self.offset_unit_time_2.setGeometry(QRect(410, 110, 71, 61))
+        self.offset_unit_time_2.setFont(font3)
+        self.offset_unit_time_2.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_2.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_3 = QLabel(self.offset_setting_time_groupBox)
+        self.offset_unit_time_3.setObjectName(u"offset_unit_time_3")
+        self.offset_unit_time_3.setGeometry(QRect(410, 180, 71, 61))
+        self.offset_unit_time_3.setFont(font3)
+        self.offset_unit_time_3.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_3.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_unit_time_4 = QLabel(self.offset_setting_time_groupBox)
+        self.offset_unit_time_4.setObjectName(u"offset_unit_time_4")
+        self.offset_unit_time_4.setGeometry(QRect(410, 250, 71, 61))
+        self.offset_unit_time_4.setFont(font3)
+        self.offset_unit_time_4.setStyleSheet(u"background-color:rgb(216, 255, 180); \n"
+"color: black;\n"
+"border: 2px solid; \n"
+"border-radius: 10px;")
+        self.offset_unit_time_4.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.offset_time_next_load_label.raise_()
+        self.offset_run_mixer_time_label.raise_()
+        self.offset_converyer_silo_time_label.raise_()
+        self.offset_converyer_silo_time_lineEdit.raise_()
+        self.offset_opan_cement_time_label.raise_()
+        self.offset_opan_cement_time_lineEdit.raise_()
+        self.offset_run_mixer_time_lineEdit.raise_()
+        self.offset_time_next_load_lineEdit.raise_()
+        self.offset_unit_time.raise_()
+        self.offset_unit_time_2.raise_()
+        self.offset_unit_time_3.raise_()
+        self.offset_unit_time_4.raise_()
+        self.offset_cancel_pushButton = QPushButton(self.Offset_tab)
+        self.offset_cancel_pushButton.setObjectName(u"offset_cancel_pushButton")
+        self.offset_cancel_pushButton.setGeometry(QRect(1390, 340, 151, 61))
+        self.offset_cancel_pushButton.setFont(font3)
+        self.offset_cancel_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(255, 102, 105);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.offset_edite_pushButton = QPushButton(self.Offset_tab)
+        self.offset_edite_pushButton.setObjectName(u"offset_edite_pushButton")
+        self.offset_edite_pushButton.setGeometry(QRect(1220, 340, 151, 61))
+        self.offset_edite_pushButton.setFont(font3)
+        self.offset_edite_pushButton.setStyleSheet(u"\n"
+"QPushButton {\n"
+"   	background:rgb(0, 170, 127);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.offset_save_pushButton = QPushButton(self.Offset_tab)
+        self.offset_save_pushButton.setObjectName(u"offset_save_pushButton")
+        self.offset_save_pushButton.setGeometry(QRect(1050, 340, 151, 61))
+        self.offset_save_pushButton.setFont(font3)
+        self.offset_save_pushButton.setStyleSheet(u"QPushButton {\n"
+"   	background:rgb(148, 212, 255);\n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.tab.addTab(self.Offset_tab, "")
         Control_Plant.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(Control_Plant)
         self.statusbar.setObjectName(u"statusbar")
@@ -2238,7 +2679,7 @@ class Ui_Control_Plant(object):
         self.reg_list_customer_treeWidget.setSortingEnabled(__sortingEnabled1)
 
         self.reg_lis_custommer_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e23\u0e32\u0e22\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32", None))
-        self.tab.setTabText(self.tab.indexOf(self.register_tab), QCoreApplication.translate("Control_Plant", u"Register", None))
+        self.tab.setTabText(self.tab.indexOf(self.Register_tab), QCoreApplication.translate("Control_Plant", u"Register", None))
         self.mix_detail_customer_groupBox.setTitle("")
         self.mix_customer_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32", None))
         self.mix_customer_formula_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e39\u0e15\u0e23", None))
@@ -2360,7 +2801,7 @@ class Ui_Control_Plant(object):
         self.for_delete_formula_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e25\u0e1a\u0e2a\u0e39\u0e15\u0e23", None))
         self.for_save_formula_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01\u0e2a\u0e39\u0e15\u0e23", None))
         self.for_cancel_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01", None))
-        self.tab.setTabText(self.tab.indexOf(self.formula_tab), QCoreApplication.translate("Control_Plant", u"Formula", None))
+        self.tab.setTabText(self.tab.indexOf(self.Formula_tab), QCoreApplication.translate("Control_Plant", u"Formula", None))
         self.debug_control_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"\u0e04\u0e27\u0e1a\u0e04\u0e38\u0e21", None))
         self.debug_open_rock_1_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1b\u0e34\u0e14", None))
         self.debug_rock_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e19 1", None))
@@ -2412,5 +2853,37 @@ class Ui_Control_Plant(object):
         self.debug_plate_3_label.setText("")
         self.debug_status_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"\u0e2a\u0e16\u0e32\u0e19\u0e30", None))
         self.tab.setTabText(self.tab.indexOf(self.Debug_tab), QCoreApplication.translate("Control_Plant", u"Debug", None))
+        self.offset_setting_formular_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"Offset Setting \u0e2a\u0e48\u0e27\u0e19\u0e1c\u0e2a\u0e21", None))
+        self.offset_rock_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e19 1", None))
+        self.offset_sand_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e17\u0e23\u0e32\u0e22 1", None))
+        self.offset_rock_2_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e19 2", None))
+        self.offset_sand_2_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e17\u0e23\u0e32\u0e22 2", None))
+        self.offset_cement_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0b\u0e35\u0e40\u0e21\u0e19\u0e15\u0e4c", None))
+        self.offset_fyash_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e44\u0e1f\u0e41\u0e2d\u0e0a", None))
+        self.offset_wather_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33", None))
+        self.offset_chem_1_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32 1", None))
+        self.offset_chem_2_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32 2", None))
+        self.offset_unit_time_11.setText(QCoreApplication.translate("Control_Plant", u"\u0e01\u0e34\u0e42\u0e25\u0e01\u0e23\u0e31\u0e21", None))
+        self.offset_unit_time_12.setText(QCoreApplication.translate("Control_Plant", u"\u0e01\u0e34\u0e42\u0e25\u0e01\u0e23\u0e31\u0e21", None))
+        self.offset_unit_time_13.setText(QCoreApplication.translate("Control_Plant", u"\u0e01\u0e34\u0e42\u0e25\u0e01\u0e23\u0e31\u0e21", None))
+        self.offset_unit_time_8.setText(QCoreApplication.translate("Control_Plant", u"\u0e01\u0e34\u0e42\u0e25\u0e01\u0e23\u0e31\u0e21", None))
+        self.offset_unit_time_9.setText(QCoreApplication.translate("Control_Plant", u"\u0e01\u0e34\u0e42\u0e25\u0e01\u0e23\u0e31\u0e21", None))
+        self.offset_unit_time_10.setText(QCoreApplication.translate("Control_Plant", u"\u0e01\u0e34\u0e42\u0e25\u0e01\u0e23\u0e31\u0e21", None))
+        self.offset_unit_time_5.setText(QCoreApplication.translate("Control_Plant", u"\u0e01\u0e34\u0e42\u0e25\u0e01\u0e23\u0e31\u0e21", None))
+        self.offset_unit_time_6.setText(QCoreApplication.translate("Control_Plant", u"\u0e01\u0e34\u0e42\u0e25\u0e01\u0e23\u0e31\u0e21", None))
+        self.offset_unit_time_7.setText(QCoreApplication.translate("Control_Plant", u"\u0e01\u0e34\u0e42\u0e25\u0e01\u0e23\u0e31\u0e21", None))
+        self.offset_setting_time_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"Offset Setting \u0e40\u0e27\u0e25\u0e32\u0e43\u0e19\u0e01\u0e32\u0e23\u0e17\u0e33\u0e07\u0e32\u0e19", None))
+        self.offset_converyer_silo_time_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e27\u0e25\u0e32\u0e01\u0e48\u0e2d\u0e19\u0e2a\u0e32\u0e22\u0e1e\u0e32\u0e19\u0e14\u0e49\u0e32\u0e19\u0e25\u0e48\u0e32\u0e07\u0e17\u0e33\u0e07\u0e32\u0e19", None))
+        self.offset_opan_cement_time_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e27\u0e25\u0e32\u0e01\u0e48\u0e2d\u0e19\u0e1b\u0e25\u0e48\u0e2d\u0e22\u0e1b\u0e39\u0e19\u0e1e\u0e23\u0e49\u0e2d\u0e21\u0e19\u0e49\u0e33", None))
+        self.offset_run_mixer_time_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e27\u0e25\u0e32\u0e43\u0e19\u0e01\u0e32\u0e23 run mixer", None))
+        self.offset_time_next_load_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e27\u0e25\u0e32\u0e01\u0e48\u0e2d\u0e19\u0e17\u0e35\u0e48\u0e08\u0e30\u0e40\u0e23\u0e34\u0e48\u0e21\u0e42\u0e2b\u0e25\u0e14\u0e15\u0e48\u0e2d\u0e44\u0e1b", None))
+        self.offset_unit_time.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e34\u0e19\u0e32\u0e17\u0e35", None))
+        self.offset_unit_time_2.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e34\u0e19\u0e32\u0e17\u0e35", None))
+        self.offset_unit_time_3.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e34\u0e19\u0e32\u0e17\u0e35", None))
+        self.offset_unit_time_4.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e34\u0e19\u0e32\u0e17\u0e35", None))
+        self.offset_cancel_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01", None))
+        self.offset_edite_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e41\u0e01\u0e49\u0e44\u0e02", None))
+        self.offset_save_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01", None))
+        self.tab.setTabText(self.tab.indexOf(self.Offset_tab), QCoreApplication.translate("Control_Plant", u"Offset", None))
     # retranslateUi
 
