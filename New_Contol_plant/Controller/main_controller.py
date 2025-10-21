@@ -21,7 +21,9 @@ class MainController(QObject):
         self.main_window.reg_update_time_pushButton.clicked.connect(self.main_window.update_datetime_to_now)
         self.main_window.reg_save_pushButton.clicked.connect(self.reg_save)
         self.main_window.reg_clear_pushButton.clicked.connect(self.reg_clear)
-        self.main_window.reg_save_new_customer_pushButton.clicked.connect(self.reg_save_new_customer)
+        self.main_window.reg_list_customer_treeWidget.itemClicked.connect(self.on_customer_item_clicked)
+        self.main_window.reg_formula_treeWidget.itemClicked.connect(self.on_formula_item_clicked)
+        
         self.main_window.mix_start_load_pushButton.clicked.connect(self.mix_start_load)
         self.main_window.mix_cancel_load_pushButton.clicked.connect(self.mix_cancel_load)
         self.main_window.for_add_formula_pushButton.clicked.connect(self.for_add_formula)
@@ -64,7 +66,6 @@ class MainController(QObject):
         self.main_window.offset_cancel_pushButton.clicked.connect(self.offset_cancel)
 
 
-
     def reg_save(self):
         if not self.main_window.get_data_from_reg_from():
             QMessageBox.warning(self.main_window, "ข้อมูลไม่ครบถ้วน", "กรุณากรอกข้อมูลให้ครบถ้วนก่อนบันทึก")
@@ -77,19 +78,10 @@ class MainController(QObject):
                 child_cement = 0
             else:
                 pass
-            print(date_time, name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment)
             self.db.update_data_to_table_customer(name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment)
             self.main_window.clear_reg_form()
             self.load_customers_to_tree()
 
-
-
-
-
-
-
-    def reg_save_new_customer(self):
-        print("reg save new customer")
 
     def mix_start_load(self):
         print("mix start load")
@@ -249,7 +241,6 @@ class MainController(QObject):
         real_id_to_delete = item_to_delete.data(0, Qt.UserRole)
         if real_id_to_delete is None:
             return
-        print(f"data in tree {item_to_delete.text(0)}, (ID จริง: {real_id_to_delete})")
         try:
             self.db.delete_data_in_table_customer(real_id_to_delete)
             self.load_customers_to_tree()
@@ -269,4 +260,29 @@ class MainController(QObject):
     def reg_clear(self):#REG TAB
         self.main_window.clear_reg_form()
         
+    def on_customer_item_clicked(self, item):#REG TAB
+        self.main_window.reg_name_lineEdit.clear()
+        self.main_window.reg_telephone_lineEdit.clear()
+        self.main_window.reg_address_textEdit.clear()
+        real_id = item.data(0, Qt.UserRole)
+        if real_id is None:
+            return
+        try:
+            customer_data = self.db.get_customer_data_by_id(real_id)
+        except Exception as e:
+            return
+        if customer_data is None:
+            return
+        try:
+            self.main_window.reg_name_lineEdit.setText(customer_data[0])
+            self.main_window.reg_telephone_lineEdit.setText(customer_data[1])
+            self.main_window.reg_address_textEdit.setText(customer_data[2])
+        except Exception as e:
+            print(f"Error: {e}")
+            
+    def on_formula_item_clicked(self, item):#REG TAB
+        self.main_window.reg_formula_name_lineEdit.clear()
+        formula_name = item.text(1)
+        self.main_window.reg_formula_name_lineEdit.setText(formula_name)
         
+

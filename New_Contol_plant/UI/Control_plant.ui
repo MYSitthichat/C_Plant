@@ -534,57 +534,11 @@
        <string notr="true">background:rgb(238, 238, 238)</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="reg_number_car_lineEdit">
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>250</y>
-        <width>111</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>TH Niramit AS</family>
-        <pointsize>22</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background:rgb(238, 238, 238)</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="reg_number_car_label">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>250</y>
-        <width>111</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>TH Niramit AS</family>
-        <pointsize>24</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background:rgb(255, 214, 201)</string>
-      </property>
-      <property name="text">
-       <string>ทะเบียนรถ</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="reg_comment_label">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>290</y>
+        <y>250</y>
         <width>111</width>
         <height>41</height>
        </rect>
@@ -607,9 +561,9 @@
       <property name="geometry">
        <rect>
         <x>130</x>
-        <y>300</y>
+        <y>260</y>
         <width>401</width>
-        <height>101</height>
+        <height>141</height>
        </rect>
       </property>
       <property name="font">
@@ -807,7 +761,7 @@
        <property name="geometry">
         <rect>
          <x>530</x>
-         <y>180</y>
+         <y>260</y>
          <width>271</width>
          <height>61</height>
         </rect>
@@ -846,7 +800,7 @@ QPushButton:pressed {
        <property name="geometry">
         <rect>
          <x>530</x>
-         <y>260</y>
+         <y>340</y>
          <width>271</width>
          <height>61</height>
         </rect>
@@ -880,45 +834,6 @@ QPushButton:pressed {
        </property>
        <property name="text">
         <string>เคลียข้อมูล</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="reg_save_new_customer_pushButton">
-       <property name="geometry">
-        <rect>
-         <x>530</x>
-         <y>340</y>
-         <width>271</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>24</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-   	background:rgb(255, 167, 173);
-    color: black;
-    border: 2px solid #3498DB; 
-    border-radius: 5px;
-    padding: 8px;
-}
-
-QPushButton:hover {
-    background-color: rgb(52, 218, 1); 
-    border-color: #5DADE2;  
-}
-
-QPushButton:pressed {
-    background-color: rgb(0, 148, 22);
-    border-color: #2874A6;
-}</string>
-       </property>
-       <property name="text">
-        <string>บันทึกลูกค้าใหม่</string>
        </property>
       </widget>
       <widget class="QDateTimeEdit" name="reg_dateTimeEdit">
@@ -1023,6 +938,52 @@ QPushButton:pressed {
        </property>
        <property name="text">
         <string>อับเดตเวลา</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="reg_number_car_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>160</y>
+         <width>111</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>22</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="reg_number_car_label">
+       <property name="geometry">
+        <rect>
+         <x>540</x>
+         <y>160</y>
+         <width>111</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>24</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
+       <property name="text">
+        <string>ทะเบียนรถ</string>
        </property>
       </widget>
      </widget>
@@ -1239,8 +1200,6 @@ QPushButton:pressed {
      <zorder>reg_telephone_lineEdit</zorder>
      <zorder>reg_address_label</zorder>
      <zorder>reg_address_textEdit</zorder>
-     <zorder>reg_number_car_lineEdit</zorder>
-     <zorder>reg_number_car_label</zorder>
      <zorder>reg_comment_label</zorder>
      <zorder>reg_comment_textEdit</zorder>
      <zorder>reg_list_customer_treeWidget</zorder>

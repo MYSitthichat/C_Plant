@@ -49,7 +49,6 @@ class C_palne_Database():
             cursor = conn.cursor()
             cursor.execute(query,(name, phone_number,address,formula_name,amount_concrete,car_number,child_cement,comment))
             conn.commit()
-            print("Data inserted successfully into customer table.")
         except sqlite3.Error as e:
             print(f"error {e}")
         finally:
@@ -88,6 +87,23 @@ class C_palne_Database():
             if conn:
                 conn.close()
         
+    def get_customer_data_by_id(self, customer_id):
+            query = "SELECT name,phone_number,address FROM customer WHERE id = ?;"
+            conn = None
+            try:
+                conn = sqlite3.connect(self.db_path)
+                cursor = conn.cursor()
+                cursor.execute(query, (customer_id,))
+                result = cursor.fetchone() 
+                return result
+                
+            except sqlite3.Error as e:
+                print(f"Error fetching customer by id: {e}")
+                return None
+            finally:
+                if conn:
+                    conn.close()
+                    
 
 
 if __name__ == "__main__":

@@ -143,25 +143,14 @@ class Ui_Control_Plant(object):
         self.reg_address_textEdit.setGeometry(QRect(70, 60, 461, 131))
         self.reg_address_textEdit.setFont(font1)
         self.reg_address_textEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
-        self.reg_number_car_lineEdit = QLineEdit(self.Register_tab)
-        self.reg_number_car_lineEdit.setObjectName(u"reg_number_car_lineEdit")
-        self.reg_number_car_lineEdit.setGeometry(QRect(140, 250, 111, 41))
-        self.reg_number_car_lineEdit.setFont(font1)
-        self.reg_number_car_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
-        self.reg_number_car_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.reg_number_car_label = QLabel(self.Register_tab)
-        self.reg_number_car_label.setObjectName(u"reg_number_car_label")
-        self.reg_number_car_label.setGeometry(QRect(20, 250, 111, 41))
-        self.reg_number_car_label.setFont(font)
-        self.reg_number_car_label.setStyleSheet(u"background:rgb(255, 214, 201)")
         self.reg_comment_label = QLabel(self.Register_tab)
         self.reg_comment_label.setObjectName(u"reg_comment_label")
-        self.reg_comment_label.setGeometry(QRect(20, 290, 111, 41))
+        self.reg_comment_label.setGeometry(QRect(20, 250, 111, 41))
         self.reg_comment_label.setFont(font)
         self.reg_comment_label.setStyleSheet(u"background:rgb(255, 214, 201)")
         self.reg_comment_textEdit = QTextEdit(self.Register_tab)
         self.reg_comment_textEdit.setObjectName(u"reg_comment_textEdit")
-        self.reg_comment_textEdit.setGeometry(QRect(130, 300, 401, 101))
+        self.reg_comment_textEdit.setGeometry(QRect(130, 260, 401, 141))
         self.reg_comment_textEdit.setFont(font1)
         self.reg_comment_textEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
         self.groupBox = QGroupBox(self.Register_tab)
@@ -208,7 +197,7 @@ class Ui_Control_Plant(object):
         self.reg_formula_name_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.reg_save_pushButton = QPushButton(self.groupBox)
         self.reg_save_pushButton.setObjectName(u"reg_save_pushButton")
-        self.reg_save_pushButton.setGeometry(QRect(530, 180, 271, 61))
+        self.reg_save_pushButton.setGeometry(QRect(530, 260, 271, 61))
         self.reg_save_pushButton.setFont(font)
         self.reg_save_pushButton.setStyleSheet(u"QPushButton {\n"
 "    background-color:rgb(156, 255, 181); \n"
@@ -229,32 +218,11 @@ class Ui_Control_Plant(object):
 "}")
         self.reg_clear_pushButton = QPushButton(self.groupBox)
         self.reg_clear_pushButton.setObjectName(u"reg_clear_pushButton")
-        self.reg_clear_pushButton.setGeometry(QRect(530, 260, 271, 61))
+        self.reg_clear_pushButton.setGeometry(QRect(530, 340, 271, 61))
         self.reg_clear_pushButton.setFont(font)
         self.reg_clear_pushButton.setStyleSheet(u"\n"
 "QPushButton {\n"
 "   	background:rgb(64, 255, 214);\n"
-"    color: black;\n"
-"    border: 2px solid #3498DB; \n"
-"    border-radius: 5px;\n"
-"    padding: 8px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    background-color: rgb(52, 218, 1); \n"
-"    border-color: #5DADE2;  \n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    background-color: rgb(0, 148, 22);\n"
-"    border-color: #2874A6;\n"
-"}")
-        self.reg_save_new_customer_pushButton = QPushButton(self.groupBox)
-        self.reg_save_new_customer_pushButton.setObjectName(u"reg_save_new_customer_pushButton")
-        self.reg_save_new_customer_pushButton.setGeometry(QRect(530, 340, 271, 61))
-        self.reg_save_new_customer_pushButton.setFont(font)
-        self.reg_save_new_customer_pushButton.setStyleSheet(u"QPushButton {\n"
-"   	background:rgb(255, 167, 173);\n"
 "    color: black;\n"
 "    border: 2px solid #3498DB; \n"
 "    border-radius: 5px;\n"
@@ -310,6 +278,17 @@ class Ui_Control_Plant(object):
 "    background-color: rgb(0, 148, 22);\n"
 "    border-color: #2874A6;\n"
 "}")
+        self.reg_number_car_lineEdit = QLineEdit(self.groupBox)
+        self.reg_number_car_lineEdit.setObjectName(u"reg_number_car_lineEdit")
+        self.reg_number_car_lineEdit.setGeometry(QRect(660, 160, 111, 41))
+        self.reg_number_car_lineEdit.setFont(font1)
+        self.reg_number_car_lineEdit.setStyleSheet(u"background:rgb(238, 238, 238)")
+        self.reg_number_car_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.reg_number_car_label = QLabel(self.groupBox)
+        self.reg_number_car_label.setObjectName(u"reg_number_car_label")
+        self.reg_number_car_label.setGeometry(QRect(540, 160, 111, 41))
+        self.reg_number_car_label.setFont(font)
+        self.reg_number_car_label.setStyleSheet(u"background:rgb(255, 214, 201)")
         self.reg_list_customer_treeWidget = QTreeWidget(self.Register_tab)
         __qtreewidgetitem1 = QTreeWidgetItem()
         __qtreewidgetitem1.setTextAlignment(3, Qt.AlignCenter);
@@ -377,8 +356,6 @@ class Ui_Control_Plant(object):
         self.reg_telephone_lineEdit.raise_()
         self.reg_address_label.raise_()
         self.reg_address_textEdit.raise_()
-        self.reg_number_car_lineEdit.raise_()
-        self.reg_number_car_label.raise_()
         self.reg_comment_label.raise_()
         self.reg_comment_textEdit.raise_()
         self.reg_list_customer_treeWidget.raise_()
@@ -2604,7 +2581,6 @@ class Ui_Control_Plant(object):
         self.reg_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d", None))
         self.reg_telephone_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1a\u0e2d\u0e23\u0e4c", None))
         self.reg_address_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48", None))
-        self.reg_number_car_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e17\u0e30\u0e40\u0e1a\u0e35\u0e22\u0e19\u0e23\u0e16", None))
         self.reg_comment_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e21\u0e32\u0e22\u0e40\u0e2b\u0e15\u0e38", None))
         self.groupBox.setTitle("")
         self.reg_child_cement_comboBox.setItemText(0, QCoreApplication.translate("Control_Plant", u"\u0e15\u0e49\u0e2d\u0e07\u0e01\u0e32\u0e23\u0e40\u0e01\u0e47\u0e1a", None))
@@ -2616,10 +2592,10 @@ class Ui_Control_Plant(object):
         self.reg_formula_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e39\u0e15\u0e23", None))
         self.reg_save_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01", None))
         self.reg_clear_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e04\u0e25\u0e35\u0e22\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25", None))
-        self.reg_save_new_customer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e1a\u0e31\u0e19\u0e17\u0e36\u0e01\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32\u0e43\u0e2b\u0e21\u0e48", None))
         self.reg_dateTimeEdit.setDisplayFormat(QCoreApplication.translate("Control_Plant", u"d/M/yyyy h:mm AP", None))
         self.reg_date_time_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e27\u0e31\u0e19\u0e40\u0e27\u0e25\u0e32", None))
         self.reg_update_time_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e2d\u0e31\u0e1a\u0e40\u0e14\u0e15\u0e40\u0e27\u0e25\u0e32", None))
+        self.reg_number_car_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e17\u0e30\u0e40\u0e1a\u0e35\u0e22\u0e19\u0e23\u0e16", None))
         ___qtreewidgetitem1 = self.reg_list_customer_treeWidget.headerItem()
         ___qtreewidgetitem1.setText(3, QCoreApplication.translate("Control_Plant", u"\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48", None));
         ___qtreewidgetitem1.setText(2, QCoreApplication.translate("Control_Plant", u"\u0e40\u0e1a\u0e2d\u0e23\u0e4c", None));
