@@ -106,7 +106,7 @@
      <enum>QTabWidget::TabPosition::North</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <property name="iconSize">
      <size>
@@ -5571,7 +5571,7 @@ border-radius: 10px;</string>
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
        </property>
       </widget>
-      <widget class="QPushButton" name="debug_close_vale_wather_pushButton">
+      <widget class="QPushButton" name="debug_close_vale_water_pushButton">
        <property name="geometry">
         <rect>
          <x>1370</x>
@@ -5611,7 +5611,7 @@ QPushButton:pressed {
         <string>ปิด</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="debug_open_vale_wather_pushButton">
+      <widget class="QPushButton" name="debug_open_vale_water_pushButton">
        <property name="geometry">
         <rect>
          <x>1240</x>
@@ -6190,7 +6190,7 @@ QPushButton:pressed {
         <string>ปิด</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="debug_open_wather_pushButton">
+      <widget class="QPushButton" name="debug_open_water_pushButton">
        <property name="geometry">
         <rect>
          <x>1220</x>
@@ -6229,7 +6229,7 @@ QPushButton:pressed {
         <string>เปิด</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="debug_close_wather_pushButton">
+      <widget class="QPushButton" name="debug_close_water_pushButton">
        <property name="geometry">
         <rect>
          <x>1340</x>
@@ -6418,8 +6418,8 @@ border-radius: 10px;</string>
       <zorder>debug_open_vale_cement_pushButton</zorder>
       <zorder>debug_close_vale_cement_pushButton</zorder>
       <zorder>debug_vale_wather_label</zorder>
-      <zorder>debug_close_vale_wather_pushButton</zorder>
-      <zorder>debug_open_vale_wather_pushButton</zorder>
+      <zorder>debug_close_vale_water_pushButton</zorder>
+      <zorder>debug_open_vale_water_pushButton</zorder>
       <zorder>debug_close_mixer_pushButton</zorder>
       <zorder>debug_open_mixer_pushButton</zorder>
       <zorder>debug_close_vale_mixer_pushButton</zorder>
@@ -6431,8 +6431,8 @@ border-radius: 10px;</string>
       <zorder>debug_open_chem_2_pushButton</zorder>
       <zorder>debug_open_vale_chem_pushButton</zorder>
       <zorder>debug_close_vale_chem_pushButton</zorder>
-      <zorder>debug_open_wather_pushButton</zorder>
-      <zorder>debug_close_wather_pushButton</zorder>
+      <zorder>debug_open_water_pushButton</zorder>
+      <zorder>debug_close_water_pushButton</zorder>
      </widget>
      <widget class="QGroupBox" name="debug_status_groupBox">
       <property name="geometry">
