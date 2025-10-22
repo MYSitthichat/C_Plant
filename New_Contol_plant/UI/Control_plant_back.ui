@@ -62,6 +62,9 @@
      <height>850</height>
     </size>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background:rgb(255, 244, 235)</string>
+   </property>
    <widget class="QTabWidget" name="tab">
     <property name="geometry">
      <rect>
@@ -95,6 +98,9 @@
       <pointsize>24</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:rgb(255, 214, 201)</string>
     </property>
     <property name="tabPosition">
      <enum>QTabWidget::TabPosition::North</enum>
@@ -160,6 +166,9 @@
         <pointsize>24</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Shadow::Raised</enum>
@@ -406,6 +415,9 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
       <property name="text">
        <string>ชื่อ</string>
       </property>
@@ -425,6 +437,9 @@
         <pointsize>22</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -446,6 +461,9 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
       <property name="text">
        <string>เบอร์</string>
       </property>
@@ -465,6 +483,9 @@
         <pointsize>22</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -486,6 +507,9 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
       <property name="text">
        <string>ที่อยู่</string>
       </property>
@@ -506,6 +530,9 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
+      </property>
      </widget>
      <widget class="QLabel" name="reg_comment_label">
       <property name="geometry">
@@ -522,6 +549,9 @@
         <pointsize>24</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
       </property>
       <property name="text">
        <string>หมายเหตุ</string>
@@ -542,6 +572,9 @@
         <pointsize>22</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
       </property>
      </widget>
      <widget class="QGroupBox" name="groupBox">
@@ -572,6 +605,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <item>
         <property name="text">
          <string>ต้องการเก็บ</string>
@@ -599,6 +635,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>ลูกปูน</string>
        </property>
@@ -618,6 +657,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -639,6 +681,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>จำนวน</string>
        </property>
@@ -658,6 +703,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
        </property>
        <property name="text">
         <string>คิว</string>
@@ -679,6 +727,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>ชื่อสูตร</string>
        </property>
@@ -698,6 +749,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -719,6 +773,25 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color:rgb(156, 255, 181); 
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>บันทึก</string>
        </property>
@@ -739,6 +812,26 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(64, 255, 214);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>เคลียข้อมูล</string>
        </property>
@@ -758,6 +851,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="time">
         <time>
@@ -798,6 +894,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>วันเวลา</string>
        </property>
@@ -817,6 +916,25 @@
          <pointsize>18</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color:rgb(117, 202, 255); 
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>อับเดตเวลา</string>
@@ -838,6 +956,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -857,6 +978,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
        </property>
        <property name="text">
         <string>ทะเบียนรถ</string>
@@ -902,6 +1026,9 @@
         <pointsize>24</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Shadow::Raised</enum>
@@ -1019,6 +1146,9 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 214, 201)</string>
+      </property>
       <property name="text">
        <string>รายชื่อลูกค้า</string>
       </property>
@@ -1038,6 +1168,25 @@
         <pointsize>18</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    background-color:rgb(255, 90, 106); 
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
       </property>
       <property name="text">
        <string>ลบลูกค้าที่เลือก</string>
@@ -1088,6 +1237,9 @@
          <width>1521</width>
          <height>651</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <column>
         <property name="text">
@@ -1287,6 +1439,25 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    background-color:rgb(134, 180, 255); 
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
       <property name="text">
        <string>เริ่มทำงาน</string>
       </property>
@@ -1323,6 +1494,9 @@
         <height>81</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(255, 184, 205)</string>
+      </property>
       <property name="title">
        <string/>
       </property>
@@ -1351,6 +1525,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -1370,6 +1547,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="text">
         <string>ชื่อลูกค้า</string>
@@ -1391,6 +1571,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -1410,6 +1593,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="text">
         <string>ชื่อสูตร</string>
@@ -1431,6 +1617,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -1450,6 +1639,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="text">
         <string>เบอร์โทร</string>
@@ -1471,6 +1663,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
+       </property>
        <property name="text">
         <string>จำนวน</string>
        </property>
@@ -1491,6 +1686,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -1510,6 +1708,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="text">
         <string>คิว</string>
@@ -1532,6 +1733,12 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(206, 242, 255); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+      </property>
       <property name="title">
        <string/>
       </property>
@@ -1550,6 +1757,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
@@ -1583,6 +1793,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
        </property>
@@ -1614,6 +1827,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
@@ -1647,6 +1863,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
        </property>
@@ -1678,6 +1897,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
@@ -1711,6 +1933,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
        </property>
@@ -1742,6 +1967,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
@@ -1775,6 +2003,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
        </property>
@@ -1807,6 +2038,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -1826,6 +2060,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1847,6 +2084,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -1866,6 +2106,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1887,6 +2130,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -1906,6 +2152,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1927,6 +2176,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -1947,6 +2199,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -1966,6 +2221,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
@@ -1999,6 +2257,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
        </property>
@@ -2030,6 +2291,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
@@ -2063,6 +2327,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
        </property>
@@ -2094,6 +2361,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
@@ -2127,6 +2397,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
        </property>
@@ -2158,6 +2431,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
@@ -2191,6 +2467,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2211,6 +2490,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2230,6 +2512,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
@@ -2263,6 +2548,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 184, 205)</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Shape::Box</enum>
        </property>
@@ -2294,6 +2582,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2362,6 +2653,12 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(255, 255, 255); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
       </widget>
      </widget>
@@ -2448,6 +2745,9 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2629,6 +2929,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2648,6 +2951,9 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2669,6 +2975,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2688,6 +2997,9 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2709,6 +3021,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2728,6 +3043,9 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2749,6 +3067,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2768,6 +3089,9 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2789,6 +3113,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2808,6 +3135,9 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2829,6 +3159,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2848,6 +3181,9 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2869,6 +3205,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2889,6 +3228,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2908,6 +3250,9 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -2958,6 +3303,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -2998,6 +3346,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -3017,6 +3368,9 @@
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 255, 255)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -3139,6 +3493,26 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
       <property name="text">
        <string>ยกเลิกการโหลด</string>
       </property>
@@ -3158,6 +3532,25 @@
         <pointsize>24</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
       </property>
       <property name="text">
        <string>เริ่มการโหลด</string>
@@ -3214,6 +3607,9 @@
         <pointsize>24</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:rgb(238, 238, 238)</string>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Shadow::Raised</enum>
@@ -3482,6 +3878,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>ลำดับ</string>
        </property>
@@ -3501,6 +3900,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
        </property>
        <property name="text">
         <string>ชื่อสูตร</string>
@@ -3522,6 +3924,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -3541,6 +3946,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -3562,6 +3970,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>หิน1</string>
        </property>
@@ -3581,6 +3992,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
        </property>
        <property name="text">
         <string>ทราย</string>
@@ -3602,6 +4016,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>หิน2</string>
        </property>
@@ -3621,6 +4038,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
        </property>
        <property name="text">
         <string>เถ้าลอย</string>
@@ -3642,6 +4062,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>ปูน</string>
        </property>
@@ -3661,6 +4084,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
        </property>
        <property name="text">
         <string>น้ำ</string>
@@ -3682,6 +4108,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>น้ำยาเคมี 1</string>
        </property>
@@ -3701,6 +4130,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
        </property>
        <property name="text">
         <string>น้ำยาเคมี 2</string>
@@ -3722,6 +4154,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
+       </property>
        <property name="text">
         <string>อายุ</string>
        </property>
@@ -3741,6 +4176,9 @@
          <pointsize>24</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(255, 214, 201)</string>
        </property>
        <property name="text">
         <string>slump</string>
@@ -3762,6 +4200,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -3781,6 +4222,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -3802,6 +4246,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -3821,6 +4268,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -3842,6 +4292,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -3861,6 +4314,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -3882,6 +4338,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -3901,6 +4360,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -3922,6 +4384,9 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -3941,6 +4406,9 @@
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -3963,6 +4431,25 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
       <property name="text">
        <string>เพิ่มสูตรใหม่</string>
       </property>
@@ -3982,6 +4469,26 @@
         <pointsize>24</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(255, 211, 107);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
       </property>
       <property name="text">
        <string>แก้ไขสูตร</string>
@@ -4003,6 +4510,26 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
       <property name="text">
        <string>ลบสูตร</string>
       </property>
@@ -4023,6 +4550,26 @@
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(121, 218, 94);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
       <property name="text">
        <string>บันทึกสูตร</string>
       </property>
@@ -4042,6 +4589,25 @@
         <pointsize>24</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+   	background:rgb(145, 145, 145);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
       </property>
       <property name="text">
        <string>ยกเลิก</string>
@@ -4087,6 +4653,25 @@
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>เปิด</string>
        </property>
@@ -4108,7 +4693,9 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4134,6 +4721,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4154,6 +4761,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4173,6 +4800,25 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>เปิด</string>
@@ -4195,7 +4841,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(206, 242, 255); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4222,7 +4870,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4248,6 +4898,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4267,6 +4937,25 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>เปิด</string>
@@ -4289,7 +4978,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(209, 195, 170); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4315,6 +5006,25 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>เปิด</string>
        </property>
@@ -4334,6 +5044,26 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>ปิด</string>
@@ -4356,7 +5086,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(255, 221, 135); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4382,6 +5114,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4401,6 +5153,25 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>เปิด</string>
@@ -4423,7 +5194,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(180, 194, 255); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4449,6 +5222,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4468,6 +5261,25 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>เปิด</string>
@@ -4489,6 +5301,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4508,6 +5340,25 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>เปิด</string>
@@ -4530,7 +5381,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(255, 248, 143); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4557,7 +5410,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(168, 165, 221); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4583,6 +5438,25 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>เปิด</string>
        </property>
@@ -4602,6 +5476,26 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>ปิด</string>
@@ -4624,7 +5518,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(206, 242, 255); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4650,6 +5546,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4669,6 +5585,25 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>เปิด</string>
@@ -4690,6 +5625,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4709,6 +5664,25 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>เปิด</string>
@@ -4731,7 +5705,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(170, 255, 12); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4757,6 +5733,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4778,7 +5774,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(255, 201, 202); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4804,6 +5802,25 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>เปิด</string>
        </property>
@@ -4823,6 +5840,26 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>ปิด</string>
@@ -4845,7 +5882,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(188, 255, 224); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4871,6 +5910,25 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>เปิด</string>
        </property>
@@ -4892,7 +5950,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(156, 255, 159); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -4918,6 +5978,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -4938,6 +6018,25 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>เปิด</string>
        </property>
@@ -4957,6 +6056,25 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>เปิด</string>
@@ -4979,7 +6097,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(146, 220, 99); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -5005,6 +6125,26 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>ปิด</string>
        </property>
@@ -5025,6 +6165,25 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+       </property>
        <property name="text">
         <string>เปิด</string>
        </property>
@@ -5044,6 +6203,26 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
        </property>
        <property name="text">
         <string>ปิด</string>
@@ -5066,7 +6245,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(206, 242, 255); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -5093,7 +6274,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(0, 0, 0); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -5120,7 +6303,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(0, 0, 0); 
+color: black;
+border: 2px solid ; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -5147,7 +6332,9 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 2px solid; 
+        <string notr="true">background-color:rgb(0, 0, 0); 
+color: black;
+border: 2px solid; 
 border-radius: 10px;</string>
        </property>
        <property name="text">
@@ -5241,6 +6428,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(255, 255, 255); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
       </widget>
      </widget>
     </widget>
@@ -5283,6 +6476,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>หิน 1</string>
        </property>
@@ -5306,6 +6505,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -5325,6 +6527,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>ทราย 1</string>
@@ -5349,6 +6557,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -5368,6 +6579,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>หิน 2</string>
@@ -5392,6 +6609,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -5411,6 +6631,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>ทราย 2</string>
@@ -5435,6 +6661,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -5454,6 +6683,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>ซีเมนต์</string>
@@ -5478,6 +6713,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>ไฟแอช</string>
        </property>
@@ -5501,6 +6742,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -5521,6 +6765,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -5540,6 +6787,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>น้ำ</string>
@@ -5564,6 +6817,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>น้ำยา 1</string>
        </property>
@@ -5587,6 +6846,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -5606,6 +6868,9 @@ border-radius: 10px;</string>
          <pointsize>22</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -5627,6 +6892,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -5646,6 +6914,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>น้ำยา 2</string>
@@ -5670,6 +6944,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>กิโลกรัม</string>
        </property>
@@ -5692,6 +6972,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>กิโลกรัม</string>
@@ -5716,6 +7002,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>กิโลกรัม</string>
        </property>
@@ -5731,6 +7023,9 @@ border-radius: 10px;</string>
          <width>5</width>
          <height>301</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(0, 0, 0)</string>
        </property>
        <property name="orientation">
         <enum>Qt::Orientation::Vertical</enum>
@@ -5751,6 +7046,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>กิโลกรัม</string>
@@ -5775,6 +7076,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>กิโลกรัม</string>
        </property>
@@ -5798,6 +7105,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>กิโลกรัม</string>
        </property>
@@ -5813,6 +7126,9 @@ border-radius: 10px;</string>
          <width>5</width>
          <height>301</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(0, 0, 0)</string>
        </property>
        <property name="orientation">
         <enum>Qt::Orientation::Vertical</enum>
@@ -5833,6 +7149,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>กิโลกรัม</string>
@@ -5857,6 +7179,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>กิโลกรัม</string>
        </property>
@@ -5879,6 +7207,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>กิโลกรัม</string>
@@ -5952,6 +7286,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>เวลาก่อนสายพานด้านล่างทำงาน</string>
        </property>
@@ -5975,6 +7315,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -5994,6 +7337,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>เวลาก่อนปล่อยปูนพร้อมน้ำ</string>
@@ -6018,6 +7367,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -6038,6 +7390,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -6057,6 +7412,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>เวลาในการ run mixer</string>
@@ -6081,6 +7442,9 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(238, 238, 238)</string>
+       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
@@ -6100,6 +7464,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>เวลาก่อนที่จะเริ่มโหลดต่อไป</string>
@@ -6124,6 +7494,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>วินาที</string>
        </property>
@@ -6146,6 +7522,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>วินาที</string>
@@ -6170,6 +7552,12 @@ border-radius: 10px;</string>
          <bold>true</bold>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>วินาที</string>
        </property>
@@ -6192,6 +7580,12 @@ border-radius: 10px;</string>
          <pointsize>20</pointsize>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(216, 255, 180); 
+color: black;
+border: 2px solid; 
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>วินาที</string>
@@ -6229,6 +7623,26 @@ border-radius: 10px;</string>
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(255, 102, 105);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
       <property name="text">
        <string>ยกเลิก</string>
       </property>
@@ -6249,6 +7663,26 @@ border-radius: 10px;</string>
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">
+QPushButton {
+   	background:rgb(0, 170, 127);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
+      </property>
       <property name="text">
        <string>แก้ไข</string>
       </property>
@@ -6268,6 +7702,25 @@ border-radius: 10px;</string>
         <pointsize>20</pointsize>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+   	background:rgb(148, 212, 255);
+    color: black;
+    border: 2px solid #3498DB; 
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QPushButton:hover {
+    background-color: rgb(52, 218, 1); 
+    border-color: #5DADE2;  
+}
+
+QPushButton:pressed {
+    background-color: rgb(0, 148, 22);
+    border-color: #2874A6;
+}</string>
       </property>
       <property name="text">
        <string>บันทึก</string>

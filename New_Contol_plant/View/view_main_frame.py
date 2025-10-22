@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QMainWindow
 from View.main_frame import Ui_Control_Plant
 from PySide6.QtCore import QDateTime
 
+
 class MainWindow(QMainWindow,Ui_Control_Plant):
     def __init__(self,parent=None):
         super(MainWindow, self).__init__(parent)
