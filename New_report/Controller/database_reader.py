@@ -186,3 +186,73 @@ if __name__ == "__main__":
     else:
         print("✗ Database connection failed!")
         print("  Please check the DATABASE_PATH and DB_FILE variables in this script.")
+
+# --- THIS IS THE MISSING FUNCTION ---
+def get_stock_levels():
+    """
+    Calculates the total input, total output, and remaining stock for all materials.
+    Returns a dictionary where keys are material names (e..g., 'rock1', 'sand').
+    
+    NOTE: This query handles the column name difference:
+    - concrete_stock uses 'chem1_total_weight'
+    - concrete_order uses 'chemical1_total_weight'
+    """
+    
+    query = """
+    SELECT
+        material,
+        IFNULL(SUM(total_input), 0) AS TotalInput,
+        IFNULL(SUM(total_output), 0) AS TotalOutput
+    FROM (
+        -- Get all inputs from concrete_stock
+        SELECT 'rock1' AS material, rock1_total_weight AS total_input, 0 AS total_output FROM concrete_stock
+        UNION ALL
+        SELECT 'rock2', rock2_total_weight, 0 FROM concrete_stock
+        UNION ALL
+        SELECT 'sand', sand_total_weight, 0 FROM concrete_stock
+        UNION ALL
+        SELECT 'cement', cement_total_weight, 0 FROM concrete_stock
+        UNION ALL
+        SELECT 'fly_ash', fly_ash_total_weight, 0 FROM concrete_stock
+        UNION ALL
+        SELECT 'chem1', chem1_total_weight, 0 FROM concrete_stock
+        UNION ALL
+        SELECT 'chem2', chem2_total_weight, 0 FROM concrete_stock
+        
+        UNION ALL
+        
+        -- Get all outputs from concrete_order
+        SELECT 'rock1' AS material, 0 AS total_input, rock1_total_weight AS total_output FROM concrete_order
+        UNION ALL
+        SELECT 'rock2', 0, rock2_total_weight FROM concrete_order
+        UNION ALL
+        SELECT 'sand', 0, sand_total_weight FROM concrete_order
+        UNION ALL
+        SELECT 'cement', 0, cement_total_weight FROM concrete_order
+        UNION ALL
+        SELECT 'fly_ash', 0, fly_ash_total_weight FROM concrete_order
+        UNION ALL
+        SELECT 'chem1', 0, chemical1_total_weight FROM concrete_order  -- <-- CORRECTED NAME
+        UNION ALL
+        SELECT 'chem2', 0, chemical2_total_weight FROM concrete_order  -- <-- CORRECTED NAME
+    )
+    GROUP BY material
+    """
+    
+    results = execute_read_query(query)
+    
+    stock_data = {}
+    if not results:
+        return stock_data
+        
+    for row in results:
+        material = row[0]
+        total_input = row[1]
+        total_output = row[2]
+        remaining = total_input - total_output
+        
+        stock_data[material] = {
+            'input': total_input,
+            'remaining': remaining
+        }
+    return stock_data
