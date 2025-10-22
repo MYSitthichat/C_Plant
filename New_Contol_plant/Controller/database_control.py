@@ -4,10 +4,14 @@ import os
 
 class C_palne_Database():
     def __init__(self):
-        script_dir = os.path.dirname(__file__)
-        db_path = os.path.join(script_dir, "..", "..", "DATA_BASE", "concretePlant.db")
-        db_path = os.path.normpath(db_path) 
-        self.db_path = db_path
+        # for test or docker broken path
+        # script_dir = os.path.dirname(__file__)
+        # db_path = os.path.join(script_dir, "..", "..", "DATA_BASE", "concretePlant.db")
+        # db_path = os.path.normpath(db_path) 
+        # self.db_path = db_path
+        # for test or docker broken path
+        
+        self.db_path = "/app/DATA_BASE/concretePlant.db" #for docker
     
     def delete_data_in_table_customer(self,id): # REG tab
         query = """DELETE FROM customer WHERE id = ?;""" 

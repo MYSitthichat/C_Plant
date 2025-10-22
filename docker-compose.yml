@@ -9,6 +9,7 @@ services:
     volumes:
       - ./New_billing:/app
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./DATA_BASE:/app/DATA_BASE
 
 
   control:
@@ -21,6 +22,7 @@ services:
     volumes:
       - ./New_Contol_plant:/app
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./DATA_BASE:/app/DATA_BASE
 
 
   report:
