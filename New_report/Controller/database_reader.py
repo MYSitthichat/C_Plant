@@ -35,16 +35,16 @@ def read_recordings_by_date_range(start_date, end_date):
     """
     # CORRECTED: Changed table to concrete_order and column to dTime
     cmd = f"""SELECT * FROM concrete_order 
-              WHERE DATE(dTime) BETWEEN '{start_date}' AND '{end_date}'
-              ORDER BY dTime DESC"""
+             WHERE DATE(dTime) BETWEEN '{start_date}' AND '{end_date}'
+             ORDER BY ID ASC"""  # <-- THIS IS THE FIX (was 'dTime DESC')
     return execute_read_query(cmd)
 
 def read_recordings_by_customer(customer_name):
     """Read production records filtered by customer name"""
     # CORRECTED: Changed table to concrete_order and column to dTime/customer_name
     cmd = f"""SELECT * FROM concrete_order 
-              WHERE customer_name LIKE '%{customer_name}%'
-              ORDER BY dTime DESC"""
+             WHERE customer_name LIKE '%{customer_name}%'
+             ORDER BY dTime DESC"""
     return execute_read_query(cmd)
 
 def read_concrete_formulas():

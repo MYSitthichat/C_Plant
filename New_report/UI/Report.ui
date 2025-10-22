@@ -56,7 +56,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_Order_history">
      <attribute name="title">
@@ -162,16 +162,6 @@
        <string>แสดงผล</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="start_date_comboBox">
-      <property name="geometry">
-       <rect>
-        <x>140</x>
-        <y>80</y>
-        <width>180</width>
-        <height>30</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QLabel" name="end_date_label">
       <property name="geometry">
        <rect>
@@ -210,16 +200,6 @@
       </property>
       <property name="text">
        <string>รายการ</string>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="end_date_comboBox">
-      <property name="geometry">
-       <rect>
-        <x>450</x>
-        <y>80</y>
-        <width>180</width>
-        <height>30</height>
-       </rect>
       </property>
      </widget>
      <widget class="QLabel" name="show_value_label">
@@ -347,6 +327,32 @@
         <string>ความผิดพลาด</string>
        </property>
       </column>
+     </widget>
+     <widget class="QDateEdit" name="start_dateEdit">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>70</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QDateEdit" name="end_dateEdit_2">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>70</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_Stock">

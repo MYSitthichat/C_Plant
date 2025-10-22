@@ -1,7 +1,7 @@
 import os
 import sys
 # Import PySide6 modules
-from PySide6.QtCore import Slot, QObject, QDate
+from PySide6.QtCore import Slot, QObject, QDate  # --- CHANGED: Added QDate ---
 from PySide6.QtWidgets import QTreeWidgetItem
 from PySide6.QtUiTools import QUiLoader
 
@@ -73,8 +73,12 @@ class MainController(QObject):
             
         # Get references to the widgets from the .ui file
         self.tree = self.main_window.report_treeWidget
-        self.start_date_combo = self.main_window.start_date_comboBox
-        self.end_date_combo = self.main_window.end_date_comboBox
+        
+        # --- CHANGED: Use QDateEdit widgets ---
+        self.start_date_edit = self.main_window.start_dateEdit
+        self.end_date_edit = self.main_window.end_dateEdit_2
+        # --- END CHANGE ---
+        
         self.show_button = self.main_window.show_pushButton
         self.export_button = self.main_window.export_pushButton
         self.count_line_edit = self.main_window.show_value_lineEdit
@@ -83,15 +87,29 @@ class MainController(QObject):
         self.setup_ui()
 
     def setup_ui(self):
-        """Populates date comboboxes and connects button signals."""
-        # Get unique dates and populate comboboxes
+        """Sets default dates for QDateEdit widgets and connects button signals."""
+        
+        # --- CHANGED: Set default dates for QDateEdit widgets ---
         dates = database_reader.get_unique_dates()
+        
+        # Assuming dates are sorted newest-to-oldest and in 'yyyy-MM-dd' format
         if dates:
-            self.start_date_combo.addItems(dates)
-            self.end_date_combo.addItems(dates)
-            # Set defaults: oldest for start, newest for end
-            self.start_date_combo.setCurrentIndex(len(dates) - 1)
-            self.end_date_combo.setCurrentIndex(0)
+            oldest_date_str = dates[-1] # Get the oldest date
+            newest_date_str = dates[0]  # Get the newest date
+            
+            # Convert string dates to QDate objects
+            oldest_qdate = QDate.fromString(oldest_date_str, "yyyy-MM-dd")
+            newest_qdate = QDate.fromString(newest_date_str, "yyyy-MM-dd")
+            
+            # Set the QDateEdit widgets
+            self.start_date_edit.setDate(oldest_qdate)
+            self.end_date_edit.setDate(newest_qdate)
+        else:
+            # If no dates found, just default to today
+            today = QDate.currentDate()
+            self.start_date_edit.setDate(today)
+            self.end_date_edit.setDate(today)
+        # --- END CHANGE ---
             
         # Connect the "Show" button to the populate_report function
         self.show_button.clicked.connect(self.populate_report)
@@ -115,9 +133,15 @@ class MainController(QObject):
         # Clear existing items from the tree
         self.tree.clear()
         
-        # Get selected dates from comboboxes
-        start_date = self.start_date_combo.currentText()
-        end_date = self.end_date_combo.currentText()
+        # --- CHANGED: Get dates from QDateEdit widgets ---
+        # Get the QDate object from the widget
+        start_qdate = self.start_date_edit.date()
+        end_qdate = self.end_date_edit.date()
+        
+        # Convert the QDate to the 'yyyy-MM-dd' string format for the database
+        start_date = start_qdate.toString("yyyy-MM-dd")
+        end_date = end_qdate.toString("yyyy-MM-dd")
+        # --- END CHANGE ---
         
         # Fetch the data using your (now corrected) reader function
         orders = database_reader.read_recordings_by_date_range(start_date, end_date)
