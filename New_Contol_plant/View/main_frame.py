@@ -361,6 +361,64 @@ class Ui_Control_Plant(object):
         self.reg_list_customer_treeWidget.raise_()
         self.reg_lis_custommer_label.raise_()
         self.reg_delete_customer_pushButton.raise_()
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.work_groupBox = QGroupBox(self.tab_2)
+        self.work_groupBox.setObjectName(u"work_groupBox")
+        self.work_groupBox.setGeometry(QRect(12, 0, 1541, 701))
+        self.work_groupBox.setFont(font)
+        self.work_queue_treeWidget = QTreeWidget(self.work_groupBox)
+        __qtreewidgetitem2 = QTreeWidgetItem()
+        __qtreewidgetitem2.setTextAlignment(11, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(11, font);
+        __qtreewidgetitem2.setTextAlignment(10, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(10, font);
+        __qtreewidgetitem2.setTextAlignment(9, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(9, font);
+        __qtreewidgetitem2.setTextAlignment(8, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(8, font);
+        __qtreewidgetitem2.setTextAlignment(7, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(7, font);
+        __qtreewidgetitem2.setTextAlignment(6, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(6, font);
+        __qtreewidgetitem2.setTextAlignment(5, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(5, font);
+        __qtreewidgetitem2.setTextAlignment(4, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(4, font);
+        __qtreewidgetitem2.setTextAlignment(3, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(3, font);
+        __qtreewidgetitem2.setTextAlignment(2, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(2, font);
+        __qtreewidgetitem2.setTextAlignment(1, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(1, font);
+        __qtreewidgetitem2.setTextAlignment(0, Qt.AlignCenter);
+        __qtreewidgetitem2.setFont(0, font);
+        self.work_queue_treeWidget.setHeaderItem(__qtreewidgetitem2)
+        self.work_queue_treeWidget.setObjectName(u"work_queue_treeWidget")
+        self.work_queue_treeWidget.setGeometry(QRect(10, 40, 1521, 651))
+        self.work_queue_treeWidget.setStyleSheet(u"background:rgb(255, 255, 255)")
+        self.work_start_pushButton = QPushButton(self.tab_2)
+        self.work_start_pushButton.setObjectName(u"work_start_pushButton")
+        self.work_start_pushButton.setGeometry(QRect(1280, 710, 271, 61))
+        self.work_start_pushButton.setFont(font)
+        self.work_start_pushButton.setStyleSheet(u"QPushButton {\n"
+"    background-color:rgb(134, 180, 255); \n"
+"    color: black;\n"
+"    border: 2px solid #3498DB; \n"
+"    border-radius: 5px;\n"
+"    padding: 8px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    background-color: rgb(52, 218, 1); \n"
+"    border-color: #5DADE2;  \n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: rgb(0, 148, 22);\n"
+"    border-color: #2874A6;\n"
+"}")
+        self.tab.addTab(self.tab_2, "")
         self.Mix_tab = QWidget()
         self.Mix_tab.setObjectName(u"Mix_tab")
         self.Mix_tab.setMinimumSize(QSize(1555, 773))
@@ -939,32 +997,32 @@ class Ui_Control_Plant(object):
         self.Formula_tab = QWidget()
         self.Formula_tab.setObjectName(u"Formula_tab")
         self.for_formula_treeWidget = QTreeWidget(self.Formula_tab)
-        __qtreewidgetitem2 = QTreeWidgetItem()
-        __qtreewidgetitem2.setTextAlignment(11, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(11, font);
-        __qtreewidgetitem2.setTextAlignment(10, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(10, font);
-        __qtreewidgetitem2.setTextAlignment(9, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(9, font);
-        __qtreewidgetitem2.setTextAlignment(8, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(8, font);
-        __qtreewidgetitem2.setTextAlignment(7, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(7, font);
-        __qtreewidgetitem2.setTextAlignment(6, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(6, font);
-        __qtreewidgetitem2.setTextAlignment(5, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(5, font);
-        __qtreewidgetitem2.setTextAlignment(4, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(4, font);
-        __qtreewidgetitem2.setTextAlignment(3, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(3, font);
-        __qtreewidgetitem2.setTextAlignment(2, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(2, font);
-        __qtreewidgetitem2.setTextAlignment(1, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(1, font);
-        __qtreewidgetitem2.setTextAlignment(0, Qt.AlignCenter);
-        __qtreewidgetitem2.setFont(0, font);
-        self.for_formula_treeWidget.setHeaderItem(__qtreewidgetitem2)
+        __qtreewidgetitem3 = QTreeWidgetItem()
+        __qtreewidgetitem3.setTextAlignment(11, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(11, font);
+        __qtreewidgetitem3.setTextAlignment(10, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(10, font);
+        __qtreewidgetitem3.setTextAlignment(9, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(9, font);
+        __qtreewidgetitem3.setTextAlignment(8, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(8, font);
+        __qtreewidgetitem3.setTextAlignment(7, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(7, font);
+        __qtreewidgetitem3.setTextAlignment(6, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(6, font);
+        __qtreewidgetitem3.setTextAlignment(5, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(5, font);
+        __qtreewidgetitem3.setTextAlignment(4, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(4, font);
+        __qtreewidgetitem3.setTextAlignment(3, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(3, font);
+        __qtreewidgetitem3.setTextAlignment(2, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(2, font);
+        __qtreewidgetitem3.setTextAlignment(1, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(1, font);
+        __qtreewidgetitem3.setTextAlignment(0, Qt.AlignCenter);
+        __qtreewidgetitem3.setFont(0, font);
+        self.for_formula_treeWidget.setHeaderItem(__qtreewidgetitem3)
         self.for_formula_treeWidget.setObjectName(u"for_formula_treeWidget")
         self.for_formula_treeWidget.setGeometry(QRect(10, 0, 1545, 510))
         self.for_formula_treeWidget.setMinimumSize(QSize(1545, 510))
@@ -2604,6 +2662,22 @@ class Ui_Control_Plant(object):
         self.reg_lis_custommer_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e23\u0e32\u0e22\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32", None))
         self.reg_delete_customer_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e25\u0e1a\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32\u0e17\u0e35\u0e48\u0e40\u0e25\u0e37\u0e2d\u0e01", None))
         self.tab.setTabText(self.tab.indexOf(self.Register_tab), QCoreApplication.translate("Control_Plant", u"Register", None))
+        self.work_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e04\u0e34\u0e27\u0e01\u0e32\u0e23\u0e17\u0e33\u0e07\u0e32\u0e19", None))
+        ___qtreewidgetitem2 = self.work_queue_treeWidget.headerItem()
+        ___qtreewidgetitem2.setText(11, QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32 2", None));
+        ___qtreewidgetitem2.setText(10, QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32 1", None));
+        ___qtreewidgetitem2.setText(9, QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33", None));
+        ___qtreewidgetitem2.setText(8, QCoreApplication.translate("Control_Plant", u"\u0e40\u0e16\u0e49\u0e32\u0e25\u0e2d\u0e22", None));
+        ___qtreewidgetitem2.setText(7, QCoreApplication.translate("Control_Plant", u"\u0e0b\u0e35\u0e40\u0e21\u0e19\u0e15\u0e4c", None));
+        ___qtreewidgetitem2.setText(6, QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e191", None));
+        ___qtreewidgetitem2.setText(5, QCoreApplication.translate("Control_Plant", u"\u0e17\u0e23\u0e32\u0e22", None));
+        ___qtreewidgetitem2.setText(4, QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e191", None));
+        ___qtreewidgetitem2.setText(3, QCoreApplication.translate("Control_Plant", u"\u0e17\u0e35\u0e48\u0e2d\u0e22\u0e39\u0e48", None));
+        ___qtreewidgetitem2.setText(2, QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d", None));
+        ___qtreewidgetitem2.setText(1, QCoreApplication.translate("Control_Plant", u"\u0e2a\u0e39\u0e15\u0e23", None));
+        ___qtreewidgetitem2.setText(0, QCoreApplication.translate("Control_Plant", u"\u0e25\u0e33\u0e14\u0e31\u0e1a", None));
+        self.work_start_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e23\u0e34\u0e48\u0e21\u0e17\u0e33\u0e07\u0e32\u0e19", None))
+        self.tab.setTabText(self.tab.indexOf(self.tab_2), QCoreApplication.translate("Control_Plant", u"Work", None))
         self.mix_detail_customer_groupBox.setTitle("")
         self.mix_customer_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e25\u0e39\u0e01\u0e04\u0e49\u0e32", None))
         self.mix_customer_formula_name_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e39\u0e15\u0e23", None))
@@ -2650,19 +2724,19 @@ class Ui_Control_Plant(object):
         self.mix_cancel_load_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01\u0e01\u0e32\u0e23\u0e42\u0e2b\u0e25\u0e14", None))
         self.mix_start_load_pushButton.setText(QCoreApplication.translate("Control_Plant", u"\u0e40\u0e23\u0e34\u0e48\u0e21\u0e01\u0e32\u0e23\u0e42\u0e2b\u0e25\u0e14", None))
         self.tab.setTabText(self.tab.indexOf(self.Mix_tab), QCoreApplication.translate("Control_Plant", u"Mixer", None))
-        ___qtreewidgetitem2 = self.for_formula_treeWidget.headerItem()
-        ___qtreewidgetitem2.setText(11, QCoreApplication.translate("Control_Plant", u"slump", None));
-        ___qtreewidgetitem2.setText(10, QCoreApplication.translate("Control_Plant", u"age", None));
-        ___qtreewidgetitem2.setText(9, QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32\u0e40\u0e04\u0e21\u0e35 2", None));
-        ___qtreewidgetitem2.setText(8, QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32\u0e40\u0e04\u0e21\u0e35 1", None));
-        ___qtreewidgetitem2.setText(7, QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33", None));
-        ___qtreewidgetitem2.setText(6, QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e39\u0e19", None));
-        ___qtreewidgetitem2.setText(5, QCoreApplication.translate("Control_Plant", u"\u0e40\u0e16\u0e49\u0e32\u0e25\u0e2d\u0e22", None));
-        ___qtreewidgetitem2.setText(4, QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e192", None));
-        ___qtreewidgetitem2.setText(3, QCoreApplication.translate("Control_Plant", u"\u0e17\u0e23\u0e32\u0e22", None));
-        ___qtreewidgetitem2.setText(2, QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e191", None));
-        ___qtreewidgetitem2.setText(1, QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e39\u0e15\u0e23", None));
-        ___qtreewidgetitem2.setText(0, QCoreApplication.translate("Control_Plant", u"\u0e25\u0e33\u0e14\u0e31\u0e1a", None));
+        ___qtreewidgetitem3 = self.for_formula_treeWidget.headerItem()
+        ___qtreewidgetitem3.setText(11, QCoreApplication.translate("Control_Plant", u"slump", None));
+        ___qtreewidgetitem3.setText(10, QCoreApplication.translate("Control_Plant", u"age", None));
+        ___qtreewidgetitem3.setText(9, QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32\u0e40\u0e04\u0e21\u0e35 2", None));
+        ___qtreewidgetitem3.setText(8, QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33\u0e22\u0e32\u0e40\u0e04\u0e21\u0e35 1", None));
+        ___qtreewidgetitem3.setText(7, QCoreApplication.translate("Control_Plant", u"\u0e19\u0e49\u0e33", None));
+        ___qtreewidgetitem3.setText(6, QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e39\u0e19", None));
+        ___qtreewidgetitem3.setText(5, QCoreApplication.translate("Control_Plant", u"\u0e40\u0e16\u0e49\u0e32\u0e25\u0e2d\u0e22", None));
+        ___qtreewidgetitem3.setText(4, QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e192", None));
+        ___qtreewidgetitem3.setText(3, QCoreApplication.translate("Control_Plant", u"\u0e17\u0e23\u0e32\u0e22", None));
+        ___qtreewidgetitem3.setText(2, QCoreApplication.translate("Control_Plant", u"\u0e2b\u0e34\u0e191", None));
+        ___qtreewidgetitem3.setText(1, QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e39\u0e15\u0e23", None));
+        ___qtreewidgetitem3.setText(0, QCoreApplication.translate("Control_Plant", u"\u0e25\u0e33\u0e14\u0e31\u0e1a", None));
         self.for_config_formula_groupBox.setTitle(QCoreApplication.translate("Control_Plant", u"\u0e1b\u0e23\u0e31\u0e1a\u0e2a\u0e39\u0e15\u0e23 /  \u0e40\u0e1e\u0e34\u0e48\u0e21\u0e2a\u0e39\u0e15\u0e23", None))
         self.for_id_formula_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e25\u0e33\u0e14\u0e31\u0e1a", None))
         self.for_name_formula_label.setText(QCoreApplication.translate("Control_Plant", u"\u0e0a\u0e37\u0e48\u0e2d\u0e2a\u0e39\u0e15\u0e23", None))
