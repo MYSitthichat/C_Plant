@@ -1,20 +1,17 @@
 import os
 import sys
-# Import PySide6 modules
+import csv  
 from PySide6.QtCore import Slot, QObject, QDate, QDateTime 
-from PySide6.QtWidgets import QTreeWidgetItem
+from PySide6.QtWidgets import QTreeWidgetItem, QFileDialog  
 from PySide6.QtUiTools import QUiLoader
 
-# --- Use relative imports ---
+
 try:
     from . import database_reader
     from . import stock_controller
 except ImportError:
     import database_reader 
-    import stock_controller # Fallback for testing
-
-# This import should already work
-# from View.view_main_frame import MainWindow
+    import stock_controller 
 
 
 # --- UI file path ---
@@ -82,22 +79,24 @@ class MainController(QObject):
     def setup_ui(self):
         """Populates date comboboxes and connects button signals."""
         
-        # --- FIX: Set default tab to index 0 ---
-        # This forces the "ประวัติการสั่งซื้อ" tab to show first
-        self.main_window.tabWidget.setCurrentIndex(0)
-        # --- END FIX ---
         
-        # Set default dates for QDateEdit widgets
+        self.main_window.tabWidget.setCurrentIndex(0)
+       
+      
         today = QDate.currentDate()
         self.start_date_edit.setDate(today.addDays(-7)) # Default to 7 days ago
         self.end_date_edit.setDate(today)
             
-        # Set Date Format to d/M/yyyy
+        
         self.start_date_edit.setDisplayFormat("d/M/yyyy")
         self.end_date_edit.setDisplayFormat("d/M/yyyy")
             
-        # Connect the "Show" button for the order history tab
+       
         self.show_button.clicked.connect(self.populate_report)
+        
+        # "ส่งค่าออก CSV" ปุ่ม
+        self.export_button.clicked.connect(self.export_to_csv)
+       
         
         
         # (This section is unchanged)
@@ -147,9 +146,7 @@ class MainController(QObject):
             
             # Reformat Date/Time in Table
             dt_str = order[COL_DTIME] # Get string from DB (e.g., '2025-01-09 01:34:47')
-            # Parse the string
             dt_obj = QDateTime.fromString(dt_str, "yyyy-MM-dd HH:mm:ss")
-            # Format it to 'd/M/yyyy HH:mm'
             formatted_dt = dt_obj.toString("d/M/yyyy HH:mm")
             parent_item.setText(4, formatted_dt)
             
@@ -169,6 +166,62 @@ class MainController(QObject):
                 child_item.setText(7, f"{target_val:.1f}")
                 child_item.setText(8, f"{actual_val:.1f}")
                 child_item.setText(9, f"{error_percent:.2f}")
+
+    
+    @Slot()
+    def export_to_csv(self):
+        """
+        ส่งออกข้อมูลที่แสดงใน QTreeWidget (self.tree) ไปยังไฟล์ CSV
+        """
+        
+        # 1. เปิดหน้าต่างให้ผู้ใช้เลือกที่บันทึกไฟล์
+        options = QFileDialog.Options()
+        fileName, _ = QFileDialog.getSaveFileName(
+            self.main_window, 
+            "บันทึกไฟล์ CSV",  # ชื่อไตเติลของหน้าต่าง
+            "",               # ไดเรกทอรีเริ่มต้น (ว่างไว้)
+            "CSV Files (*.csv);;All Files (*)", 
+            options=options
+        )
+        
+        # 2. ตรวจสอบว่าผู้ใช้ได้เลือกไฟล์ (ไม่ได้กดยกเลิก)
+        if not fileName:
+            return  
+
+        try:
+            # 3. เปิดไฟล์เพื่อเขียน (ใช้ 'utf-8-sig' เพื่อรองรับภาษาไทยใน Excel)
+            with open(fileName, 'w', newline='', encoding='utf-8-sig') as csvfile:
+                writer = csv.writer(csvfile)
+                
+                # 4. เขียนส่วนหัว (Header) ของตาราง
+                header_labels = []
+                for i in range(self.tree.header().count()):
+                    header_labels.append(self.tree.headerItem().text(i))
+                writer.writerow(header_labels)
+                
+                # 5. วนลูปข้อมูลทั้งหมดใน QTreeWidget
+                root = self.tree.invisibleRootItem()
+                for i in range(root.childCount()):
+                    parent_item = root.child(i)
+                    
+                    
+                    parent_data = []
+                    for j in range(self.tree.columnCount()):
+                        parent_data.append(parent_item.text(j))
+                    writer.writerow(parent_data)
+                    
+                    
+                    for k in range(parent_item.childCount()):
+                        child_item = parent_item.child(k)
+                        child_data = []
+                        for j in range(self.tree.columnCount()):
+                            child_data.append(child_item.text(j))
+                        writer.writerow(child_data)
+                        
+            print(f"ส่งออกข้อมูลไปยัง {fileName} สำเร็จ")
+            
+        except IOError as e:
+            print(f"เกิดข้อผิดพลาดในการเขียนไฟล์ CSV: {e}")
 
     def Show_main(self):
         self.main_window.show()
