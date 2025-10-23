@@ -239,8 +239,6 @@ class MainController(QObject):
             cement = float(self.main_window.offset_cement_lineEdit.text())
             fyash = float(self.main_window.offset_fyash_lineEdit.text())
             water = float(self.main_window.offset_water_lineEdit.text())
-         
-            
             chem1 = float(self.main_window.offset_chem_1_lineEdit.text())
             chem2 = float(self.main_window.offset_chem_2_lineEdit.text())
             
