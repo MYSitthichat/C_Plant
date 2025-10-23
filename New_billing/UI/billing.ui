@@ -29,22 +29,22 @@
    <widget class="QTreeWidget" name="billing_treeWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>50</y>
-      <width>1250</width>
-      <height>850</height>
+      <x>20</x>
+      <y>160</y>
+      <width>1500</width>
+      <height>650</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>1250</width>
-      <height>850</height>
+      <width>1500</width>
+      <height>650</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>1300</width>
-      <height>850</height>
+      <width>1500</width>
+      <height>650</height>
      </size>
     </property>
     <property name="font">
@@ -76,54 +76,12 @@
       <string>order</string>
      </property>
     </column>
-    <item>
-     <property name="text">
-      <string>1</string>
-     </property>
-     <property name="text">
-      <string>2025/10/18 07:44:15</string>
-     </property>
-     <property name="text">
-      <string>aaaa</string>
-     </property>
-     <property name="text">
-      <string>1.0</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>2</string>
-     </property>
-     <property name="text">
-      <string>2025/10/18 07:50:20</string>
-     </property>
-     <property name="text">
-      <string>bbb</string>
-     </property>
-     <property name="text">
-      <string>2.0</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>3</string>
-     </property>
-     <property name="text">
-      <string>2025/10/18 07:58:06</string>
-     </property>
-     <property name="text">
-      <string>cccc</string>
-     </property>
-     <property name="text">
-      <string>1.0</string>
-     </property>
-    </item>
    </widget>
    <widget class="QPushButton" name="print_pushButton">
     <property name="geometry">
      <rect>
-      <x>1290</x>
-      <y>120</y>
+      <x>850</x>
+      <y>90</y>
       <width>151</width>
       <height>61</height>
      </rect>
@@ -141,8 +99,8 @@
    <widget class="QPushButton" name="reload_pushButton">
     <property name="geometry">
      <rect>
-      <x>1290</x>
-      <y>40</y>
+      <x>850</x>
+      <y>10</y>
       <width>151</width>
       <height>61</height>
      </rect>
@@ -155,6 +113,146 @@
     </property>
     <property name="text">
      <string>Reload</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="start_date_label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>91</width>
+      <height>55</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>TH Niramit AS</family>
+      <pointsize>20</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>วันที่เริ่ม</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="end_date_comboBox">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>60</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="start_date_comboBox">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>60</y>
+      <width>180</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="end_date_label">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>50</y>
+      <width>85</width>
+      <height>55</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>TH Niramit AS</family>
+      <pointsize>20</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>ถึงวันที่</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="select_date_label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>-10</y>
+      <width>270</width>
+      <height>55</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>TH Niramit AS</family>
+      <pointsize>20</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>เลือกวันที่ต้องการแสดงผล</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="show_value_lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>110</y>
+      <width>281</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>TH Niramit AS</family>
+      <pointsize>20</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="show_value_list_label">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>100</y>
+      <width>81</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>TH Niramit AS</family>
+      <pointsize>20</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>รายการ</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="show_value_label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>151</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>TH Niramit AS</family>
+      <pointsize>20</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>ทั้งหมด</string>
     </property>
    </widget>
   </widget>
