@@ -5,14 +5,16 @@ from threading import Thread
 import time
 from datetime import datetime
 from Controller.database_control import C_palne_Database
+from Controller.PLC_controller import PLC_Controller
 
-
-class MainController(QObject):   
+class MainController(QObject):
+    action = Slot(str)   
     def __init__(self):
         super(MainController, self).__init__()
         self.main_window = MainWindow()
         
         self.db = C_palne_Database()
+        self.plc_controller = PLC_Controller()
         self.data_formula = []
         
         # reg tab
@@ -40,8 +42,8 @@ class MainController(QObject):
         self.main_window.mix_start_load_pushButton.clicked.connect(self.mix_start_load)
         self.main_window.mix_cancel_load_pushButton.clicked.connect(self.mix_cancel_load)
         
-        self.main_window.debug_open_rock_1_pushButton.clicked.connect(self.debug_open_rock_1)
-        self.main_window.debug_close_rock_1_pushButton.clicked.connect(self.debug_close_rock_1)
+        # self.main_window.debug_open_rock_1_pushButton.clicked.connect(self.plc_controller.emit.action("start"))
+        # self.main_window.debug_close_rock_1_pushButton.clicked.connect(self.plc_controller.debug_rock_1_action(action = "stop"))
         self.main_window.debug_open_rock_2_pushButton.clicked.connect(self.debug_open_rock_2)
         self.main_window.debug_close_rock_2_pushButton.clicked.connect(self.debug_close_rock_2)
         self.main_window.debug_open_sand_pushButton.clicked.connect(self.debug_open_sand)
@@ -103,11 +105,7 @@ class MainController(QObject):
     def mix_cancel_load(self):
         print("mix cancel load")
 
-    def debug_open_rock_1(self):
-        print("debug open rock 1")
 
-    def debug_close_rock_1(self):
-        print("debug close rock 1")
 
     def debug_open_rock_2(self):
         print("debug open rock 2")
