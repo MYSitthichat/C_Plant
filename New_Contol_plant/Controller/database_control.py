@@ -9,10 +9,50 @@ class C_palne_Database():
         db_path = os.path.join(script_dir, "..", "..", "DATA_BASE", "concretePlant.db")
         db_path = os.path.normpath(db_path) 
         self.db_path = db_path
-        # for test or docker broken path
+       
+        self.create_offset_table() 
         
-        # self.db_path = "/app/DATA_BASE/concretePlant.db" #for docker
     
+    def create_offset_table(self):
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            # 1. สร้างตารางถ้ายังไม่มี
+            cursor.execute("""
+            CREATE TABLE IF NOT EXISTS offset_settings (
+                id INTEGER PRIMARY KEY,
+                rock1_offset FLOAT DEFAULT 0,
+                sand1_offset FLOAT DEFAULT 0,
+                rock2_offset FLOAT DEFAULT 0,
+                sand2_offset FLOAT DEFAULT 0,
+                cement_offset FLOAT DEFAULT 0,
+                fly_ash_offset FLOAT DEFAULT 0,
+                water_offset FLOAT DEFAULT 0,
+                chem1_offset FLOAT DEFAULT 0,
+                chem2_offset FLOAT DEFAULT 0,
+                conveyor_time FLOAT DEFAULT 0,
+                cement_release_time FLOAT DEFAULT 0,
+                mixer_run_time FLOAT DEFAULT 0,
+                next_load_time FLOAT DEFAULT 0
+            );
+            """)
+            
+            
+            cursor.execute("""
+            INSERT OR IGNORE INTO offset_settings (id) VALUES (1);
+            """)
+            
+            conn.commit()
+            
+        except sqlite3.Error as e:
+            print(f"Error creating/checking offset_settings table: {e}")
+        finally:
+            if conn:
+                conn.close()
+    
+
     def delete_data_in_table_customer(self,id): # REG tab
         query = """DELETE FROM customer WHERE id = ?;""" 
         conn = None
@@ -59,7 +99,7 @@ class C_palne_Database():
             if conn:
                 conn.close()
     
-    def read_data_in_table_customer(self): # REG tab
+    def read_data_in_table_customer(self): 
         query = """SELECT id, name, phone_number,address FROM customer;""" 
         conn = None
         try:
@@ -108,8 +148,8 @@ class C_palne_Database():
                 if conn:
                     conn.close()
     
-    # formula tab
-    def delete_data_in_table_formula(self,id): # FORMULA tab
+   
+    def delete_data_in_table_formula(self,id): 
         query = """DELETE FROM concrete_formula WHERE id = ?;""" 
         conn = None
         try:
@@ -191,12 +231,51 @@ class C_palne_Database():
             if conn:
                 conn.close()
     
-    
+    # --- เพิ่มฟังก์ชันใหม่สำหรับ OFFSET ---
+    def read_offset_settings(self):
+        query = "SELECT * FROM offset_settings WHERE id = 1;"
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query)
+            result = cursor.fetchone() 
+            return result
+        except sqlite3.Error as e:
+            print(f"Error reading offset settings: {e}")
+            return None
+        finally:
+            if conn:
+                conn.close()
+
+    def update_offset_settings(self, rock1, sand1, rock2, sand2, cement, fyash, water, chem1, chem2, conv_time, cement_time, mixer_time, next_time):
+        query = """
+        UPDATE offset_settings 
+        SET 
+            rock1_offset = ?, sand1_offset = ?, rock2_offset = ?, sand2_offset = ?, 
+            cement_offset = ?, fly_ash_offset = ?, water_offset = ?, 
+            chem1_offset = ?, chem2_offset = ?, conveyor_time = ?, 
+            cement_release_time = ?, mixer_run_time = ?, next_load_time = ?
+        WHERE id = 1;
+        """
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (
+                rock1, sand1, rock2, sand2, cement, fyash, water, 
+                chem1, chem2, conv_time, cement_time, mixer_time, next_time
+            ))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"Error updating offset settings: {e}")
+        finally:
+            if conn:
+                conn.close()
+
 
 if __name__ == "__main__":
     db = C_palne_Database()
-    # results = db.read_data_in_table_formula()
-    # results = db.read_data_all_in_table_oder()
     results = db.read_data_in_table_customer()
     for row in results:
         print(row)

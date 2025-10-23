@@ -76,6 +76,11 @@ class MainController(QObject):
         self.main_window.offset_save_pushButton.clicked.connect(self.offset_save)
         self.main_window.offset_edite_pushButton.clicked.connect(self.offset_edite)
         self.main_window.offset_cancel_pushButton.clicked.connect(self.offset_cancel)
+        self.load_offset_settings() 
+        self.set_offset_form_read_only(True) 
+        self.main_window.offset_save_pushButton.setEnabled(False)
+        self.main_window.offset_edite_pushButton.setEnabled(True)
+        self.main_window.offset_cancel_pushButton.setEnabled(False)
 
 
     def reg_save(self):
@@ -93,11 +98,6 @@ class MainController(QObject):
             self.db.update_data_to_table_customer(name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment)
             self.main_window.clear_reg_form()
             self.load_customers_to_tree()
-
-
-
-
-
 
     def mix_start_load(self):
         print("mix start load")
@@ -191,14 +191,98 @@ class MainController(QObject):
     def debug_close_vale_chem(self):
         print("debug close vale chem")
 
+    def set_offset_form_read_only(self, is_read_only):
+        """ตั้งค่าช่องกรอกข้อมูล Offset ทั้งหมดเป็น ReadOnly หรือ Editable"""
+        self.main_window.offset_rock_1_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_sand_1_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_rock_2_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_sand_2_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_cement_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_fyash_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_water_lineEdit.setReadOnly(is_read_only)       
+        self.main_window.offset_chem_1_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_chem_2_lineEdit.setReadOnly(is_read_only)
+        
+        self.main_window.offset_converyer_silo_time_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_opan_cement_time_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_run_mixer_time_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_time_next_load_lineEdit.setReadOnly(is_read_only)
+
+    def load_offset_settings(self):
+        """โหลดค่าจาก DB มาแสดงในหน้า Offset"""
+        data = self.db.read_offset_settings()
+        if data:
+
+            self.main_window.offset_rock_1_lineEdit.setText(str(data[1]))
+            self.main_window.offset_sand_1_lineEdit.setText(str(data[2]))
+            self.main_window.offset_rock_2_lineEdit.setText(str(data[3]))
+            self.main_window.offset_sand_2_lineEdit.setText(str(data[4]))
+            self.main_window.offset_cement_lineEdit.setText(str(data[5]))
+            self.main_window.offset_fyash_lineEdit.setText(str(data[6]))       
+            self.main_window.offset_water_lineEdit.setText(str(data[7]))
+            self.main_window.offset_chem_1_lineEdit.setText(str(data[8]))
+            self.main_window.offset_chem_2_lineEdit.setText(str(data[9]))
+            
+            self.main_window.offset_converyer_silo_time_lineEdit.setText(str(data[10]))
+            self.main_window.offset_opan_cement_time_lineEdit.setText(str(data[11]))
+            self.main_window.offset_run_mixer_time_lineEdit.setText(str(data[12]))
+            self.main_window.offset_time_next_load_lineEdit.setText(str(data[13]))
+    
     def offset_save(self):
         print("offset save")
+        try:
+            
+            rock1 = float(self.main_window.offset_rock_1_lineEdit.text())
+            sand1 = float(self.main_window.offset_sand_1_lineEdit.text())
+            rock2 = float(self.main_window.offset_rock_2_lineEdit.text())
+            sand2 = float(self.main_window.offset_sand_2_lineEdit.text())
+            cement = float(self.main_window.offset_cement_lineEdit.text())
+            fyash = float(self.main_window.offset_fyash_lineEdit.text())
+            water = float(self.main_window.offset_water_lineEdit.text())
+         
+            
+            chem1 = float(self.main_window.offset_chem_1_lineEdit.text())
+            chem2 = float(self.main_window.offset_chem_2_lineEdit.text())
+            
+            conv_time = float(self.main_window.offset_converyer_silo_time_lineEdit.text())
+            cement_time = float(self.main_window.offset_opan_cement_time_lineEdit.text())
+            mixer_time = float(self.main_window.offset_run_mixer_time_lineEdit.text())
+            next_time = float(self.main_window.offset_time_next_load_lineEdit.text())
+            
+    
+            self.db.update_offset_settings(
+                rock1, sand1, rock2, sand2, cement, fyash, water, 
+                chem1, chem2, conv_time, cement_time, mixer_time, next_time
+            )
+            
+            self.set_offset_form_read_only(True)
+            self.main_window.offset_save_pushButton.setEnabled(False)
+            self.main_window.offset_edite_pushButton.setEnabled(True)
+            self.main_window.offset_cancel_pushButton.setEnabled(False)
+            
+            QMessageBox.information(self.main_window, "บันทึกสำเร็จ", "บันทึกค่า Offset เรียบร้อยแล้ว")
+            
+        except ValueError:
+            QMessageBox.warning(self.main_window, "ข้อมูลผิดพลาด", "กรุณากรอกข้อมูลเป็นตัวเลขให้ถูกต้อง")
+        except Exception as e:
+            QMessageBox.warning(self.main_window, "ผิดพลาด", f"เกิดข้อผิดพลาด: {e}")
 
     def offset_edite(self):
         print("offset edite")
+        
+        self.set_offset_form_read_only(False)
+        self.main_window.offset_save_pushButton.setEnabled(True)
+        self.main_window.offset_edite_pushButton.setEnabled(False)
+        self.main_window.offset_cancel_pushButton.setEnabled(True)
 
     def offset_cancel(self):
         print("offset cancel")
+        self.load_offset_settings()
+        
+        self.set_offset_form_read_only(True)
+        self.main_window.offset_save_pushButton.setEnabled(False)
+        self.main_window.offset_edite_pushButton.setEnabled(True)
+        self.main_window.offset_cancel_pushButton.setEnabled(False)
 
         
 # REG METHODS
@@ -206,9 +290,6 @@ class MainController(QObject):
         self.main_window.Show()
 
     def reg_add_formula(self):#REG TAB
-        # self.data_formula = self.db.read_data_in_table_formula()
-        # for row in self.data_formula :
-        #     self.main_window.reg_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
         self.main_window.reg_formula_treeWidget.clear() 
         all_formula_data = self.db.read_data_in_table_formula()
         for (display_number, db_row) in enumerate(all_formula_data, start=1):
