@@ -14,23 +14,32 @@ class MainController(QObject):
         
         self.db = C_palne_Database()
         self.data_formula = []
+        
+        # reg tab
         self.reg_add_formula()
         self.load_customers_to_tree()
-        self.for_add_formula()
         self.main_window.reg_delete_customer_pushButton.clicked.connect(self.delete_selected_customer)
         self.main_window.reg_update_time_pushButton.clicked.connect(self.main_window.update_datetime_to_now)
         self.main_window.reg_save_pushButton.clicked.connect(self.reg_save)
         self.main_window.reg_clear_pushButton.clicked.connect(self.reg_clear)
-        self.main_window.reg_list_customer_treeWidget.itemClicked.connect(self.on_customer_item_clicked)
-        self.main_window.reg_formula_treeWidget.itemClicked.connect(self.on_formula_item_clicked)
+        self.main_window.reg_list_customer_treeWidget.itemClicked.connect(self.reg_on_customer_item_clicked)
+        self.main_window.reg_formula_treeWidget.itemClicked.connect(self.reg_on_formula_item_clicked)
+        # end reg tab
+
+        # formula tab
+        self.for_load_formula_to_tree()
+        self.main_window.disable_form_formula()
+        self.main_window.for_formula_treeWidget.itemClicked.connect(self.for_on_formula_item_clicked)
+        self.main_window.for_delete_formula_pushButton.clicked.connect(self.delete_selected_formula)
+        self.main_window.for_add_formula_pushButton.clicked.connect(self.for_add_new_formula)
+        self.main_window.for_config_formula_pushButton.clicked.connect(self.for_config_formula)
+        self.main_window.for_save_formula_pushButton.clicked.connect(self.for_save_formula)
+        self.main_window.for_cancel_pushButton.clicked.connect(self.for_cancel)
+        # end formula tab
         
         self.main_window.mix_start_load_pushButton.clicked.connect(self.mix_start_load)
         self.main_window.mix_cancel_load_pushButton.clicked.connect(self.mix_cancel_load)
-        self.main_window.for_add_formula_pushButton.clicked.connect(self.for_add_formula)
-        self.main_window.for_config_formula_pushButton.clicked.connect(self.for_config_formula)
-        self.main_window.for_delete_formula_pushButton.clicked.connect(self.for_delete_formula)
-        self.main_window.for_save_formula_pushButton.clicked.connect(self.for_save_formula)
-        self.main_window.for_cancel_pushButton.clicked.connect(self.for_cancel)
+        
         self.main_window.debug_open_rock_1_pushButton.clicked.connect(self.debug_open_rock_1)
         self.main_window.debug_close_rock_1_pushButton.clicked.connect(self.debug_close_rock_1)
         self.main_window.debug_open_rock_2_pushButton.clicked.connect(self.debug_open_rock_2)
@@ -61,6 +70,7 @@ class MainController(QObject):
         self.main_window.debug_close_chem_2_pushButton.clicked.connect(self.debug_close_chem_2)
         self.main_window.debug_open_vale_chem_pushButton.clicked.connect(self.debug_open_vale_chem)
         self.main_window.debug_close_vale_chem_pushButton.clicked.connect(self.debug_close_vale_chem)
+        
         self.main_window.offset_save_pushButton.clicked.connect(self.offset_save)
         self.main_window.offset_edite_pushButton.clicked.connect(self.offset_edite)
         self.main_window.offset_cancel_pushButton.clicked.connect(self.offset_cancel)
@@ -83,26 +93,15 @@ class MainController(QObject):
             self.load_customers_to_tree()
 
 
+
+
+
+
     def mix_start_load(self):
         print("mix start load")
 
     def mix_cancel_load(self):
         print("mix cancel load")
-
-    def for_add_formula(self):
-        print("for add formula")
-
-    def for_config_formula(self):
-        print("for config formula")
-
-    def for_delete_formula(self):
-        print("for delete formula")
-
-    def for_save_formula(self):
-        print("for save formula")
-
-    def for_cancel(self):
-        print("for cancel formula")
 
     def debug_open_rock_1(self):
         print("debug open rock 1")
@@ -204,32 +203,22 @@ class MainController(QObject):
         print("offset cancel")
 
         
-# End methods
+# REG METHODS
     def Show_main(self):
         self.main_window.Show()
 
-    def for_add_formula(self):#REG TAB
-        self.data_formula = self.db.read_data_in_table_formula()
-        for row in self.data_formula :
-            self.main_window.for_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
-
     def reg_add_formula(self):#REG TAB
-        self.data_formula = self.db.read_data_in_table_formula()
-        for row in self.data_formula :
-            self.main_window.reg_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
-            
-    def reg_delete_customer(self):#REG TAB
-        tree_widget = self.main_window.reg_list_customer_treeWidget
-        selected_items = tree_widget.selectedItems()
-        id = selected_items[0].text(0)
-        self.db.delete_data_in_table_customer(id)
-        if not selected_items:
-            QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกรายการที่ต้องการลบก่อน")
-            return
-        else:
-            for item in selected_items:
-                index = tree_widget.indexOfTopLevelItem(item)
-                tree_widget.takeTopLevelItem(index)
+        # self.data_formula = self.db.read_data_in_table_formula()
+        # for row in self.data_formula :
+        #     self.main_window.reg_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
+        self.main_window.reg_formula_treeWidget.clear() 
+        all_formula_data = self.db.read_data_in_table_formula()
+        for (display_number, db_row) in enumerate(all_formula_data, start=1):
+            real_id = db_row[0] 
+            display_list = [str(display_number)] + [str(item) for item in db_row[1:]]
+            tree_item = QTreeWidgetItem(display_list)
+            tree_item.setData(0, Qt.UserRole, real_id) 
+            self.main_window.reg_formula_treeWidget.addTopLevelItem(tree_item)
             
     def delete_selected_customer(self):#REG tab
         tree_widget = self.main_window.reg_list_customer_treeWidget 
@@ -260,7 +249,7 @@ class MainController(QObject):
     def reg_clear(self):#REG TAB
         self.main_window.clear_reg_form()
         
-    def on_customer_item_clicked(self, item):#REG TAB
+    def reg_on_customer_item_clicked(self, item):#REG TAB
         self.main_window.reg_name_lineEdit.clear()
         self.main_window.reg_telephone_lineEdit.clear()
         self.main_window.reg_address_textEdit.clear()
@@ -280,9 +269,136 @@ class MainController(QObject):
         except Exception as e:
             print(f"Error: {e}")
             
-    def on_formula_item_clicked(self, item):#REG TAB
+    def reg_on_formula_item_clicked(self, item):#REG TAB
         self.main_window.reg_formula_name_lineEdit.clear()
         formula_name = item.text(1)
         self.main_window.reg_formula_name_lineEdit.setText(formula_name)
-        
+# END REG METHODS
+# FORMULA METHODS
+    def for_add_formula_to_tree_widget(self):#formula TAB
+        self.data_formula = self.db.read_data_in_table_formula()
+        for row in self.data_formula :
+            self.main_window.for_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
 
+    def delete_selected_formula(self):#FOR tab
+        tree_widget = self.main_window.for_formula_treeWidget
+        selected_items = tree_widget.selectedItems()
+        if not selected_items:
+            QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกรายการที่ต้องการลบก่อน")
+            return
+        item_to_delete = selected_items[0]
+        real_id_to_delete = item_to_delete.data(0, Qt.UserRole)
+        if real_id_to_delete is None:
+            return
+        try:
+            self.db.delete_data_in_table_formula(real_id_to_delete)
+            self.for_load_formula_to_tree()
+            self.main_window.clear_form_formula()
+            self.main_window.for_formula_treeWidget.clearSelection()
+            self.reg_add_formula()
+        except Exception as e:
+            print(f"delete error: {e}")
+            
+    def for_load_formula_to_tree(self):#FOR TAB
+        self.main_window.for_formula_treeWidget.clear() 
+        all_formula_data = self.db.read_data_in_table_formula()
+        for (display_number, db_row) in enumerate(all_formula_data, start=1):
+            real_id = db_row[0] 
+            display_list = [str(display_number)] + [str(item) for item in db_row[1:]]
+            tree_item = QTreeWidgetItem(display_list)
+            tree_item.setData(0, Qt.UserRole, real_id) 
+            self.main_window.for_formula_treeWidget.addTopLevelItem(tree_item)
+            self.main_window.for_save_formula_pushButton.setDisabled(True)
+
+    def for_on_formula_item_clicked(self, item):#formula TAB
+        result = self.db.get_data_formula_by_id(item.data(0, Qt.UserRole))
+        if result is None:
+            return
+        try:
+            self.main_window.for_name_formula_lineEdit.setText(str(result[0]))
+            self.main_window.for_rock_1_lineEdit.setText(str(result[1]))
+            self.main_window.for_rock_2_lineEdit.setText(str(result[2]))
+            self.main_window.for_sand_lineEdit.setText(str(result[3]))
+            self.main_window.for_cement_lineEdit.setText(str(result[4]))
+            self.main_window.for_fyash_lineEdit.setText(str(result[5]))
+            self.main_window.for_water_lineEdit.setText(str(result[6]))
+            self.main_window.for_chem_1_lineEdit.setText(str(result[7]))
+            self.main_window.for_chem_2_lineEdit.setText(str(result[8]))
+            self.main_window.for_age_lineEdit.setText(str(result[9]))
+            self.main_window.for_slump_lineEdit.setText(str(result[10]))
+        except Exception as e:
+            print(f"Error: {e}")
+    
+    def for_add_new_formula(self):# formula tab methods
+        self.main_window.clear_form_formula()
+        self.main_window.enable_form_formula()
+        self.main_window.for_formula_treeWidget.clearSelection()
+        self.main_window.for_save_formula_pushButton.setEnabled(True)
+        self.main_window.for_delete_formula_pushButton.setDisabled(True)
+        self.main_window.for_config_formula_pushButton.setDisabled(True)
+        
+    def for_save_formula(self):# formula tab methods
+        name_formula = self.main_window.for_name_formula_lineEdit.text()
+        rock_1 = self.main_window.for_rock_1_lineEdit.text()
+        sand = self.main_window.for_sand_lineEdit.text()
+        rock_2 = self.main_window.for_rock_2_lineEdit.text()
+        cement = self.main_window.for_cement_lineEdit.text()
+        fyash = self.main_window.for_fyash_lineEdit.text()
+        water = self.main_window.for_water_lineEdit.text()
+        chem_1 = self.main_window.for_chem_1_lineEdit.text()
+        chem_2 = self.main_window.for_chem_2_lineEdit.text()
+        age = self.main_window.for_age_lineEdit.text()
+        slump = self.main_window.for_slump_lineEdit.text()
+        selected_items = self.main_window.for_formula_treeWidget.selectedItems()
+        if not selected_items:
+            if self.db.check_name_formula_exists(name_formula):
+                QMessageBox.warning(self.main_window, "ชื่อสูตรซ้ำ", "ชื่อสูตรนี้มีอยู่ในระบบแล้ว")
+                return
+            if name_formula == "" or rock_1 == "" or sand == "" or rock_2 == "" or cement == "" or fyash == "" or water == "" or chem_1 == "" or chem_2 == "" or age == "" or slump == "":
+                QMessageBox.warning(self.main_window, "ข้อมูลไม่ครบถ้วน", "กรุณากรอกข้อมูลให้ครบถ้วนก่อนบันทึก")
+                return
+            self.db.insert_data_to_table_formula(name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump)
+            self.main_window.clear_form_formula()
+            self.main_window.disable_form_formula()
+            self.for_load_formula_to_tree()
+            self.main_window.for_save_formula_pushButton.setDisabled(True)
+            self.main_window.for_delete_formula_pushButton.setEnabled(True)
+            self.main_window.for_config_formula_pushButton.setEnabled(True)
+            self.main_window.for_add_formula_pushButton.setEnabled(True)
+            self.reg_add_formula()
+        else:
+            item_to_update = selected_items[0]
+            real_id_to_update = item_to_update.data(0, Qt.UserRole)
+            if real_id_to_update is None:
+                return
+            if name_formula == "" or rock_1 == "" or sand == "" or rock_2 == "" or cement == "" or fyash == "" or water == "" or chem_1 == "" or chem_2 == "" or age == "" or slump == "":
+                QMessageBox.warning(self.main_window, "ข้อมูลไม่ครบถ้วน", "กรุณากรอกข้อมูลให้ครบถ้วนก่อนบันทึก")
+                return
+            self.db.update_data_to_table_formula(real_id_to_update, name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump)
+            self.main_window.clear_form_formula()
+            self.main_window.disable_form_formula()
+            self.for_load_formula_to_tree()
+            self.main_window.for_save_formula_pushButton.setDisabled(True)
+            self.main_window.for_delete_formula_pushButton.setEnabled(True)
+            self.main_window.for_config_formula_pushButton.setEnabled(True)
+            self.main_window.for_add_formula_pushButton.setEnabled(True)
+            self.reg_add_formula()
+            
+    def for_cancel(self):# formula tab methods
+        self.main_window.for_formula_treeWidget.clearSelection()
+        self.main_window.disable_form_formula()
+        self.main_window.for_save_formula_pushButton.setDisabled(True)
+        self.main_window.for_delete_formula_pushButton.setEnabled(True)
+        self.main_window.for_add_formula_pushButton.setEnabled(True)
+        self.main_window.for_config_formula_pushButton.setEnabled(True)
+
+    def for_config_formula(self):# formula tab methods
+        selected_items = self.main_window.for_formula_treeWidget.selectedItems()
+        if not selected_items:
+            QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกรายการสูตรที่ต้องการแก้ไขก่อน")
+            return
+        self.main_window.enable_form_formula()
+        self.main_window.for_save_formula_pushButton.setEnabled(True)
+        self.main_window.for_delete_formula_pushButton.setDisabled(True)
+        self.main_window.for_add_formula_pushButton.setDisabled(True)
+# FORMULA METHODS END

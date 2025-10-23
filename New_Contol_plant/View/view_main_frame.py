@@ -42,4 +42,56 @@ class MainWindow(QMainWindow,Ui_Control_Plant):
     def update_datetime_to_now(self):
         current_datetime = QDateTime.currentDateTime()
         self.reg_dateTimeEdit.setDateTime(current_datetime)
+        
+# --- FORMULA TAB METHODS --- #
+    def disable_form_formula(self):
+        self.for_name_formula_lineEdit.setDisabled(True)
+        self.for_rock_1_lineEdit.setDisabled(True)
+        self.for_sand_lineEdit.setDisabled(True)
+        self.for_rock_2_lineEdit.setDisabled(True)
+        self.for_cement_lineEdit.setDisabled(True)
+        self.for_fyash_lineEdit.setDisabled(True)
+        self.for_water_lineEdit.setDisabled(True)
+        self.for_chem_1_lineEdit.setDisabled(True)
+        self.for_chem_2_lineEdit.setDisabled(True)
+        self.for_age_lineEdit.setDisabled(True)
+        self.for_slump_lineEdit.setDisabled(True)
+        self.for_name_formula_lineEdit.clear()
+        self.for_rock_1_lineEdit.clear()
+        self.for_sand_lineEdit.clear()
+        self.for_rock_2_lineEdit.clear()
+        self.for_cement_lineEdit.clear()
+        self.for_fyash_lineEdit.clear()
+        self.for_water_lineEdit.clear()
+        self.for_chem_1_lineEdit.clear()
+        self.for_chem_2_lineEdit.clear()
+        self.for_age_lineEdit.clear()
+        self.for_slump_lineEdit.clear()
+
+    def enable_form_formula(self):
+        self.for_name_formula_lineEdit.setEnabled(True)
+        self.for_rock_1_lineEdit.setEnabled(True)
+        self.for_sand_lineEdit.setEnabled(True)
+        self.for_rock_2_lineEdit.setEnabled(True)
+        self.for_cement_lineEdit.setEnabled(True)
+        self.for_fyash_lineEdit.setEnabled(True)
+        self.for_water_lineEdit.setEnabled(True)
+        self.for_chem_1_lineEdit.setEnabled(True)
+        self.for_chem_2_lineEdit.setEnabled(True)
+        self.for_age_lineEdit.setEnabled(True)
+        self.for_slump_lineEdit.setEnabled(True)
+        
+    def clear_form_formula(self):
+        self.for_name_formula_lineEdit.clear()
+        self.for_rock_1_lineEdit.clear()
+        self.for_sand_lineEdit.clear()
+        self.for_rock_2_lineEdit.clear()
+        self.for_cement_lineEdit.clear()
+        self.for_fyash_lineEdit.clear()
+        self.for_water_lineEdit.clear()
+        self.for_chem_1_lineEdit.clear()
+        self.for_chem_2_lineEdit.clear()
+        self.for_age_lineEdit.clear()
+        self.for_slump_lineEdit.clear()
+# --- FORMULA TAB METHODS END --- #
 

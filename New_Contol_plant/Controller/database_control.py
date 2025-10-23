@@ -5,13 +5,13 @@ import os
 class C_palne_Database():
     def __init__(self):
         # for test or docker broken path
-        # script_dir = os.path.dirname(__file__)
-        # db_path = os.path.join(script_dir, "..", "..", "DATA_BASE", "concretePlant.db")
-        # db_path = os.path.normpath(db_path) 
-        # self.db_path = db_path
+        script_dir = os.path.dirname(__file__)
+        db_path = os.path.join(script_dir, "..", "..", "DATA_BASE", "concretePlant.db")
+        db_path = os.path.normpath(db_path) 
+        self.db_path = db_path
         # for test or docker broken path
         
-        self.db_path = "/app/DATA_BASE/concretePlant.db" #for docker
+        # self.db_path = "/app/DATA_BASE/concretePlant.db" #for docker
     
     def delete_data_in_table_customer(self,id): # REG tab
         query = """DELETE FROM customer WHERE id = ?;""" 
@@ -107,8 +107,91 @@ class C_palne_Database():
             finally:
                 if conn:
                     conn.close()
-                    
-
+    
+    # formula tab
+    def delete_data_in_table_formula(self,id): # FORMULA tab
+        query = """DELETE FROM concrete_formula WHERE id = ?;""" 
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query,(id,))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"error {e}")
+        finally:
+            if conn:
+                conn.close()
+                
+    def get_data_formula_by_id(self, formula_id):
+            query = """SELECT formula_name, rock1_weight, sand_weight, rock2_weight, fly_ash_weight, cement_weight, 
+                    water_weight, chemical1_weight, chemical2_weight, age, slump 
+                    FROM concrete_formula WHERE id = ?;"""
+            conn = None
+            try:
+                conn = sqlite3.connect(self.db_path)
+                cursor = conn.cursor()
+                cursor.execute(query, (formula_id,))
+                result = cursor.fetchone() 
+                return result
+                
+            except sqlite3.Error as e:
+                print(f"Error fetching formula by id: {e}")
+                return None
+            finally:
+                if conn:
+                    conn.close()
+    
+    def insert_data_to_table_formula(self,name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump): # FORMULA tab
+        query = """INSERT INTO concrete_formula (formula_name, rock1_weight, sand_weight, rock2_weight, fly_ash_weight, cement_weight, 
+                    water_weight, chemical1_weight, chemical2_weight, age, slump, status) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,1);""" 
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query,(name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"error {e}")
+        finally:
+            if conn:
+                conn.close()
+    
+    def update_data_to_table_formula(self,formula_id, name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump): # FORMULA tab
+        query = """UPDATE concrete_formula 
+                    SET formula_name = ?, rock1_weight = ?, sand_weight = ?, rock2_weight = ?, fly_ash_weight = ?, cement_weight = ?, 
+                        water_weight = ?, chemical1_weight = ?, chemical2_weight = ?, age = ?, slump = ? 
+                    WHERE id = ?;""" 
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query,(name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump, formula_id))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"error {e}")
+        finally:
+            if conn:
+                conn.close()
+                
+    def check_name_formula_exists(self, name_formula):
+        query = "SELECT COUNT(*) FROM concrete_formula WHERE formula_name = ?;"
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (name_formula,))
+            count = cursor.fetchone()[0]
+            return count > 0
+        except sqlite3.Error as e:
+            print(f"Error checking formula name existence: {e}")
+            return False
+        finally:
+            if conn:
+                conn.close()
+    
+    
 
 if __name__ == "__main__":
     db = C_palne_Database()
