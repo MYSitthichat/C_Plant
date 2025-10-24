@@ -3,61 +3,44 @@ import os
 
 class C_palne_Database():
     def __init__(self):
-        # ตรวจสอบ Environment Variable 'IS_DOCKER'
-        # ถ้าหาไม่เจอ หรือไม่ใช่ 'true' ให้ถือว่ารันบนเครื่องปกติ
         is_docker = os.environ.get('IS_DOCKER', 'false').lower() == 'true'
 
         if is_docker:
-            # --- เส้นทางสำหรับ Docker ---
-            # กำหนดเส้นทางตายตัวภายใน Container ที่เราจะ Mount Volume เข้าไป
-            # เช่น /app/DATA_BASE (คุณอาจจะต้องเปลี่ยนตาม docker-compose.yml)
             self.db_path = "/app/DATA_BASE/concretePlant.db"
             print(f"[Docker Mode] Using DB path: {self.db_path}") # Debug
         else:
-            # --- เส้นทางสำหรับรันปกติ ---
             script_dir = os.path.dirname(__file__)
             db_path_relative = os.path.join(script_dir, "..", "..", "DATA_BASE", "concretePlant.db")
             self.db_path = os.path.normpath(db_path_relative)
             print(f"[Local Mode] Using DB path: {self.db_path}") # Debug
 
-        # --- ส่วนตรวจสอบและสร้างโฟลเดอร์/ไฟล์ ---
         db_dir = os.path.dirname(self.db_path)
-        # ตรวจสอบว่า Directory ปลายทางมีอยู่หรือไม่
+
         if not os.path.exists(db_dir):
             try:
-                os.makedirs(db_dir) # ถ้าไม่มี ให้สร้าง
+                os.makedirs(db_dir) 
                 print(f"Created directory: {db_dir}")
             except OSError as e:
                 print(f"!!! Error creating directory {db_dir}: {e}")
-                # อาจจะหยุดการทำงาน หรือใช้ path สำรอง ขึ้นอยู่กับการออกแบบ
-                # ในกรณีนี้ จะปล่อยให้ sqlite3 จัดการสร้างไฟล์ (ซึ่งอาจจะ fail ถ้า dir ไม่มี)
         elif not os.path.isdir(db_dir):
              print(f"!!! Error: Expected directory but found a file at {db_dir}")
-             # ควรจะหยุดการทำงาน เพราะ path ผิดแน่นอน
 
-        # แจ้งเตือนถ้าไฟล์ DB ยังไม่มี (ซึ่งควรจะถูกสร้างโดย sqlite3 ถ้า dir ถูกต้อง)
         if not os.path.exists(self.db_path):
              print(f"Warning: Database file not found at {self.db_path}. It should be created.")
 
-        # --- สิ้นสุดส่วนตรวจสอบ ---
-
         self.create_offset_table()
-        # โค้ดส่วนที่เหลือของ __init__ (ถ้ามี) ควรจะอยู่หลังจากนี้
-
-
+        
     def create_offset_table(self):
         conn = None
         try:
-            # ตรวจสอบ path อีกครั้งก่อนเชื่อมต่อ
             db_dir = os.path.dirname(self.db_path)
             if not os.path.isdir(db_dir):
                  print(f"!!! Cannot connect to DB: Directory '{db_dir}' does not exist or is not a directory.")
-                 return # ออกจากฟังก์ชันถ้า Directory ผิด
+                 return 
 
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
 
-            # 1. สร้างตารางถ้ายังไม่มี
             cursor.execute("""
             CREATE TABLE IF NOT EXISTS offset_settings (
                 id INTEGER PRIMARY KEY,
@@ -353,8 +336,6 @@ class C_palne_Database():
 
 if __name__ == "__main__":
     db = C_palne_Database()
-    # results = db.read_data_in_table_formula()
-    # results = db.read_data_all_in_table_oder()
     results = db.read_data_in_table_customer()
     for row in results:
         print(row)
