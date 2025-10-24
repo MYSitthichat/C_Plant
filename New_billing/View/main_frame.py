@@ -37,7 +37,7 @@ class Ui_Billing(object):
         font.setFamilies([u"TH Niramit AS"])
         font.setPointSize(24)
         self.billing_treeWidget.setFont(font)
-        self.billing_treeWidget.header().setDefaultSectionSize(300)
+        self.billing_treeWidget.header().setDefaultSectionSize(400)
         self.print_pushButton = QPushButton(self.centralwidget)
         self.print_pushButton.setObjectName(u"print_pushButton")
         self.print_pushButton.setGeometry(QRect(850, 90, 151, 61))

@@ -54,7 +54,7 @@
      </font>
     </property>
     <attribute name="headerDefaultSectionSize">
-     <number>300</number>
+     <number>400</number>
     </attribute>
     <column>
      <property name="text">
