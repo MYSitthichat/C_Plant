@@ -5,16 +5,18 @@ from threading import Thread
 import time
 from datetime import datetime
 from Controller.database_control import C_palne_Database
+from Controller.PLC_controller import PLC_Controller
 
-
-class MainController(QObject):   
+class MainController(QObject):
+    action = Slot(str)
     def __init__(self):
         super(MainController, self).__init__()
         self.main_window = MainWindow()
-        
+
         self.db = C_palne_Database()
+        self.plc_controller = PLC_Controller()
         self.data_formula = []
-        
+
         # reg tab
         self.reg_add_formula()
         self.load_customers_to_tree()
@@ -26,6 +28,12 @@ class MainController(QObject):
         self.main_window.reg_formula_treeWidget.itemClicked.connect(self.reg_on_formula_item_clicked)
         # end reg tab
 
+        # --- เพิ่มส่วนของ WORK TAB ---
+        self.load_work_queue() # โหลดคิวงานตอนเปิดโปรแกรม
+        self.main_window.work_start_pushButton.clicked.connect(self.start_selected_work)
+        self.main_window.work_cancel_pushButton.clicked.connect(self.cancel_selected_work)
+        # --- สิ้นสุดส่วนของ WORK TAB ---
+
         # formula tab
         self.for_load_formula_to_tree()
         self.main_window.disable_form_formula()
@@ -36,12 +44,12 @@ class MainController(QObject):
         self.main_window.for_save_formula_pushButton.clicked.connect(self.for_save_formula)
         self.main_window.for_cancel_pushButton.clicked.connect(self.for_cancel)
         # end formula tab
-        
+
         self.main_window.mix_start_load_pushButton.clicked.connect(self.mix_start_load)
         self.main_window.mix_cancel_load_pushButton.clicked.connect(self.mix_cancel_load)
-        
-        self.main_window.debug_open_rock_1_pushButton.clicked.connect(self.debug_open_rock_1)
-        self.main_window.debug_close_rock_1_pushButton.clicked.connect(self.debug_close_rock_1)
+
+        # self.main_window.debug_open_rock_1_pushButton.clicked.connect(self.plc_controller.emit.action("start"))
+        # self.main_window.debug_close_rock_1_pushButton.clicked.connect(self.plc_controller.debug_rock_1_action(action = "stop"))
         self.main_window.debug_open_rock_2_pushButton.clicked.connect(self.debug_open_rock_2)
         self.main_window.debug_close_rock_2_pushButton.clicked.connect(self.debug_close_rock_2)
         self.main_window.debug_open_sand_pushButton.clicked.connect(self.debug_open_sand)
@@ -70,10 +78,15 @@ class MainController(QObject):
         self.main_window.debug_close_chem_2_pushButton.clicked.connect(self.debug_close_chem_2)
         self.main_window.debug_open_vale_chem_pushButton.clicked.connect(self.debug_open_vale_chem)
         self.main_window.debug_close_vale_chem_pushButton.clicked.connect(self.debug_close_vale_chem)
-        
+
         self.main_window.offset_save_pushButton.clicked.connect(self.offset_save)
         self.main_window.offset_edite_pushButton.clicked.connect(self.offset_edite)
         self.main_window.offset_cancel_pushButton.clicked.connect(self.offset_cancel)
+        self.load_offset_settings()
+        self.set_offset_form_read_only(True)
+        self.main_window.offset_save_pushButton.setEnabled(False)
+        self.main_window.offset_edite_pushButton.setEnabled(True)
+        self.main_window.offset_cancel_pushButton.setEnabled(False)
 
 
     def reg_save(self):
@@ -82,20 +95,23 @@ class MainController(QObject):
             return
         else:
             date_time, name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment = self.main_window.get_data_from_reg_from()
+
+            # เราจะใช้ 0 (ไม่เก็บ) และ 1 (เก็บ) เป็นสถานะ "รอทำงาน"
             if child_cement =="ต้องการเก็บ":
-                child_cement = 1
+                child_cement_val = 1
             elif child_cement =="ไม่ต้องการเก็บ":
-                child_cement = 0
+                child_cement_val = 0
             else:
-                pass
-            self.db.update_data_to_table_customer(name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment)
+                child_cement_val = 0 # ค่าเริ่มต้น
+
+            self.db.update_data_to_table_customer(name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement_val, comment)
             self.main_window.clear_reg_form()
             self.load_customers_to_tree()
 
-
-
-
-
+            # --- เพิ่มบรรทัดนี้ ---
+            # เพื่อรีเฟรชหน้า Work ทันทีที่บันทึก
+            self.load_work_queue()
+            # --- สิ้นสุดส่วนที่เพิ่ม ---
 
     def mix_start_load(self):
         print("mix start load")
@@ -103,11 +119,180 @@ class MainController(QObject):
     def mix_cancel_load(self):
         print("mix cancel load")
 
-    def debug_open_rock_1(self):
-        print("debug open rock 1")
 
-    def debug_close_rock_1(self):
-        print("debug close rock 1")
+    # --- เพิ่มฟังก์ชันใหม่สำหรับ WORK TAB (พร้อม Debug Prints) ---
+    def load_work_queue(self):
+        print("--- Loading Work Queue ---") # Debug print 1: เช็คว่าฟังก์ชันถูกเรียก
+        self.main_window.work_queue_treeWidget.clear()
+        try:
+            work_data = self.db.get_work_queue() # ดึงข้อมูลที่ JOIN แล้ว
+            print(f"Data fetched from DB: {work_data}") # Debug print 2: ดูข้อมูลที่ดึงมาได้
+
+            if not work_data:
+                 print("No work data found matching criteria (batch_state 0 or 1 and matching formula).") # Debug print 3: แจ้งถ้าไม่เจอข้อมูล
+
+            self.main_window.work_queue_treeWidget.setColumnWidth(0, 50)
+            self.main_window.work_queue_treeWidget.setColumnWidth(1, 150)
+            self.main_window.work_queue_treeWidget.setColumnWidth(2, 200)
+            self.main_window.work_queue_treeWidget.setColumnWidth(3, 300)
+
+            for (display_number, db_row) in enumerate(work_data, start=1):
+                print(f"Processing row {display_number}: {db_row}") # Debug print 4: ดูข้อมูลแต่ละแถวก่อนแสดงผล
+                display_list = [
+                    str(display_number),
+                    str(db_row[4]), # formula_name
+                    str(db_row[1]), # name
+                    str(db_row[3]), # address
+                    str(db_row[8]), # rock1
+                    str(db_row[9]), # sand
+                    str(db_row[10]), # rock2
+                    str(db_row[11]), # cement
+                    str(db_row[12]), # fly_ash
+                    str(db_row[13]), # water
+                    str(db_row[14]), # chem1
+                    str(db_row[15])  # chem2
+                ]
+
+                tree_item = QTreeWidgetItem(display_list)
+                tree_item.setData(0, Qt.UserRole, db_row)
+                self.main_window.work_queue_treeWidget.addTopLevelItem(tree_item)
+                print(f"Added item to tree: {display_list}") # Debug print 5: ยืนยันว่าเพิ่มข้อมูลลง Tree Widget แล้ว
+            print("--- Finished Loading Work Queue ---") # Debug print 6
+        except Exception as e:
+            print(f"!!! Error during load_work_queue: {e}") # Debug print 7: ดักจับ Error ที่อาจเกิดขึ้น
+    # --- สิ้นสุดฟังก์ชัน load_work_queue ที่แก้ไขแล้ว ---
+
+    def cancel_selected_work(self):
+        print("Cancel work")
+        selected_items = self.main_window.work_queue_treeWidget.selectedItems()
+        if not selected_items:
+            QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกคิวงานที่ต้องการลบ")
+            return
+
+        item_to_delete = selected_items[0]
+        data = item_to_delete.data(0, Qt.UserRole)
+        real_id_to_delete = data[0] # id อยู่ตำแหน่งแรก
+
+        reply = QMessageBox.question(self.main_window, 'ยืนยันการลบ',
+                                     f"คุณต้องการลบคิวงานนี้ (ID: {real_id_to_delete}) ใช่หรือไม่?",
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                                     QMessageBox.StandardButton.No)
+
+        if reply == QMessageBox.StandardButton.Yes:
+            try:
+                # ลบออกจากตาราง customer
+                self.db.delete_data_in_table_customer(real_id_to_delete)
+                # รีเฟรชทั้งสองหน้า
+                self.load_work_queue()
+                self.load_customers_to_tree()
+                QMessageBox.information(self.main_window, "สำเร็จ", "ลบคิวงานเรียบร้อยแล้ว")
+            except Exception as e:
+                QMessageBox.warning(self.main_window, "ผิดพลาด", f"ไม่สามารถลบข้อมูลได้: {e}")
+
+    def start_selected_work(self):
+        print("Start work")
+        selected_items = self.main_window.work_queue_treeWidget.selectedItems()
+        if not selected_items:
+            QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกคิวงานที่ต้องการเริ่ม")
+            return
+
+        item_to_start = selected_items[0]
+        data = item_to_start.data(0, Qt.UserRole)
+
+        # data[0] = id
+        customer_id = data[0]
+        # data[1] = name
+        customer_name = data[1]
+        # data[2] = phone_number
+        phone_number = data[2]
+        # data[3] = address
+        # data[4] = formula_name
+        formula_name = data[4]
+        # data[5] = amount
+        amount = data[5]
+        # ...
+        # data[8] = rock1_weight
+        target_rock1 = data[8]
+        # data[9] = sand_weight
+        target_sand = data[9]
+        # data[10] = rock2_weight
+        target_rock2 = data[10]
+        # data[11] = cement_weight
+        target_cement = data[11]
+        # data[12] = fly_ash_weight
+        target_flyash = data[12]
+        # data[13] = water_weight
+        target_water = data[13]
+        # data[14] = chemical1_weight
+        target_chem1 = data[14]
+        # data[15] = chemical2_weight
+        target_chem2 = data[15]
+
+        # 1. ล้างค่าหน้า Mixer
+        self.clear_mixer_monitors()
+
+        # 2. ส่งข้อมูลลูกค้าไปแสดงที่ GroupBox ด้านบน
+        self.main_window.mix_customer_name_lineEdit.setText(customer_name)
+        self.main_window.mix_customer_phone_lineEdit.setText(phone_number)
+        self.main_window.mix_customer_formula_name_lineEdit.setText(formula_name)
+        self.main_window.mix_number_cube_lineEdit.setText(str(amount))
+
+        # 3. ส่งค่าน้ำหนัก "เป้าหมาย" (Target) ไปแสดงที่ GroupBox ด้านขวา
+        self.main_window.mix_wieght_targrt_rock_1_lineEdit.setText(str(target_rock1))
+        self.main_window.mix_wieght_target_sand_lineEdit.setText(str(target_sand))
+        self.main_window.mix_wieght_target_rock_2_lineEdit.setText(str(target_rock2))
+        self.main_window.mix_wieght_target_cement_lineEdit.setText(str(target_cement))
+        self.main_window.mix_wieght_target_fyash_lineEdit.setText(str(target_flyash))
+        self.main_window.mix_wieght_target_wather_lineEdit.setText(str(target_water)) # ui คือ wather
+        self.main_window.mix_wieght_target_chem_1_lineEdit.setText(str(target_chem1))
+        self.main_window.mix_wieght_target_chem_2_lineEdit.setText(str(target_chem2))
+
+        # 4. อัปเดตสถานะงานใน DB (เช่น 2 = "กำลังผสม")
+        # เพื่อให้งานนี้หายไปจากคิว
+        self.db.update_customer_batch_state(customer_id, 2)
+
+        # 5. รีเฟรชหน้า Work (คิวงานที่เลือกจะหายไป)
+        self.load_work_queue()
+
+        # 6. สลับไปหน้า Mixer
+        self.main_window.tab.setCurrentWidget(self.main_window.Mix_tab)
+
+    def clear_mixer_monitors(self):
+        """ล้างค่าที่แสดงผลในหน้า Mixer เพื่อเตรียมรับงานใหม่"""
+
+        # ล้างค่าช่องแสดงผลน้ำหนักจริง (ตรงกลาง)
+        self.main_window.mix_monitor_rock_1_lineEdit.clear()
+        self.main_window.mix_monitor_sand_lineEdit.clear()
+        self.main_window.mix_monitor_rock_2_lineEdit.clear()
+        self.main_window.mix_monitor_cement_lineEdit.clear()
+        self.main_window.mix_monitor_fyash_lineEdit.clear()
+        self.main_window.mix_monitor_wather_lineEdit.clear() # ui คือ wather
+        self.main_window.mix_monitor_chem_1_lineEdit.clear()
+        self.main_window.mix_monitor_chem_2_lineEdit.clear()
+        self.main_window.mix_monitor_sum_rock_and_sand_lineEdit.clear()
+        self.main_window.mix_monitor_sum_fyash_and_cement_lineEdit.clear()
+        self.main_window.mix_monitor_sum_chem_lineEdit.clear()
+
+        # ล้างค่าช่อง "โหลดแล้ว" (ด้านขวา)
+        self.main_window.mix_wieght_Loaded_rock_1_lineEdit.clear()
+        self.main_window.mix_wieght_Loaded_sand_lineEdit.clear()
+        self.main_window.mix_wieght_Loaded_rock_2_lineEdit.clear()
+        self.main_window.mix_wieght_Loaded_cement_lineEdit.clear()
+        self.main_window.mix_wieght_Loaded_fyash_lineEdit.clear()
+        self.main_window.mix_wieght_Loaded_wather_lineEdit.clear() # ui คือ wather
+        self.main_window.mix_wieght_Loaded_chem_1_lineEdit.clear()
+        self.main_window.mix_wieght_Loaded_chem_2_lineEdit.clear()
+
+        # ล้างค่าสรุปการโหลด (ด้านขวาบน)
+        self.main_window.mix_result_load_lineEdit.clear()
+        self.main_window.mix_result_mix_lineEdit.clear()
+        self.main_window.mix_result_mix_success_lineEdit.clear()
+
+        # ล้างสถานะ
+        self.main_window.mix_monitor_status_textEdit.clear()
+
+    # --- สิ้นสุดฟังก์ชันใหม่สำหรับ WORK TAB ---
+
 
     def debug_open_rock_2(self):
         print("debug open rock 2")
@@ -193,62 +378,150 @@ class MainController(QObject):
     def debug_close_vale_chem(self):
         print("debug close vale chem")
 
+    def set_offset_form_read_only(self, is_read_only):
+        """ตั้งค่าช่องกรอกข้อมูล Offset ทั้งหมดเป็น ReadOnly หรือ Editable"""
+        self.main_window.offset_rock_1_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_sand_1_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_rock_2_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_sand_2_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_cement_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_fyash_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_water_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_chem_1_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_chem_2_lineEdit.setReadOnly(is_read_only)
+
+        self.main_window.offset_converyer_silo_time_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_opan_cement_time_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_run_mixer_time_lineEdit.setReadOnly(is_read_only)
+        self.main_window.offset_time_next_load_lineEdit.setReadOnly(is_read_only)
+
+    def load_offset_settings(self):
+        """โหลดค่าจาก DB มาแสดงในหน้า Offset"""
+        data = self.db.read_offset_settings()
+        if data:
+
+            self.main_window.offset_rock_1_lineEdit.setText(str(data[1]))
+            self.main_window.offset_sand_1_lineEdit.setText(str(data[2]))
+            self.main_window.offset_rock_2_lineEdit.setText(str(data[3]))
+            self.main_window.offset_sand_2_lineEdit.setText(str(data[4]))
+            self.main_window.offset_cement_lineEdit.setText(str(data[5]))
+            self.main_window.offset_fyash_lineEdit.setText(str(data[6]))
+            self.main_window.offset_water_lineEdit.setText(str(data[7]))
+            self.main_window.offset_chem_1_lineEdit.setText(str(data[8]))
+            self.main_window.offset_chem_2_lineEdit.setText(str(data[9]))
+
+            self.main_window.offset_converyer_silo_time_lineEdit.setText(str(data[10]))
+            self.main_window.offset_opan_cement_time_lineEdit.setText(str(data[11]))
+            self.main_window.offset_run_mixer_time_lineEdit.setText(str(data[12]))
+            self.main_window.offset_time_next_load_lineEdit.setText(str(data[13]))
+
     def offset_save(self):
         print("offset save")
+        try:
+
+            rock1 = float(self.main_window.offset_rock_1_lineEdit.text())
+            sand1 = float(self.main_window.offset_sand_1_lineEdit.text())
+            rock2 = float(self.main_window.offset_rock_2_lineEdit.text())
+            sand2 = float(self.main_window.offset_sand_2_lineEdit.text())
+            cement = float(self.main_window.offset_cement_lineEdit.text())
+            fyash = float(self.main_window.offset_fyash_lineEdit.text())
+            water = float(self.main_window.offset_water_lineEdit.text())
+            chem1 = float(self.main_window.offset_chem_1_lineEdit.text())
+            chem2 = float(self.main_window.offset_chem_2_lineEdit.text())
+
+            conv_time = float(self.main_window.offset_converyer_silo_time_lineEdit.text())
+            cement_time = float(self.main_window.offset_opan_cement_time_lineEdit.text())
+            mixer_time = float(self.main_window.offset_run_mixer_time_lineEdit.text())
+            next_time = float(self.main_window.offset_time_next_load_lineEdit.text())
+
+
+            self.db.update_offset_settings(
+                rock1, sand1, rock2, sand2, cement, fyash, water,
+                chem1, chem2, conv_time, cement_time, mixer_time, next_time
+            )
+
+            self.set_offset_form_read_only(True)
+            self.main_window.offset_save_pushButton.setEnabled(False)
+            self.main_window.offset_edite_pushButton.setEnabled(True)
+            self.main_window.offset_cancel_pushButton.setEnabled(False)
+
+            QMessageBox.information(self.main_window, "บันทึกสำเร็จ", "บันทึกค่า Offset เรียบร้อยแล้ว")
+
+        except ValueError:
+            QMessageBox.warning(self.main_window, "ข้อมูลผิดพลาด", "กรุณากรอกข้อมูลเป็นตัวเลขให้ถูกต้อง")
+        except Exception as e:
+            QMessageBox.warning(self.main_window, "ผิดพลาด", f"เกิดข้อผิดพลาด: {e}")
 
     def offset_edite(self):
         print("offset edite")
 
+        self.set_offset_form_read_only(False)
+        self.main_window.offset_save_pushButton.setEnabled(True)
+        self.main_window.offset_edite_pushButton.setEnabled(False)
+        self.main_window.offset_cancel_pushButton.setEnabled(True)
+
     def offset_cancel(self):
         print("offset cancel")
+        self.load_offset_settings()
 
-        
+        self.set_offset_form_read_only(True)
+        self.main_window.offset_save_pushButton.setEnabled(False)
+        self.main_window.offset_edite_pushButton.setEnabled(True)
+        self.main_window.offset_cancel_pushButton.setEnabled(False)
+
+
 # REG METHODS
     def Show_main(self):
         self.main_window.Show()
 
     def reg_add_formula(self):#REG TAB
-        # self.data_formula = self.db.read_data_in_table_formula()
-        # for row in self.data_formula :
-        #     self.main_window.reg_formula_treeWidget.addTopLevelItem(QTreeWidgetItem([str(item) for item in row]))
-        self.main_window.reg_formula_treeWidget.clear() 
+        self.main_window.reg_formula_treeWidget.clear()
         all_formula_data = self.db.read_data_in_table_formula()
         for (display_number, db_row) in enumerate(all_formula_data, start=1):
-            real_id = db_row[0] 
+            real_id = db_row[0]
             display_list = [str(display_number)] + [str(item) for item in db_row[1:]]
             tree_item = QTreeWidgetItem(display_list)
-            tree_item.setData(0, Qt.UserRole, real_id) 
+            tree_item.setData(0, Qt.UserRole, real_id)
             self.main_window.reg_formula_treeWidget.addTopLevelItem(tree_item)
-            
+
     def delete_selected_customer(self):#REG tab
-        tree_widget = self.main_window.reg_list_customer_treeWidget 
+        tree_widget = self.main_window.reg_list_customer_treeWidget
         selected_items = tree_widget.selectedItems()
         if not selected_items:
             QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกรายการที่ต้องการลบก่อน")
             return
+
         item_to_delete = selected_items[0]
         real_id_to_delete = item_to_delete.data(0, Qt.UserRole)
         if real_id_to_delete is None:
             return
-        try:
-            self.db.delete_data_in_table_customer(real_id_to_delete)
-            self.load_customers_to_tree()
-        except Exception as e:
-            print(f"delete error: {e}")
-            
+
+        reply = QMessageBox.question(self.main_window, 'ยืนยันการลบ',
+                                     f"คุณต้องการลบลูกค้านี้ (ID: {real_id_to_delete}) ออกจากระบบถาวรหรือไม่?\n(ข้อมูลนี้จะหายไปจากคิวงานด้วย)",
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                                     QMessageBox.StandardButton.No)
+
+        if reply == QMessageBox.StandardButton.Yes:
+            try:
+                self.db.delete_data_in_table_customer(real_id_to_delete)
+                self.load_customers_to_tree()
+                self.load_work_queue() # รีเฟรชหน้า Work ด้วย
+            except Exception as e:
+                print(f"delete error: {e}")
+
     def load_customers_to_tree(self):#REG TAB
-        self.main_window.reg_list_customer_treeWidget.clear() 
+        self.main_window.reg_list_customer_treeWidget.clear()
         all_customer_data = self.db.read_data_in_table_customer()
         for (display_number, db_row) in enumerate(all_customer_data, start=1):
-            real_id = db_row[0] 
+            real_id = db_row[0]
             display_list = [str(display_number)] + [str(item) for item in db_row[1:]]
             tree_item = QTreeWidgetItem(display_list)
-            tree_item.setData(0, Qt.UserRole, real_id) 
+            tree_item.setData(0, Qt.UserRole, real_id)
             self.main_window.reg_list_customer_treeWidget.addTopLevelItem(tree_item)
 
     def reg_clear(self):#REG TAB
         self.main_window.clear_reg_form()
-        
+
     def reg_on_customer_item_clicked(self, item):#REG TAB
         self.main_window.reg_name_lineEdit.clear()
         self.main_window.reg_telephone_lineEdit.clear()
@@ -268,7 +541,7 @@ class MainController(QObject):
             self.main_window.reg_address_textEdit.setText(customer_data[2])
         except Exception as e:
             print(f"Error: {e}")
-            
+
     def reg_on_formula_item_clicked(self, item):#REG TAB
         self.main_window.reg_formula_name_lineEdit.clear()
         formula_name = item.text(1)
@@ -298,15 +571,15 @@ class MainController(QObject):
             self.reg_add_formula()
         except Exception as e:
             print(f"delete error: {e}")
-            
+
     def for_load_formula_to_tree(self):#FOR TAB
-        self.main_window.for_formula_treeWidget.clear() 
+        self.main_window.for_formula_treeWidget.clear()
         all_formula_data = self.db.read_data_in_table_formula()
         for (display_number, db_row) in enumerate(all_formula_data, start=1):
-            real_id = db_row[0] 
+            real_id = db_row[0]
             display_list = [str(display_number)] + [str(item) for item in db_row[1:]]
             tree_item = QTreeWidgetItem(display_list)
-            tree_item.setData(0, Qt.UserRole, real_id) 
+            tree_item.setData(0, Qt.UserRole, real_id)
             self.main_window.for_formula_treeWidget.addTopLevelItem(tree_item)
             self.main_window.for_save_formula_pushButton.setDisabled(True)
 
@@ -316,9 +589,11 @@ class MainController(QObject):
             return
         try:
             self.main_window.for_name_formula_lineEdit.setText(str(result[0]))
-            self.main_window.for_rock_1_lineEdit.setText(str(result[1]))
-            self.main_window.for_rock_2_lineEdit.setText(str(result[2]))
-            self.main_window.for_sand_lineEdit.setText(str(result[3]))
+            # --- แก้ไขให้ใช้ชื่อ LineEdit ที่ถูกต้อง ---
+            self.main_window.for_rock_1_lineEdit.setText(str(result[1])) # เดิมคือ for_rock_1_lineEdit_3
+            self.main_window.for_sand_lineEdit.setText(str(result[2])) # เดิมคือ for_rock_2_lineEdit
+            self.main_window.for_rock_2_lineEdit.setText(str(result[3])) # เดิมคือ for_sand_lineEdit
+            # --- จบการแก้ไข ---
             self.main_window.for_cement_lineEdit.setText(str(result[4]))
             self.main_window.for_fyash_lineEdit.setText(str(result[5]))
             self.main_window.for_water_lineEdit.setText(str(result[6]))
@@ -327,8 +602,9 @@ class MainController(QObject):
             self.main_window.for_age_lineEdit.setText(str(result[9]))
             self.main_window.for_slump_lineEdit.setText(str(result[10]))
         except Exception as e:
-            print(f"Error: {e}")
-    
+            print(f"Error setting formula data to form: {e}")
+
+
     def for_add_new_formula(self):# formula tab methods
         self.main_window.clear_form_formula()
         self.main_window.enable_form_formula()
@@ -336,12 +612,14 @@ class MainController(QObject):
         self.main_window.for_save_formula_pushButton.setEnabled(True)
         self.main_window.for_delete_formula_pushButton.setDisabled(True)
         self.main_window.for_config_formula_pushButton.setDisabled(True)
-        
+
     def for_save_formula(self):# formula tab methods
         name_formula = self.main_window.for_name_formula_lineEdit.text()
-        rock_1 = self.main_window.for_rock_1_lineEdit.text()
+        # --- แก้ไขให้ใช้ชื่อ LineEdit ที่ถูกต้อง ---
+        rock_1 = self.main_window.for_rock_1_lineEdit.text() # เดิมคือ for_rock_1_lineEdit_3
         sand = self.main_window.for_sand_lineEdit.text()
         rock_2 = self.main_window.for_rock_2_lineEdit.text()
+        # --- จบการแก้ไข ---
         cement = self.main_window.for_cement_lineEdit.text()
         fyash = self.main_window.for_fyash_lineEdit.text()
         water = self.main_window.for_water_lineEdit.text()
@@ -383,7 +661,7 @@ class MainController(QObject):
             self.main_window.for_config_formula_pushButton.setEnabled(True)
             self.main_window.for_add_formula_pushButton.setEnabled(True)
             self.reg_add_formula()
-            
+
     def for_cancel(self):# formula tab methods
         self.main_window.for_formula_treeWidget.clearSelection()
         self.main_window.disable_form_formula()
