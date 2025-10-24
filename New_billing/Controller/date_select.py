@@ -10,14 +10,11 @@ class date_select(QObject):
         self.data_loader = load_data()
         
         # Populate date comboboxes from database
-        self.populate_dates()
+        self.date_to_ComboBox()
         
-        # Connect combobox changes to filter 
-        # self.main_window.start_date_comboBox.currentTextChanged.connect(self.on_date_changed)
-        # self.main_window.end_date_comboBox.currentTextChanged.connect(self.on_date_changed)
-    
-    def populate_dates(self):
-        """Populate comboboxes with dates from database records"""
+        
+    def date_to_ComboBox(self):
+        """add dates to comboboxes from database"""
         dates = self.get_dates_from_database()
         
         if dates:
@@ -64,13 +61,8 @@ class date_select(QObject):
             print(f"Error getting dates from database: {e}")
             return []
     
-    def on_date_changed(self):
-        """Called when user changes date in combobox"""
-        # This will be connected in main_controller
-        pass
-    
     def get_selected_dates(self):
-        """Get start and end dates in SQL format (yyyy-MM-dd)"""
+        """Get start and end dates in database (yyyy-MM-dd)"""
         start_str = self.main_window.start_date_comboBox.currentText()
         end_str = self.main_window.end_date_comboBox.currentText()
         
@@ -80,8 +72,8 @@ class date_select(QObject):
         
         return start_date.toString("yyyy-MM-dd"), end_date.toString("yyyy-MM-dd")
     
-    def update_summary(self, total_records, total_amount):
-        """Update the summary display (show_value_lineEdit)"""
+    def show_value(self, total_records, total_amount):
+        """Show summary values in the UI"""
         summary_text = f"{total_records}"
         self.main_window.show_value_lineEdit.setText(summary_text)
     
@@ -92,4 +84,4 @@ class date_select(QObject):
         self.main_window.end_date_comboBox.clear()
         
         # Repopulate
-        self.populate_dates()
+        self.date_to_ComboBox()

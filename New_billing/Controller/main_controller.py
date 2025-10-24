@@ -18,9 +18,6 @@ class MainController(QObject):
         # Connect buttons
         self.main_window.reload_pushButton.clicked.connect(self.reload_data)
         self.main_window.print_pushButton.clicked.connect(self.print_data)
-        
-        # Connect date changes to filter
-        # self.date_selector.on_date_changed = self.filter_by_date
 
         # Load initial data
         self.load_data()
@@ -30,10 +27,10 @@ class MainController(QObject):
         data = self.data_loader.load_all_data()
         self.display_data(data)
         
-        # Update summary
+        # Update value display in line UI
         if data:
             total_amount = sum(float(row[3]) for row in data)
-            self.date_selector.update_summary(len(data), total_amount)
+            self.date_selector.show_value(len(data), total_amount)
         
         return data
     
@@ -45,9 +42,9 @@ class MainController(QObject):
         data = self.data_loader.load_data_by_date(start_date, end_date)
         self.display_data(data)
         
-        # Get and update summary
+        # Get and update value in line UI
         count, total = self.data_loader.get_summary(start_date, end_date)
-        self.date_selector.update_summary(count, total)
+        self.date_selector.show_value(count, total)
     
     def display_data(self, data):
         """Display data in TreeWidget"""
@@ -61,21 +58,11 @@ class MainController(QObject):
                 )
 
     def reload_data(self):
-        """Reload button clicked - apply date filter"""
+        """Reload button clicked"""
         self.filter_by_date()
 
     def print_data(self):
-        """Print selected record"""
-        if self.main_window.billing_treeWidget.currentItem() is None:
-            QMessageBox.information(
-                self.main_window, 
-                "Information", 
-                "Please select an item to print"
-            )
-        else:
-            item = self.main_window.billing_treeWidget.currentItem()
-            booking_id = item.text(0)
-            print(f"Printing booking ID: {booking_id}")
+        pass
         
     def Show_main(self):
         self.main_window.Show()
