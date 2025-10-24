@@ -15,9 +15,9 @@ class MainController(QObject):
         # Setup date selector
         self.date_selector = date_select(self.main_window)
         
-        # Connect buttons
-        self.main_window.reload_pushButton.clicked.connect(self.reload_data)
         self.main_window.print_pushButton.clicked.connect(self.print_data)
+
+        self.date_selector.on_date_changed = self.filter_by_date
 
         # Load initial data
         self.load_data()
@@ -56,10 +56,6 @@ class MainController(QObject):
                 self.main_window.billing_treeWidget.addTopLevelItem(
                     QTreeWidgetItem(item_data)
                 )
-
-    def reload_data(self):
-        """Reload button clicked"""
-        self.filter_by_date()
 
     def print_data(self):
         pass

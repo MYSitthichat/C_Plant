@@ -10,10 +10,14 @@ class date_select(QObject):
         self.data_loader = load_data()
         
         # Populate date comboboxes from database
-        self.date_to_ComboBox()
+        self.add_date_to_ComboBox()
+
+        # Connect combobox changes to filter
+        self.main_window.start_date_comboBox.currentTextChanged.connect(self.on_date_changed)
+        self.main_window.end_date_comboBox.currentTextChanged.connect(self.on_date_changed)
+    
         
-        
-    def date_to_ComboBox(self):
+    def add_date_to_ComboBox(self):
         """add dates to comboboxes from database"""
         dates = self.get_dates_from_database()
         
@@ -21,10 +25,23 @@ class date_select(QObject):
             # Add to comboboxes
             self.main_window.start_date_comboBox.addItems(dates)
             self.main_window.end_date_comboBox.addItems(dates)
+      
+            self.main_window.end_date_comboBox.setCurrentIndex(0)
             
-            # Set default: end = most recent, start = oldest
-            self.main_window.end_date_comboBox.setCurrentIndex(0)  # Most recent
-            self.main_window.start_date_comboBox.setCurrentIndex(len(dates) - 1)  # Oldest
+            # last 5 days
+            end_date_str = dates[0]  
+            end_date = QDate.fromString(end_date_str, "dd-MM-yyyy")
+            start_date = end_date.addDays(-5)  
+            start_date_str = start_date.toString("dd-MM-yyyy")
+            
+            # Find this date in the list
+            try:
+                start_index = dates.index(start_date_str)
+            except ValueError:
+                # Date not in list, use closest or fallback to index 4
+                start_index = min(4, len(dates) - 1)
+            
+            self.main_window.start_date_comboBox.setCurrentIndex(start_index)
         else:
             # Fallback: use current date if no data
             today = QDate.currentDate().toString("dd-MM-yyyy")
@@ -60,6 +77,11 @@ class date_select(QObject):
         except Exception as e:
             print(f"Error getting dates from database: {e}")
             return []
+        
+    def on_date_changed(self):
+        """Called when user changes date in combobox"""
+        # This will be connected in main_controller
+        pass
     
     def get_selected_dates(self):
         """Get start and end dates in database (yyyy-MM-dd)"""
@@ -84,4 +106,4 @@ class date_select(QObject):
         self.main_window.end_date_comboBox.clear()
         
         # Repopulate
-        self.date_to_ComboBox()
+        self.add_date_to_ComboBox()
