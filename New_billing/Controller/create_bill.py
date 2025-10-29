@@ -15,10 +15,18 @@ from PyPDF2 import PdfReader, PdfWriter
 
 class CreateBillConfig:
     def __init__(self):
-        # Database path
-        self.database_path = os.path.dirname(os.path.realpath(__file__))
-        self.database_path = os.path.join(self.database_path, "..", "..", "DATA_BASE", "concretePlant.db")
-        self.database_path = os.path.normpath(self.database_path)
+        # if linux
+        if os.path.exists('/DATA_BASE/concretePlant.db'):
+            self.database_path = '/DATA_BASE/concretePlant.db'  # Docker/Linux path
+        else:
+            # else windows
+            self.database_path = os.path.dirname(os.path.realpath(__file__))
+            self.database_path = os.path.join(self.database_path, "..", "..", "DATA_BASE", "concretePlant.db")
+            self.database_path = os.path.normpath(self.database_path)
+        
+        # # Debug output - shows which path is being used
+        # print(f"[CreateBillConfig] Database path: {self.database_path}")
+        # print(f"[CreateBillConfig] Database exists: {os.path.exists(self.database_path)}")
 
         # Template path - in templates folder
         self.template_path = os.path.join(os.path.dirname(__file__), "..", "templates", "bill_templateA5.pdf")
@@ -36,16 +44,7 @@ class CreateBillConfig:
         os.makedirs(self.bills_dir, exist_ok=True)
     
     def get_bill_save_path(self, id, date_string=None):
-        """
-        Get the full path to save a bill, organized by date
-        
-        Args:
-            id: The customer ID
-            date_string: Date in format "yyyy-mm-dd" (optional, defaults to today)
-            
-        Returns:
-            Full path to save the bill PDF
-        """
+        """Get the full path to save the bill PDF"""
         if date_string is None:
             date_string = datetime.now().strftime("%Y-%m-%d")
         
@@ -240,7 +239,6 @@ class BillGenerator:
         with open(archive_path, "wb") as archive_stream:
             output.write(archive_stream)
         
-        print(f"Bill saved to: {archive_path}")
         
         packet.close()
         
@@ -259,26 +257,11 @@ class BillGenerator:
             if system == "Windows":
                 # Option 1: Use default PDF viewer (will open PDF)
                 os.startfile(pdf_path)
-                print(f"Opened PDF for printing: {pdf_path}")
-                
-                # Option 2: Direct print using win32print (uncomment if you have pywin32 installed)
-                # import win32print
-                # import win32api
-                # win32api.ShellExecute(
-                #     0,
-                #     "print",
-                #     pdf_path,
-                #     f'/d:"{win32print.GetDefaultPrinter()}"',
-                #     ".",
-                #     0
-                # )
-                # print(f"Sent to printer: {pdf_path}")
                 
             else:
                 # Linux/Unix printing (for deployment)
                 print_command = ['lp', '-d', 'DCPT220', str(pdf_path)]
                 subprocess.run(print_command, check=True)
-                print(f"Print command executed: {' '.join(print_command)}")
             
             return True
             
@@ -347,15 +330,8 @@ class BillGenerator:
             
             # Generate PDF
             pdf_path = self.generate_pdf_output(customer_information, id)
-            print(f"Bill generated: {pdf_path}")
-            
-            # Print PDF
             success = self.print_pdf(pdf_path)
-            if success:
-                print(f"Bill printed successfully for ID: {id}")
-            else:
-                print(f"Failed to print bill for ID: {id}")
-            
+
             return success
             
         except Exception as e:
@@ -363,5 +339,3 @@ class BillGenerator:
             import traceback
             traceback.print_exc()
             return False
-
-

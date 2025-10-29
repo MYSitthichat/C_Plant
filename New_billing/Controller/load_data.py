@@ -3,13 +3,22 @@ import os
 import sqlite3
 
 
-database_path = os.path.dirname(os.path.realpath(__file__))
-database_path = os.path.join(database_path, "..", "..", "DATA_BASE", "concretePlant.db")
-database_path = os.path.normpath(database_path)
-
 class load_data:
+    # if linux
+    if os.path.exists('/DATA_BASE/concretePlant.db'):
+        database_path = '/DATA_BASE/concretePlant.db'  # Docker/Linux path
+    else:
+        # else windows
+        database_path = os.path.dirname(os.path.realpath(__file__))
+        database_path = os.path.join(database_path, "..", "..", "DATA_BASE", "concretePlant.db")
+        database_path = os.path.normpath(database_path)
+    
+    # Debug output - shows which path is being used
+    # print(f"[load_data] Database path: {database_path}")
+    # print(f"[load_data] Database exists: {os.path.exists(database_path)}")
+    
     def __init__(self):
-        self.db_path = database_path
+        self.db_path = self.database_path
     
     def load_all_data(self):
         try:

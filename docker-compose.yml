@@ -9,7 +9,7 @@ services:
     volumes:
       - ./New_billing:/app
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./DATA_BASE:/app/DATA_BASE
+      - ./DATA_BASE:/DATA_BASE:ro
 
 
   control:
