@@ -3,6 +3,7 @@ from PySide6.QtCore import Slot, QObject
 from PySide6.QtWidgets import QFileDialog, QMessageBox, QTreeWidgetItem
 from Controller.load_data import load_data
 from Controller.date_select import date_select
+from Controller.create_bill import BillGenerator
 
 
 class MainController(QObject):
@@ -11,7 +12,8 @@ class MainController(QObject):
         super(MainController, self).__init__()
         self.main_window = MainWindow()
         self.data_loader = load_data()
-        
+        self.bill_generator = BillGenerator()
+
         # Setup date selector
         self.date_selector = date_select(self.main_window)
         
@@ -58,7 +60,48 @@ class MainController(QObject):
                 )
 
     def print_data(self):
-        pass
+        """Generate and print bill for selected item"""
+        # Get selected item from TreeWidget
+        selected_items = self.main_window.billing_treeWidget.selectedItems()
+        
+        if not selected_items:
+            QMessageBox.warning(
+                self.main_window,
+                "No Selection",
+                "Please select a bill to print."
+            )
+            return
+        
+        # Get the ID from the first column of selected item
+        selected_item = selected_items[0]
+        bill_id = selected_item.text(0)  # Assuming ID is in first column
+        
+        try:
+            # Generate and print the bill
+            success = self.bill_generator.generate_and_print_bill(bill_id)
+            
+            if success:
+                QMessageBox.information(
+                    self.main_window,
+                    "Success",
+                    f"Bill for ID {bill_id} has been generated and sent to printer."
+                )
+            else:
+                QMessageBox.warning(
+                    self.main_window,
+                    "Print Failed",
+                    f"Failed to print bill for ID {bill_id}. Check console for details."
+                )
+                
+        except Exception as e:
+            QMessageBox.critical(
+                self.main_window,
+                "Error",
+                f"Error printing bill: {str(e)}"
+            )
+            print(f"Error in print_data: {e}")
+            import traceback
+            traceback.print_exc()
         
     def Show_main(self):
         self.main_window.Show()
