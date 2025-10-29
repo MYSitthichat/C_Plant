@@ -119,9 +119,10 @@ class MainController(QObject):
         self.main_window.work_queue_treeWidget.clear()
         try:
             work_data = self.db.get_work_queue() 
-            print(f"Data fetched from DB: {work_data}") 
+            # print(f"Data fetched from DB: {work_data}") 
             if not work_data:
-                 print("No work data found matching criteria (batch_state 0 or 1 and matching formula).") 
+                #  print("No work data found matching criteria (batch_state 0 or 1 and matching formula).") 
+                pass
 
             self.main_window.work_queue_treeWidget.setColumnWidth(0, 50)
             self.main_window.work_queue_treeWidget.setColumnWidth(1, 150)
@@ -129,7 +130,7 @@ class MainController(QObject):
             self.main_window.work_queue_treeWidget.setColumnWidth(3, 300)
 
             for (display_number, db_row) in enumerate(work_data, start=1):
-                print(f"Processing row {display_number}: {db_row}")
+                # print(f"Processing row {display_number}: {db_row}")
                 display_list = [
                     str(display_number),
                     str(db_row[4]), # formula_name
@@ -148,8 +149,8 @@ class MainController(QObject):
                 tree_item = QTreeWidgetItem(display_list)
                 tree_item.setData(0, Qt.UserRole, db_row)
                 self.main_window.work_queue_treeWidget.addTopLevelItem(tree_item)
-                print(f"Added item to tree: {display_list}") 
-            print("--- Finished Loading Work Queue ---") 
+                # print(f"Added item to tree: {display_list}") 
+            # print("--- Finished Loading Work Queue ---") 
         except Exception as e:
             print(f"!!! Error during load_work_queue: {e}") 
 
@@ -215,7 +216,7 @@ class MainController(QObject):
         self.main_window.mix_wieght_target_rock_2_lineEdit.setText(str(target_rock2))
         self.main_window.mix_wieght_target_cement_lineEdit.setText(str(target_cement))
         self.main_window.mix_wieght_target_fyash_lineEdit.setText(str(target_flyash))
-        self.main_window.mix_wieght_target_wather_lineEdit.setText(str(target_water)) # ui คือ wather
+        self.main_window.mix_wieght_target_water_lineEdit.setText(str(target_water)) 
         self.main_window.mix_wieght_target_chem_1_lineEdit.setText(str(target_chem1))
         self.main_window.mix_wieght_target_chem_2_lineEdit.setText(str(target_chem2))
         self.db.update_customer_batch_state(customer_id, 2)
@@ -230,7 +231,7 @@ class MainController(QObject):
         self.main_window.mix_monitor_rock_2_lineEdit.clear()
         self.main_window.mix_monitor_cement_lineEdit.clear()
         self.main_window.mix_monitor_fyash_lineEdit.clear()
-        self.main_window.mix_monitor_wather_lineEdit.clear() # ui คือ wather
+        self.main_window.mix_monitor_water_lineEdit.clear()
         self.main_window.mix_monitor_chem_1_lineEdit.clear()
         self.main_window.mix_monitor_chem_2_lineEdit.clear()
         self.main_window.mix_monitor_sum_rock_and_sand_lineEdit.clear()
@@ -241,7 +242,7 @@ class MainController(QObject):
         self.main_window.mix_wieght_Loaded_rock_2_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_cement_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_fyash_lineEdit.clear()
-        self.main_window.mix_wieght_Loaded_wather_lineEdit.clear() # ui คือ wather
+        self.main_window.mix_wieght_Loaded_water_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_chem_1_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_chem_2_lineEdit.clear()
         self.main_window.mix_result_load_lineEdit.clear()
