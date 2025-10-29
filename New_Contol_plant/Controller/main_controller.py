@@ -28,12 +28,11 @@ class MainController(QObject):
         self.main_window.reg_formula_treeWidget.itemClicked.connect(self.reg_on_formula_item_clicked)
         # end reg tab
 
-        # --- เพิ่มส่วนของ WORK TAB ---
-        self.load_work_queue() # โหลดคิวงานตอนเปิดโปรแกรม
+      
+        self.load_work_queue() 
         self.main_window.work_start_pushButton.clicked.connect(self.start_selected_work)
         self.main_window.work_cancel_pushButton.clicked.connect(self.cancel_selected_work)
-        # --- สิ้นสุดส่วนของ WORK TAB ---
-
+       
         # formula tab
         self.for_load_formula_to_tree()
         self.main_window.disable_form_formula()
@@ -96,22 +95,18 @@ class MainController(QObject):
         else:
             date_time, name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment = self.main_window.get_data_from_reg_from()
 
-            # เราจะใช้ 0 (ไม่เก็บ) และ 1 (เก็บ) เป็นสถานะ "รอทำงาน"
             if child_cement =="ต้องการเก็บ":
                 child_cement_val = 1
             elif child_cement =="ไม่ต้องการเก็บ":
                 child_cement_val = 0
             else:
-                child_cement_val = 0 # ค่าเริ่มต้น
+                child_cement_val = 0 
 
             self.db.update_data_to_table_customer(name_customer, phone_number, address, formula_name, amount_concrete, car_number, child_cement_val, comment)
             self.main_window.clear_reg_form()
             self.load_customers_to_tree()
-
-            # --- เพิ่มบรรทัดนี้ ---
-            # เพื่อรีเฟรชหน้า Work ทันทีที่บันทึก
             self.load_work_queue()
-            # --- สิ้นสุดส่วนที่เพิ่ม ---
+           
 
     def mix_start_load(self):
         print("mix start load")
@@ -119,17 +114,15 @@ class MainController(QObject):
     def mix_cancel_load(self):
         print("mix cancel load")
 
-
-    # --- เพิ่มฟังก์ชันใหม่สำหรับ WORK TAB (พร้อม Debug Prints) ---
     def load_work_queue(self):
-        print("--- Loading Work Queue ---") # Debug print 1: เช็คว่าฟังก์ชันถูกเรียก
+        print("--- Loading Work Queue ---") 
         self.main_window.work_queue_treeWidget.clear()
         try:
-            work_data = self.db.get_work_queue() # ดึงข้อมูลที่ JOIN แล้ว
-            print(f"Data fetched from DB: {work_data}") # Debug print 2: ดูข้อมูลที่ดึงมาได้
-
+            work_data = self.db.get_work_queue() 
+            # print(f"Data fetched from DB: {work_data}") 
             if not work_data:
-                 print("No work data found matching criteria (batch_state 0 or 1 and matching formula).") # Debug print 3: แจ้งถ้าไม่เจอข้อมูล
+                #  print("No work data found matching criteria (batch_state 0 or 1 and matching formula).") 
+                pass
 
             self.main_window.work_queue_treeWidget.setColumnWidth(0, 50)
             self.main_window.work_queue_treeWidget.setColumnWidth(1, 150)
@@ -137,7 +130,7 @@ class MainController(QObject):
             self.main_window.work_queue_treeWidget.setColumnWidth(3, 300)
 
             for (display_number, db_row) in enumerate(work_data, start=1):
-                print(f"Processing row {display_number}: {db_row}") # Debug print 4: ดูข้อมูลแต่ละแถวก่อนแสดงผล
+                # print(f"Processing row {display_number}: {db_row}")
                 display_list = [
                     str(display_number),
                     str(db_row[4]), # formula_name
@@ -156,11 +149,11 @@ class MainController(QObject):
                 tree_item = QTreeWidgetItem(display_list)
                 tree_item.setData(0, Qt.UserRole, db_row)
                 self.main_window.work_queue_treeWidget.addTopLevelItem(tree_item)
-                print(f"Added item to tree: {display_list}") # Debug print 5: ยืนยันว่าเพิ่มข้อมูลลง Tree Widget แล้ว
-            print("--- Finished Loading Work Queue ---") # Debug print 6
+                # print(f"Added item to tree: {display_list}") 
+            # print("--- Finished Loading Work Queue ---") 
         except Exception as e:
-            print(f"!!! Error during load_work_queue: {e}") # Debug print 7: ดักจับ Error ที่อาจเกิดขึ้น
-    # --- สิ้นสุดฟังก์ชัน load_work_queue ที่แก้ไขแล้ว ---
+            print(f"!!! Error during load_work_queue: {e}") 
+
 
     def cancel_selected_work(self):
         print("Cancel work")
@@ -180,9 +173,8 @@ class MainController(QObject):
 
         if reply == QMessageBox.StandardButton.Yes:
             try:
-                # ลบออกจากตาราง customer
+               
                 self.db.delete_data_in_table_customer(real_id_to_delete)
-                # รีเฟรชทั้งสองหน้า
                 self.load_work_queue()
                 self.load_customers_to_tree()
                 QMessageBox.information(self.main_window, "สำเร็จ", "ลบคิวงานเรียบร้อยแล้ว")
@@ -199,99 +191,66 @@ class MainController(QObject):
         item_to_start = selected_items[0]
         data = item_to_start.data(0, Qt.UserRole)
 
-        # data[0] = id
+       
         customer_id = data[0]
-        # data[1] = name
-        customer_name = data[1]
-        # data[2] = phone_number
+        customer_name = data[1]  
         phone_number = data[2]
-        # data[3] = address
-        # data[4] = formula_name
         formula_name = data[4]
-        # data[5] = amount
         amount = data[5]
-        # ...
-        # data[8] = rock1_weight
         target_rock1 = data[8]
-        # data[9] = sand_weight
         target_sand = data[9]
-        # data[10] = rock2_weight
         target_rock2 = data[10]
-        # data[11] = cement_weight
         target_cement = data[11]
-        # data[12] = fly_ash_weight
         target_flyash = data[12]
-        # data[13] = water_weight
         target_water = data[13]
-        # data[14] = chemical1_weight
         target_chem1 = data[14]
-        # data[15] = chemical2_weight
         target_chem2 = data[15]
 
-        # 1. ล้างค่าหน้า Mixer
         self.clear_mixer_monitors()
-
-        # 2. ส่งข้อมูลลูกค้าไปแสดงที่ GroupBox ด้านบน
         self.main_window.mix_customer_name_lineEdit.setText(customer_name)
         self.main_window.mix_customer_phone_lineEdit.setText(phone_number)
         self.main_window.mix_customer_formula_name_lineEdit.setText(formula_name)
         self.main_window.mix_number_cube_lineEdit.setText(str(amount))
-
-        # 3. ส่งค่าน้ำหนัก "เป้าหมาย" (Target) ไปแสดงที่ GroupBox ด้านขวา
         self.main_window.mix_wieght_targrt_rock_1_lineEdit.setText(str(target_rock1))
         self.main_window.mix_wieght_target_sand_lineEdit.setText(str(target_sand))
         self.main_window.mix_wieght_target_rock_2_lineEdit.setText(str(target_rock2))
         self.main_window.mix_wieght_target_cement_lineEdit.setText(str(target_cement))
         self.main_window.mix_wieght_target_fyash_lineEdit.setText(str(target_flyash))
-        self.main_window.mix_wieght_target_wather_lineEdit.setText(str(target_water)) # ui คือ wather
+        self.main_window.mix_wieght_target_water_lineEdit.setText(str(target_water)) 
         self.main_window.mix_wieght_target_chem_1_lineEdit.setText(str(target_chem1))
         self.main_window.mix_wieght_target_chem_2_lineEdit.setText(str(target_chem2))
-
-        # 4. อัปเดตสถานะงานใน DB (เช่น 2 = "กำลังผสม")
-        # เพื่อให้งานนี้หายไปจากคิว
         self.db.update_customer_batch_state(customer_id, 2)
-
-        # 5. รีเฟรชหน้า Work (คิวงานที่เลือกจะหายไป)
         self.load_work_queue()
-
-        # 6. สลับไปหน้า Mixer
         self.main_window.tab.setCurrentWidget(self.main_window.Mix_tab)
 
     def clear_mixer_monitors(self):
         """ล้างค่าที่แสดงผลในหน้า Mixer เพื่อเตรียมรับงานใหม่"""
 
-        # ล้างค่าช่องแสดงผลน้ำหนักจริง (ตรงกลาง)
         self.main_window.mix_monitor_rock_1_lineEdit.clear()
         self.main_window.mix_monitor_sand_lineEdit.clear()
         self.main_window.mix_monitor_rock_2_lineEdit.clear()
         self.main_window.mix_monitor_cement_lineEdit.clear()
         self.main_window.mix_monitor_fyash_lineEdit.clear()
-        self.main_window.mix_monitor_wather_lineEdit.clear() # ui คือ wather
+        self.main_window.mix_monitor_water_lineEdit.clear()
         self.main_window.mix_monitor_chem_1_lineEdit.clear()
         self.main_window.mix_monitor_chem_2_lineEdit.clear()
         self.main_window.mix_monitor_sum_rock_and_sand_lineEdit.clear()
         self.main_window.mix_monitor_sum_fyash_and_cement_lineEdit.clear()
-        self.main_window.mix_monitor_sum_chem_lineEdit.clear()
-
-        # ล้างค่าช่อง "โหลดแล้ว" (ด้านขวา)
+        self.main_window.mix_monitor_sum_chem_lineEdit.clear()  
         self.main_window.mix_wieght_Loaded_rock_1_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_sand_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_rock_2_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_cement_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_fyash_lineEdit.clear()
-        self.main_window.mix_wieght_Loaded_wather_lineEdit.clear() # ui คือ wather
+        self.main_window.mix_wieght_Loaded_water_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_chem_1_lineEdit.clear()
         self.main_window.mix_wieght_Loaded_chem_2_lineEdit.clear()
-
-        # ล้างค่าสรุปการโหลด (ด้านขวาบน)
         self.main_window.mix_result_load_lineEdit.clear()
         self.main_window.mix_result_mix_lineEdit.clear()
         self.main_window.mix_result_mix_success_lineEdit.clear()
-
-        # ล้างสถานะ
         self.main_window.mix_monitor_status_textEdit.clear()
 
-    # --- สิ้นสุดฟังก์ชันใหม่สำหรับ WORK TAB ---
+    
 
 
     def debug_open_rock_2(self):
@@ -505,7 +464,7 @@ class MainController(QObject):
             try:
                 self.db.delete_data_in_table_customer(real_id_to_delete)
                 self.load_customers_to_tree()
-                self.load_work_queue() # รีเฟรชหน้า Work ด้วย
+                self.load_work_queue() 
             except Exception as e:
                 print(f"delete error: {e}")
 
@@ -588,12 +547,10 @@ class MainController(QObject):
         if result is None:
             return
         try:
-            self.main_window.for_name_formula_lineEdit.setText(str(result[0]))
-            # --- แก้ไขให้ใช้ชื่อ LineEdit ที่ถูกต้อง ---
-            self.main_window.for_rock_1_lineEdit.setText(str(result[1])) # เดิมคือ for_rock_1_lineEdit_3
-            self.main_window.for_sand_lineEdit.setText(str(result[2])) # เดิมคือ for_rock_2_lineEdit
-            self.main_window.for_rock_2_lineEdit.setText(str(result[3])) # เดิมคือ for_sand_lineEdit
-            # --- จบการแก้ไข ---
+            self.main_window.for_name_formula_lineEdit.setText(str(result[0]))  
+            self.main_window.for_rock_1_lineEdit.setText(str(result[1])) 
+            self.main_window.for_sand_lineEdit.setText(str(result[2])) 
+            self.main_window.for_rock_2_lineEdit.setText(str(result[3])) 
             self.main_window.for_cement_lineEdit.setText(str(result[4]))
             self.main_window.for_fyash_lineEdit.setText(str(result[5]))
             self.main_window.for_water_lineEdit.setText(str(result[6]))
@@ -615,11 +572,9 @@ class MainController(QObject):
 
     def for_save_formula(self):# formula tab methods
         name_formula = self.main_window.for_name_formula_lineEdit.text()
-        # --- แก้ไขให้ใช้ชื่อ LineEdit ที่ถูกต้อง ---
-        rock_1 = self.main_window.for_rock_1_lineEdit.text() # เดิมคือ for_rock_1_lineEdit_3
+        rock_1 = self.main_window.for_rock_1_lineEdit.text() 
         sand = self.main_window.for_sand_lineEdit.text()
         rock_2 = self.main_window.for_rock_2_lineEdit.text()
-        # --- จบการแก้ไข ---
         cement = self.main_window.for_cement_lineEdit.text()
         fyash = self.main_window.for_fyash_lineEdit.text()
         water = self.main_window.for_water_lineEdit.text()
