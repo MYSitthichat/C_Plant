@@ -1,6 +1,5 @@
 import os
 import subprocess
-import sqlite3
 from io import BytesIO
 from datetime import datetime
 
@@ -10,24 +9,13 @@ from reportlab.lib.fonts import addMapping
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 
+from Controller.load_data import load_data
+
 from PyPDF2 import PdfReader, PdfWriter
 
 
 class CreateBillConfig:
     def __init__(self):
-        # if linux
-        if os.path.exists('/DATA_BASE/concretePlant.db'):
-            self.database_path = '/DATA_BASE/concretePlant.db'  # Docker/Linux path
-        else:
-            # else windows
-            self.database_path = os.path.dirname(os.path.realpath(__file__))
-            self.database_path = os.path.join(self.database_path, "..", "..", "DATA_BASE", "concretePlant.db")
-            self.database_path = os.path.normpath(self.database_path)
-        
-        # # Debug output - shows which path is being used
-        # print(f"[CreateBillConfig] Database path: {self.database_path}")
-        # print(f"[CreateBillConfig] Database exists: {os.path.exists(self.database_path)}")
-
         # Template path - in templates folder
         self.template_path = os.path.join(os.path.dirname(__file__), "..", "templates", "bill_templateA5.pdf")
         self.template_path = os.path.normpath(self.template_path)
@@ -65,97 +53,8 @@ class CreateBillConfig:
 class BillGenerator:
     def __init__(self):
         self.config = CreateBillConfig()
+        self.data_loader = load_data()
         
-    def load_bill_info(self, id):
-        """Load bill information from database by ID"""
-        try:
-            conn = sqlite3.connect(self.config.database_path)
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT customer_name, address, amount 
-                FROM concrete_order 
-                WHERE id = ? 
-                LIMIT 1
-            """, (id,))
-            record = cursor.fetchone()
-            conn.close()
-            return record
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return None
-    
-    def load_concrete_strength(self, id):
-        """Load concrete strength from formula_name column"""
-        try:
-            conn = sqlite3.connect(self.config.database_path)
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT formula_name 
-                FROM concrete_order 
-                WHERE id = ? 
-                LIMIT 1
-            """, (id,))
-            result = cursor.fetchone()
-            conn.close()
-            return result[0] if result else ""
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return ""
-    
-    def load_concrete_age(self, id):
-        """Load concrete age from age column"""
-        try:
-            conn = sqlite3.connect(self.config.database_path)
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT age 
-                FROM concrete_order 
-                WHERE id = ? 
-                LIMIT 1
-            """, (id,))
-            result = cursor.fetchone()
-            conn.close()
-            return result[0] if result else ""
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return ""
-    
-    def load_concrete_slump(self, id):
-        """Load concrete slump from slump column"""
-        try:
-            conn = sqlite3.connect(self.config.database_path)
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT slump 
-                FROM concrete_order 
-                WHERE id = ? 
-                LIMIT 1
-            """, (id,))
-            result = cursor.fetchone()
-            conn.close()
-            return result[0] if result else ""
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return ""
-    
-    def load_record_time(self, id):
-        """Load record time from database"""
-        try:
-            conn = sqlite3.connect(self.config.database_path)
-            cursor = conn.cursor()
-            cursor.execute("""
-                SELECT dTime 
-                FROM concrete_order 
-                WHERE id = ? 
-                LIMIT 1
-            """, (id,))
-            result = cursor.fetchone()
-            conn.close()
-            return result[0] if result else None
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return None
-    
     def convert_to_thai_date(self, date_string):
         """Convert date from yyyy-mm-dd to Thai format"""
         month_thai = {
@@ -187,7 +86,6 @@ class BillGenerator:
         # Draw customer information
         c.drawString(120, 312, name)
         c.drawString(120, 296, address)
-        # c.drawString(120, 280, address)
         c.drawString(120, 216, str(amount))
         
         # Parse and format date
@@ -239,7 +137,6 @@ class BillGenerator:
         with open(archive_path, "wb") as archive_stream:
             output.write(archive_stream)
         
-        
         packet.close()
         
         return archive_path
@@ -281,8 +178,8 @@ class BillGenerator:
     def generate_and_print_bill(self, id):
         """Main method to generate and print bill for a customer ID"""
         try:
-            # Load bill information
-            bill_info = self.load_bill_info(id)
+            # Load bill information using data_loader
+            bill_info = self.data_loader.load_bill_info(id)
             if not bill_info:
                 print(f"No bill information found for ID: {id}")
                 return False
@@ -291,14 +188,14 @@ class BillGenerator:
             address = bill_info[1] if bill_info[1] else ""
             amount = str(bill_info[2]) if bill_info[2] else "0"
             
-            # Load record time
-            record_time = self.load_record_time(id)
+            # Load record time using data_loader
+            record_time = self.data_loader.load_record_time(id)
             if not record_time:
                 print(f"No record time found for ID: {id}")
                 return False
             
-            # Load concrete strength from formula_name
-            strength = self.load_concrete_strength(id)
+            # Load concrete strength from formula_name using data_loader
+            strength = self.data_loader.load_concrete_strength(id)
             
             # Parse strength to extract base value
             if strength:
@@ -307,15 +204,14 @@ class BillGenerator:
                     ending_key = strength.find("Lean")
                     if ending_key == 0:
                         strength = "Lean"
-                    # else keep original strength value
                 else:
                     strength = strength[:ending_key]
             else:
                 strength = ""
             
-            # Load age and slump
-            age = self.load_concrete_age(id)
-            slump = self.load_concrete_slump(id)
+            # Load age and slump using data_loader
+            age = self.data_loader.load_concrete_age(id)
+            slump = self.data_loader.load_concrete_slump(id)
             
             # Prepare customer information
             customer_information = [
