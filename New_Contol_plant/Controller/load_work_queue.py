@@ -56,30 +56,38 @@ class load_work_queue(QObject):
             print(f"!!! Error during load_work_queue: {e}") 
 
     def cancel_selected_work(self):
+        """Remove work from queue (treeWidget only) - does NOT delete from database"""
         print("Cancel work")
         selected_items = self.main_window.work_queue_treeWidget.selectedItems()
         if not selected_items:
-            QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกคิวงานที่ต้องการลบ")
+            QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกคิวงานที่ต้องการยกเลิก")
             return
 
-        item_to_delete = selected_items[0]
-        data = item_to_delete.data(0, Qt.UserRole)
-        real_id_to_delete = data[0] # id อยู่ตำแหน่งแรก
+        item_to_cancel = selected_items[0]
+        data = item_to_cancel.data(0, Qt.UserRole)
+        customer_id = data[0]
+        customer_name = data[1]
+        formula_name = data[4]
 
-        reply = QMessageBox.question(self.main_window, 'ยืนยันการลบ',
-                                    f"คุณต้องการลบคิวงานนี้ (ID: {real_id_to_delete}) ใช่หรือไม่?",
-                                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                                    QMessageBox.StandardButton.No)
+        reply = QMessageBox.question(
+            self.main_window, 
+            'ยืนยันการยกเลิก',
+            f"คุณต้องการยกเลิกคิวงาน '{customer_name}' สูตร '{formula_name}' ใช่หรือไม่?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No
+        )
 
         if reply == QMessageBox.StandardButton.Yes:
             try:
-                self.db.delete_data_in_table_customer(real_id_to_delete)
+                # Update batch_state to 3 (cancelled) - keeps in database but removes from queue
+                self.db.update_customer_batch_state(customer_id, 3)
+                
+                # Reload work queue (will not show batch_state=3)
                 self.load_work_queue()
-                if self.reg_tab:
-                    self.reg_tab.load_customers_to_tree()
-                QMessageBox.information(self.main_window, "สำเร็จ", "ลบคิวงานเรียบร้อยแล้ว")
+                
+                QMessageBox.information(self.main_window, "สำเร็จ", "ยกเลิกคิวงานเรียบร้อยแล้ว")
             except Exception as e:
-                QMessageBox.warning(self.main_window, "ผิดพลาด", f"ไม่สามารถลบข้อมูลได้: {e}")
+                QMessageBox.warning(self.main_window, "ผิดพลาด", f"ไม่สามารถยกเลิกคิวงานได้: {e}")
 
 
     def start_selected_work(self):
