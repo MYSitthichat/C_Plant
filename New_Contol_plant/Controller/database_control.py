@@ -7,12 +7,12 @@ class C_palne_Database():
 
         if is_docker:
             self.db_path = "/app/DATA_BASE/concretePlant.db"
-            print(f"[Docker Mode] Using DB path: {self.db_path}") # Debug
+            print(f"[Docker Mode] Using DB path: {self.db_path}")
         else:
             script_dir = os.path.dirname(__file__)
             db_path_relative = os.path.join(script_dir, "..", "..", "DATA_BASE", "concretePlant.db")
             self.db_path = os.path.normpath(db_path_relative)
-            print(f"[Local Mode] Using DB path: {self.db_path}") # Debug
+            # print(f"[Local Mode] Using DB path: {self.db_path}")
 
         db_dir = os.path.dirname(self.db_path)
 
@@ -60,13 +60,12 @@ class C_palne_Database():
             );
             """)
 
-
             cursor.execute("""
             INSERT OR IGNORE INTO offset_settings (id) VALUES (1);
             """)
 
             conn.commit()
-            print(f"Database table 'offset_settings' checked/created successfully at {self.db_path}")
+            # print(f"Database table 'offset_settings' checked/created successfully at {self.db_path}")
 
         except sqlite3.Error as e:
             print(f"!!! Error interacting with offset_settings table: {e}")
@@ -74,14 +73,13 @@ class C_palne_Database():
             if conn:
                 conn.close()
 
-
-    def delete_data_in_table_customer(self,id): # REG tab
+    def delete_data_in_table_customer(self, id):
         query = """DELETE FROM customer WHERE id = ?;"""
         conn = None
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            cursor.execute(query,(id,))
+            cursor.execute(query, (id,))
             conn.commit()
         except sqlite3.Error as e:
             print(f"error {e}")
@@ -89,7 +87,7 @@ class C_palne_Database():
             if conn:
                 conn.close()
 
-    def read_data_in_table_formula(self): #reg tab
+    def read_data_in_table_formula(self):
         query = """SELECT id, formula_name, rock1_weight, sand_weight, rock2_weight, fly_ash_weight, cement_weight,
                     water_weight, chemical1_weight, chemical2_weight, age, slump FROM
                     concrete_formula WHERE status = 1;"""
@@ -107,13 +105,14 @@ class C_palne_Database():
             if conn:
                 conn.close()
 
-    def update_data_to_table_customer(self,name,phone_number,address,formula_name,amount_concrete,car_number,child_cement,comment): # REG tab
-        query = """INSERT INTO customer (name, phone_number,address,formula_name,amount,truck_number,batch_state,comments) VALUES (?,?,?,?,?,?,?,?);"""
+    def update_data_to_table_customer(self, name, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment):
+        query = """INSERT INTO customer (name, phone_number, address, formula_name, amount, truck_number, batch_state, comments) 
+                   VALUES (?, ?, ?, ?, ?, ?, 0, ?);"""
         conn = None
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            cursor.execute(query,(name, phone_number,address,formula_name,amount_concrete,car_number,child_cement,comment))
+            cursor.execute(query, (name, phone_number, address, formula_name, amount_concrete, car_number, comment))
             conn.commit()
         except sqlite3.Error as e:
             print(f"error {e}")
@@ -121,8 +120,53 @@ class C_palne_Database():
             if conn:
                 conn.close()
 
+    def insert_order_for_existing_customer(self, customer_id, formula_name, amount_concrete, car_number, child_cement, comment):
+        """Insert new order for existing customer - reuses customer's name, phone, address"""
+        query = """INSERT INTO customer (name, phone_number, address, formula_name, amount, truck_number, batch_state, comments) 
+                   SELECT name, phone_number, address, ?, ?, ?, 0, ?
+                   FROM customer WHERE id = ? LIMIT 1;"""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (formula_name, amount_concrete, car_number, comment, customer_id))
+            conn.commit()
+            new_order_id = cursor.lastrowid
+            print(f"Order inserted for customer ID: {customer_id}, New order ID: {new_order_id}")
+            return new_order_id
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            raise
+        finally:
+            if conn:
+                conn.close()
+
+    def insert_new_customer_with_order(self, name, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment):
+        """Insert new customer and their first order"""
+        query = """INSERT INTO customer (name, phone_number, address, formula_name, amount, truck_number, batch_state, comments) 
+                   VALUES (?, ?, ?, ?, ?, ?, 0, ?);"""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (name, phone_number, address, formula_name, amount_concrete, car_number, comment))
+            conn.commit()
+            new_id = cursor.lastrowid
+            print(f"New customer and order inserted with ID: {new_id}")
+            return new_id
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            raise
+        finally:
+            if conn:
+                conn.close()
+
     def read_data_in_table_customer(self):
-        query = """SELECT id, name, phone_number,address FROM customer;"""
+        """Get unique customers (distinct by name, phone, address)"""
+        query = """SELECT MIN(id) as id, name, phone_number, address 
+                   FROM customer 
+                   GROUP BY name, phone_number, address
+                   ORDER BY MIN(id) DESC;"""
         conn = None
         try:
             conn = sqlite3.connect(self.db_path)
@@ -154,30 +198,28 @@ class C_palne_Database():
                 conn.close()
 
     def get_customer_data_by_id(self, customer_id):
-            query = "SELECT name,phone_number,address FROM customer WHERE id = ?;"
-            conn = None
-            try:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-                cursor.execute(query, (customer_id,))
-                result = cursor.fetchone()
-                return result
+        query = "SELECT name, phone_number, address FROM customer WHERE id = ?;"
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (customer_id,))
+            result = cursor.fetchone()
+            return result
+        except sqlite3.Error as e:
+            print(f"Error fetching customer by id: {e}")
+            return None
+        finally:
+            if conn:
+                conn.close()
 
-            except sqlite3.Error as e:
-                print(f"Error fetching customer by id: {e}")
-                return None
-            finally:
-                if conn:
-                    conn.close()
-
-
-    def delete_data_in_table_formula(self,id):
+    def delete_data_in_table_formula(self, id):
         query = """DELETE FROM concrete_formula WHERE id = ?;"""
         conn = None
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            cursor.execute(query,(id,))
+            cursor.execute(query, (id,))
             conn.commit()
         except sqlite3.Error as e:
             print(f"error {e}")
@@ -186,33 +228,32 @@ class C_palne_Database():
                 conn.close()
 
     def get_data_formula_by_id(self, formula_id):
-            query = """SELECT formula_name, rock1_weight, sand_weight, rock2_weight, fly_ash_weight, cement_weight,
-                    water_weight, chemical1_weight, chemical2_weight, age, slump
-                    FROM concrete_formula WHERE id = ?;"""
-            conn = None
-            try:
-                conn = sqlite3.connect(self.db_path)
-                cursor = conn.cursor()
-                cursor.execute(query, (formula_id,))
-                result = cursor.fetchone()
-                return result
-
-            except sqlite3.Error as e:
-                print(f"Error fetching formula by id: {e}")
-                return None
-            finally:
-                if conn:
-                    conn.close()
-
-    def insert_data_to_table_formula(self,name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump): # FORMULA tab
-        query = """INSERT INTO concrete_formula (formula_name, rock1_weight, sand_weight, rock2_weight, fly_ash_weight, cement_weight,
-                    water_weight, chemical1_weight, chemical2_weight, age, slump, status)
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,1);"""
+        query = """SELECT formula_name, rock1_weight, sand_weight, rock2_weight, fly_ash_weight, cement_weight,
+                water_weight, chemical1_weight, chemical2_weight, age, slump
+                FROM concrete_formula WHERE id = ?;"""
         conn = None
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            cursor.execute(query,(name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump))
+            cursor.execute(query, (formula_id,))
+            result = cursor.fetchone()
+            return result
+        except sqlite3.Error as e:
+            print(f"Error fetching formula by id: {e}")
+            return None
+        finally:
+            if conn:
+                conn.close()
+
+    def insert_data_to_table_formula(self, name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump):
+        query = """INSERT INTO concrete_formula (formula_name, rock1_weight, sand_weight, rock2_weight, fly_ash_weight, cement_weight,
+                    water_weight, chemical1_weight, chemical2_weight, age, slump, status)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1);"""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump))
             conn.commit()
         except sqlite3.Error as e:
             print(f"error {e}")
@@ -220,7 +261,7 @@ class C_palne_Database():
             if conn:
                 conn.close()
 
-    def update_data_to_table_formula(self,formula_id, name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump): # FORMULA tab
+    def update_data_to_table_formula(self, formula_id, name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump):
         query = """UPDATE concrete_formula
                     SET formula_name = ?, rock1_weight = ?, sand_weight = ?, rock2_weight = ?, fly_ash_weight = ?, cement_weight = ?,
                         water_weight = ?, chemical1_weight = ?, chemical2_weight = ?, age = ?, slump = ?
@@ -229,7 +270,7 @@ class C_palne_Database():
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            cursor.execute(query,(name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump, formula_id))
+            cursor.execute(query, (name_formula, rock_1, sand, rock_2, cement, fyash, water, chem_1, chem_2, age, slump, formula_id))
             conn.commit()
         except sqlite3.Error as e:
             print(f"error {e}")
@@ -295,6 +336,7 @@ class C_palne_Database():
                 conn.close()
 
     def get_work_queue(self):
+        """Get work queue sorted by newest orders first"""
         query = """
         SELECT
             c.id, c.name, c.phone_number, c.address, c.formula_name,
@@ -303,7 +345,8 @@ class C_palne_Database():
             f.fly_ash_weight, f.water_weight, f.chemical1_weight, f.chemical2_weight
         FROM customer c
         JOIN concrete_formula f ON c.formula_name = f.formula_name
-        WHERE c.batch_state IN (0, 1);
+        WHERE c.batch_state IN (0, 1)
+        ORDER BY c.id DESC;
         """
         conn = None
         try:
