@@ -1,4 +1,3 @@
-from View.view_main_frame import MainWindow
 import os
 import sqlite3
 
