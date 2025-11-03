@@ -17,7 +17,6 @@ class StockController(QObject):
         It does NOT load the UI, it just gets a reference to the main window.
         """
         super(StockController, self).__init__()
-        
         # Store the reference to the main window
         self.stock_window = main_window 
         

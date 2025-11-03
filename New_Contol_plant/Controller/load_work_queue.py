@@ -16,7 +16,7 @@ class load_work_queue(QObject):
         self.main_window.work_cancel_pushButton.clicked.connect(self.cancel_selected_work)
 
     def load_work_queue(self):
-        print("--- Loading Work Queue ---") 
+        # print("--- Loading Work Queue ---") 
         self.main_window.work_queue_treeWidget.clear()
         try:
             work_data = self.db.get_work_queue() 
@@ -56,7 +56,7 @@ class load_work_queue(QObject):
             print(f"!!! Error during load_work_queue: {e}") 
 
     def cancel_selected_work(self):
-        print("Cancel work")
+        # print("Cancel work")
         selected_items = self.main_window.work_queue_treeWidget.selectedItems()
         if not selected_items:
             QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกคิวงานที่ต้องการลบ")
@@ -67,13 +67,13 @@ class load_work_queue(QObject):
         real_id_to_delete = data[0] # id อยู่ตำแหน่งแรก
 
         reply = QMessageBox.question(self.main_window, 'ยืนยันการลบ',
-                                    f"คุณต้องการลบคิวงานนี้ (ID: {real_id_to_delete}) ใช่หรือไม่?",
+                                    f"คุณต้องการยกเลิกคิวงานนี้ ใช่หรือไม่?",
                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
                                     QMessageBox.StandardButton.No)
 
         if reply == QMessageBox.StandardButton.Yes:
             try:
-                self.db.delete_data_in_table_customer(real_id_to_delete)
+                # self.db.delete_data_in_table_customer(real_id_to_delete)
                 self.load_work_queue()
                 if self.reg_tab:
                     self.reg_tab.load_customers_to_tree()
@@ -83,7 +83,7 @@ class load_work_queue(QObject):
 
 
     def start_selected_work(self):
-        print("Start work")
+        # print("Start work")
         selected_items = self.main_window.work_queue_treeWidget.selectedItems()
         if not selected_items:
             QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกคิวงานที่ต้องการเริ่ม")

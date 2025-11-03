@@ -7,12 +7,12 @@ class C_palne_Database():
 
         if is_docker:
             self.db_path = "/app/DATA_BASE/concretePlant.db"
-            print(f"[Docker Mode] Using DB path: {self.db_path}") # Debug
+            # print(f"[Docker Mode] Using DB path: {self.db_path}") # Debug
         else:
             script_dir = os.path.dirname(__file__)
             db_path_relative = os.path.join(script_dir, "..", "..", "DATA_BASE", "concretePlant.db")
             self.db_path = os.path.normpath(db_path_relative)
-            print(f"[Local Mode] Using DB path: {self.db_path}") # Debug
+            # print(f"[Local Mode] Using DB path: {self.db_path}") # Debug
 
         db_dir = os.path.dirname(self.db_path)
 
@@ -66,7 +66,7 @@ class C_palne_Database():
             """)
 
             conn.commit()
-            print(f"Database table 'offset_settings' checked/created successfully at {self.db_path}")
+            # print(f"Database table 'offset_settings' checked/created successfully at {self.db_path}")
 
         except sqlite3.Error as e:
             print(f"!!! Error interacting with offset_settings table: {e}")
