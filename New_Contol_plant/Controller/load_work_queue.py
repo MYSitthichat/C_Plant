@@ -75,12 +75,13 @@ class load_work_queue(QObject):
 
         if reply == QMessageBox.StandardButton.Yes:
             try:
-                # self.db.delete_data_in_table_customer(real_id_to_delete)
-                self.load_work_queue()
+                # Remove the item from the treeWidget
+                index = self.main_window.work_queue_treeWidget.indexOfTopLevelItem(item_to_cancel)
+                self.main_window.work_queue_treeWidget.takeTopLevelItem(index)
                 
                 QMessageBox.information(self.main_window, "สำเร็จ", "ยกเลิกคิวงานเรียบร้อยแล้ว")
             except Exception as e:
-                QMessageBox.warning(self.main_window, "ผิดพลาด", f"ไม่สามารถยกเลิกคิวงานได้: {e}")
+                QMessageBox.warning(self.main_window, "ผิดพลาด", f"เกิดข้อผิดพลาด: {e}")
 
 
     def start_selected_work(self):

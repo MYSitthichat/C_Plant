@@ -16,9 +16,9 @@ def int32_to_registers(value):
     
     return [high_word, low_word]
 
-SERIAL_PORT = 'COM7' 
+SERIAL_PORT = 'COM3' 
 BAUD_RATE = 9600
-SLAVE_ID = 5 
+SLAVE_ID = 3
 UNLOCK_ADDRESS = 5      # Address 5 (คือ Register 40006)
 UNLOCK_CODE = 0x5AA5    # ค่า Hex 0x5AA5 (23205) 
 
