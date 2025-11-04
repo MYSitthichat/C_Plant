@@ -1,11 +1,13 @@
 from View.view_main_frame import MainWindow
-from PySide6.QtCore import Slot , QObject, Qt
-from PySide6.QtWidgets import QFileDialog,QMessageBox,QTreeWidgetItem
+from PySide6.QtCore import Slot , QObject, Qt, QTimer
+from PySide6.QtWidgets import QFileDialog,QMessageBox,QTreeWidgetItem,QApplication
 from threading import Thread
 import time
+import sys
 from datetime import datetime
 from Controller.database_control import C_palne_Database
 from Controller.PLC_controller import PLC_Controller
+from Controller.Autoda_controller import AUTODA_Controller
 from Controller.temp_queue import TempQueue
 from Controller.reg_tab import reg_tab
 from Controller.load_work_queue import load_work_queue
@@ -43,6 +45,11 @@ class MainController(QObject):
         # mix control tab
         self.plc_controller = PLC_Controller(self.main_window, self.db)
         self.plc_controller.comport_error.connect(self.update_status_port)
+        self.plc_controller.initialize_connections()
+        
+        self.autoda_controller = AUTODA_Controller(self.main_window, self.db)
+        self.autoda_controller.comport_error.connect(self.update_status_port)
+        self.autoda_controller.initialize_connections()
 
         self.main_window.mix_start_load_pushButton.clicked.connect(self.mix_start_load)
         self.main_window.mix_cancel_load_pushButton.clicked.connect(self.mix_cancel_load)
@@ -78,10 +85,25 @@ class MainController(QObject):
         self.main_window.debug_open_vale_chem_pushButton.clicked.connect(self.debug_open_vale_chem)
         self.main_window.debug_close_vale_chem_pushButton.clicked.connect(self.debug_close_vale_chem)
 
-    @Slot(str)
-    @Slot(bool)
-    def update_status_port(self,status):
-        print("update status port:",status)
+    @Slot(list)
+    def update_status_port(self, connection_data):
+        status = connection_data[0]
+        device_type = connection_data[1] 
+        if status:
+            msg_box = QMessageBox()
+            msg_box.setIcon(QMessageBox.Critical)
+            msg_box.setWindowTitle("Connection Error")
+            msg_box.setText(f"ไม่สามารถเชื่อมต่อกับ {device_type} ได้\nโปรแกรมจะปิดลง")
+            msg_box.setStandardButtons(QMessageBox.Ok)
+            result = msg_box.exec_()
+            if hasattr(self, 'main_window'):
+                self.main_window.close()
+            app = QApplication.instance()
+            if app:
+                app.quit()
+                QTimer.singleShot(100, lambda: sys.exit(0))
+        else:
+            pass
 
 
     def mix_start_load(self):
