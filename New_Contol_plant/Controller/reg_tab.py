@@ -2,10 +2,11 @@ from PySide6.QtCore import QObject, Qt
 from PySide6.QtWidgets import QMessageBox, QTreeWidgetItem
 
 class reg_tab(QObject):
-    def __init__(self, main_window, db, ):
+    def __init__(self, main_window, db, temp_queue):
         super(reg_tab, self).__init__()
         self.main_window = main_window
         self.db = db
+        self.temp_queue = temp_queue  # Add temp_queue
         self.work_queue = None
         self.selected_customer_id = None  # Track selected customer
 
@@ -116,38 +117,21 @@ class reg_tab(QObject):
             else:
                 child_cement_val = 0 
 
-            # Check if this is an existing customer or new customer
-            if self.selected_customer_id is not None:
-                # Existing customer - create order with their existing ID
-                # First check if customer still exists
-                existing_customer = self.db.get_customer_data_by_id(self.selected_customer_id)
-                if existing_customer:
-                    # Insert order using existing customer data
-                    self.db.insert_order_for_existing_customer(
-                        self.selected_customer_id,
-                        formula_name,
-                        amount_concrete,
-                        car_number,
-                        child_cement_val,
-                        comment
-                    )
-                    QMessageBox.information(self.main_window, "สำเร็จ", f"บันทึกออเดอร์สำหรับ {name_customer} เรียบร้อยแล้ว")
-                else:
-                    QMessageBox.warning(self.main_window, "ข้อผิดพลาด", "ไม่พบข้อมูลลูกค้า กรุณาลองใหม่")
-                    return
-            else:
-                # New customer - insert both customer and order
-                new_customer_id = self.db.insert_new_customer_with_order(
-                    name_customer,
-                    phone_number,
-                    address,
-                    formula_name,
-                    amount_concrete,
-                    car_number,
-                    child_cement_val,
-                    comment
-                )
-                QMessageBox.information(self.main_window, "สำเร็จ", f"บันทึกลูกค้าและออเดอร์ใหม่เรียบร้อยแล้ว")
+            # Add to temporary queue instead of database
+            order_data = {
+                'customer_id': self.selected_customer_id,
+                'name': name_customer,
+                'phone_number': phone_number,
+                'address': address,
+                'formula_name': formula_name,
+                'amount': amount_concrete,
+                'car_number': car_number,
+                'child_cement': child_cement_val,
+                'comment': comment
+            }
+            
+            new_order = self.temp_queue.add_order(order_data)
+            QMessageBox.information(self.main_window, "สำเร็จ", f"เพิ่มออเดอร์ของ {name_customer} เรียบร้อยแล้ว")
 
             # Clear form and reload
             self.main_window.clear_reg_form()
@@ -156,7 +140,6 @@ class reg_tab(QObject):
             self.main_window.reg_telephone_lineEdit.setReadOnly(False)
             self.main_window.reg_address_textEdit.setReadOnly(False)
             
-            self.load_customers_to_tree()
             self.main_window.tab.setCurrentWidget(self.main_window.tab_2)
             
             if self.work_queue:

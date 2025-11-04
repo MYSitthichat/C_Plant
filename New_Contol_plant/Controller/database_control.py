@@ -105,6 +105,7 @@ class C_palne_Database():
             if conn:
                 conn.close()
 
+<<<<<<< HEAD
     def update_data_to_table_customer(self, name, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment):
         query = """INSERT INTO customer (name, phone_number, address, formula_name, amount, truck_number, batch_state, comments) 
                    VALUES (?, ?, ?, ?, ?, ?, 0, ?);"""
@@ -161,6 +162,8 @@ class C_palne_Database():
             if conn:
                 conn.close()
 
+=======
+>>>>>>> 9ff2b676eba2c78c196564c69a7d955af30bf8d9
     def read_data_in_table_customer(self):
         """Get unique customers (distinct by name, phone, address)"""
         query = """SELECT MIN(id) as id, name, phone_number, address 
@@ -374,6 +377,25 @@ class C_palne_Database():
             conn.commit()
         except sqlite3.Error as e:
             print(f"Error updating customer batch_state: {e}")
+        finally:
+            if conn:
+                conn.close()
+
+    def get_formula_by_name(self, formula_name):
+        """Get formula weights by formula name"""
+        query = """SELECT rock1_weight, sand_weight, rock2_weight, cement_weight,
+                   fly_ash_weight, water_weight, chemical1_weight, chemical2_weight
+                   FROM concrete_formula WHERE formula_name = ? AND status = 1;"""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (formula_name,))
+            result = cursor.fetchone()
+            return result
+        except sqlite3.Error as e:
+            print(f"Error fetching formula by name: {e}")
+            return None
         finally:
             if conn:
                 conn.close()
