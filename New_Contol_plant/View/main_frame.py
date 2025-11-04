@@ -734,11 +734,11 @@ class Ui_Control_Plant(object):
         self.mix_wieght_target_rock_2_lineEdit.setGeometry(QRect(240, 180, 111, 41))
         self.mix_wieght_target_rock_2_lineEdit.setFont(font3)
         self.mix_wieght_target_rock_2_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.mix_wieght_targrt_rock_1_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
-        self.mix_wieght_targrt_rock_1_lineEdit.setObjectName(u"mix_wieght_targrt_rock_1_lineEdit")
-        self.mix_wieght_targrt_rock_1_lineEdit.setGeometry(QRect(240, 80, 111, 41))
-        self.mix_wieght_targrt_rock_1_lineEdit.setFont(font3)
-        self.mix_wieght_targrt_rock_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mix_wieght_target_rock_1_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
+        self.mix_wieght_target_rock_1_lineEdit.setObjectName(u"mix_wieght_target_rock_1_lineEdit")
+        self.mix_wieght_target_rock_1_lineEdit.setGeometry(QRect(240, 80, 111, 41))
+        self.mix_wieght_target_rock_1_lineEdit.setFont(font3)
+        self.mix_wieght_target_rock_1_lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.mix_wieght_target_cement_lineEdit = QLineEdit(self.mix_wieght_monitor_groupBox)
         self.mix_wieght_target_cement_lineEdit.setObjectName(u"mix_wieght_target_cement_lineEdit")
         self.mix_wieght_target_cement_lineEdit.setGeometry(QRect(240, 230, 111, 41))
@@ -1583,7 +1583,7 @@ class Ui_Control_Plant(object):
 
         self.retranslateUi(Control_Plant)
 
-        self.tab.setCurrentIndex(0)
+        self.tab.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(Control_Plant)

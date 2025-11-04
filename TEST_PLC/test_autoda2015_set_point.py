@@ -9,7 +9,6 @@ class test_autoda2015:
         """
         if value < 0:
             value = (1 << 32) + value
-        
         high_word = (value >> 16) & 0xFFFF
         low_word = value & 0xFFFF
         return [high_word, low_word]
@@ -34,14 +33,16 @@ class test_autoda2015:
             self.client.close()
 
     def unlock_register(self):
+        SLAVE_ID = 6
         UNLOCK_ADDRESS = 5      # Address 5 (คือ Register 40006)
         UNLOCK_CODE = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
-        self.client.write_register(address=UNLOCK_ADDRESS,value=UNLOCK_CODE,device_id=5)
+        self.client.write_register(address=UNLOCK_ADDRESS,value=UNLOCK_CODE,device_id=SLAVE_ID)
         time.sleep(0.1)
 
     def write_value(self,value):
-        SLAVE_ID = 5
+        SLAVE_ID = 8
         address_register = 314
+        # address_register = 90
         try:
             if not self.client:
                 raise Exception("No client connection available")
@@ -49,6 +50,8 @@ class test_autoda2015:
                 print("เชื่อมต่อสำเร็จ")
                 value_to_write = value
                 register_values = self.int32_to_registers(value_to_write)
+                print(f"Writing 32-bit value: {value_to_write} as registers: {register_values}")
+                print(type(register_values))
                 rr_write = self.client.write_registers(address=address_register,values=register_values,device_id=SLAVE_ID)
                 if rr_write.isError():
                     print(f"!! error to write value: {rr_write}")
@@ -64,12 +67,7 @@ if __name__ == "__main__":
     time.sleep(2)
     tester.unlock_register()
     time.sleep(0.5)
-    i = 0
-    value_target = 0
-    for i in range(5):
-        print(f"Writing value: {value_target}")
-        tester.write_value(value=value_target)
-        value_target += 50
-        time.sleep(5)
+    value_target = 200
+    tester.write_value(value=value_target)
     tester.disconnect_client()
     print("Test finished")

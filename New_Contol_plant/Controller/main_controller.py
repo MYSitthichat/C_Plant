@@ -45,17 +45,26 @@ class MainController(QObject):
         # mix control tab
         self.plc_controller = PLC_Controller(self.main_window, self.db)
         self.plc_controller.comport_error.connect(self.update_status_port)
+        self.plc_controller.status_loading.connect(self.check_loading_rock_and_sand)
         self.plc_controller.initialize_connections()
-        
+        self.plc_controller.start()
+
         self.autoda_controller = AUTODA_Controller(self.main_window, self.db)
         self.autoda_controller.comport_error.connect(self.update_status_port)
+        self.autoda_controller.weight_rock_and_sand.connect(self.update_weight_rock_and_sand)
+        self.autoda_controller.weight_cement_and_fyash.connect(self.update_weight_cement_and_fyash)
+
         self.autoda_controller.initialize_connections()
+        self.autoda_controller.start()
 
         self.main_window.mix_start_load_pushButton.clicked.connect(self.mix_start_load)
         self.main_window.mix_cancel_load_pushButton.clicked.connect(self.mix_cancel_load)
 
+        self.main_window.set_readonly_mix_weights()
+        
         # self.main_window.debug_open_rock_1_pushButton.clicked.connect(self.plc_controller.emit.action("start"))
         # self.main_window.debug_close_rock_1_pushButton.clicked.connect(self.plc_controller.debug_rock_1_action(action = "stop"))
+        
         self.main_window.debug_open_rock_2_pushButton.clicked.connect(self.debug_open_rock_2)
         self.main_window.debug_close_rock_2_pushButton.clicked.connect(self.debug_close_rock_2)
         self.main_window.debug_open_sand_pushButton.clicked.connect(self.debug_open_sand)
@@ -86,6 +95,28 @@ class MainController(QObject):
         self.main_window.debug_close_vale_chem_pushButton.clicked.connect(self.debug_close_vale_chem)
 
     @Slot(list)
+    @Slot(int)
+    
+    def check_loading_rock_and_sand(self, status):
+        if status:
+            pass
+        else:
+            pass
+
+    def update_weight_rock_and_sand(self, weight):
+        self.main_window.mix_monitor_rock_1_lineEdit.setText(str(weight))
+        self.main_window.mix_monitor_rock_2_lineEdit.setText(str(weight))
+        self.main_window.mix_monitor_sand_lineEdit.setText(str(weight))
+        self.main_window.mix_wieght_Loaded_rock_1_lineEdit.setText(str(weight))
+        self.main_window.mix_wieght_Loaded_rock_2_lineEdit.setText(str(weight))
+        self.main_window.mix_wieght_Loaded_sand_lineEdit.setText(str(weight))
+
+    def update_weight_cement_and_fyash(self, weight):
+        self.main_window.mix_monitor_cement_lineEdit.setText(str(weight))
+        self.main_window.mix_monitor_fyash_lineEdit.setText(str(weight))
+        self.main_window.mix_wieght_Loaded_cement_lineEdit.setText(str(weight))
+        self.main_window.mix_wieght_Loaded_fyash_lineEdit.setText(str(weight))
+
     def update_status_port(self, connection_data):
         status = connection_data[0]
         device_type = connection_data[1] 
@@ -107,11 +138,10 @@ class MainController(QObject):
 
 
     def mix_start_load(self):
-        print("mix start load")
+        self.autoda_controller.write_set_point(370)
 
     def mix_cancel_load(self):
         print("mix cancel load")
-
 
     def debug_open_rock_2(self):
         print("debug open rock 2")
@@ -200,4 +230,5 @@ class MainController(QObject):
 
     def Show_main(self):
         self.main_window.Show()
+    
 

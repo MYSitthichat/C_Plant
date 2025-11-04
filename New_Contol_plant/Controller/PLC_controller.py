@@ -1,15 +1,16 @@
 from PySide6.QtWidgets import QApplication,QMessageBox
-from PySide6.QtCore import Slot , QObject, Signal
+from PySide6.QtCore import Slot , QObject, Signal, QThread
 import os
 import sys
 from pymodbus.client import ModbusSerialClient
 import time
 
-class PLC_Controller(QObject):
+class PLC_Controller(QThread, QObject):
     comport_error = Signal(list)
-    
-    def __init__(self,main_window,db):
+    status_loading = Signal(bool)
+    def __init__(self, main_window, db):
         super(PLC_Controller, self).__init__()
+        self.running = True
         self.main_window = main_window
         self.db = db
         self.read_config_file()
@@ -77,6 +78,43 @@ class PLC_Controller(QObject):
     def disconnect_to_plc(self):
         self.plc_client.close()
     
+    def loading_rock1(self,status):
+        if status == "start":
+            self.plc_client.write_coil(address=0, value=1, unit=int(self.PLC_id))
+        elif status == "stop":
+            self.plc_client.write_coil(address=0, value=0, unit=int(self.PLC_id))
+        pass
+    
+    def loading_sand(self,status):
+        if status == "start":
+            self.plc_client.write_coil(address=1, value=1, unit=int(self.PLC_id))
+        elif status == "stop":
+            self.plc_client.write_coil(address=1, value=0, unit=int(self.PLC_id))
+        pass
+    
+    def loading_rock2(self,status):
+        if status == "start":
+            self.plc_client.write_coil(address=2, value=1, unit=int(self.PLC_id))
+        elif status == "stop":
+            self.plc_client.write_coil(address=2, value=0, unit=int(self.PLC_id))
+        pass
+    
+    def reading_finish_load(self):
+        read_finish = self.plc_client.read_coils(address=100, count=1, device_id=int(self.PLC_id))
+        self.status_loading.emit(read_finish.bits[0])
+    
+    def run(self):
+        while self.running:
+            try:
+                self.reading_finish_load()
+                pass
+            except Exception as e:
+                print(f"Error in PLC Controller: {e}")
+            self.msleep(100)
+
+    def stop(self):
+        self.running = False
+        self.wait()
     
 
 
