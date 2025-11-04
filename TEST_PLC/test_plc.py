@@ -34,7 +34,7 @@ class Speed_motor_Thread(QThread, QObject):
 
 
     def test_condition(self):
-        self.connect_comport_open('COM7')
+        self.connect_comport_open('COM9')
         self.msleep(2000)
         sleep = 200
         for i in range(5):

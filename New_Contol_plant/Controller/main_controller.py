@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 from Controller.database_control import C_palne_Database
 from Controller.PLC_controller import PLC_Controller
+from Controller.temp_queue import TempQueue
 from Controller.reg_tab import reg_tab
 from Controller.load_work_queue import load_work_queue
 from Controller.formula_tab import formula_tab
@@ -18,14 +19,17 @@ class MainController(QObject):
         self.main_window = MainWindow()
 
         self.db = C_palne_Database()
-        self.plc_controller = PLC_Controller()
+        # self.plc_controller = PLC_Controller()
         self.data_formula = []
 
+        # Create temp queue instance
+        self.temp_queue = TempQueue()
+
         # reg tab
-        self.reg_tab = reg_tab(self.main_window, self.db)
+        self.reg_tab = reg_tab(self.main_window, self.db, self.temp_queue)
 
         # work queue tab
-        self.load_work_queue = load_work_queue(self.main_window, self.db, self.reg_tab)
+        self.load_work_queue = load_work_queue(self.main_window, self.db, self.temp_queue, self.reg_tab)
         
         # Link them together
         self.reg_tab.set_work_queue(self.load_work_queue)
@@ -35,6 +39,10 @@ class MainController(QObject):
 
         # offset tab
         self.offset_tab = offset_tab(self.main_window, self.db)
+        
+        # mix control tab
+        self.plc_controller = PLC_Controller(self.main_window, self.db)
+        self.plc_controller.comport_error.connect(self.update_status_port)
 
         self.main_window.mix_start_load_pushButton.clicked.connect(self.mix_start_load)
         self.main_window.mix_cancel_load_pushButton.clicked.connect(self.mix_cancel_load)
@@ -70,7 +78,11 @@ class MainController(QObject):
         self.main_window.debug_open_vale_chem_pushButton.clicked.connect(self.debug_open_vale_chem)
         self.main_window.debug_close_vale_chem_pushButton.clicked.connect(self.debug_close_vale_chem)
 
-           
+    @Slot(str)
+    @Slot(bool)
+    def update_status_port(self,status):
+        print("update status port:",status)
+
 
     def mix_start_load(self):
         print("mix start load")
