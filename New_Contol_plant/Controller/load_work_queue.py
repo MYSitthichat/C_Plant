@@ -9,7 +9,7 @@ class load_work_queue(QObject):
         self.reg_tab = reg_tab
 
         self._connect_signals()
-        self.load_work_queue()
+        # self.load_work_queue()
 
     def _connect_signals(self):
         self.main_window.work_start_pushButton.clicked.connect(self.start_selected_work)
