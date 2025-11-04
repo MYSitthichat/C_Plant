@@ -1,5 +1,7 @@
 from PySide6.QtCore import QObject, Qt
 from PySide6.QtWidgets import QMessageBox, QTreeWidgetItem
+from Controller.temp_mixer import TempMixer
+from datetime import datetime
 
 class load_work_queue(QObject):
     def __init__(self, main_window, db, temp_queue, reg_tab=None):
@@ -8,6 +10,7 @@ class load_work_queue(QObject):
         self.db = db
         self.temp_queue = temp_queue  # Add temp_queue
         self.reg_tab = reg_tab
+        self.current_mixer = None  # Store current TempMixer instance
 
         self._connect_signals()
         # self.load_work_queue()
@@ -119,6 +122,7 @@ class load_work_queue(QObject):
 
         customer_name = data['name']
         phone_number = data['phone_number']
+        address = data['address']
         formula_name = data['formula_name']
         amount = data['amount']
         target_rock1 = data['rock1']
@@ -130,6 +134,35 @@ class load_work_queue(QObject):
         target_chem1 = data['chem1']
         target_chem2 = data['chem2']
 
+        # Create TempMixer object to store current work in temporary memory
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.current_mixer = TempMixer(
+            id=data['temp_id'],
+            dTime=current_time,
+            customer_id=data.get('customer_id'),
+            name=customer_name,
+            phone_number=phone_number,
+            address=address,
+            formula_name=formula_name,
+            amount=amount,
+            keep_time=0,  # Will be updated during mixing
+            truck_number=data.get('car_number', ''),
+            rock1_weight=target_rock1,
+            sand_weight=target_sand,
+            rock2_weight=target_rock2,
+            cement_weight=target_cement,
+            fly_ash_weight=target_flyash,
+            water_weight=target_water,
+            chem1_weight=target_chem1,
+            chem2_weight=target_chem2,
+            age=0,  # Will be set based on formula if needed
+            slump=0,  # Will be set based on formula if needed
+            batch_state=2  # 2 = In production
+        )
+
+        print(f"✓ TempMixer created: {customer_name} | {formula_name} | Temp ID: {data['temp_id']}")
+
+        # Load data to mixer UI
         self.clear_mixer_monitors()
         self.main_window.mix_customer_name_lineEdit.setText(customer_name)
         self.main_window.mix_customer_phone_lineEdit.setText(phone_number)
@@ -177,3 +210,35 @@ class load_work_queue(QObject):
         self.main_window.mix_result_mix_lineEdit.clear()
         self.main_window.mix_result_mix_success_lineEdit.clear()
         self.main_window.mix_monitor_status_textEdit.clear()
+
+    def get_current_mixer(self):
+        return self.current_mixer
+
+    def update_mixer_totals(self, rock1=0, sand=0, rock2=0, cement=0, fly_ash=0, water=0, chem1=0, chem2=0):
+        if self.current_mixer:
+            self.current_mixer.rock1_total_weight += rock1
+            self.current_mixer.sand_total_weight += sand
+            self.current_mixer.rock2_total_weight += rock2
+            self.current_mixer.cement_total_weight += cement
+            self.current_mixer.fly_ash_total_weight += fly_ash
+            self.current_mixer.water_total_weight += water
+            self.current_mixer.chem1_total_weight += chem1
+            self.current_mixer.chem2_total_weight += chem2
+            print(f"✓ Updated totals - Rock1: {self.current_mixer.rock1_total_weight}, Cement: {self.current_mixer.cement_total_weight}")
+        else:
+            print("! Warning: No current mixer loaded")
+
+    def finish_current_work(self):
+        if self.current_mixer:
+            completed_mixer = self.current_mixer
+            print(f"✓ Work completed for: {completed_mixer.name}")
+            print(f"  Total loaded - Rock1: {completed_mixer.rock1_total_weight}, "
+                  f"Cement: {completed_mixer.cement_total_weight}, "
+                  f"Water: {completed_mixer.water_total_weight}")
+            
+            # Clear current mixer
+            self.current_mixer = None
+            return completed_mixer
+        else:
+            print("! Warning: No current work to finish")
+            return None
