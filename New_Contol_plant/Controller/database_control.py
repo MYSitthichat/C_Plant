@@ -173,6 +173,7 @@ class C_palne_Database():
             cursor = conn.cursor()
             cursor.execute(query)
             results = cursor.fetchall()
+            print(results)
             return results
         except sqlite3.Error as e:
             print(f"error {e}")
@@ -354,6 +355,7 @@ class C_palne_Database():
             cursor = conn.cursor()
             cursor.execute(query)
             results = cursor.fetchall()
+            print(results)
             return results
         except sqlite3.Error as e:
             print(f"Error getting work queue: {e}")

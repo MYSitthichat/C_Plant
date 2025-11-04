@@ -2,13 +2,13 @@ from PySide6.QtCore import QObject, Qt
 from PySide6.QtWidgets import QMessageBox, QTreeWidgetItem
 
 class reg_tab(QObject):
-    def __init__(self, main_window, db):
+    def __init__(self, main_window, db, ):
         super(reg_tab, self).__init__()
         self.main_window = main_window
         self.db = db
         self.work_queue = None
         self.selected_customer_id = None  # Track selected customer
-        
+
         self._connect_signals()
         self.reg_add_formula()
         self.load_customers_to_tree()
@@ -152,13 +152,12 @@ class reg_tab(QObject):
             # Clear form and reload
             self.main_window.clear_reg_form()
             self.selected_customer_id = None  # Reset selection
-            
-            # Enable all fields for next entry (auto-unlock after save)
             self.main_window.reg_name_lineEdit.setReadOnly(False)
             self.main_window.reg_telephone_lineEdit.setReadOnly(False)
             self.main_window.reg_address_textEdit.setReadOnly(False)
             
             self.load_customers_to_tree()
+            self.main_window.tab.setCurrentWidget(self.main_window.tab_2)
             
             if self.work_queue:
                 self.work_queue.load_work_queue()
@@ -185,9 +184,9 @@ class reg_tab(QObject):
             self.main_window.reg_telephone_lineEdit.setText(customer_data[1])
             self.main_window.reg_address_textEdit.setText(customer_data[2])
             # Make customer fields read-only when existing customer is selected
-            self.main_window.reg_name_lineEdit.setReadOnly(True)
-            self.main_window.reg_telephone_lineEdit.setReadOnly(True)
-            self.main_window.reg_address_textEdit.setReadOnly(True)
+            # self.main_window.reg_name_lineEdit.setReadOnly(True)
+            # self.main_window.reg_telephone_lineEdit.setReadOnly(True)
+            # self.main_window.reg_address_textEdit.setReadOnly(True)
         except Exception as e:
             print(f"Error: {e}")
 
@@ -195,9 +194,9 @@ class reg_tab(QObject):
         self.main_window.clear_reg_form()
         self.selected_customer_id = None  # Reset selection
         # Enable customer fields for new customer entry
-        self.main_window.reg_name_lineEdit.setReadOnly(False)
-        self.main_window.reg_telephone_lineEdit.setReadOnly(False)
-        self.main_window.reg_address_textEdit.setReadOnly(False)
+        # self.main_window.reg_name_lineEdit.setReadOnly(False)
+        # self.main_window.reg_telephone_lineEdit.setReadOnly(False)
+        # self.main_window.reg_address_textEdit.setReadOnly(False)
 
     def reg_delete_customer(self):
         selected_items = self.main_window.reg_list_customer_treeWidget.selectedItems()
