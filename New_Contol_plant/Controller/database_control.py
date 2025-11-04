@@ -377,6 +377,7 @@ class C_palne_Database():
         finally:
             if conn:
                 conn.close()
+                
     def get_formula_details_by_name(self, formula_name):
         query = """
         SELECT rock1_weight, sand_weight, rock2_weight, cement_weight,

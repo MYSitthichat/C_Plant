@@ -86,6 +86,7 @@ class InsertToCustomerOrder:
         finally:
             if conn:
                 conn.close()
+                
     def update_complete(self, record_id, temp_mixer):
         if not isinstance(temp_mixer, TempMixer):
             print("Error: temp_mixer must be a TempMixer object")
