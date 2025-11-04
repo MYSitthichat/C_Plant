@@ -40,7 +40,7 @@ class test_autoda2015:
         time.sleep(0.1)
 
     def write_value(self,value):
-        SLAVE_ID = 8
+        SLAVE_ID = 6
         address_register = 314
         # address_register = 90
         try:
@@ -51,7 +51,6 @@ class test_autoda2015:
                 value_to_write = value
                 register_values = self.int32_to_registers(value_to_write)
                 print(f"Writing 32-bit value: {value_to_write} as registers: {register_values}")
-                print(type(register_values))
                 rr_write = self.client.write_registers(address=address_register,values=register_values,device_id=SLAVE_ID)
                 if rr_write.isError():
                     print(f"!! error to write value: {rr_write}")
@@ -67,7 +66,7 @@ if __name__ == "__main__":
     time.sleep(2)
     tester.unlock_register()
     time.sleep(0.5)
-    value_target = 200
+    value_target = 300
     tester.write_value(value=value_target)
     tester.disconnect_client()
     print("Test finished")

@@ -24,6 +24,23 @@ class MainController(QObject):
         # self.plc_controller = PLC_Controller()
         self.data_formula = []
 
+        # Loading control variables
+        # ROCK AND SAND STATE
+        self.rock_and_sand_values = []
+        self.is_loading_rock_and_sand_in_progress = False
+        self.thread_rock_and_sand = None
+        self.state_load_rock_and_sand = 0
+        self.rock_and_sand_loadding_success = False
+        self.rock_success = False
+        # ROCK AND SAND STATE
+        # CEMENT AND FYASH STATE
+        self.cement_and_fyash_values = []
+        self.is_loading_cement_and_fyash_in_progress = False
+        self.thread_cement_and_fyash = None
+        self.state_load_cement_and_fyash = 0
+        self.cement_and_fyash_loading_success = False
+        # CEMENT AND FYASH STATE
+
         # Create temp queue instance
         self.temp_queue = TempQueue()
 
@@ -45,7 +62,8 @@ class MainController(QObject):
         # mix control tab
         self.plc_controller = PLC_Controller(self.main_window, self.db)
         self.plc_controller.comport_error.connect(self.update_status_port)
-        self.plc_controller.status_loading.connect(self.check_loading_rock_and_sand)
+        self.plc_controller.status_loading_rock_and_sand.connect(self.check_loading_rock_and_sand)
+        self.plc_controller.status_loading_cement_and_fyash.connect(self.check_loading_cement_and_fyash)
         self.plc_controller.initialize_connections()
         self.plc_controller.start()
 
@@ -97,11 +115,7 @@ class MainController(QObject):
     @Slot(list)
     @Slot(int)
     
-    def check_loading_rock_and_sand(self, status):
-        if status:
-            pass
-        else:
-            pass
+
 
     def update_weight_rock_and_sand(self, weight):
         self.main_window.mix_monitor_rock_1_lineEdit.setText(str(weight))
@@ -136,13 +150,138 @@ class MainController(QObject):
         else:
             pass
 
+    def check_loading_rock_and_sand(self, status):
+        if status == True:
+            self.rock_success = True
+        else:
+            self.rock_success = False
+            
+        if self.rock_and_sand_loadding_success == True:
+            self.loaded_rock_and_sand_successfully()
+            self.rock_and_sand_loadding_success = False
+        else:
+            pass
 
+    def check_loading_cement_and_fyash(self, status):
+        if status == True:
+            self.cement_success = True
+        else:
+            self.cement_success = False
+            
+        if self.cement_and_fyash_loading_success == True:
+            self.loaded_cement_and_fyash_successfully()
+            self.cement_and_fyash_loading_success = False
+        else:
+            pass
+        
     def mix_start_load(self):
-        self.autoda_controller.write_set_point(370)
+        self.rock1, self.sand, self.rock2, self.cement, self.fyash, self.water, self.chem1, self.chem2 = self.main_window.get_data_formular_in_mix_form()
+        self.rock_and_sand_values = [int(self.rock1), int(self.sand), int(self.rock2)]
+        self.cement_and_fyash = int(self.cement), int(self.fyash)
+        
+        self.is_loading_rock_and_sand_in_progress = True
+        self.thread_rock_and_sand = Thread(target=self.load_rock_and_sand_sequence,args=(self.rock_and_sand_values,))
+        self.thread_rock_and_sand.start()
+        self.state_load_rock_and_sand = 1
+
+        self.is_loading_cement_and_fyash_in_progress = True
+        self.thread_cement_and_fyash = Thread(target=self.load_cement_and_fyash_sequence,args=(self.cement_and_fyash,))
+        self.thread_cement_and_fyash.start()
+        self.state_load_cement_and_fyash = 1
+        
+        
+    def load_rock_and_sand_sequence(self,data_loaded):
+        rock_1, sand, rock_2 = data_loaded
+        while self.is_loading_rock_and_sand_in_progress:
+            if self.state_load_rock_and_sand == 0:
+                pass
+            elif self.state_load_rock_and_sand == 1:
+                self.autoda_controller.write_set_point_rock_and_sand(rock_1)
+                self.plc_controller.loading_rock1("start")
+                self.state_load_rock_and_sand = 2
+                
+            elif self.state_load_rock_and_sand == 2:
+                if self.rock_success == True:
+                    self.plc_controller.loading_rock1("stop")
+                    self.autoda_controller.write_set_point_rock_and_sand(sand)
+                    time.sleep(1)
+                    self.state_load_rock_and_sand = 3
+                    
+            elif self.state_load_rock_and_sand == 3:
+                self.plc_controller.loading_sand("start")
+                self.state_load_rock_and_sand = 4
+            
+            elif self.state_load_rock_and_sand == 4:
+                if self.rock_success == True:
+                    self.plc_controller.loading_sand("stop")
+                    self.autoda_controller.write_set_point_rock_and_sand(rock_2)
+                    time.sleep(1)
+                    self.state_load_rock_and_sand = 5
+            
+            elif self.state_load_rock_and_sand == 5:
+                self.plc_controller.loading_rock2("start")
+                self.state_load_rock_and_sand = 6
+            
+            elif self.state_load_rock_and_sand == 6:
+                if self.rock_success == True:
+                    self.plc_controller.loading_rock2("stop")
+                    self.state_load_rock_and_sand = 0
+                    self.rock_and_sand_loadding_success = True
+                    self.is_loading_rock_and_sand_in_progress = False
+            time.sleep(0.1)
+    
+
+
+    def load_cement_and_fyash_sequence(self,data_loaded):
+        cement, fyash = data_loaded
+        while self.is_loading_cement_and_fyash_in_progress:
+            if self.state_load_cement_and_fyash == 0:
+                pass
+            elif self.state_load_cement_and_fyash == 1:
+                self.autoda_controller.write_set_point_cement_and_fyash(cement)
+                self.plc_controller.loading_cement("start")
+                self.state_load_cement_and_fyash = 2
+                
+            elif self.state_load_cement_and_fyash == 2:
+                if self.cement_success == True:
+                    self.plc_controller.loading_cement("stop")
+                    self.autoda_controller.write_set_point_cement_and_fyash(fyash)
+                    time.sleep(1)
+                    self.state_load_cement_and_fyash = 3
+                    
+            elif self.state_load_cement_and_fyash == 3:
+                self.plc_controller.loading_flyash("start")
+                self.state_load_cement_and_fyash = 4
+            
+            elif self.state_load_cement_and_fyash == 4:
+                if self.cement_success == True:
+                    self.plc_controller.loading_flyash("stop")
+                    self.state_load_cement_and_fyash = 0
+                    self.cement_and_fyash_loading_success = True
+                    self.is_loading_cement_and_fyash_in_progress = False
+            time.sleep(0.1)
+
+
+    def loaded_rock_and_sand_successfully(self):
+        if self.thread_rock_and_sand and self.thread_rock_and_sand.is_alive():
+            self.thread_rock_and_sand.join()
+
+
+    def loaded_cement_and_fyash_successfully(self):
+        if self.thread_cement_and_fyash and self.thread_cement_and_fyash.is_alive():
+            self.thread_cement_and_fyash.join()
+            
 
     def mix_cancel_load(self):
-        print("mix cancel load")
-
+        if self.is_loading_rock_and_sand_in_progress:
+            self.is_loading_rock_and_sand_in_progress = False
+            if hasattr(self, 'thread_rock_and_sand') and self.thread_rock_and_sand.is_alive():
+                self.thread_rock_and_sand.join()
+        if self.is_loading_cement_and_fyash_in_progress:
+            self.is_loading_cement_and_fyash_in_progress = False
+            if hasattr(self, 'thread_cement_and_fyash') and self.thread_cement_and_fyash.is_alive():
+                self.thread_cement_and_fyash.join()
+        
     def debug_open_rock_2(self):
         print("debug open rock 2")
 
@@ -230,5 +369,5 @@ class MainController(QObject):
 
     def Show_main(self):
         self.main_window.Show()
-    
+
 

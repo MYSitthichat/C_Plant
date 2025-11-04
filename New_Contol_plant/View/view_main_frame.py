@@ -94,6 +94,9 @@ class MainWindow(QMainWindow,Ui_Control_Plant):
         self.for_age_lineEdit.clear()
         self.for_slump_lineEdit.clear()
 # --- FORMULA TAB METHODS END --- #
+
+# --- MIXER TAB METHODS START --- #
+
     def set_readonly_mix_weights(self):
         self.mix_monitor_rock_1_lineEdit.setReadOnly(True)
         self.mix_monitor_sand_lineEdit.setReadOnly(True)
@@ -132,4 +135,20 @@ class MainWindow(QMainWindow,Ui_Control_Plant):
         self.mix_result_mix_success_lineEdit.setReadOnly(True)
         self.mix_result_mix_lineEdit.setReadOnly(True)
         self.mix_monitor_status_textEdit.setReadOnly(True)
+    
+    def get_data_formular_in_mix_form(self):
+        rock1_target = self.mix_wieght_target_rock_1_lineEdit.text()
+        sand_target = self.mix_wieght_target_sand_lineEdit.text()
+        rock2_target = self.mix_wieght_target_rock_2_lineEdit.text()
+        cement_target = self.mix_wieght_target_cement_lineEdit.text()
+        fyash_target = self.mix_wieght_target_fyash_lineEdit.text()
+        water_target = self.mix_wieght_target_water_lineEdit.text()
+        chem1_target = self.mix_wieght_target_chem_1_lineEdit.text()
+        chem2_target = self.mix_wieght_target_chem_2_lineEdit.text()
+        if rock1_target == "" or sand_target == "" or rock2_target == "" or cement_target == "" or fyash_target == "" or water_target == "" or chem1_target == "" or chem2_target == "":
+            return None
+        else:
+            return rock1_target, sand_target, rock2_target, cement_target, fyash_target, water_target, chem1_target, chem2_target
         
+        
+# --- MIXER TAB METHODS END --- #

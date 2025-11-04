@@ -7,7 +7,8 @@ import time
 
 class PLC_Controller(QThread, QObject):
     comport_error = Signal(list)
-    status_loading = Signal(bool)
+    status_loading_rock_and_sand = Signal(bool)
+    status_loading_cement_and_fyash = Signal(bool)
     def __init__(self, main_window, db):
         super(PLC_Controller, self).__init__()
         self.running = True
@@ -80,34 +81,52 @@ class PLC_Controller(QThread, QObject):
     
     def loading_rock1(self,status):
         if status == "start":
-            self.plc_client.write_coil(address=0, value=1, unit=int(self.PLC_id))
+            self.plc_client.write_coil(address=0, value=1, device_id=int(self.PLC_id))
         elif status == "stop":
-            self.plc_client.write_coil(address=0, value=0, unit=int(self.PLC_id))
+            self.plc_client.write_coil(address=0, value=0, device_id=int(self.PLC_id))
         pass
     
     def loading_sand(self,status):
         if status == "start":
-            self.plc_client.write_coil(address=1, value=1, unit=int(self.PLC_id))
+            self.plc_client.write_coil(address=1, value=1, device_id=int(self.PLC_id))
         elif status == "stop":
-            self.plc_client.write_coil(address=1, value=0, unit=int(self.PLC_id))
+            self.plc_client.write_coil(address=1, value=0, device_id=int(self.PLC_id))
         pass
     
     def loading_rock2(self,status):
         if status == "start":
-            self.plc_client.write_coil(address=2, value=1, unit=int(self.PLC_id))
+            self.plc_client.write_coil(address=2, value=1, device_id=int(self.PLC_id))
         elif status == "stop":
-            self.plc_client.write_coil(address=2, value=0, unit=int(self.PLC_id))
+            self.plc_client.write_coil(address=2, value=0, device_id=int(self.PLC_id))
         pass
     
-    def reading_finish_load(self):
+    def loading_cement(self,status):
+        if status == "start":
+            self.plc_client.write_coil(address=3, value=1, device_id=int(self.PLC_id))
+        elif status == "stop":
+            self.plc_client.write_coil(address=3, value=0, device_id=int(self.PLC_id))
+        pass
+    
+    def loading_flyash(self,status):
+        if status == "start":
+            self.plc_client.write_coil(address=4, value=1, device_id=int(self.PLC_id))
+        elif status == "stop":
+            self.plc_client.write_coil(address=4, value=0, device_id=int(self.PLC_id))
+        pass
+    
+    def reading_finish_load_rock_and_sand(self):
         read_finish = self.plc_client.read_coils(address=100, count=1, device_id=int(self.PLC_id))
-        self.status_loading.emit(read_finish.bits[0])
+        self.status_loading_rock_and_sand.emit(read_finish.bits[0])
+        
+    def reading_finish_load_cement_and_fyash(self):
+        read_finish = self.plc_client.read_coils(address=110, count=1, device_id=int(self.PLC_id))
+        self.status_loading_cement_and_fyash.emit(read_finish.bits[0])
     
     def run(self):
         while self.running:
             try:
-                self.reading_finish_load()
-                pass
+                self.reading_finish_load_rock_and_sand()
+                self.reading_finish_load_cement_and_fyash()
             except Exception as e:
                 print(f"Error in PLC Controller: {e}")
             self.msleep(100)

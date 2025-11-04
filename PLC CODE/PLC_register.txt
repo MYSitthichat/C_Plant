@@ -1,0 +1,8 @@
+rock1 = M0
+sand = M1
+rock2 = M2
+success rock&sand = m100
+
+cement = M3
+flyash = M4
+success cement&flyash = m110

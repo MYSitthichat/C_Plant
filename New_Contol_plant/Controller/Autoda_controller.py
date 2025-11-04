@@ -65,12 +65,6 @@ class AUTODA_Controller(QThread,QObject):
                         self.chemical_id = int(self.chemical_id)
         except FileNotFoundError:
             print(f"port.conf file not found at {config_path}")
-            
-    def debug_rock_1_action(self, action):
-        if action == "start":
-            print("Debug: Starting Rock 1")
-        elif action == "stop":
-            print("Debug: Stopping Rock 1")
     
     def connect_to_autodac(self):
         autoda_port = self.autoda_port
@@ -119,7 +113,7 @@ class AUTODA_Controller(QThread,QObject):
             weight_value = raw_value
         self.weight_rock_and_sand.emit(weight_value)
 
-    def write_set_point(self,value):
+    def write_set_point_rock_and_sand(self,value):
         address_register = 314 #register set point rock and sand
         unlock_address = 5      # Address 5 (คือ Register 40006)
         unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
@@ -128,7 +122,14 @@ class AUTODA_Controller(QThread,QObject):
         register_values = self.int32_to_registers(value)
         self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.rock_and_sand_id)
 
-
+    def write_set_point_cement_and_fyash(self,value):
+        address_register = 314 #register set point rock and sand
+        unlock_address = 5      # Address 5 (คือ Register 40006)
+        unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+        self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.cement_and_flyash_id)
+        self.msleep(100)
+        register_values = self.int32_to_registers(value)
+        self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.cement_and_flyash_id)
 
     def run(self):
         while self.running:

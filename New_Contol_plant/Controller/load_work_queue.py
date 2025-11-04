@@ -230,7 +230,7 @@ class load_work_queue(QObject):
         self.main_window.mix_customer_phone_lineEdit.setText(phone_number)
         self.main_window.mix_customer_formula_name_lineEdit.setText(formula_name)
         self.main_window.mix_number_cube_lineEdit.setText(str(amount))
-        self.main_window.mix_wieght_targrt_rock_1_lineEdit.setText(str(target_rock1))
+        self.main_window.mix_wieght_target_rock_1_lineEdit.setText(str(target_rock1))
         self.main_window.mix_wieght_target_sand_lineEdit.setText(str(target_sand))
         self.main_window.mix_wieght_target_rock_2_lineEdit.setText(str(target_rock2))
         self.main_window.mix_wieght_target_cement_lineEdit.setText(str(target_cement))
