@@ -1,16 +1,134 @@
+from PySide6.QtWidgets import QApplication,QMessageBox
+from PySide6.QtCore import Slot , QObject, Signal
+import os
 import sys
-from PySide6.QtWidgets import QApplication
+from pymodbus.client import ModbusSerialClient
 import time
-from PySide6.QtCore import Slot , QObject, Qt
 
 class PLC_Controller(QObject):
-    def __init__(self):
-        super().__init__()
-        
-    @Slot(str)
+    comport_error = Signal(bool)
     
+    def __init__(self,main_window,db):
+        super(PLC_Controller, self).__init__()
+        self.main_window = main_window
+        self.db = db
+        self.read_config_file()
+        self.connect_to_plc()
+        self.connect_to_autodac()
+    
+    def read_config_file(self):
+        self.config = {}
+        self.plc_port = ''
+        self.autoda_port = ''
+        self.baudrate = ''
+        self.stop_bits = ''
+        self.parity = ''
+        self.data_bits = ''
+        self.timeout_error = ''
+        self.PLC_id = ''
+        self.rock_and_sand_id = ''
+        self.cement_and_flyash_id = ''
+        self.water_id = ''
+        self.chemical_id = ''
+        try:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            config_path = os.path.join(script_dir, 'port.conf')
+            with open(config_path, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if '=' in line:
+                        key, value = line.split('=', 1)
+                        self.config[key.strip()] = value.strip()
+                        self.plc_port = self.config.get('PLC_PORT', '')
+                        self.autoda_port = self.config.get('AUTODAC_PORT', '')
+                        self.baudrate = self.config.get('BAUDRATE', '')
+                        self.stop_bits = self.config.get('STOP_BITS', '')
+                        self.parity = self.config.get('PARITY', '')
+                        self.data_bits = self.config.get('DATA_BITS', '')
+                        self.timeout_error = self.config.get('TIMEOUT_ERROR', '')
+                        self.PLC_id = self.config.get('PLC_ID', '')
+                        self.rock_and_sand_id = self.config.get('ROCK_AND_SAND_ID', '')
+                        self.cement_and_flyash_id = self.config.get('CEMENT_AND_FLYASH_ID', '')
+                        self.water_id = self.config.get('WATER_ID', '')
+                        self.chemical_id = self.config.get('CHEMICAL_ID', '')
+        except FileNotFoundError:
+            print(f"port.conf file not found at {config_path}")
+            
     def debug_rock_1_action(self, action):
         if action == "start":
             print("Debug: Starting Rock 1")
         elif action == "stop":
             print("Debug: Stopping Rock 1")
+            
+    def connect_to_plc(self):
+        plc_port = self.plc_port
+        baudrate = int(self.baudrate)
+        stop_bits = int(self.stop_bits)
+        parity = str(self.parity)
+        data_bits = int(self.data_bits)
+        timeout = int(self.timeout_error)
+        self.plc_client = ModbusSerialClient(
+            port=plc_port,
+            baudrate=baudrate,
+            parity=parity,
+            stopbits=stop_bits,
+            bytesize=data_bits,
+            timeout=timeout
+        )
+        if self.plc_client.connect():
+            self.comport_error.emit(False)
+            print("Connected to PLC successfully")
+        else:
+            self.message_box = QMessageBox()
+            self.message_box.setIcon(QMessageBox.Critical)
+            self.message_box.setWindowTitle("Connection Error")
+            self.message_box.setText("Failed to connect to PLC.")
+            self.message_box.exec_()
+            self.comport_error.emit(True)
+            print("Failed to connect to PLC")
+    
+    def disconnect_to_plc(self):
+        self.plc_client.close()
+        print("Disconnected from PLC")
+    
+    def connect_to_autodac(self):
+        autoda_port = self.autoda_port
+        baudrate = int(self.baudrate)
+        stop_bits = int(self.stop_bits)
+        parity = str(self.parity)
+        data_bits = int(self.data_bits)
+        timeout = int(self.timeout_error)
+
+        self.autoda_client = ModbusSerialClient(
+            port=autoda_port,
+            baudrate=baudrate,
+            parity=parity,
+            stopbits=stop_bits,
+            bytesize=data_bits,
+            timeout=timeout
+        )
+        if self.autoda_client.connect():
+            self.comport_error.emit(False)
+            print("Connected to AutoDAC successfully")
+        else:
+            self.message_box = QMessageBox()
+            self.message_box.setIcon(QMessageBox.Critical)
+            self.message_box.setWindowTitle("Connection Error")
+            self.message_box.setText("Failed to connect to AutoDAC.")
+            self.message_box.exec_()
+            self.comport_error.emit(True)
+            print("Failed to connect to AutoDAC")
+            
+    def disconnect_to_autodac(self):
+        self.autoda_client.close()
+        print("Disconnected from AutoDAC")
+        
+    
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    plc_controller = PLC_Controller()
+    # plc_controller.debug_rock_1_action("start")
+    # plc_controller.debug_rock_1_action("stop")
+    sys.exit(0)

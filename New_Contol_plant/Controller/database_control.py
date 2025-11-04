@@ -19,7 +19,7 @@ class C_palne_Database():
         if not os.path.exists(db_dir):
             try:
                 os.makedirs(db_dir) 
-                print(f"Created directory: {db_dir}")
+                # print(f"Created directory: {db_dir}")
             except OSError as e:
                 print(f"!!! Error creating directory {db_dir}: {e}")
         elif not os.path.isdir(db_dir):
@@ -105,6 +105,65 @@ class C_palne_Database():
             if conn:
                 conn.close()
 
+<<<<<<< HEAD
+    def update_data_to_table_customer(self, name, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment):
+        query = """INSERT INTO customer (name, phone_number, address, formula_name, amount, truck_number, batch_state, comments) 
+                   VALUES (?, ?, ?, ?, ?, ?, 0, ?);"""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (name, phone_number, address, formula_name, amount_concrete, car_number, comment))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"error {e}")
+        finally:
+            if conn:
+                conn.close()
+
+    def insert_order_for_existing_customer(self, customer_id, formula_name, amount_concrete, car_number, child_cement, comment):
+        """Insert new order for existing customer - reuses customer's name, phone, address"""
+        query = """INSERT INTO customer (name, phone_number, address, formula_name, amount, truck_number, batch_state, comments) 
+                   SELECT name, phone_number, address, ?, ?, ?, 0, ?
+                   FROM customer WHERE id = ? LIMIT 1;"""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (formula_name, amount_concrete, car_number, comment, customer_id))
+            conn.commit()
+            new_order_id = cursor.lastrowid
+            # print(f"Order inserted for customer ID: {customer_id}, New order ID: {new_order_id}")
+            return new_order_id
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            raise
+        finally:
+            if conn:
+                conn.close()
+
+    def insert_new_customer_with_order(self, name, phone_number, address, formula_name, amount_concrete, car_number, child_cement, comment):
+        """Insert new customer and their first order"""
+        query = """INSERT INTO customer (name, phone_number, address, formula_name, amount, truck_number, batch_state, comments) 
+                   VALUES (?, ?, ?, ?, ?, ?, 0, ?);"""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (name, phone_number, address, formula_name, amount_concrete, car_number, comment))
+            conn.commit()
+            new_id = cursor.lastrowid
+            print(f"New customer and order inserted with ID: {new_id}")
+            return new_id
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            raise
+        finally:
+            if conn:
+                conn.close()
+
+=======
+>>>>>>> 9ff2b676eba2c78c196564c69a7d955af30bf8d9
     def read_data_in_table_customer(self):
         """Get unique customers (distinct by name, phone, address)"""
         query = """SELECT MIN(id) as id, name, phone_number, address 
@@ -117,7 +176,7 @@ class C_palne_Database():
             cursor = conn.cursor()
             cursor.execute(query)
             results = cursor.fetchall()
-            print(results)
+            # print(results)
             return results
         except sqlite3.Error as e:
             print(f"error {e}")
