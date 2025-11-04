@@ -377,21 +377,37 @@ class C_palne_Database():
         finally:
             if conn:
                 conn.close()
-
-    def get_formula_by_name(self, formula_name):
-        """Get formula weights by formula name"""
-        query = """SELECT rock1_weight, sand_weight, rock2_weight, cement_weight,
-                   fly_ash_weight, water_weight, chemical1_weight, chemical2_weight
-                   FROM concrete_formula WHERE formula_name = ? AND status = 1;"""
+    def get_formula_details_by_name(self, formula_name):
+        query = """
+        SELECT rock1_weight, sand_weight, rock2_weight, cement_weight,
+               fly_ash_weight, water_weight, chemical1_weight, chemical2_weight,
+               age, slump
+        FROM concrete_formula 
+        WHERE formula_name = ? AND status = 1;
+        """
         conn = None
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
             cursor.execute(query, (formula_name,))
             result = cursor.fetchone()
-            return result
+            
+            if result:
+                return {
+                    'rock1_weight': result[0],
+                    'sand_weight': result[1],
+                    'rock2_weight': result[2],
+                    'cement_weight': result[3],
+                    'fly_ash_weight': result[4],
+                    'water_weight': result[5],
+                    'chem1_weight': result[6],
+                    'chem2_weight': result[7],
+                    'age': result[8],
+                    'slump': result[9]
+                }
+            return None
         except sqlite3.Error as e:
-            print(f"Error fetching formula by name: {e}")
+            print(f"Error fetching formula details: {e}")
             return None
         finally:
             if conn:
