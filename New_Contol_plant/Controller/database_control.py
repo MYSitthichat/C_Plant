@@ -19,7 +19,7 @@ class C_palne_Database():
         if not os.path.exists(db_dir):
             try:
                 os.makedirs(db_dir) 
-                print(f"Created directory: {db_dir}")
+                # print(f"Created directory: {db_dir}")
             except OSError as e:
                 print(f"!!! Error creating directory {db_dir}: {e}")
         elif not os.path.isdir(db_dir):
@@ -132,7 +132,7 @@ class C_palne_Database():
             cursor.execute(query, (formula_name, amount_concrete, car_number, comment, customer_id))
             conn.commit()
             new_order_id = cursor.lastrowid
-            print(f"Order inserted for customer ID: {customer_id}, New order ID: {new_order_id}")
+            # print(f"Order inserted for customer ID: {customer_id}, New order ID: {new_order_id}")
             return new_order_id
         except sqlite3.Error as e:
             print(f"Database error: {e}")
@@ -173,7 +173,7 @@ class C_palne_Database():
             cursor = conn.cursor()
             cursor.execute(query)
             results = cursor.fetchall()
-            print(results)
+            # print(results)
             return results
         except sqlite3.Error as e:
             print(f"error {e}")
