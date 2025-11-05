@@ -5,12 +5,23 @@ import sys
 from pymodbus.client import ModbusSerialClient
 import time
 
+
+def get_divisor_from_code(div_code):
+    div_map = {
+        12: 1,     # 0 ตำแหน่ง (ค่า 1) 
+        9: 10,     # 1 ตำแหน่ง (ค่า 0.1) 
+        6: 100,    # 2 ตำแหน่ง (ค่า 0.01) 
+        3: 1000,   # 3 ตำแหน่ง (ค่า 0.001) 
+        0: 10000   # 4 ตำแหน่ง (ค่า 0.0001) 
+    }
+    return div_map.get(div_code, 1)
+
 class AUTODA_Controller(QThread,QObject):
     comport_error = Signal(list)
     weight_rock_and_sand = Signal(int)
     weight_cement_and_fyash = Signal(int)
     weight_water = Signal(int)
-    weight_chemical = Signal(int)
+    weight_chemical = Signal(float)  # เปลี่ยนเป็น float สำหรับทศนิยม
     
     def __init__(self,main_window,db):
     # def __init__(self,):
@@ -18,6 +29,9 @@ class AUTODA_Controller(QThread,QObject):
         self.running = True
         self.main_window = main_window
         self.db = db
+        # ตัวแปรสำหรับการจัดการทศนิยมของ Chemical
+        self.chemical_divisor = 1
+        self.chemical_decimal_initialized = False
         self.read_config_file()
     
     def int32_to_registers(self, value):
@@ -26,6 +40,31 @@ class AUTODA_Controller(QThread,QObject):
         high_word = (value >> 16) & 0xFFFF
         low_word = value & 0xFFFF
         return [high_word, low_word]
+    
+    def read_chemical_decimal_setting(self):
+        try:
+            ADDRESS_DIV = 88  # Register 40089 (Gain value / div)
+            rr_div = self.autoda_client.read_holding_registers(
+                address=ADDRESS_DIV,
+                count=1,
+                device_id=self.chemical_id
+            )
+            
+            if rr_div.isError():
+                self.chemical_divisor = 1
+                return False
+            else:
+                div_code = rr_div.registers[0]
+                self.chemical_divisor = get_divisor_from_code(div_code)
+                self.chemical_decimal_initialized = True
+                return True
+                
+        except Exception as e:
+            self.chemical_divisor = 1
+            return False
+    
+    def float_to_int_with_chemical_divisor(self, float_value):
+        return int(float_value * self.chemical_divisor)
     
     def initialize_connections(self):
         self.connect_to_autodac()
@@ -126,14 +165,28 @@ class AUTODA_Controller(QThread,QObject):
         self.weight_water.emit(weight_value)
 
     def read_chemical(self):
+        if not self.chemical_decimal_initialized:
+            self.read_chemical_decimal_setting()
+        
         register_weight = 81  # Register weight chemical
-        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.chemical_id)
-        raw_value = (read_weight.registers[0])
-        if raw_value > 32767:
-            weight_value = raw_value - 65536
-        else:
-            weight_value = raw_value
-        self.weight_chemical.emit(weight_value)
+        try:
+            read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.chemical_id)
+            
+            if read_weight.isError():
+                self.weight_chemical.emit(0.0)
+                return
+                
+            raw_value = (read_weight.registers[0])
+            if raw_value > 32767:
+                signed_value = raw_value - 65536
+            else:
+                signed_value = raw_value
+            float_value = signed_value / self.chemical_divisor
+            
+            self.weight_chemical.emit(float_value)
+            
+        except Exception as e:
+            self.weight_chemical.emit(0.0)
 
     def write_set_point_rock_and_sand(self,value):
         address_register = 314 #register set point rock and sand
@@ -162,14 +215,35 @@ class AUTODA_Controller(QThread,QObject):
         register_values = self.int32_to_registers(value)
         self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.water_id)
     
-    def write_set_point_chemical(self,value):
-        address_register = 314 #register set point rock and sand
+    def write_set_point_chemical(self, value):
+        if not self.chemical_decimal_initialized:
+            self.read_chemical_decimal_setting()
+        address_register = 314  # register set point chemical
         unlock_address = 5      # Address 5 (คือ Register 40006)
         unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
-        self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.chemical_id)
-        self.msleep(100)
-        register_values = self.int32_to_registers(value)
-        self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.chemical_id)
+        try:
+            # Unlock register
+            unlock_result = self.autoda_client.write_register(
+                address=unlock_address, 
+                value=unlock_code, 
+                device_id=self.chemical_id
+            )
+            if unlock_result.isError():
+                return False
+            self.msleep(100)
+            int_value = self.float_to_int_with_chemical_divisor(value)
+            register_values = self.int32_to_registers(int_value)
+            write_result = self.autoda_client.write_registers(
+                address=address_register, 
+                values=register_values, 
+                device_id=self.chemical_id
+            )
+            if write_result.isError():
+                return False
+            else:
+                return True
+        except Exception as e:
+            return False
 
     def run(self):
         while self.running:

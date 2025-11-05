@@ -31,7 +31,7 @@ class MainController(QObject):
         self.is_loading_rock_and_sand_in_progress = False
         self.thread_rock_and_sand = None
         self.state_load_rock_and_sand = 0
-        self.rock_and_sand_loadding_success = False
+        self.rock_and_sand_loading_success = False
         self.rock_success = False
         # ROCK AND SAND STATE
         # CEMENT AND FYASH STATE
@@ -42,12 +42,20 @@ class MainController(QObject):
         self.cement_and_fyash_loading_success = False
         # CEMENT AND FYASH STATE
         # WATER STATE
-        self.water_value = []
+        self.water_value = 0
         self.is_loading_water_in_progress = False
         self.thread_water = None
         self.state_load_water = 0
         self.water_loading_success = False
         # WATER STATE
+        # CHEMICAL STATE
+        self.chemical_values = []
+        self.is_loading_chemical_in_progress = False
+        self.thread_chemical = None
+        self.state_load_chemical = 0
+        self.chemical_loading_success = False
+        self.chemical_success = False
+        # CHEMICAL STATE
 
         # Create temp queue instance
         self.temp_queue = TempQueue()
@@ -67,14 +75,15 @@ class MainController(QObject):
         # offset tab
         self.offset_tab = offset_tab(self.main_window, self.db)
 
-        # debug tab
-        self.debug_tab = debug_tab(self.main_window)
+
         
         # mix control tab
         self.plc_controller = PLC_Controller(self.main_window, self.db)
         self.plc_controller.comport_error.connect(self.update_status_port)
         self.plc_controller.status_loading_rock_and_sand.connect(self.check_loading_rock_and_sand)
         self.plc_controller.status_loading_cement_and_fyash.connect(self.check_loading_cement_and_fyash)
+        self.plc_controller.status_loading_water.connect(self.check_loading_water)
+        self.plc_controller.status_loading_chemical.connect(self.check_loading_chemical)
         self.plc_controller.initialize_connections()
         self.plc_controller.start()
 
@@ -85,6 +94,9 @@ class MainController(QObject):
         self.autoda_controller.weight_water.connect(self.update_weight_water)
         self.autoda_controller.weight_chemical.connect(self.update_weight_chemical)
 
+        # debug tab
+        self.debug_tab = debug_tab(self.main_window,self.plc_controller)
+
         self.autoda_controller.initialize_connections()
         self.autoda_controller.start()
 
@@ -93,10 +105,7 @@ class MainController(QObject):
 
         self.main_window.set_readonly_mix_weights()
         
-
         
-
-
     @Slot(list)
     @Slot(int)
     
@@ -151,9 +160,9 @@ class MainController(QObject):
         else:
             self.rock_success = False
             
-        if self.rock_and_sand_loadding_success == True:
+        if self.rock_and_sand_loading_success == True:
             self.loaded_rock_and_sand_successfully()
-            self.rock_and_sand_loadding_success = False
+            self.rock_and_sand_loading_success = False
         else:
             pass
 
@@ -168,11 +177,37 @@ class MainController(QObject):
             self.cement_and_fyash_loading_success = False
         else:
             pass
-        
+    
+    def check_loading_water(self, status):
+        if status == True:
+            self.water_success = True
+        else:
+            self.water_success = False
+            
+        if self.water_loading_success == True:
+            self.loaded_water_successfully()
+            self.water_loading_success = False
+        else:
+            pass
+    
+    def check_loading_chemical(self, status):
+        if status == True:
+            self.chemical_success = True
+        else:
+            self.chemical_success = False
+            
+        if self.chemical_loading_success == True:
+            self.loaded_chemical_successfully()
+            self.chemical_loading_success = False
+        else:
+            pass
+
     def mix_start_load(self):
         self.rock1, self.sand, self.rock2, self.cement, self.fyash, self.water, self.chem1, self.chem2 = self.main_window.get_data_formular_in_mix_form()
         self.rock_and_sand_values = [int(self.rock1), int(self.sand), int(self.rock2)]
         self.cement_and_fyash_values = [int(self.cement), int(self.fyash)]
+        self.water_value = int(self.water)
+        self.chemical_values = [float(self.chem1), float(self.chem2)]
 
         self.is_loading_rock_and_sand_in_progress = True
         self.thread_rock_and_sand = Thread(target=self.load_rock_and_sand_sequence,args=(self.rock_and_sand_values,))
@@ -183,8 +218,20 @@ class MainController(QObject):
         self.thread_cement_and_fyash = Thread(target=self.load_cement_and_fyash_sequence,args=(self.cement_and_fyash_values,))
         self.thread_cement_and_fyash.start()
         self.state_load_cement_and_fyash = 1
+
+        self.is_loading_water_in_progress = True
+        self.thread_water = Thread(target=self.loading_water_sequence, args=(self.water_value,))
+        self.thread_water.start()
+        self.state_load_water = 1
+
+        
+        self.is_loading_chemical_in_progress = True
+        self.thread_chemical = Thread(target=self.loading_chemical_sequence, args=(self.chemical_values,))
+        self.thread_chemical.start()
+        self.state_load_chemical = 1
         
         
+
     def load_rock_and_sand_sequence(self,data_loaded):
         rock_1, sand, rock_2 = data_loaded
         while self.is_loading_rock_and_sand_in_progress:
@@ -221,7 +268,7 @@ class MainController(QObject):
                 if self.rock_success == True:
                     self.plc_controller.loading_rock2("stop")
                     self.state_load_rock_and_sand = 0
-                    self.rock_and_sand_loadding_success = True
+                    self.rock_and_sand_loading_success = True
                     self.is_loading_rock_and_sand_in_progress = False
             time.sleep(0.1)
     
@@ -256,6 +303,63 @@ class MainController(QObject):
             time.sleep(0.1)
 
 
+    def loading_water_sequence(self,data_loaded):
+        water = data_loaded
+        while self.is_loading_water_in_progress:
+            if self.state_load_water == 0:
+                pass
+            elif self.state_load_water == 1:
+                self.autoda_controller.write_set_point_water(water)
+                time.sleep(0.5)
+                self.plc_controller.loading_water("start")
+                time.sleep(0.5)
+                self.state_load_water = 2
+                
+            elif self.state_load_water == 2:
+                if self.water_success == True:
+                    self.plc_controller.loading_water("stop")
+                    time.sleep(0.5)
+                    self.state_load_water = 3
+            
+            elif self.state_load_water == 3:
+                    self.state_load_water = 0
+                    self.water_loading_success = True
+                    self.is_loading_water_in_progress = False
+                    
+            time.sleep(0.1)
+
+    def loading_chemical_sequence(self, data_loaded):
+        chem1, chem2 = data_loaded
+        while self.is_loading_chemical_in_progress:
+            if self.state_load_chemical == 0:
+                pass
+            elif self.state_load_chemical == 1:
+                self.autoda_controller.write_set_point_chemical(chem1)
+                time.sleep(0.5)
+                self.plc_controller.loading_chemical_1("start")
+                time.sleep(0.5)
+                self.state_load_chemical = 2
+                
+            elif self.state_load_chemical == 2:
+                if self.chemical_success == True:
+                    self.plc_controller.loading_chemical_1("stop")
+                    self.autoda_controller.write_set_point_chemical(chem2)
+                    time.sleep(0.5)
+                    self.state_load_chemical = 3
+                    
+            elif self.state_load_chemical == 3:
+                self.plc_controller.loading_chemical_2("start")
+                self.state_load_chemical = 4
+            
+            elif self.state_load_chemical == 4:
+                if self.chemical_success == True:
+                    self.plc_controller.loading_chemical_2("stop")
+                    self.state_load_chemical = 0
+                    self.chemical_loading_success = True
+                    self.is_loading_chemical_in_progress = False
+                    
+            time.sleep(0.1)
+
     def loaded_rock_and_sand_successfully(self):
         if self.thread_rock_and_sand and self.thread_rock_and_sand.is_alive():
             self.thread_rock_and_sand.join()
@@ -264,7 +368,14 @@ class MainController(QObject):
     def loaded_cement_and_fyash_successfully(self):
         if self.thread_cement_and_fyash and self.thread_cement_and_fyash.is_alive():
             self.thread_cement_and_fyash.join()
-            
+
+    def loaded_water_successfully(self):
+        if self.thread_water and self.thread_water.is_alive():
+            self.thread_water.join()
+
+    def loaded_chemical_successfully(self):
+        if self.thread_chemical and self.thread_chemical.is_alive():
+            self.thread_chemical.join()
 
     def mix_cancel_load(self):
         if self.is_loading_rock_and_sand_in_progress:
@@ -275,6 +386,14 @@ class MainController(QObject):
             self.is_loading_cement_and_fyash_in_progress = False
             if hasattr(self, 'thread_cement_and_fyash') and self.thread_cement_and_fyash.is_alive():
                 self.thread_cement_and_fyash.join()
+        if self.is_loading_water_in_progress:
+            self.is_loading_water_in_progress = False
+            if hasattr(self, 'thread_water') and self.thread_water.is_alive():
+                self.thread_water.join()
+        if self.is_loading_chemical_in_progress:
+            self.is_loading_chemical_in_progress = False
+            if hasattr(self, 'thread_chemical') and self.thread_chemical.is_alive():
+                self.thread_chemical.join()
 
 
     def Show_main(self):

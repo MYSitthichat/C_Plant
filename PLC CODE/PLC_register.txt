@@ -6,3 +6,10 @@ success rock&sand = m100
 cement = M3
 flyash = M4
 success cement&flyash = m110
+
+water = M5
+success water = M120
+
+chem1 = M6
+chem2 = M7
+success chem M130

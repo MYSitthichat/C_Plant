@@ -2,17 +2,18 @@ from PySide6.QtCore import QObject, Qt
 from PySide6.QtWidgets import QMessageBox, QTreeWidgetItem
 
 class debug_tab(QObject):
-    def __init__(self, main_window,):
+    def __init__(self, main_window, plc_controller):
         super(debug_tab, self).__init__()
         self.main_window = main_window
-
+        self.plc_controller = plc_controller
         self.connect_signals()
 
     def connect_signals(self):
 
         # self.main_window.debug_open_rock_1_pushButton.clicked.connect(self.plc_controller.emit.action("start"))
         # self.main_window.debug_close_rock_1_pushButton.clicked.connect(self.plc_controller.debug_rock_1_action(action = "stop"))
-
+        self.main_window.debug_open_rock_1_pushButton.clicked.connect(self.debug_open_rock_1)
+        self.main_window.debug_close_rock_1_pushButton.clicked.connect(self.debug_close_rock_1)
         self.main_window.debug_open_rock_2_pushButton.clicked.connect(self.debug_open_rock_2)
         self.main_window.debug_close_rock_2_pushButton.clicked.connect(self.debug_close_rock_2)
         self.main_window.debug_open_sand_pushButton.clicked.connect(self.debug_open_sand)
@@ -42,88 +43,93 @@ class debug_tab(QObject):
         self.main_window.debug_open_vale_chem_pushButton.clicked.connect(self.debug_open_vale_chem)
         self.main_window.debug_close_vale_chem_pushButton.clicked.connect(self.debug_close_vale_chem)
 
-        
+    def debug_open_rock_1(self):
+        self.plc_controller.loading_rock1("start")
+
+    def debug_close_rock_1(self):
+        self.plc_controller.loading_rock1("stop")
+
     def debug_open_rock_2(self):
-        print("debug open rock 2")
+        self.plc_controller.loading_rock2("start")
 
     def debug_close_rock_2(self):
-        print("debug close rock 2")
+        self.plc_controller.loading_rock2("stop")
 
     def debug_open_sand(self):
-        print("debug open sand")
+        self.plc_controller.loading_sand("start")
 
     def debug_close_sand(self):
-        print("debug close sand")
+        self.plc_controller.loading_sand("stop")
 
     def debug_open_converyer_under(self):
-        print("debug open converyer under")
+        self.plc_controller.converyer_midle("start")
 
     def debug_close_converyer_under(self):
-        print("debug close converyer under")
+        self.plc_controller.converyer_midle("stop")
 
     def debug_open_converyer_top(self):
-        print("debug open converyer top")
+        self.plc_controller.converyer_top("start")
 
     def debug_close_converyer_top(self):
-        print("debug close converyer top")
+        self.plc_controller.converyer_top("stop")
 
     def debug_open_cement(self):
-        print("debug open cement")
+        self.plc_controller.loading_cement("start")
 
     def debug_close_cement(self):
-        print("debug close cement")
+        self.plc_controller.loading_cement("stop")
 
     def debug_open_fyash(self):
-        print("debug open fyash")
+        self.plc_controller.loading_flyash("start")
 
     def debug_close_fyash(self):
-        print("debug close fyash")
+        self.plc_controller.loading_flyash("stop")
 
     def debug_open_vale_cement(self):
-        print("debug open vale cement")
+        self.plc_controller.vale_cement_and_fyash("start")
 
     def debug_close_vale_cement(self):
-        print("debug close vale cement")
+        self.plc_controller.vale_cement_and_fyash("stop")
 
     def debug_open_mixer(self):
-        print("debug open mixer")
+        self.plc_controller.mixer("start")
 
     def debug_close_mixer(self):
-        print("debug close mixer")
+        self.plc_controller.mixer("stop")
 
     def debug_open_vale_mixer(self):
-        print("debug open vale mixer")
+        self.plc_controller.vale_mixer("start")
 
     def debug_close_vale_mixer(self):
-        print("debug close vale mixer")
+        self.plc_controller.vale_mixer("stop")
 
     def debug_open_water(self):
-        print("debug open water")
+        self.plc_controller.loading_water("start")
 
     def debug_close_water(self):
-        print("debug close water")
+        self.plc_controller.loading_water("stop")
 
     def debug_open_vale_water(self):
-        print("debug open vale water")
+        self.plc_controller.vale_water("start")
 
     def debug_close_vale_water(self):
-        print("debug close vale water")
+        self.plc_controller.vale_water("stop")
 
     def debug_open_chem_1(self):
-        print("debug open chem 1")
+        self.plc_controller.loading_chemical_1("start")
 
     def debug_close_chem_1(self):
-        print("debug close chem 1")
+        self.plc_controller.loading_chemical_1("stop")
 
     def debug_open_chem_2(self):
-        print("debug open chem 2")
+        self.plc_controller.loading_chemical_2("start")
 
     def debug_close_chem_2(self):
-        print("debug close chem 2")
+        self.plc_controller.loading_chemical_2("stop")
 
     def debug_open_vale_chem(self):
-        print("debug open vale chem")
+        self.plc_controller.pump_chemical_up("start")
 
     def debug_close_vale_chem(self):
-        print("debug close vale chem")
+        self.plc_controller.pump_chemical_up("stop")
 

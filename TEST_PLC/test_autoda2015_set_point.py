@@ -33,14 +33,14 @@ class test_autoda2015:
             self.client.close()
 
     def unlock_register(self):
-        SLAVE_ID = 6
+        SLAVE_ID = 4
         UNLOCK_ADDRESS = 5      # Address 5 (คือ Register 40006)
         UNLOCK_CODE = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
         self.client.write_register(address=UNLOCK_ADDRESS,value=UNLOCK_CODE,device_id=SLAVE_ID)
         time.sleep(0.1)
 
     def write_value(self,value):
-        SLAVE_ID = 6
+        SLAVE_ID = 4
         address_register = 314
         # address_register = 90
         try:
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     time.sleep(2)
     tester.unlock_register()
     time.sleep(0.5)
-    value_target = 300
+    value_target = 150
     tester.write_value(value=value_target)
     tester.disconnect_client()
     print("Test finished")
