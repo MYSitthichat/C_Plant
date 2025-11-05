@@ -1,3 +1,6 @@
+PLC weight =====================================================
+ID = 1
+
 rock1 = M0
 sand = M1
 rock2 = M2
@@ -13,3 +16,18 @@ success water = M120
 chem1 = M6
 chem2 = M7
 success chem M130
+
+PLC weight =====================================================
+
+PLC CONDITION ==================================================
+ID = 2
+
+vibration rock and sand = M0
+converyer midle = M1
+converyer hight = M2
+mixer = M3
+vibration cement fyash = M4
+vale water = M5
+vale cement fyash = M6
+vale mixer = M7
+pump chem up = M8
