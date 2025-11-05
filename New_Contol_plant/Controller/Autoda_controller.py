@@ -9,6 +9,8 @@ class AUTODA_Controller(QThread,QObject):
     comport_error = Signal(list)
     weight_rock_and_sand = Signal(int)
     weight_cement_and_fyash = Signal(int)
+    weight_water = Signal(int)
+    weight_chemical = Signal(int)
     
     def __init__(self,main_window,db):
     # def __init__(self,):
@@ -93,6 +95,16 @@ class AUTODA_Controller(QThread,QObject):
     def disconnect_to_autodac(self):
         self.autoda_client.close()
 
+    def read_weight_rock_and_sand(self):
+        register_weight = 81  # Register weight rock and sand
+        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.rock_and_sand_id)
+        raw_value = (read_weight.registers[0])
+        if raw_value > 32767:
+            weight_value = raw_value - 65536
+        else:
+            weight_value = raw_value
+        self.weight_rock_and_sand.emit(weight_value)
+
     def read_cement_and_fyash(self):
         register_weight = 81  # Register weight cement and flyash
         read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.cement_and_flyash_id)
@@ -103,15 +115,25 @@ class AUTODA_Controller(QThread,QObject):
             weight_value = raw_value
         self.weight_cement_and_fyash.emit(weight_value)
 
-    def read_weight_rock_and_sand(self):
-        register_weight = 81  # Register weight rock and sand
-        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.rock_and_sand_id)
+    def read_water(self):
+        register_weight = 81  # Register weight water
+        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.water_id)
         raw_value = (read_weight.registers[0])
         if raw_value > 32767:
             weight_value = raw_value - 65536
         else:
             weight_value = raw_value
-        self.weight_rock_and_sand.emit(weight_value)
+        self.weight_water.emit(weight_value)
+
+    def read_chemical(self):
+        register_weight = 81  # Register weight chemical
+        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.chemical_id)
+        raw_value = (read_weight.registers[0])
+        if raw_value > 32767:
+            weight_value = raw_value - 65536
+        else:
+            weight_value = raw_value
+        self.weight_chemical.emit(weight_value)
 
     def write_set_point_rock_and_sand(self,value):
         address_register = 314 #register set point rock and sand
@@ -131,15 +153,35 @@ class AUTODA_Controller(QThread,QObject):
         register_values = self.int32_to_registers(value)
         self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.cement_and_flyash_id)
 
+    def write_set_point_water(self,value):
+        address_register = 314 #register set point rock and sand
+        unlock_address = 5      # Address 5 (คือ Register 40006)
+        unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+        self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.water_id)
+        self.msleep(100)
+        register_values = self.int32_to_registers(value)
+        self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.water_id)
+    
+    def write_set_point_chemical(self,value):
+        address_register = 314 #register set point rock and sand
+        unlock_address = 5      # Address 5 (คือ Register 40006)
+        unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+        self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.chemical_id)
+        self.msleep(100)
+        register_values = self.int32_to_registers(value)
+        self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.chemical_id)
+
     def run(self):
         while self.running:
             try:
                 self.read_weight_rock_and_sand()
                 self.read_cement_and_fyash()
+                self.read_water()
+                self.read_chemical()
             except Exception as e:
                 print(f"Error in AutoDA Controller: {e}")
                 pass
-            self.msleep(100)
+            self.msleep(10)
 
     def stop(self):
         self.running = False

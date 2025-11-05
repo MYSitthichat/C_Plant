@@ -40,6 +40,13 @@ class MainController(QObject):
         self.state_load_cement_and_fyash = 0
         self.cement_and_fyash_loading_success = False
         # CEMENT AND FYASH STATE
+        # WATER STATE
+        self.water_value = []
+        self.is_loading_water_in_progress = False
+        self.thread_water = None
+        self.state_load_water = 0
+        self.water_loading_success = False
+        # WATER STATE
 
         # Create temp queue instance
         self.temp_queue = TempQueue()
@@ -71,6 +78,8 @@ class MainController(QObject):
         self.autoda_controller.comport_error.connect(self.update_status_port)
         self.autoda_controller.weight_rock_and_sand.connect(self.update_weight_rock_and_sand)
         self.autoda_controller.weight_cement_and_fyash.connect(self.update_weight_cement_and_fyash)
+        self.autoda_controller.weight_water.connect(self.update_weight_water)
+        self.autoda_controller.weight_chemical.connect(self.update_weight_chemical)
 
         self.autoda_controller.initialize_connections()
         self.autoda_controller.start()
@@ -131,6 +140,16 @@ class MainController(QObject):
         self.main_window.mix_wieght_Loaded_cement_lineEdit.setText(str(weight))
         self.main_window.mix_wieght_Loaded_fyash_lineEdit.setText(str(weight))
 
+    def update_weight_water(self, weight):
+        self.main_window.mix_monitor_water_lineEdit.setText(str(weight))
+        self.main_window.mix_wieght_Loaded_water_lineEdit.setText(str(weight))
+
+    def update_weight_chemical(self, weight):
+        self.main_window.mix_monitor_chem_1_lineEdit.setText(str(weight))
+        self.main_window.mix_monitor_chem_2_lineEdit.setText(str(weight))
+        self.main_window.mix_wieght_Loaded_chem_1_lineEdit.setText(str(weight))
+        self.main_window.mix_wieght_Loaded_chem_2_lineEdit.setText(str(weight))
+
     def update_status_port(self, connection_data):
         status = connection_data[0]
         device_type = connection_data[1] 
@@ -177,15 +196,15 @@ class MainController(QObject):
     def mix_start_load(self):
         self.rock1, self.sand, self.rock2, self.cement, self.fyash, self.water, self.chem1, self.chem2 = self.main_window.get_data_formular_in_mix_form()
         self.rock_and_sand_values = [int(self.rock1), int(self.sand), int(self.rock2)]
-        self.cement_and_fyash = int(self.cement), int(self.fyash)
-        
+        self.cement_and_fyash_values = [int(self.cement), int(self.fyash)]
+
         self.is_loading_rock_and_sand_in_progress = True
         self.thread_rock_and_sand = Thread(target=self.load_rock_and_sand_sequence,args=(self.rock_and_sand_values,))
         self.thread_rock_and_sand.start()
         self.state_load_rock_and_sand = 1
 
         self.is_loading_cement_and_fyash_in_progress = True
-        self.thread_cement_and_fyash = Thread(target=self.load_cement_and_fyash_sequence,args=(self.cement_and_fyash,))
+        self.thread_cement_and_fyash = Thread(target=self.load_cement_and_fyash_sequence,args=(self.cement_and_fyash_values,))
         self.thread_cement_and_fyash.start()
         self.state_load_cement_and_fyash = 1
         
@@ -230,7 +249,6 @@ class MainController(QObject):
                     self.is_loading_rock_and_sand_in_progress = False
             time.sleep(0.1)
     
-
 
     def load_cement_and_fyash_sequence(self,data_loaded):
         cement, fyash = data_loaded
