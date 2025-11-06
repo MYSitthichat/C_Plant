@@ -199,7 +199,6 @@ class PLC_Controller(QThread, QObject):
             self.safe_write_coil(address=0, value=0, device_id=int(self.PLC_id_conditioner), operation_name="vibrater_rock_sand_stop")
 
     def converyer_midle(self, status):
-        self.write_state = True
         if status == "start":
             success = self.safe_write_coil(address=1, value=1, device_id=int(self.PLC_id_conditioner), operation_name="converyer_midle_start")
             self.write_success = success
@@ -281,6 +280,42 @@ class PLC_Controller(QThread, QObject):
         if result and not result.isError():
             self.status_loading_chemical.emit(result.bits[0])
 
+    def off_all_device(self):
+        self.loading_rock1("stop")
+        time.sleep(0.1)
+        self.loading_sand("stop")
+        time.sleep(0.1)
+        self.loading_rock2("stop")
+        time.sleep(0.1)
+        self.loading_cement("stop")
+        time.sleep(0.1)
+        self.loading_flyash("stop")
+        time.sleep(0.1)
+        self.loading_water("stop")
+        time.sleep(0.1)
+        self.loading_chemical_1("stop")
+        time.sleep(0.1)
+        self.loading_chemical_2("stop")
+        time.sleep(0.1)
+        self.start_vibrater_rock_and_sand("stop")
+        time.sleep(0.1)
+        self.converyer_midle("stop")
+        time.sleep(0.1)
+        self.converyer_top("stop")
+        time.sleep(0.1)
+        self.mixer("stop")
+        time.sleep(0.1)
+        self.vibrater_cement_and_fyash("stop")
+        time.sleep(0.1)
+        self.vale_water("stop")
+        time.sleep(0.1)
+        self.vale_cement_and_fyash("stop")
+        time.sleep(0.1)
+        self.vale_mixer("stop")
+        time.sleep(0.1)
+        self.pump_chemical_up("stop")
+        time.sleep(0.1)
+
     def run(self):
         read_functions = [
             self.reading_finish_load_rock_and_sand,
@@ -288,7 +323,6 @@ class PLC_Controller(QThread, QObject):
             self.reading_finish_load_water,
             self.reading_finish_load_chemical
         ]
-        
         read_index = 0 
         
         while self.running:
@@ -298,24 +332,25 @@ class PLC_Controller(QThread, QObject):
                         read_functions[read_index]()
                         read_index = (read_index + 1) % len(read_functions)
                         self.msleep(10)
-                
-                if self.write_state == True:
-                    if self.write_success == True:
-                        self.write_state = False
-                        self.write_success = False
-                        self.reading_state = True
+                else:
+                    pass
+                # if self.write_state == True:
+                #     if self.write_success == True:
+                #         self.write_state = False
+                #         self.write_success = False
+                #         self.reading_state = True
                     
             except Exception as e:
                 print(f"Error in PLC Controller: {e}")
                 self.msleep(50)
-            self.msleep(25)
+            self.msleep(55)
 
     def set_communication_parameters(self, communication_delay=50, max_error_count=3, timeout_seconds=1):
         self.communication_delay = communication_delay
         self.max_error_count = max_error_count
         if hasattr(self, 'plc_client') and self.plc_client:
             self.plc_client.timeout = timeout_seconds
-            # print(f"Updated communication parameters - Delay: {communication_delay}ms, Max errors: {max_error_count}, Timeout: {timeout_seconds}s")
+            print(f"Updated communication parameters - Delay: {communication_delay}ms, Max errors: {max_error_count}, Timeout: {timeout_seconds}s")
     
     def get_communication_status(self):
         status = {}
@@ -330,14 +365,13 @@ class PLC_Controller(QThread, QObject):
                 'seconds_since_last_comm': round(time_since_last, 2),
                 'is_active': error_count < self.max_error_count
             }
-        
         return status
     
     def reset_device_errors(self, device_id=None):
         if device_id:
             if device_id in self.error_count:
                 self.error_count[device_id] = 0
-                # print(f"Reset error count for device {device_id}")
+                print(f"Reset error count for device {device_id}")
         else:
             for device in self.error_count:
                 self.error_count[device] = 0

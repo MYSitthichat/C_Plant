@@ -37,7 +37,6 @@ except ImportError:
 #         print(f"✅ Record ID: {result['record_id']}")
 #     else:
 #         print(f"❌ Failed to update database")
-    
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
@@ -74,4 +73,6 @@ if __name__ == '__main__':
     # 'dark_red.xml'
     # 'dark_teal.xml'
     # 'dark_yellow.xml'
+    
+    
 
