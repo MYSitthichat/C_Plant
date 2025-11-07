@@ -116,8 +116,30 @@ class reg_tab(QObject):
                 child_cement_val = 0
             else:
                 child_cement_val = 0 
-
-            # Add to temporary queue instead of database
+            is_new_customer = (self.selected_customer_id is None)
+            
+            if is_new_customer:
+                try:
+                    new_customer_id = self.db.insert_new_customer_with_order(
+                        name_customer, 
+                        phone_number, 
+                        address, 
+                        formula_name, 
+                        amount_concrete, 
+                        car_number, 
+                        child_cement_val, 
+                        comment
+                    )
+                    self.selected_customer_id = new_customer_id
+                    self.load_customers_to_tree()
+                except Exception as e:
+                    QMessageBox.critical(
+                        self.main_window, 
+                        "เกิดข้อผิดพลาด", 
+                        f"ไม่สามารถเพิ่มลูกค้าใหม่ได้\n{str(e)}"
+                    )
+                    print(f"❌ Error adding new customer: {e}")
+                    return
             order_data = {
                 'customer_id': self.selected_customer_id,
                 'name': name_customer,
@@ -129,18 +151,26 @@ class reg_tab(QObject):
                 'child_cement': child_cement_val,
                 'comment': comment
             }
-            
             new_order = self.temp_queue.add_order(order_data)
-            QMessageBox.information(self.main_window, "สำเร็จ", f"เพิ่มออเดอร์ของ {name_customer} เรียบร้อยแล้ว")
-
-            # Clear form and reload
+            if is_new_customer:
+                QMessageBox.information(
+                    self.main_window, 
+                    "สำเร็จ", 
+                    f"✅ เพิ่มลูกค้าใหม่ '{name_customer}' และออเดอร์เรียบร้อยแล้ว"
+                )
+            else:
+                QMessageBox.information(
+                    self.main_window, 
+                    "สำเร็จ", 
+                    f"✅ เพิ่มออเดอร์ของ '{name_customer}' เรียบร้อยแล้ว"
+                )
             self.main_window.clear_reg_form()
             self.selected_customer_id = None  # Reset selection
             self.main_window.reg_name_lineEdit.setReadOnly(False)
             self.main_window.reg_telephone_lineEdit.setReadOnly(False)
             self.main_window.reg_address_textEdit.setReadOnly(False)
             
-            self.main_window.tab.setCurrentWidget(self.main_window.tab_2)
+            self.main_window.tab.setCurrentWidget(self.main_window.work_tab)
             
             if self.work_queue:
                 self.work_queue.load_work_queue()

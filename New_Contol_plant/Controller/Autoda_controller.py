@@ -145,44 +145,46 @@ class AUTODA_Controller(QThread,QObject):
         self.weight_rock_and_sand.emit(weight_value)
 
     def read_cement_and_fyash(self):
-        register_weight = 81  # Register weight cement and flyash
-        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.cement_and_flyash_id)
-        raw_value = (read_weight.registers[0])
-        if raw_value > 32767:
-            weight_value = raw_value - 65536
-        else:
-            weight_value = raw_value
+        # register_weight = 81  # Register weight cement and flyash
+        # read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.cement_and_flyash_id)
+        # raw_value = (read_weight.registers[0])
+        # if raw_value > 32767:
+        #     weight_value = raw_value - 65536
+        # else:
+        #     weight_value = raw_value
+        weight_value = 20  # ตัวอย่างค่าที่อ่านได้
         self.weight_cement_and_fyash.emit(weight_value)
 
     def read_water(self):
-        register_weight = 81  # Register weight water
-        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.water_id)
-        raw_value = (read_weight.registers[0])
-        if raw_value > 32767:
-            weight_value = raw_value - 65536
-        else:
-            weight_value = raw_value
+        # register_weight = 81  # Register weight water
+        # read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.water_id)
+        # raw_value = (read_weight.registers[0])
+        # if raw_value > 32767:
+        #     weight_value = raw_value - 65536
+        # else:
+        #     weight_value = raw_value
+        weight_value = 10  # ตัวอย่างค่าที่อ่านได้
         self.weight_water.emit(weight_value)
 
     def read_chemical(self):
-        if not self.chemical_decimal_initialized:
-            self.read_chemical_decimal_setting()
+        # if not self.chemical_decimal_initialized:
+        #     self.read_chemical_decimal_setting()
         
-        register_weight = 81  # Register weight chemical
+        # register_weight = 81  # Register weight chemical
         try:
-            read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.chemical_id)
+        #     read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.chemical_id)
             
-            if read_weight.isError():
-                self.weight_chemical.emit(0.0)
-                return
+        #     if read_weight.isError():
+        #         self.weight_chemical.emit(0.0)
+        #         return
                 
-            raw_value = (read_weight.registers[0])
-            if raw_value > 32767:
-                signed_value = raw_value - 65536
-            else:
-                signed_value = raw_value
-            float_value = signed_value / self.chemical_divisor
-            
+        #     raw_value = (read_weight.registers[0])
+        #     if raw_value > 32767:
+        #         signed_value = raw_value - 65536
+        #     else:
+        #         signed_value = raw_value
+        #     float_value = signed_value / self.chemical_divisor
+            float_value = 5.0  # ตัวอย่างค่าที่อ่านได้
             self.weight_chemical.emit(float_value)
             
         except Exception as e:

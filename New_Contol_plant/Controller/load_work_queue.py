@@ -138,7 +138,7 @@ class load_work_queue(QObject):
         phone_number = data['phone_number']
         address = data['address']
         formula_name = data['formula_name']
-        amount = data['amount']
+        amount = float(data['amount'])  # แปลงเป็น float เพื่อใช้ในการคำนวณ
         truck_number = data.get('car_number', '')      # car_number = truck_number
         
         # child_cement = keep_sample AND batch_state (0 or 1)
@@ -147,15 +147,38 @@ class load_work_queue(QObject):
         keep_sample = data.get('child_cement', 0)      # This goes to both keep_sample and batch_state
         batch_state = keep_sample                       # batch_state = keep_sample value (0 or 1)
         
-        # Target weights from database (concrete_formula)
-        target_rock1 = data['rock1_weight']
-        target_sand = data['sand_weight']
-        target_rock2 = data['rock2_weight']
-        target_cement = data['cement_weight']
-        target_flyash = data['fly_ash_weight']
-        target_water = data['water_weight']
-        target_chem1 = data['chem1_weight']
-        target_chem2 = data['chem2_weight']
+        # Target weights from database (concrete_formula) - ค่าต้นฉบับ
+        original_target_rock1 = data['rock1_weight']
+        original_target_sand = data['sand_weight']
+        original_target_rock2 = data['rock2_weight']
+        original_target_cement = data['cement_weight']
+        original_target_flyash = data['fly_ash_weight']
+        original_target_water = data['water_weight']
+        original_target_chem1 = data['chem1_weight']
+        original_target_chem2 = data['chem2_weight']
+        
+        # คำนวณค่า multiplier จากจำนวนคิว
+        queue_multiplier = 1.0
+        if amount < 1.0:
+            # ถ้าน้อยกว่า 1 คิว ให้ลดตามสัดส่วน
+            queue_multiplier = amount
+        elif amount > 1.0:
+            # ถ้ามากกว่า 1 คิว ใช้ 1 คิวเต็ม (โหลดทีละ 1)
+            queue_multiplier = 1.0
+        
+        # ปรับค่า Target ตาม multiplier สำหรับแสดงใน UI
+        target_rock1 = int(original_target_rock1 * queue_multiplier)
+        target_sand = int(original_target_sand * queue_multiplier)
+        target_rock2 = int(original_target_rock2 * queue_multiplier)
+        target_cement = int(original_target_cement * queue_multiplier)
+        target_flyash = int(original_target_flyash * queue_multiplier)
+        target_water = int(original_target_water * queue_multiplier)
+        target_chem1 = round(original_target_chem1 * queue_multiplier, 1)
+        target_chem2 = round(original_target_chem2 * queue_multiplier, 1)
+        
+        # print(f"Queue multiplier: {queue_multiplier}")
+        # print(f"Original targets - Rock1: {original_target_rock1}, Sand: {original_target_sand}")
+        # print(f"Adjusted targets - Rock1: {target_rock1}, Sand: {target_sand}")
         
         # Age and Slump from database (concrete_formula)
         age = data['age']
@@ -164,6 +187,8 @@ class load_work_queue(QObject):
         # Create TempMixer object with ALL database values
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
+        # สร้าง TempMixer ด้วยค่าต้นฉบับ (ไม่ปรับตาม multiplier)
+        # เพราะในฐานข้อมูลต้องเก็บค่าเป้าหมายจริงๆ
         self.current_mixer = TempMixer(
             id=None,                          # Auto-generated in database
             dTime=current_time,               # Current timestamp
@@ -175,14 +200,14 @@ class load_work_queue(QObject):
             amount=amount,                    # Amount (cubic meters)
             keep_time=keep_sample,            # keep_sample (0 or 1)
             truck_number=truck_number,        # car_number = truck_number
-            rock1_weight=target_rock1,        # Target from database
-            sand_weight=target_sand,          # Target from database
-            rock2_weight=target_rock2,        # Target from database
-            cement_weight=target_cement,      # Target from database
-            fly_ash_weight=target_flyash,     # Target from database
-            water_weight=target_water,        # Target from database
-            chem1_weight=target_chem1,        # Target from database
-            chem2_weight=target_chem2,        # Target from database
+            rock1_weight=original_target_rock1,        # Target from database (ค่าต้นฉบับ)
+            sand_weight=original_target_sand,          # Target from database (ค่าต้นฉบับ)
+            rock2_weight=original_target_rock2,        # Target from database (ค่าต้นฉบับ)
+            cement_weight=original_target_cement,      # Target from database (ค่าต้นฉบับ)
+            fly_ash_weight=original_target_flyash,     # Target from database (ค่าต้นฉบับ)
+            water_weight=original_target_water,        # Target from database (ค่าต้นฉบับ)
+            chem1_weight=original_target_chem1,        # Target from database (ค่าต้นฉบับ)
+            chem2_weight=original_target_chem2,        # Target from database (ค่าต้นฉบับ)
             age=age,                          # Age from database (concrete_formula)
             slump=slump,                      # Slump from database (concrete_formula)
             batch_state=batch_state           # batch_state = keep_sample (0 or 1)
@@ -230,14 +255,25 @@ class load_work_queue(QObject):
         self.main_window.mix_customer_phone_lineEdit.setText(phone_number)
         self.main_window.mix_customer_formula_name_lineEdit.setText(formula_name)
         self.main_window.mix_number_cube_lineEdit.setText(str(amount))
-        self.main_window.mix_wieght_target_rock_1_lineEdit.setText(str(target_rock1))
-        self.main_window.mix_wieght_target_sand_lineEdit.setText(str(target_sand))
-        self.main_window.mix_wieght_target_rock_2_lineEdit.setText(str(target_rock2))
-        self.main_window.mix_wieght_target_cement_lineEdit.setText(str(target_cement))
-        self.main_window.mix_wieght_target_fyash_lineEdit.setText(str(target_flyash))
-        self.main_window.mix_wieght_target_water_lineEdit.setText(str(target_water))
-        self.main_window.mix_wieght_target_chem_1_lineEdit.setText(str(target_chem1))
-        self.main_window.mix_wieght_target_chem_2_lineEdit.setText(str(target_chem2))
+        self.main_window.mix_result_load_lineEdit.setText(str(amount))
+        
+        # เซ็ตค่า Target ต้นฉบับจากฐานข้อมูล (ค่าเต็ม 100%)
+        # ค่าเหล่านี้จะถูกใช้โดย main_controller เป็นค่าอ้างอิง (original_*)
+        # และ main_controller จะปรับค่าตาม multiplier ของแต่ละรอบ batch
+        self.main_window.mix_wieght_target_rock_1_lineEdit.setText(str(original_target_rock1))
+        self.main_window.mix_wieght_target_sand_lineEdit.setText(str(original_target_sand))
+        self.main_window.mix_wieght_target_rock_2_lineEdit.setText(str(original_target_rock2))
+        self.main_window.mix_wieght_target_cement_lineEdit.setText(str(original_target_cement))
+        self.main_window.mix_wieght_target_fyash_lineEdit.setText(str(original_target_flyash))
+        self.main_window.mix_wieght_target_water_lineEdit.setText(str(original_target_water))
+        self.main_window.mix_wieght_target_chem_1_lineEdit.setText(str(original_target_chem1))
+        self.main_window.mix_wieght_target_chem_2_lineEdit.setText(str(original_target_chem2))
+        
+        # print(f"✅ Original target values set (from database):")
+        # print(f"   Rock1={original_target_rock1}, Sand={original_target_sand}, Cement={original_target_cement}")
+        # print(f"   Water={original_target_water}, Chem1={original_target_chem1}")
+        # print(f"   Note: main_controller will adjust these based on batch multipliers")
+
         
         # Remove from temporary queue
         self.temp_queue.remove_order(data['temp_id'])

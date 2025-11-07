@@ -22,12 +22,14 @@ PLC weight =====================================================
 PLC CONDITION ==================================================
 ID = 2
 
-vibration rock and sand = M0
-converyer midle = M1
-converyer hight = M2
-mixer = M3
-vibration cement fyash = M4
-vale water = M5
-vale cement fyash = M6
-vale mixer = M7
-pump chem up = M8
+vibration rock and sand = M8
+converyer midle = M9
+converyer hight = M10
+mixer = M11
+
+vibration cement fyash = M12
+vale water = M13
+vale cement fyash = M14
+vale mixer = M15
+
+pump chem up = M16

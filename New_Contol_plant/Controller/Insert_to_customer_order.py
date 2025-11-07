@@ -1,7 +1,6 @@
 from Controller.temp_mixer import TempMixer
 import sqlite3
 import os
-from datetime import datetime
 
 class InsertToCustomerOrder:
     def __init__(self):

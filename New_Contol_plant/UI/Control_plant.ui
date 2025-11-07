@@ -100,7 +100,7 @@
      <enum>QTabWidget::TabPosition::North</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="iconSize">
      <size>
@@ -1057,7 +1057,7 @@
      <zorder>reg_lis_custommer_label</zorder>
      <zorder>reg_delete_customer_pushButton</zorder>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="work_tab">
      <attribute name="title">
       <string>Work</string>
      </attribute>
@@ -5031,7 +5031,7 @@ border-radius: 10px;</string>
 border-radius: 10px;</string>
        </property>
        <property name="text">
-        <string>วาล์ลน้ำยา</string>
+        <string>ปั้มน้ำยา</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
@@ -5205,6 +5205,170 @@ border-radius: 10px;</string>
         <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
        </property>
       </widget>
+      <widget class="QLabel" name="debug_plate_vibration_label">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>40</y>
+         <width>451</width>
+         <height>171</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="debug_close_vibrater_cement_fyash_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>140</y>
+         <width>131</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>ปิด</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="debug_vibrater_cement_fyash_label">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>130</y>
+         <width>431</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>มอเตอร์สั่นปูน</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="debug_open_vibrater_rock_sand_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>60</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>เปิด</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="debug_close_vibrater_rock_sand_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>60</y>
+         <width>131</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>ปิด</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="debug_open_vibrater_cement_fyash_pushButton">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>140</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>เปิด</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="debug_vibrater_rock_sand_label">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>50</y>
+         <width>431</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid; 
+border-radius: 10px;</string>
+       </property>
+       <property name="text">
+        <string>มอเตอร์สั่นยุ้ง</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+      </widget>
+      <zorder>debug_plate_vibration_label</zorder>
+      <zorder>debug_vibrater_cement_fyash_label</zorder>
+      <zorder>debug_vibrater_rock_sand_label</zorder>
       <zorder>debug_plate_3_label</zorder>
       <zorder>debug_plate_2_label</zorder>
       <zorder>debug_plate_1_label</zorder>
@@ -5253,6 +5417,10 @@ border-radius: 10px;</string>
       <zorder>debug_close_vale_chem_pushButton</zorder>
       <zorder>debug_open_water_pushButton</zorder>
       <zorder>debug_close_water_pushButton</zorder>
+      <zorder>debug_close_vibrater_cement_fyash_pushButton</zorder>
+      <zorder>debug_open_vibrater_rock_sand_pushButton</zorder>
+      <zorder>debug_close_vibrater_rock_sand_pushButton</zorder>
+      <zorder>debug_open_vibrater_cement_fyash_pushButton</zorder>
      </widget>
      <widget class="QGroupBox" name="debug_status_groupBox">
       <property name="geometry">

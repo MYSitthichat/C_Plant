@@ -1,5 +1,4 @@
-from PySide6.QtCore import QObject, Qt
-from PySide6.QtWidgets import QMessageBox, QTreeWidgetItem
+from PySide6.QtCore import QObject
 
 class debug_tab(QObject):
     def __init__(self, main_window, plc_controller):
@@ -42,6 +41,22 @@ class debug_tab(QObject):
         self.main_window.debug_close_chem_2_pushButton.clicked.connect(self.debug_close_chem_2)
         self.main_window.debug_open_vale_chem_pushButton.clicked.connect(self.debug_open_vale_chem)
         self.main_window.debug_close_vale_chem_pushButton.clicked.connect(self.debug_close_vale_chem)
+        self.main_window.debug_close_vibrater_rock_sand_pushButton.clicked.connect(self.vibrater_rock_and_sand_off)
+        self.main_window.debug_open_vibrater_rock_sand_pushButton.clicked.connect(self.vibrater_rock_and_sand_on)
+        self.main_window.debug_close_vibrater_cement_fyash_pushButton.clicked.connect(self.vibrater_cement_and_fyash_off)
+        self.main_window.debug_open_vibrater_cement_fyash_pushButton.clicked.connect(self.vibrater_cement_and_fyash_on)
+
+    def vibrater_rock_and_sand_off(self):
+        self.plc_controller.start_vibrater_rock_and_sand("stop")
+    
+    def vibrater_rock_and_sand_on(self):
+        self.plc_controller.start_vibrater_rock_and_sand("start")
+
+    def vibrater_cement_and_fyash_off(self):
+        self.plc_controller.vibrater_cement_and_fyash("stop")
+    
+    def vibrater_cement_and_fyash_on(self):
+        self.plc_controller.vibrater_cement_and_fyash("start")
 
     def debug_open_rock_1(self):
         self.plc_controller.loading_rock1("start")
