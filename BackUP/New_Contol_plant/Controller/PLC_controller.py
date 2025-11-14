@@ -180,66 +180,66 @@ class PLC_Controller(QThread, QObject):
         if status == "start":
             print("Loading Rock 3/8: Start")
             self.device_status_changed.emit("rock1", True)
-            self.safe_write_coil(address=2, value=1, device_id=int(self.PLC_id), operation_name="loading_rock1_start")
+            # self.safe_write_coil(address=0, value=1, device_id=int(self.PLC_id), operation_name="loading_rock1_start")
         elif status == "stop":
             print("Loading Rock 3/8: Stop")
             self.device_status_changed.emit("rock1", False)
-            self.safe_write_coil(address=2, value=0, device_id=int(self.PLC_id), operation_name="loading_rock1_stop")
+            # self.safe_write_coil(address=0, value=0, device_id=int(self.PLC_id), operation_name="loading_rock1_stop")
     
     def loading_sand(self, status):
         # print("Loading Sand:", status)
         if status == "start":
             print("Loading Sand: Start")
             self.device_status_changed.emit("sand", True)
-            self.safe_write_coil(address=1, value=1, device_id=int(self.PLC_id), operation_name="loading_sand_start")
+            # self.safe_write_coil(address=1, value=1, device_id=int(self.PLC_id), operation_name="loading_sand_start")
         elif status == "stop":
             print("Loading Sand: Stop")
             self.device_status_changed.emit("sand", False)
-            self.safe_write_coil(address=1, value=0, device_id=int(self.PLC_id), operation_name="loading_sand_stop")
+            # self.safe_write_coil(address=1, value=0, device_id=int(self.PLC_id), operation_name="loading_sand_stop")
     
     def loading_rock2(self, status):
         # print("Loading Rock 2:", status)
         if status == "start":
             print("Loading Rock 3/4: Start")
             self.device_status_changed.emit("rock2", True)
-            self.safe_write_coil(address=0, value=1, device_id=int(self.PLC_id), operation_name="loading_rock2_start")
+            # self.safe_write_coil(address=2, value=1, device_id=int(self.PLC_id), operation_name="loading_rock2_start")
         elif status == "stop":
             print("Loading Rock 3/4: Stop")
             self.device_status_changed.emit("rock2", False)
-            self.safe_write_coil(address=0, value=0, device_id=int(self.PLC_id), operation_name="loading_rock2_stop")
+            # self.safe_write_coil(address=2, value=0, device_id=int(self.PLC_id), operation_name="loading_rock2_stop")
     
     def loading_cement(self, status):
         # print("Loading Cement:", status)
         if status == "start":
             print("Loading Cement: Start")
             self.device_status_changed.emit("cement", True)
-            self.safe_write_coil(address=10, value=1, device_id=int(self.PLC_id), operation_name="loading_cement_start")
+            # self.safe_write_coil(address=10, value=1, device_id=int(self.PLC_id), operation_name="loading_cement_start")
         elif status == "stop":
             print("Loading Cement: Stop")
             self.device_status_changed.emit("cement", False)
-            self.safe_write_coil(address=10, value=0, device_id=int(self.PLC_id), operation_name="loading_cement_stop")
+            # self.safe_write_coil(address=10, value=0, device_id=int(self.PLC_id), operation_name="loading_cement_stop")
     
     def loading_flyash(self, status):
         # print("Loading Fly Ash:", status)
         if status == "start":
             print("Loading Fly Ash: Start")
             self.device_status_changed.emit("flyash", True)
-            self.safe_write_coil(address=11, value=1, device_id=int(self.PLC_id), operation_name="loading_flyash_start")
+            # self.safe_write_coil(address=11, value=1, device_id=int(self.PLC_id), operation_name="loading_flyash_start")
         elif status == "stop":
             print("Loading Fly Ash: Stop")
             self.device_status_changed.emit("flyash", False)
-            self.safe_write_coil(address=11, value=0, device_id=int(self.PLC_id), operation_name="loading_flyash_stop")
+            # self.safe_write_coil(address=11, value=0, device_id=int(self.PLC_id), operation_name="loading_flyash_stop")
     
     def loading_water(self, status):
         # print("Loading Water:", status)
         if status == "start":
             print("Loading Water: Start")
             self.device_status_changed.emit("water", True)
-            self.safe_write_coil(address=12, value=1, device_id=int(self.PLC_id), operation_name="loading_water_start")
+            # self.safe_write_coil(address=12, value=1, device_id=int(self.PLC_id), operation_name="loading_water_start")
         elif status == "stop":
             print("Loading Water: Stop")
             self.device_status_changed.emit("water", False)
-            self.safe_write_coil(address=12, value=0, device_id=int(self.PLC_id), operation_name="loading_water_stop")
+            # self.safe_write_coil(address=12, value=0, device_id=int(self.PLC_id), operation_name="loading_water_stop")
     
 
 
@@ -247,43 +247,43 @@ class PLC_Controller(QThread, QObject):
         # print("Vibrater Rock and Sand:", status)
         if status == "start":
             print("Vibrater Rock and Sand: Start")
-            self.safe_write_coil(address=16, value=1, device_id=int(self.PLC_id), operation_name="vibrater_rock_sand_start")
+            # self.safe_write_coil(address=16, value=1, device_id=int(self.PLC_id), operation_name="vibrater_rock_sand_start")
         elif status == "stop":
             print("Vibrater Rock and Sand: Stop")
-            self.safe_write_coil(address=16, value=0, device_id=int(self.PLC_id), operation_name="vibrater_rock_sand_stop")
+            # self.safe_write_coil(address=16, value=0, device_id=int(self.PLC_id), operation_name="vibrater_rock_sand_stop")
 
     def converyer_midle(self, status):
         # print("Converyer Midle:", status)
         if status == "start":
             print("Converyer Midle: Start")
             self.device_status_changed.emit("conveyor_middle", True)
-            success = self.safe_write_coil(address=20, value=1, device_id=int(self.PLC_id), operation_name="converyer_midle_start")
+            # success = self.safe_write_coil(address=20, value=1, device_id=int(self.PLC_id), operation_name="converyer_midle_start")
         elif status == "stop":
             print("Converyer Midle: Stop")
             self.device_status_changed.emit("conveyor_middle", False)
-            success = self.safe_write_coil(address=20, value=0, device_id=int(self.PLC_id), operation_name="converyer_midle_stop")
+            # success = self.safe_write_coil(address=20, value=0, device_id=int(self.PLC_id), operation_name="converyer_midle_stop")
 
     def converyer_top(self, status):
         # print("Converyer Top:", status)
         if status == "start":
             print("Converyer Top: Start")
             self.device_status_changed.emit("conveyor_top", True)
-            self.safe_write_coil(address=21, value=1, device_id=int(self.PLC_id), operation_name="converyer_top_start")
+            # self.safe_write_coil(address=21, value=1, device_id=int(self.PLC_id), operation_name="converyer_top_start")
         elif status == "stop":
             print("Converyer Top: Stop")
             self.device_status_changed.emit("conveyor_top", False)
-            self.safe_write_coil(address=21, value=0, device_id=int(self.PLC_id), operation_name="converyer_top_stop")
+            # self.safe_write_coil(address=21, value=0, device_id=int(self.PLC_id), operation_name="converyer_top_stop")
 
     def mixer(self, status):
         # print("Mixer:", status)
         if status == "start":
             print("Mixer: Start")
             self.device_status_changed.emit("mixer", True)
-            self.safe_write_coil(address=22, value=1, device_id=int(self.PLC_id), operation_name="mixer_start")
+            # self.safe_write_coil(address=22, value=1, device_id=int(self.PLC_id), operation_name="mixer_start")
         elif status == "stop":
             print("Mixer: Stop")
             self.device_status_changed.emit("mixer", False)
-            self.safe_write_coil(address=22, value=0, device_id=int(self.PLC_id), operation_name="mixer_stop")
+            # self.safe_write_coil(address=22, value=0, device_id=int(self.PLC_id), operation_name="mixer_stop")
     
     def vibrater_cement_and_fyash(self, status):
         # print("Vibrater Cement and Flyash:", status)
@@ -297,22 +297,22 @@ class PLC_Controller(QThread, QObject):
         if status == "start":
             print("Vale Water: Start")
             self.device_status_changed.emit("valve_water", True)
-            self.safe_write_coil(address=3, value=1, device_id=int(self.PLC_id), operation_name="vale_water_start")
+            # self.safe_write_coil(address=3, value=1, device_id=int(self.PLC_id), operation_name="vale_water_start")
         elif status == "stop":
             print("Vale Water: Stop")
             self.device_status_changed.emit("valve_water", False)
-            self.safe_write_coil(address=3, value=0, device_id=int(self.PLC_id), operation_name="vale_water_stop")
+            # self.safe_write_coil(address=3, value=0, device_id=int(self.PLC_id), operation_name="vale_water_stop")
     
     def vale_cement_and_fyash(self, status):
         # print("Vale Cement and Flyash:", status)
         if status == "start":
             print("Vale Cement and Flyash: Start")
             self.device_status_changed.emit("valve_cement_flyash", True)
-            self.safe_write_coil(address=4, value=1, device_id=int(self.PLC_id), operation_name="vale_cement_flyash_start")
+            # self.safe_write_coil(address=4, value=1, device_id=int(self.PLC_id), operation_name="vale_cement_flyash_start")
         elif status == "stop":
             print("Vale Cement and Flyash: Stop")
             self.device_status_changed.emit("valve_cement_flyash", False)
-            self.safe_write_coil(address=4, value=0, device_id=int(self.PLC_id), operation_name="vale_cement_flyash_stop")
+            # self.safe_write_coil(address=4, value=0, device_id=int(self.PLC_id), operation_name="vale_cement_flyash_stop")
     
     def vale_mixer_open(self, status):
         if status == "start":
@@ -344,31 +344,31 @@ class PLC_Controller(QThread, QObject):
         if status == "start":
             print("Loading Chemical 1: Start")
             self.device_status_changed.emit("chemical1", True)
-            self.safe_write_coil(address=24, value=1, device_id=int(self.PLC_id), operation_name="loading_chemical_1_start")
+            # self.safe_write_coil(address=24, value=1, device_id=int(self.PLC_id), operation_name="loading_chemical_1_start")
         elif status == "stop":
             print("Loading Chemical 1: Stop")
             self.device_status_changed.emit("chemical1", False)
-            self.safe_write_coil(address=24, value=0, device_id=int(self.PLC_id), operation_name="loading_chemical_1_stop")
+            # self.safe_write_coil(address=24, value=0, device_id=int(self.PLC_id), operation_name="loading_chemical_1_stop")
 
     def loading_chemical_2(self, status):
         # print("Loading Chemical 2:", status)
         if status == "start":
             print("Loading Chemical 2: Start")
             self.device_status_changed.emit("chemical2", True)
-            self.safe_write_coil(address=26, value=1, device_id=int(self.PLC_id), operation_name="loading_chemical_2_start")
+            # self.safe_write_coil(address=26, value=1, device_id=int(self.PLC_id), operation_name="loading_chemical_2_start")
         elif status == "stop":
             print("Loading Chemical 2: Stop")
             self.device_status_changed.emit("chemical2", False)
-            self.safe_write_coil(address=26, value=0, device_id=int(self.PLC_id), operation_name="loading_chemical_2_stop")
+            # self.safe_write_coil(address=26, value=0, device_id=int(self.PLC_id), operation_name="loading_chemical_2_stop")
 
     def pump_chemical_up(self, status):
         # print("Pump Chemical Up:", status)
         if status == "start":
             self.device_status_changed.emit("pump_chemical", True)
-            self.safe_write_coil(address=25, value=1, device_id=int(self.PLC_id), operation_name="pump_chemical_start")
+            # self.safe_write_coil(address=25, value=1, device_id=int(self.PLC_id), operation_name="pump_chemical_start")
         elif status == "stop":
             self.device_status_changed.emit("pump_chemical", False)
-            self.safe_write_coil(address=25, value=0, device_id=int(self.PLC_id), operation_name="pump_chemical_stop")
+            # self.safe_write_coil(address=25, value=0, device_id=int(self.PLC_id), operation_name="pump_chemical_stop")
 
     def reading_finish_load_rock_and_sand(self):
         def read_operation():

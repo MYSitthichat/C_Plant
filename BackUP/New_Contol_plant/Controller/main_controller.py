@@ -1369,7 +1369,7 @@ class MainController(QObject):
                     self.plc_controller.mixer("start") #run mixer
                     self.status_message.emit("เริ่มผสมคิวที่ {}".format(self.current_queue_transporting))
                     self.status_message.emit("เปิดมอเตอร์ผสม")
-                    time.sleep(7)
+                    time.sleep(3)
                     self.plc_controller.converyer_top("start") #run converyer top
                     self.status_message.emit("เปิดสายพานบน")
                     time.sleep(3)
@@ -1379,29 +1379,23 @@ class MainController(QObject):
                     self.state_main_condition_load = 2
                     
                 elif self.state_main_condition_load == 2:
-                    time.sleep(5)
-                    self.status_message.emit("เปิดปั้มน้ำยาขึ้น")
-                    self.plc_controller.pump_chemical_up("start")
-                    time.sleep(5)
+                    time.sleep(10)
                     self.status_message.emit("state 2")
                     self.plc_controller.vale_water("start")
                     self.status_message.emit("เปิดวาล์วน้ำ")
                     time.sleep(int(self.cement_release_time))
                     self.plc_controller.vale_cement_and_fyash("start")
                     self.status_message.emit("เปิดวาล์วปูนซีเมนต์และเถ้าลอย")
-                    time.sleep(4)
-                    self.plc_controller.pump_chemical_up("stop")
-                    time.sleep(3)
+                    time.sleep(1)
+                    self.plc_controller.pump_chemical_up("start")
+                    self.status_message.emit("เปิดปั้มน้ำยาขึ้น")
+                    time.sleep(1)
                     self.state_main_condition_load = 3
                     
                 elif self.state_main_condition_load == 3:
                     self.status_message.emit("state 3")
-                    self.plc_controller.pump_chemical_up("start")
                     for i in range(int(self.converyer_time)):
                         time.sleep(1)
-                    self.plc_controller.vale_cement_and_fyash("stop")
-                    self.status_message.emit("ปิดวาล์วปูนซีเมนต์และเถ้าลอย")
-                    time.sleep(4)
                     self.plc_controller.converyer_midle("stop")
                     self.status_message.emit("ปิดสายพานด้านล่าง")
                     time.sleep(0.5)
@@ -1411,15 +1405,19 @@ class MainController(QObject):
                     self.plc_controller.vale_water("stop")
                     self.status_message.emit("ปิดวาล์วน้ำ")
                     time.sleep(0.5)
-                    self.plc_controller.pump_chemical_up("stop")
+                    self.plc_controller.vale_cement_and_fyash("stop")
+                    self.status_message.emit("ปิดวาล์วปูนซีเมนต์และเถ้าลอย")
+                    time.sleep(0.5)
+                    self.plc_controller.pump_chemical_up("start")
                     time.sleep(0.5)
                     self.start_next_load_ready()
                     self.state_main_condition_load = 4
                 
                 elif self.state_main_condition_load == 4:
                     self.status_message.emit("state 4")
-                    for i in range(int(self.mixer_start_time)):
+                    for i in range(int(self.mixer_start_time)-15):
                         time.sleep(1)
+                        
                     self.plc_controller.vale_mixer_open("start")
                     time.sleep(0.5)
                     self.plc_controller.vale_mixer_open("start")
@@ -1451,7 +1449,7 @@ class MainController(QObject):
                                       self.current_queue_transporting < self.total_queue_count)
                     if not has_more_queues:
                         # ไม่มีคิวรออีกแล้ว ปิด mixer ตามปกติ
-                        self.status_message.emit("ไม่มีคิวเหลือแล้ว จบกระบวนการผสม กำลังปิดปากโม่")
+                        self.status_message.emit("ไม่มีคิวเหลือแล้ว จบกระบวนการผสม")
                         self.plc_controller.vale_mixer_close("start")
                         time.sleep(0.5)
                         self.plc_controller.vale_mixer_close("start")
@@ -1474,7 +1472,6 @@ class MainController(QObject):
                     
                     if self.next_queue_loaded_and_ready:
                         # มีคิวถัดไปพร้อมแล้ว เริ่มลำเลียงทันที
-                        self.close_vale_mixer_when_waiting = True
                         self.status_message.emit("คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว")
                         if self.close_vale_mixer_when_waiting == True:
                             self.status_message.emit("ปิดปากโม่ก่อนเริ่มกระบวนการลำเลียงคิวถัดไป")
@@ -1492,7 +1489,6 @@ class MainController(QObject):
                         # ยังมีคิวที่ต้องลำเลียงอีก แต่ยังโหลดไม่เสร็จ รอที่ state 6
                         self.close_vale_mixer_when_waiting = True
                         self.state_main_condition_load = 6
-                        self.close_vale_mixer_when_waiting = True
                         self.status_message.emit("ยังมีคิวเหลือกำลังรอโหลด")
                     else:
                         # ไม่มีคิวเหลือแล้ว จบกระบวนการ
@@ -1516,7 +1512,6 @@ class MainController(QObject):
                     self.status_message.emit("state 6")
                     if self.next_queue_loaded_and_ready:
                         self.status_message.emit("คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว")
-                        self.close_vale_mixer_when_waiting = True
                         # คิวถัดไปโหลดเสร็จแล้ว เริ่มลำเลียงได้
                         self.state_main_condition_load = 0  # กลับไป state 0 เพื่อเริ่มลำเลียงคิวถัดไป
                     else:
