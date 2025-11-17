@@ -6190,7 +6190,7 @@ border-radius: 10px;</string>
         </font>
        </property>
        <property name="text">
-        <string>เวลาก่อนสายพานด้านล่างทำงาน</string>
+        <string>เวลานับถอยหลังการปิดสายพาน</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
