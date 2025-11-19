@@ -924,7 +924,7 @@ class MainController(QObject):
 
 # MIX START LOAD
     def mix_start_load(self):
-        # print("\n🚀 === STARTING LOADING PROCESS ===")
+        print("\n🚀 === STARTING LOADING PROCESS ===")
         # ตรวจสอบจำนวนคิว ถ้ามี error จะ return ทันที
         self.start_button_load_enabled = True
         self.is_workflow_active = True  # เปิดใช้งาน workflow
@@ -942,17 +942,17 @@ class MainController(QObject):
             self.is_workflow_active = False
             return
         
-        # print("🔄 Resetting freeze values...")
+        print("🔄 Resetting freeze values...")
         self.reset_freeze_values()
-        self.reset_sum_data()
-        # print("📊 Initializing counters...")
+        
+        print("📊 Initializing counters...")
         # รีเซ็ต counter
         self.current_queue_transporting = 0
         self.completed_queue_count = 0  # รีเซ็ตจำนวนคิวที่ผสมเสร็จ
         self.next_queue_loaded_and_ready = False
         self.lock_target_display = True  # ล็อค Target UI ตั้งแต่เริ่มโหลด
         
-        # print("🎯 Resetting UI displays...")
+        print("🎯 Resetting UI displays...")
         # รีเซ็ตการแสดงผลจำนวนคิว - ห่อด้วย try-except
         try:
             if hasattr(self, 'main_window') and self.main_window:
@@ -999,8 +999,6 @@ class MainController(QObject):
         self.display_target_chem1 = self.chem1
         self.display_target_chem2 = self.chem2
         
-        
-        
         # อัพเดต Target ใน UI ทันที - ห่อด้วย try-except
         try:
             if hasattr(self, 'main_window') and self.main_window:
@@ -1017,7 +1015,7 @@ class MainController(QObject):
             pass
         
         # เริ่ม target monitor
-        # print("🎯 Starting target monitor...")
+        print("🎯 Starting target monitor...")
         self._start_target_monitor()
         
         self.rock_and_sand_values = [int(self.rock1), int(self.sand), int(self.rock2)]
@@ -1181,7 +1179,6 @@ class MainController(QObject):
         print("🔄 Resetting freeze values for new queue...")
         # รีเซ็ต freeze values สำหรับการโหลดใหม่
         self.reset_freeze_values()
-        
         
         # ดึง multiplier สำหรับรอบถัดไป
         next_queue_index = self.current_queue_loaded  # current_queue_loaded ถูกเพิ่มแล้วใน start_next_load_ready
@@ -1427,18 +1424,17 @@ class MainController(QObject):
     def main_condition_load(self):
         while self.main_condition_load_running:
             try:
-                # state 0
                 if self.state_main_condition_load == 0:
                     if self.next_queue_loaded_and_ready:
                         self.next_queue_loaded_and_ready = False  # รีเซ็ต flag
                         self.current_queue_transporting += 1
                         self.state_main_condition_load = 1
                     else:
+                        # print("ddddd")
                         pass
-                
-                # state 1
+                    
                 elif self.state_main_condition_load == 1:
-                    self.update_sum_data()
+                    
                     current_queue_index = self.current_queue_transporting - 1
                     if current_queue_index < len(self.queue_multipliers):
                         current_mixing_amount = self.queue_multipliers[current_queue_index]
@@ -1455,8 +1451,7 @@ class MainController(QObject):
                     self.status_message.emit("เปิดสายพานล่าง")
                     time.sleep(0.5)
                     self.state_main_condition_load = 2
-                
-                # state 2
+                    
                 elif self.state_main_condition_load == 2:
                     time.sleep(5)
                     self.status_message.emit("เปิดปั้มน้ำยาขึ้น")
@@ -1468,12 +1463,11 @@ class MainController(QObject):
                     time.sleep(int(self.cement_release_time))
                     self.plc_controller.vale_cement_and_fyash("start")
                     self.status_message.emit("เปิดวาล์วปูนซีเมนต์และเถ้าลอย")
-                    #time.sleep(4)
+                    time.sleep(4)
                     self.plc_controller.pump_chemical_up("stop")
-                    #time.sleep(3)
+                    time.sleep(3)
                     self.state_main_condition_load = 3
-
-                # state 3   
+                    
                 elif self.state_main_condition_load == 3:
                     self.status_message.emit("state 3 - ติดตามน้ำหนัก Rock & Sand")
                     self.plc_controller.pump_chemical_up("start")
@@ -1520,35 +1514,20 @@ class MainController(QObject):
                         if self.countdown_to_stop > 0:
                             self.status_message.emit("น้ำหนักกลับมาสูงกว่าเกณฑ์ - ยกเลิกการนับถอยหลัง")
                             self.countdown_to_stop = 0
-                # state 4
+                
                 elif self.state_main_condition_load == 4:
                     self.status_message.emit("state 4")
                     for i in range(int(self.mixer_start_time)):
                         time.sleep(1)
-                    
-                    # open first step
-                    self.plc_controller.vale_mixer_open("start")
-                    time.sleep(0.5)
-                    self.plc_controller.vale_mixer_open("start")
-                    self.status_message.emit("เริ่มเปิดปาก first step")
-                    time.sleep(1)
-                    self.plc_controller.off_coil_vale_mixer("start")
-                    time.sleep(0.5)
-                    self.plc_controller.off_coil_vale_mixer("start")
-                    time.sleep(5)
-
-                    # open gate second step
                     self.plc_controller.vale_mixer_open("start")
                     time.sleep(0.5)
                     self.plc_controller.vale_mixer_open("start")
                     self.status_message.emit("เริ่มเปิดปากโม่ครึ่งนึง")
-                    time.sleep(1)
+                    time.sleep(2)
                     self.plc_controller.off_coil_vale_mixer("start")
                     time.sleep(0.5)
                     self.plc_controller.off_coil_vale_mixer("start")
-                    time.sleep(5)
-
-                    # open gate third step
+                    time.sleep(10)
                     self.plc_controller.vale_mixer_open("start")
                     time.sleep(0.5)
                     self.plc_controller.vale_mixer_open("start")
@@ -1562,12 +1541,10 @@ class MainController(QObject):
                     self.status_message.emit("ปิดปั้มน้ำยาเคมี")
                     self.close_vale_mixer_when_waiting = True
                     self.state_main_condition_load = 5
-                    # self._update_database_after_loading()
-
-                # state 5   
+                    
                 elif self.state_main_condition_load == 5:
                     self.status_message.emit("state 5")
-                    for i in range(25):
+                    for i in range(15):
                         time.sleep(1)
                     has_more_queues = (self.next_queue_loaded_and_ready or self.current_queue_transporting < self.total_queue_count)
                     
@@ -1582,36 +1559,11 @@ class MainController(QObject):
                         self.plc_controller.off_coil_vale_mixer("start")
                         time.sleep(2)
                         self.plc_controller.mixer("stop")
-                        self.state_main_condition_load = 8
                     else:
-                        # print("More queues pending - keeping mixer running")
-                        self.state_main_condition_load = 7
+                        # print("🔄 More queues pending - keeping mixer running")
+                        pass  # Keep mixer running
+                    self._accumulate_batch_weights()
                     
-                # state 6      
-                elif self.state_main_condition_load == 6:
-                    # State รอคิวถัดไปโหลดเสร็จ
-                    self.status_message.emit("state 6")
-                    if self.next_queue_loaded_and_ready:
-                        self.status_message.emit("คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว")
-                        self.close_vale_mixer_when_waiting = True
-                        # คิวถัดไปโหลดเสร็จแล้ว เริ่มลำเลียงได้
-                        self.state_main_condition_load = 0  # กลับไป state 0 เพื่อเริ่มลำเลียงคิวถัดไป
-                    else:
-                        if self.close_vale_mixer_when_waiting == True:
-                            self.status_message.emit("คิวถัดไปยังไม่พร้อม ปิดปากโม่ก่อน")
-                            self.plc_controller.vale_mixer_close("start")
-                            time.sleep(0.5)
-                            self.plc_controller.vale_mixer_close("start")
-                            time.sleep(7)
-                            self.plc_controller.off_coil_vale_mixer("start")
-                            time.sleep(0.5)
-                            self.plc_controller.off_coil_vale_mixer("start")
-                            self.close_vale_mixer_when_waiting = False
-                        pass
-
-                # state 7
-                elif self.state_main_condition_load == 7:
-                    # self._accumulate_batch_weights()
                     current_queue_index = self.current_queue_transporting - 1
                     if current_queue_index < len(self.queue_multipliers):
                         completed_amount = self.queue_multipliers[current_queue_index]
@@ -1639,38 +1591,52 @@ class MainController(QObject):
                         self.state_main_condition_load = 6
                         self.close_vale_mixer_when_waiting = True
                         self.status_message.emit("ยังมีคิวเหลือกำลังรอโหลด")
-
-                # state 8 ===> close all process
-                elif self.state_main_condition_load == 8:
-                    self.lock_target_display = False  # ปลดล็อค Target
-                    self.request_stop_target_monitor.emit()  # หยุด monitor จาก main thread
-                    self.main_condition_load_running = False
-                    self.state_main_condition_load = 0
-                    self.start_button_load_enabled = False
+                    else:
+                        self.lock_target_display = False  # ปลดล็อค Target
+                        self.request_stop_target_monitor.emit()  # หยุด monitor จาก main thread
+                        self.main_condition_load_running = False
+                        self.state_main_condition_load = 0
+                        self.start_button_load_enabled = False
                         
-                    # print("💾 Starting database update...")
-                    # อัพเดต database ด้วยน้ำหนักจริงที่โหลดได้
-                    # self._update_database_after_loading()
-                    self._update_database_from_sum_data()
-                    
-                    
-                    # print("🎨 Resetting device indicators...")
-                    # รีเซ็ตสี label ทั้งหมดกลับเป็นสีเดิมเมื่อเสร็จสิ้นกระบวนการ
-                    self._reset_all_device_indicators()
+                        # print("💾 Starting database update...")
+                        # อัพเดต database ด้วยน้ำหนักจริงที่โหลดได้
+                        self._update_database_after_loading()
                         
-                    # print("🔄 Resetting for new customer...")
-                    # รีเซ็ตค่าทั้งหมดเพื่อเตรียมพร้อมสำหรับลูกค้ารายใหม่
-                    self._reset_all_for_new_customer()
-                    self.status_message.emit("เสร็จสิ้นกระบวนการ")
-                    # print("✅ === COMPLETE PROCESS FINISHED ===\n")
-
-                # out of state
-                else:
-                    print("Machine run out of state")
+                        # print("🎨 Resetting device indicators...")
+                        # รีเซ็ตสี label ทั้งหมดกลับเป็นสีเดิมเมื่อเสร็จสิ้นกระบวนการ
+                        self._reset_all_device_indicators()
+                        
+                        # print("🔄 Resetting for new customer...")
+                        # รีเซ็ตค่าทั้งหมดเพื่อเตรียมพร้อมสำหรับลูกค้ารายใหม่
+                        self._reset_all_for_new_customer()
+                        self.status_message.emit("เสร็จสิ้นกระบวนการ")
+                        # print("✅ === COMPLETE PROCESS FINISHED ===\n")
+                        
+                elif self.state_main_condition_load == 6:
+                    # State รอคิวถัดไปโหลดเสร็จ
+                    self.status_message.emit("state 6")
+                    if self.next_queue_loaded_and_ready:
+                        self.status_message.emit("คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว")
+                        self.close_vale_mixer_when_waiting = True
+                        # คิวถัดไปโหลดเสร็จแล้ว เริ่มลำเลียงได้
+                        self.state_main_condition_load = 0  # กลับไป state 0 เพื่อเริ่มลำเลียงคิวถัดไป
+                    else:
+                        if self.close_vale_mixer_when_waiting == True:
+                            self.status_message.emit("คิวถัดไปยังไม่พร้อม ปิดปากโม่ก่อน")
+                            self.plc_controller.vale_mixer_close("start")
+                            time.sleep(0.5)
+                            self.plc_controller.vale_mixer_close("start")
+                            time.sleep(7)
+                            self.plc_controller.off_coil_vale_mixer("start")
+                            time.sleep(0.5)
+                            self.plc_controller.off_coil_vale_mixer("start")
+                            self.close_vale_mixer_when_waiting = False
+                        pass
                         
             except Exception as e:
                 print(f"Error in main condition load: {e}")
             time.sleep(1)
+
 
 # ============================================================================================
 # update sum data เพื่อเก็บไว้และนำไปรวมกันจนครบคิวที่สั่งแล้วค่อยบันทึกลง data base
@@ -2149,7 +2115,7 @@ class MainController(QObject):
             self.thread_chemical.join()
 
     def mix_cancel_load(self):
-        print("Cancelling load operation...")
+        print("🛑 Cancelling load operation...")
         self.start_button_load_enabled = False
         self.is_workflow_active = False  # ปิด workflow
         self.reset_freeze_values()
@@ -2263,86 +2229,12 @@ class MainController(QObject):
             'current_state': self.state_load_rock_and_sand
         }
     
-    
-    def _update_database_from_sum_data(self):
-        """อัพเดตฐานข้อมูลด้วยน้ำหนักรวมจาก sum_lineEdit หลังจากเสร็จสิ้นกระบวนการ"""
-        try:
-            # print("\n💾 === DATABASE UPDATE FROM SUM DATA STARTED ===")
-            order_id = self.load_work_queue.get_current_order_id()
-            # print(f"   Order ID: {order_id}")
-            if not order_id:
-                # print("❌ No order ID found - cannot update database")
-                return
-            # ตรวจสอบว่า main_window ยังมีอยู่
-            if not hasattr(self, 'main_window') or self.main_window is None:
-                # print("❌ main_window not available - cannot read sum data")
-                return
-            
-            try:
-                # อ่านค่าจาก sum_lineEdit fields
-                sand_total = int(self.main_window.mix_wieght_sum_sand_lineEdit.text() or "0")
-                rock1_total = int(self.main_window.mix_wieght_sum_rock_1_lineEdit.text() or "0")
-                rock2_total = int(self.main_window.mix_wieght_sum_rock_2_lineEdit.text() or "0")
-                cement_total = int(self.main_window.mix_wieght_sum_cement_lineEdit.text() or "0")
-                flyash_total = int(self.main_window.mix_wieght_sum_fyash_lineEdit.text() or "0")
-                water_total = int(self.main_window.mix_wieght_sum_water_lineEdit.text() or "0")
-                chem1_total = float(self.main_window.mix_wieght_sum_chem_1_lineEdit.text() or "0")
-                chem2_total = float(self.main_window.mix_wieght_sum_chem_2_lineEdit.text() or "0")
-            except (ValueError, RuntimeError, AttributeError) as e:
-                print(f"❌ Error reading sum data from UI: {e}")
-                return
-            
-            # แสดงข้อมูลก่อนบันทึก
-            print(f"   Final sum weights to be saved:")
-            print(f"   Total cubes loaded: {self.get_all_loaded_cube}")
-            print(f"   Total queues completed: {self.completed_queue_count}")
-            print(f"   Sand: {sand_total} kg")
-            print(f"   Rock1: {rock1_total} kg")
-            print(f"   Rock2: {rock2_total} kg")
-            print(f"   Cement: {cement_total} kg")
-            print(f"   Flyash: {flyash_total} kg")
-            print(f"   Water: {water_total} kg")
-            print(f"   Chem1: {chem1_total} kg")
-            print(f"   Chem2: {chem2_total} kg")
-            
-            # สร้าง mixer object จากข้อมูล sum
-            current_mixer = self.load_work_queue.current_mixer
-            current_mixer.sand_total_weight = sand_total
-            current_mixer.rock1_total_weight = rock1_total
-            current_mixer.rock2_total_weight = rock2_total
-            current_mixer.cement_total_weight = cement_total
-            current_mixer.fly_ash_total_weight = flyash_total
-            current_mixer.water_total_weight = water_total
-            current_mixer.chem1_total_weight = chem1_total
-            current_mixer.chem2_total_weight = chem2_total
-            
-            if not hasattr(self.load_work_queue, 'order_inserter'):
-                print("No order_inserter found - cannot update database")
-                return
-            
-            print("⏳ Saving sum data to database...")
-            success = self.load_work_queue.order_inserter.update_complete(order_id, current_mixer)
-
-            if success:
-                print("✅ Database updated successfully with sum data!")
-                print(f"   Order {order_id} marked as complete")
-            else:
-                print("❌ Database update failed!")
-            
-            print("💾 === DATABASE UPDATE FROM SUM DATA COMPLETED ===\n")
-            
-        except Exception as e:
-            print(f"❌ Error updating database from sum data: {e}")
-            import traceback
-            traceback.print_exc()
-
-
     def _accumulate_batch_weights(self):
         """สะสมน้ำหนักจริงที่โหลดได้จาก batch ปัจจุบันเข้าไปใน TempMixer"""
         try:
             current_mixer = self.load_work_queue.current_mixer
             if not current_mixer:
-                print("No current mixer found for weight accumulation")
+                print("❌ No current mixer found for weight accumulation")
                 return
             
             # แสดงข้อมูลก่อนเริ่มสะสม
@@ -2395,7 +2287,7 @@ class MainController(QObject):
             current_mixer.chem2_total_weight += chem2_this_batch
             
             print("=" * 70)
-            print(f"   Batch #{self.current_queue_transporting} weights accumulated:")
+            print(f"📊 Batch #{self.current_queue_transporting} weights accumulated:")
             print(f"   Sand: {old_sand_total} + {sand_this_batch} → {current_mixer.sand_total_weight} kg")
             print(f"   Rock1: {old_rock1_total} + {rock1_this_batch} → {current_mixer.rock1_total_weight} kg")
             print(f"   Rock2: {old_rock2_total} + {rock2_this_batch} → {current_mixer.rock2_total_weight} kg")
@@ -2430,7 +2322,7 @@ class MainController(QObject):
                 return
             
             # แสดงข้อมูลก่อนบันทึก
-            print(f"   Final accumulated weights to be saved:")
+            print(f"📊 Final accumulated weights to be saved:")
             print(f"   Total cubes loaded: {self.get_all_loaded_cube}")
             print(f"   Total queues completed: {self.completed_queue_count}")
             print(f"   Sand: {current_mixer.sand_total_weight} kg")
@@ -2443,7 +2335,7 @@ class MainController(QObject):
             print(f"   Chem2: {current_mixer.chem2_total_weight} kg")
             
             if not hasattr(self.load_work_queue, 'order_inserter'):
-                print("No order_inserter found - cannot update database")
+                print("❌ No order_inserter found - cannot update database")
                 return
                 
             print("⏳ Saving to database...")

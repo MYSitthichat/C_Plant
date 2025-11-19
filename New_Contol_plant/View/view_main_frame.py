@@ -135,6 +135,15 @@ class MainWindow(QMainWindow,Ui_Control_Plant):
         self.mix_result_mix_success_lineEdit.setReadOnly(True)
         self.mix_result_mix_lineEdit.setReadOnly(True)
         self.mix_monitor_status_textEdit.setReadOnly(True)
+        
+        self.mix_wieght_sum_sand_lineEdit.setReadOnly(True)
+        self.mix_wieght_sum_rock_1_lineEdit.setReadOnly(True)
+        self.mix_wieght_sum_rock_2_lineEdit.setReadOnly(True)
+        self.mix_wieght_sum_cement_lineEdit.setReadOnly(True)
+        self.mix_wieght_sum_fyash_lineEdit.setReadOnly(True)
+        self.mix_wieght_sum_water_lineEdit.setReadOnly(True)
+        self.mix_wieght_sum_chem_1_lineEdit.setReadOnly(True)
+        self.mix_wieght_sum_chem_2_lineEdit.setReadOnly(True)
     
     def get_data_formular_in_mix_form(self):
         rock1_target = self.mix_wieght_target_rock_1_lineEdit.text()

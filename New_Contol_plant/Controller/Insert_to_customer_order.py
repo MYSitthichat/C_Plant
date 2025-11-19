@@ -12,13 +12,14 @@ class InsertToCustomerOrder:
             script_dir = os.path.dirname(__file__)
             db_path_relative = os.path.join(script_dir, "..", "..", "DATA_BASE", "concretePlant.db")
             self.db_path = os.path.normpath(db_path_relative)
-    
+
+  
     def insert_start(self, temp_mixer):
         if not isinstance(temp_mixer, TempMixer):
             print("Error: temp_mixer must be a TempMixer object")
             return None
         
-        query = """
+        insert_query = """
         INSERT INTO concrete_order (
             dTime, customer_name, phone_number, address, formula_name, 
             amount, keep_sample, truck_number,
@@ -31,12 +32,26 @@ class InsertToCustomerOrder:
             age, slump, batch_state, Status_load
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         """
-        
+
+        update_query = """
+            UPDATE concrete_order SET
+                customer_name = ?, phone_number = ?, address = ?, formula_name = ?, 
+                amount = ?, keep_sample = ?, truck_number = ?,
+                rock1_total_weight = ?, sand_total_weight = ?, rock2_total_weight = ?, 
+                cement_total_weight = ?, fly_ash_total_weight = ?, water_total_weight = ?, 
+                chemical1_total_weight = ?, chemical2_total_weight = ?,
+                roc1_target_weight = ?, sand_target_weight = ?, rock2_target_weight = ?, 
+                cement_target_weight = ?, fly_ash_target_weight = ?, water_target_weight = ?, 
+                chemical1_target_weight = ?, chemical2_target_weight = ?,
+                age = ?, slump = ?, batch_state = ?, Status_load = ?
+            WHERE dTime = ?
+        """
+
         conn = None
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
-            
+
             # Prepare values - all totals are 0, Status_load = 0
             values = (
                 temp_mixer.dTime,                      # dTime
@@ -70,10 +85,21 @@ class InsertToCustomerOrder:
                 temp_mixer.batch_state,                # batch_state (2 = in progress)
                 0                                      # Status_load = 0 (not loaded)
             )
+
+
+            # check order
+            order_id = cursor.execute("SELECT id FROM concrete_order WHERE dTime = ?", (temp_mixer.dTime,))
+            existing = cursor.fetchone()
+
+            if existing:
+                values = values[-1] = 1
+                update_values = values[1:] + (temp_mixer.dTime,)
+                cursor.execute(update_query, update_values)
+            else:
+                cursor.execute(insert_query, values)
             
-            cursor.execute(query, values)
+            
             conn.commit()
-            
             new_id = cursor.lastrowid
             return new_id
             

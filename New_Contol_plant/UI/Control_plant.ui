@@ -2484,7 +2484,7 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_Loaded_label">
        <property name="geometry">
         <rect>
-         <x>120</x>
+         <x>75</x>
          <y>30</y>
          <width>81</width>
          <height>41</height>
@@ -2504,7 +2504,7 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_target_label">
        <property name="geometry">
         <rect>
-         <x>250</x>
+         <x>175</x>
          <y>30</y>
          <width>81</width>
          <height>41</height>
@@ -2524,9 +2524,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_Loaded_rock_1_lineEdit">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>75</x>
          <y>130</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2544,9 +2544,9 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_Loaded_rock_1_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>5</x>
          <y>130</y>
-         <width>81</width>
+         <width>61</width>
          <height>41</height>
         </rect>
        </property>
@@ -2564,9 +2564,9 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_Loaded_sand_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>5</x>
          <y>80</y>
-         <width>81</width>
+         <width>51</width>
          <height>41</height>
         </rect>
        </property>
@@ -2584,9 +2584,9 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_Loaded_rock_2_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>5</x>
          <y>180</y>
-         <width>81</width>
+         <width>61</width>
          <height>41</height>
         </rect>
        </property>
@@ -2604,9 +2604,9 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_Loaded_cement_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>5</x>
          <y>230</y>
-         <width>81</width>
+         <width>61</width>
          <height>41</height>
         </rect>
        </property>
@@ -2624,9 +2624,9 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_Loaded_fyash_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>5</x>
          <y>280</y>
-         <width>81</width>
+         <width>71</width>
          <height>41</height>
         </rect>
        </property>
@@ -2644,9 +2644,9 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_Loaded_water_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>5</x>
          <y>330</y>
-         <width>81</width>
+         <width>61</width>
          <height>41</height>
         </rect>
        </property>
@@ -2664,9 +2664,9 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_Loaded_chem_1_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>5</x>
          <y>380</y>
-         <width>81</width>
+         <width>61</width>
          <height>41</height>
         </rect>
        </property>
@@ -2684,9 +2684,9 @@ border-radius: 10px;</string>
       <widget class="QLabel" name="mix_wieght_Loaded_chem_2_label">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>5</x>
          <y>430</y>
-         <width>81</width>
+         <width>61</width>
          <height>41</height>
         </rect>
        </property>
@@ -2704,9 +2704,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_Loaded_sand_lineEdit">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>75</x>
          <y>80</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2724,9 +2724,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_Loaded_rock_2_lineEdit">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>75</x>
          <y>180</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2744,9 +2744,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_Loaded_cement_lineEdit">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>75</x>
          <y>230</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2764,9 +2764,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_Loaded_fyash_lineEdit">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>75</x>
          <y>280</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2784,9 +2784,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_Loaded_water_lineEdit">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>75</x>
          <y>330</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2804,9 +2804,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_Loaded_chem_1_lineEdit">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>75</x>
          <y>380</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2824,9 +2824,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_Loaded_chem_2_lineEdit">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>75</x>
          <y>430</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2844,9 +2844,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_target_sand_lineEdit">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>175</x>
          <y>80</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2864,9 +2864,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_target_water_lineEdit">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>175</x>
          <y>330</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2884,9 +2884,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_target_rock_2_lineEdit">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>175</x>
          <y>180</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2904,9 +2904,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_target_rock_1_lineEdit">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>175</x>
          <y>130</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2924,9 +2924,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_target_cement_lineEdit">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>175</x>
          <y>230</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2944,9 +2944,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_target_chem_2_lineEdit">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>175</x>
          <y>430</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2964,9 +2964,9 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_target_fyash_lineEdit">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>175</x>
          <y>280</y>
-         <width>111</width>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
@@ -2984,9 +2984,189 @@ border-radius: 10px;</string>
       <widget class="QLineEdit" name="mix_wieght_target_chem_1_lineEdit">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>175</x>
          <y>380</y>
-         <width>111</width>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="mix_wieght_sum_rock_1_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>275</x>
+         <y>130</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="mix_wieght_sum_rock_2_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>275</x>
+         <y>180</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="mix_wieght_sum_fyash_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>275</x>
+         <y>280</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="mix_wieght_sum_label">
+       <property name="geometry">
+        <rect>
+         <x>285</x>
+         <y>30</y>
+         <width>61</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>ผลรวม</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="mix_wieght_sum_water_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>275</x>
+         <y>330</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="mix_wieght_sum_cement_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>275</x>
+         <y>230</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="mix_wieght_sum_chem_1_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>275</x>
+         <y>380</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="mix_wieght_sum_sand_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>275</x>
+         <y>80</y>
+         <width>81</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>TH Niramit AS</family>
+         <pointsize>20</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="mix_wieght_sum_chem_2_lineEdit">
+       <property name="geometry">
+        <rect>
+         <x>275</x>
+         <y>430</y>
+         <width>81</width>
          <height>41</height>
         </rect>
        </property>
