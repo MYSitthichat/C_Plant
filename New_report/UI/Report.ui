@@ -56,7 +56,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_Order_history">
      <attribute name="title">
@@ -324,7 +324,7 @@
       </column>
       <column>
        <property name="text">
-        <string>ความผิดพลาด</string>
+        <string>% ความผิดพลาด </string>
        </property>
       </column>
      </widget>

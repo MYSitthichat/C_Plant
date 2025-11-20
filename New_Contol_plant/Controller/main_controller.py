@@ -60,7 +60,7 @@ class MainController(QObject):
         self.rock1_stabilize_start_time = 0
         self.sand_stabilize_start_time = 0
         self.rock2_stabilize_start_time = 0
-        self.stabilize_delay = 2.5  # วินาที
+        self.stabilize_delay = 5  # วินาที
         
         # ตัวแปรสำหรับ freeze น้ำหนักแต่ละวัสดุ - Cement and Fyash
         self.cement_frozen_weight = 0
@@ -1528,7 +1528,7 @@ class MainController(QObject):
                     
                     # open first step
                     self.plc_controller.vale_mixer_open("start")
-                    time.sleep(0.5)
+                    time.sleep(1)
                     self.plc_controller.vale_mixer_open("start")
                     self.status_message.emit("เริ่มเปิดปาก first step")
                     time.sleep(1)
@@ -1539,7 +1539,7 @@ class MainController(QObject):
 
                     # open gate second step
                     self.plc_controller.vale_mixer_open("start")
-                    time.sleep(0.5)
+                    time.sleep(1)
                     self.plc_controller.vale_mixer_open("start")
                     self.status_message.emit("เริ่มเปิดปากโม่ครึ่งนึง")
                     time.sleep(1)
@@ -1553,7 +1553,7 @@ class MainController(QObject):
                     time.sleep(0.5)
                     self.plc_controller.vale_mixer_open("start")
                     self.status_message.emit("เปิดปากโม่จนสุด")
-                    time.sleep(4)
+                    time.sleep(7)
                     self.plc_controller.off_coil_vale_mixer("start")
                     time.sleep(0.5)
                     self.plc_controller.off_coil_vale_mixer("start")
@@ -1567,7 +1567,7 @@ class MainController(QObject):
                 # state 5   
                 elif self.state_main_condition_load == 5:
                     self.status_message.emit("state 5")
-                    for i in range(25):
+                    for i in range(18):
                         time.sleep(1)
                     has_more_queues = (self.next_queue_loaded_and_ready or self.current_queue_transporting < self.total_queue_count)
                     

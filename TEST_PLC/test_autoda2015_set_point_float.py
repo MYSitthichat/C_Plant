@@ -176,7 +176,7 @@ if __name__ == "__main__":
     
     try:
         # เชื่อมต่อ
-        tester.connect_client(comport="COM7")
+        tester.connect_client(comport="/dev/ttyUSB1")
         time.sleep(1)
         
         # Unlock register
@@ -187,7 +187,7 @@ if __name__ == "__main__":
             print("\n=== ทดสอบการเขียนค่าทศนิยม ===")
             
             # ทดสอบค่าต่างๆ
-            test_values = [1.0, 1.5, 1.9, 2.3, 2.7]
+            test_values = [2.0]
             
             for float_val in test_values:
                 print(f"\n--- ทดสอบค่า {float_val} ---")
@@ -196,17 +196,17 @@ if __name__ == "__main__":
                     print(f"✓ เขียนค่า {float_val} สำเร็จ")
                 else:
                     print(f"✗ เขียนค่า {float_val} ล้มเหลว")
-                time.sleep(15)
+                time.sleep(2)
             
-            # ทดสอบเขียนค่าแบบเดิม (integer) เพื่อเปรียบเทียบ
-            print("\n=== ทดสอบการเขียนค่าแบบเดิม (Integer) ===")
-            integer_value = 150
-            print(f"\n--- ทดสอบค่า {integer_value} (แบบเดิม) ---")
-            success = tester.write_value(integer_value)
-            if success:
-                print(f"✓ เขียนค่า {integer_value} (แบบเดิม) สำเร็จ")
-            else:
-                print(f"✗ เขียนค่า {integer_value} (แบบเดิม) ล้มเหลว")
+            # # ทดสอบเขียนค่าแบบเดิม (integer) เพื่อเปรียบเทียบ
+            # print("\n=== ทดสอบการเขียนค่าแบบเดิม (Integer) ===")
+            # integer_value = 150
+            # print(f"\n--- ทดสอบค่า {integer_value} (แบบเดิม) ---")
+            # success = tester.write_value(integer_value)
+            # if success:
+            #     print(f"✓ เขียนค่า {integer_value} (แบบเดิม) สำเร็จ")
+            # else:
+            #     print(f"✗ เขียนค่า {integer_value} (แบบเดิม) ล้มเหลว")
                 
         else:
             print("ไม่สามารถ Unlock Register ได้")

@@ -133,7 +133,7 @@ class MainController(QObject):
             ("เถ้าลอย",   COL_FLY_ASH_TARGET, COL_FLY_ASH_TOTAL),
             ("น้ำ",         COL_WATER_TARGET,   COL_WATER_TOTAL),
             ("น้ำยา 1",    COL_CHEM1_TARGET,   COL_CHEM1_TOTAL),
-            ("น้ำยา 2",    COL_CHEM2_TOTAL,   COL_CHEM2_TOTAL)
+            ("น้ำยา 2",    COL_CHEM2_TARGET,   COL_CHEM2_TOTAL)
         ]
 
         for order in orders:
@@ -153,7 +153,9 @@ class MainController(QObject):
             parent_item.setText(5, f"{order[COL_AMOUNT]:.1f}")
             
             for name, target_idx, actual_idx in ingredients:
-                target_val = order[target_idx]
+                # ใช้ amount ของ order นี้เท่านั้น
+                current_amount = order[COL_AMOUNT]
+                target_val = order[target_idx] * current_amount
                 actual_val = order[actual_idx]
                 
                 error_percent = 0.0
@@ -225,3 +227,7 @@ class MainController(QObject):
 
     def Show_main(self):
         self.main_window.show()
+        
+if __name__ == '__main__':
+    main_app = MainController()
+    main_app.populate_report()

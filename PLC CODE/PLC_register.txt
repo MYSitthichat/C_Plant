@@ -1,35 +1,35 @@
 PLC weight =====================================================
 ID = 1
 
-rock1 = M0
-sand = M1
-rock2 = M2
+ใช้ลมและ com = 0V  ระบบไฟ 24V DC
+
+rock1 = M0 //Y00
+sand = M1 //Y01
+rock2 = M2 //Y02
 success rock&sand = m100
 
-cement = M3
-flyash = M4
+
+vale water = M3 //Y03
+vale cement fyash = M4 //Y04
+vale mixer open = M5 //Y05
+vale mixer close = M6 //Y06
+
+ใช้ไฟมอเตอร์และ com = N  ระบบไฟ 220V AC
+
+cement = M10 //Y10
+flyash = M11 //Y11
 success cement&flyash = m110
 
-water = M5
+water = M12 //Y12
 success water = M120
 
-chem1 = M6
-chem2 = M7
+chem1 = M24 //Y24
+chem2 = M25 //Y25
+pump chem up = M26 //Y26
 success chem M130
 
-PLC weight =====================================================
-
-PLC CONDITION ==================================================
-ID = 2
-
-vibration rock and sand = M8
-converyer midle = M9
-converyer hight = M10
-mixer = M11
-
-vibration cement fyash = M12
-vale water = M13
-vale cement fyash = M14
-vale mixer = M15
-
-pump chem up = M16
+vibration rock and sand = M16 //Y16
+vibration cement fyash = M17 // Y17
+converyer midle = M20 //Y20
+converyer hight = M21 //Y21
+mixer = M22 //Y22

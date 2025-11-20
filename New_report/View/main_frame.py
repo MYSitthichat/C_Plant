@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'Report.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.1
+## Created by: Qt User Interface Compiler version 6.9.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -307,7 +307,7 @@ class Ui_Report(object):
 
         self.retranslateUi(Report)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(Report)
@@ -323,7 +323,7 @@ class Ui_Report(object):
         self.show_value_list_label.setText(QCoreApplication.translate("Report", u"\u0e23\u0e32\u0e22\u0e01\u0e32\u0e23", None))
         self.show_value_label.setText(QCoreApplication.translate("Report", u"\u0e41\u0e2a\u0e14\u0e07\u0e04\u0e48\u0e32\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14", None))
         ___qtreewidgetitem = self.report_treeWidget.headerItem()
-        ___qtreewidgetitem.setText(9, QCoreApplication.translate("Report", u"\u0e04\u0e27\u0e32\u0e21\u0e1c\u0e34\u0e14\u0e1e\u0e25\u0e32\u0e14", None));
+        ___qtreewidgetitem.setText(9, QCoreApplication.translate("Report", u"% \u0e04\u0e27\u0e32\u0e21\u0e1c\u0e34\u0e14\u0e1e\u0e25\u0e32\u0e14 ", None));
         ___qtreewidgetitem.setText(8, QCoreApplication.translate("Report", u"\u0e0a\u0e31\u0e48\u0e07\u0e08\u0e23\u0e34\u0e07", None));
         ___qtreewidgetitem.setText(7, QCoreApplication.translate("Report", u"\u0e04\u0e48\u0e32\u0e17\u0e35\u0e48\u0e01\u0e33\u0e2b\u0e19\u0e14", None));
         ___qtreewidgetitem.setText(6, QCoreApplication.translate("Report", u"\u0e2a\u0e48\u0e27\u0e19\u0e1c\u0e2a\u0e21", None));
