@@ -14,11 +14,12 @@ except ImportError:
     import stock_controller 
 
 
-# --- UPDATE: Point to the new UI file ---
+# --- UI file path ---
 UI_FILE_PATH = os.path.join(os.path.dirname(__file__), "..", "UI", "Report.ui")
 
 
 # Column indices from the 'concrete_order' table schema
+# (This section is unchanged)
 COL_ID = 0
 COL_DTIME = 1
 COL_CUSTOMER_NAME = 2
@@ -78,30 +79,37 @@ class MainController(QObject):
     def setup_ui(self):
         """Populates date comboboxes and connects button signals."""
         
-        # Default to the first tab
+        
         self.main_window.tabWidget.setCurrentIndex(0)
        
+      
         today = QDate.currentDate()
         self.start_date_edit.setDate(today.addDays(-7)) # Default to 7 days ago
         self.end_date_edit.setDate(today)
+            
         
         self.start_date_edit.setDisplayFormat("d/M/yyyy")
         self.end_date_edit.setDisplayFormat("d/M/yyyy")
             
+       
         self.show_button.clicked.connect(self.populate_report)
+        
+        # "ส่งค่าออก CSV" ปุ่ม
         self.export_button.clicked.connect(self.export_to_csv)
        
-        # (Column widths)
-        self.tree.setColumnWidth(0, 60)   # ID
-        self.tree.setColumnWidth(1, 120)  # Customer
-        self.tree.setColumnWidth(2, 250)  # Details
-        self.tree.setColumnWidth(3, 80)   # Strength
-        self.tree.setColumnWidth(4, 160)  # DateTime
-        self.tree.setColumnWidth(5, 80)   # Amount
-        self.tree.setColumnWidth(6, 150)  # Ingredient
-        self.tree.setColumnWidth(7, 100)  # Target
-        self.tree.setColumnWidth(8, 100)  # Actual
-        self.tree.setColumnWidth(9, 100)  # Error
+        
+        
+        # (This section is unchanged)
+        self.tree.setColumnWidth(0, 60)   # ลำดับ (ID)
+        self.tree.setColumnWidth(1, 120)  # ชื่อลูกค้า (Customer)
+        self.tree.setColumnWidth(2, 250)  # รายละเอียด (Details)
+        self.tree.setColumnWidth(3, 80)   # กำลังอัด (Strength)
+        self.tree.setColumnWidth(4, 160)  # วันที่ เวลา (DateTime)
+        self.tree.setColumnWidth(5, 80)   # จำนวน (Amount)
+        self.tree.setColumnWidth(6, 150)  # ส่วนผสม (Ingredient)
+        self.tree.setColumnWidth(7, 100)  # ค่าที่กำหนด (Target)
+        self.tree.setColumnWidth(8, 100)  # ชั่งจริง (Actual)
+        self.tree.setColumnWidth(9, 100)  # ความผิดพลาด (Error)
 
 
     @Slot()
@@ -109,6 +117,7 @@ class MainController(QObject):
         """Fetches data from DB and populates the QTreeWidget."""
         self.tree.clear()
         
+        # This part correctly reads the date for the SQL query
         start_date = self.start_date_edit.date().toString("yyyy-MM-dd")
         end_date = self.end_date_edit.date().toString("yyyy-MM-dd")
         
@@ -135,7 +144,8 @@ class MainController(QObject):
             parent_item.setText(2, order[COL_ADDRESS])
             parent_item.setText(3, order[COL_FORMULA_NAME])
             
-            dt_str = order[COL_DTIME] 
+            # Reformat Date/Time in Table
+            dt_str = order[COL_DTIME] # Get string from DB (e.g., '2025-01-09 01:34:47')
             dt_obj = QDateTime.fromString(dt_str, "yyyy-MM-dd HH:mm:ss")
             formatted_dt = dt_obj.toString("d/M/yyyy HH:mm")
             parent_item.setText(4, formatted_dt)
@@ -143,6 +153,7 @@ class MainController(QObject):
             parent_item.setText(5, f"{order[COL_AMOUNT]:.1f}")
             
             for name, target_idx, actual_idx in ingredients:
+                # ใช้ amount ของ order นี้เท่านั้น
                 current_amount = order[COL_AMOUNT]
                 target_val = order[target_idx] * current_amount
                 actual_val = order[actual_idx]
@@ -158,36 +169,49 @@ class MainController(QObject):
                 child_item.setText(8, f"{actual_val:.1f}")
                 child_item.setText(9, f"{error_percent:.2f}")
 
+    
     @Slot()
     def export_to_csv(self):
+        """
+        ส่งออกข้อมูลที่แสดงใน QTreeWidget (self.tree) ไปยังไฟล์ CSV
+        """
+        
+        # 1. เปิดหน้าต่างให้ผู้ใช้เลือกที่บันทึกไฟล์
         options = QFileDialog.Options()
         fileName, _ = QFileDialog.getSaveFileName(
             self.main_window, 
-            "บันทึกไฟล์ CSV", 
-            "", 
+            "บันทึกไฟล์ CSV",  # ชื่อไตเติลของหน้าต่าง
+            "",               # ไดเรกทอรีเริ่มต้น (ว่างไว้)
             "CSV Files (*.csv);;All Files (*)", 
             options=options
         )
         
+        # 2. ตรวจสอบว่าผู้ใช้ได้เลือกไฟล์ (ไม่ได้กดยกเลิก)
         if not fileName:
             return  
 
         try:
+            # 3. เปิดไฟล์เพื่อเขียน (ใช้ 'utf-8-sig' เพื่อรองรับภาษาไทยใน Excel)
             with open(fileName, 'w', newline='', encoding='utf-8-sig') as csvfile:
                 writer = csv.writer(csvfile)
                 
+                # 4. เขียนส่วนหัว (Header) ของตาราง
                 header_labels = []
                 for i in range(self.tree.header().count()):
                     header_labels.append(self.tree.headerItem().text(i))
                 writer.writerow(header_labels)
                 
+                # 5. วนลูปข้อมูลทั้งหมดใน QTreeWidget
                 root = self.tree.invisibleRootItem()
                 for i in range(root.childCount()):
                     parent_item = root.child(i)
+                    
+                    
                     parent_data = []
                     for j in range(self.tree.columnCount()):
                         parent_data.append(parent_item.text(j))
                     writer.writerow(parent_data)
+                    
                     
                     for k in range(parent_item.childCount()):
                         child_item = parent_item.child(k)
@@ -197,8 +221,13 @@ class MainController(QObject):
                         writer.writerow(child_data)
                         
             print(f"ส่งออกข้อมูลไปยัง {fileName} สำเร็จ")
+            
         except IOError as e:
             print(f"เกิดข้อผิดพลาดในการเขียนไฟล์ CSV: {e}")
 
     def Show_main(self):
         self.main_window.show()
+        
+if __name__ == '__main__':
+    main_app = MainController()
+    main_app.populate_report()

@@ -39,15 +39,9 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>2555</width>
+      <width>1550</width>
       <height>851</height>
      </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>0</height>
-     </size>
     </property>
     <property name="font">
      <font>
@@ -56,7 +50,7 @@
      </font>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_Order_history">
      <attribute name="title">
@@ -228,20 +222,8 @@
         <x>0</x>
         <y>180</y>
         <width>1550</width>
-        <height>850</height>
+        <height>650</height>
        </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>1550</width>
-        <height>850</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>1550</width>
-        <height>850</height>
-       </size>
       </property>
       <property name="font">
        <font>
@@ -355,853 +337,430 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_Stock">
+    <widget class="QWidget" name="tab_import">
      <attribute name="title">
-      <string>สต็อกสินค้า</string>
+      <string>นำเข้าสินค้า </string>
      </attribute>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>1541</width>
-        <height>791</height>
+        <x>20</x>
+        <y>10</y>
+        <width>1511</width>
+        <height>351</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>บันทึกการนำเข้า </string>
+      </property>
+      <widget class="QLabel" name="label_date">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>150</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>วันที่ (Date):</string>
+       </property>
+      </widget>
+      <widget class="QDateEdit" name="dateEdit_import">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>30</y>
+         <width>941</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="displayFormat">
+        <string>dd/MM/yyyy</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_time">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>90</y>
+         <width>150</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>เวลา (Time):</string>
+       </property>
+      </widget>
+      <widget class="QTimeEdit" name="timeEdit_import">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>80</y>
+         <width>941</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="displayFormat">
+        <string>HH:mm</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_material">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>140</y>
+         <width>321</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>เลือกวัตถุดิบ (Material):</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_material">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>130</y>
+         <width>941</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>หิน 1 (Rock 1)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>หิน 2 (Rock 2)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ทราย (Sand)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>เถ้าลอย (Fly Ash)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ปูน (Cement)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>น้ำยาเคมี 1 (Chem 1)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>น้ำยาเคมี 2 (Chem 2)</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="label_amount">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>190</y>
+         <width>241</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>จำนวนที่นำเข้า (Kg):</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_amount">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>180</y>
+         <width>941</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <double>99999.990000000005239</double>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_customer_name">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>240</y>
+         <width>241</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>ชื่อลูกค้า (Customer Name):</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_customer_name">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>230</y>
+         <width>341</width>
+         <height>41</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_truck">
+       <property name="geometry">
+        <rect>
+         <x>680</x>
+         <y>240</y>
+         <width>211</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>ทะเบียนรถ (Truck No):</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_truck">
+       <property name="geometry">
+        <rect>
+         <x>850</x>
+         <y>230</y>
+         <width>361</width>
+         <height>41</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_phone">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>290</y>
+         <width>241</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>เบอร์โทรศัพท์ (Phone):</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_phone">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>280</y>
+         <width>341</width>
+         <height>41</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_address">
+       <property name="geometry">
+        <rect>
+         <x>680</x>
+         <y>290</y>
+         <width>181</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>ที่อยู่ลูกค้า (Address):</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_address">
+       <property name="geometry">
+        <rect>
+         <x>850</x>
+         <y>290</y>
+         <width>361</width>
+         <height>41</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>1260</x>
+         <y>130</y>
+         <width>201</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>16</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #2196F3;
+color: black</string>
+       </property>
+       <property name="text">
+        <string>บันทึก</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>380</y>
+        <width>400</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ประวัติการนำเข้าล่าสุด </string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidget_history">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>409</y>
+        <width>1510</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>500</number>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>วันที่</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>วัสดุ</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>น้ำหนัก (+Kg)</string>
+       </property>
+      </column>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_stock">
+     <attribute name="title">
+      <string>สถานะสต็อก </string>
+     </attribute>
+     <widget class="QTableWidget" name="tableWidget_stock">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>10</y>
+        <width>1511</width>
+        <height>660</height>
        </rect>
       </property>
       <property name="font">
        <font>
         <family>TH Niramit AS</family>
         <pointsize>18</pointsize>
+        <bold>true</bold>
        </font>
       </property>
-      <property name="title">
-       <string/>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
       </property>
-      <widget class="QLabel" name="rock1_label">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>70</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SelectionMode::NoSelection</enum>
+      </property>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>220</number>
+      </attribute>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>89</number>
+      </attribute>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <column>
        <property name="text">
-        <string>หิน1</string>
+        <string>รายการ (Material)</string>
        </property>
-      </widget>
-      <widget class="QLineEdit" name="rock1_input_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>390</x>
-         <y>60</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="rock1_left_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>1210</x>
-         <y>80</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
+      </column>
+      <column>
        <property name="text">
-        <string>kg.</string>
+        <string>คงเหลือ (kg)</string>
        </property>
-      </widget>
-      <widget class="QLabel" name="rock1_input_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>660</x>
-         <y>80</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
+      </column>
+      <item row="0" column="0">
        <property name="text">
-        <string>kg.</string>
+        <string>หิน 1 </string>
        </property>
-      </widget>
-      <widget class="QLineEdit" name="rock1_left_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>940</x>
-         <y>60</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="rock1_left_label">
-       <property name="geometry">
-        <rect>
-         <x>840</x>
-         <y>70</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
+      </item>
+      <item row="1" column="0">
        <property name="text">
-        <string>เหลือ</string>
+        <string>หิน 2 </string>
        </property>
-      </widget>
-      <widget class="QLabel" name="rock1_input_label">
-       <property name="geometry">
-        <rect>
-         <x>290</x>
-         <y>70</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
+      </item>
+      <item row="2" column="0">
        <property name="text">
-        <string>นำเข้า</string>
+        <string>ทราย </string>
        </property>
-      </widget>
-      <widget class="QLabel" name="rock2_left_label">
-       <property name="geometry">
-        <rect>
-         <x>840</x>
-         <y>170</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
+      </item>
+      <item row="3" column="0">
        <property name="text">
-        <string>เหลือ</string>
+        <string>เถ้าลอย </string>
        </property>
-      </widget>
-      <widget class="QLabel" name="rock2_label">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>170</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
+      </item>
+      <item row="4" column="0">
        <property name="text">
-        <string>หิน2</string>
+        <string>ปูน </string>
        </property>
-      </widget>
-      <widget class="QLabel" name="rock2_input_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>660</x>
-         <y>180</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
+      </item>
+      <item row="5" column="0">
        <property name="text">
-        <string>kg.</string>
+        <string>น้ำยาเคมี 1 </string>
        </property>
-      </widget>
-      <widget class="QLineEdit" name="rock2_input_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>390</x>
-         <y>160</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="rock2_left_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>940</x>
-         <y>160</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="rock2_left_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>1210</x>
-         <y>180</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
+      </item>
+      <item row="6" column="0">
        <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="rock2_input_label">
-       <property name="geometry">
-        <rect>
-         <x>290</x>
-         <y>170</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>นำเข้า</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="sand_left_label">
-       <property name="geometry">
-        <rect>
-         <x>840</x>
-         <y>270</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>เหลือ</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="sand_label">
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>260</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>ทราย</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="sand_input_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>660</x>
-         <y>280</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="sand_input_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>390</x>
-         <y>260</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="sand_left_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>940</x>
-         <y>260</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="sand_left_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>1210</x>
-         <y>280</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="sand_input_label">
-       <property name="geometry">
-        <rect>
-         <x>290</x>
-         <y>260</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>นำเข้า</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="fly_ash_left_label">
-       <property name="geometry">
-        <rect>
-         <x>840</x>
-         <y>370</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>เหลือ</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="fly_ash_label">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>370</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>เถ้าลอย</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="fly_ash_input_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>660</x>
-         <y>380</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="fly_ash_input_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>390</x>
-         <y>360</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="fly_ash_left_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>940</x>
-         <y>360</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="fly_ash_left_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>1210</x>
-         <y>380</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="fly_ash_input_label">
-       <property name="geometry">
-        <rect>
-         <x>290</x>
-         <y>370</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>นำเข้า</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="cement_left_label">
-       <property name="geometry">
-        <rect>
-         <x>840</x>
-         <y>470</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>เหลือ</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="cement_label">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>470</y>
-         <width>51</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>ปูน</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="cement_input_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>660</x>
-         <y>480</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="cement_input_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>390</x>
-         <y>460</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="cement_left_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>940</x>
-         <y>460</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="cement_left_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>1210</x>
-         <y>480</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="cement_input_label">
-       <property name="geometry">
-        <rect>
-         <x>290</x>
-         <y>470</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>นำเข้า</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution1_left_label">
-       <property name="geometry">
-        <rect>
-         <x>840</x>
-         <y>570</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>เหลือ</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution1_label">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>570</y>
-         <width>111</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>น้ำยาเคมี1</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution1_input_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>660</x>
-         <y>580</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="chemical_solution1_input_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>390</x>
-         <y>560</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="chemical_solution1_left_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>940</x>
-         <y>560</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution1_left_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>1210</x>
-         <y>580</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution1_input_label">
-       <property name="geometry">
-        <rect>
-         <x>290</x>
-         <y>570</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>นำเข้า</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution2_left_label">
-       <property name="geometry">
-        <rect>
-         <x>840</x>
-         <y>670</y>
-         <width>81</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>เหลือ</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution2_label">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>670</y>
-         <width>131</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>น้ำยาเคมี2</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution2_input_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>660</x>
-         <y>680</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="chemical_solution2_input_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>390</x>
-         <y>660</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="chemical_solution2_left_weight_lineEdit">
-       <property name="geometry">
-        <rect>
-         <x>940</x>
-         <y>660</y>
-         <width>261</width>
-         <height>61</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution2_left_kg_label">
-       <property name="geometry">
-        <rect>
-         <x>1210</x>
-         <y>670</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>kg.</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="chemical_solution2_input_label">
-       <property name="geometry">
-        <rect>
-         <x>290</x>
-         <y>670</y>
-         <width>91</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>18</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>นำเข้า</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="show_weight_pushButton">
-       <property name="geometry">
-        <rect>
-         <x>1340</x>
-         <y>60</y>
-         <width>151</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>TH Niramit AS</family>
-         <pointsize>20</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>แสดงผล</string>
-       </property>
-      </widget>
+        <string>น้ำยาเคมี 2 </string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QPushButton" name="btn_refresh_stock">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>700</y>
+        <width>591</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>23</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #4CAF50;
+color: black</string>
+      </property>
+      <property name="text">
+       <string>เเสดงผล</string>
+      </property>
      </widget>
     </widget>
    </widget>

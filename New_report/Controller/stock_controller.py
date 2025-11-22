@@ -1,101 +1,196 @@
 import os
 import sys
-from PySide6.QtCore import Slot, QObject
+from PySide6.QtCore import Slot, QObject, QDate, QDateTime, QTime
+from PySide6.QtWidgets import QTableWidgetItem, QMessageBox
 
 # Import your database reader
 try:
     from . import database_reader
 except ImportError:
-    import database_reader # Fallback for testing
+    import database_reader 
 
 
 class StockController(QObject):
     
     def __init__(self, main_window):
-        """
-        Initializes the controller for the stock tab.
-        It does NOT load the UI, it just gets a reference to the main window.
-        """
         super(StockController, self).__init__()
-        # Store the reference to the main window
         self.stock_window = main_window 
         
-        # --- Get references to widgets from the main window ---
-        # (These are the same names from your .ui file)
-        self.rock1_input = self.stock_window.rock1_input_weight_lineEdit
-        self.rock1_remain = self.stock_window.rock1_left_weight_lineEdit
+        # --- TAB: Stock Status (สถานะสต็อก) ---
+        self.table_stock = self.stock_window.tableWidget_stock
+        self.btn_refresh = self.stock_window.btn_refresh_stock
         
-        self.rock2_input = self.stock_window.rock2_input_weight_lineEdit
-        self.rock2_remain = self.stock_window.rock2_left_weight_lineEdit
+        # --- TAB: Import Stock (นำเข้าสินค้า) ---
+        self.date_edit = self.stock_window.dateEdit_import
+        self.time_edit = self.stock_window.timeEdit_import # NEW: Time input
+        self.combo_material = self.stock_window.comboBox_material
+        self.spin_amount = self.stock_window.doubleSpinBox_amount
         
-        self.sand_input = self.stock_window.sand_input_weight_lineEdit
-        self.sand_remain = self.stock_window.sand_left_weight_lineEdit
+        # NEW: Extra fields (Customer Name, Truck, Phone, Address)
+        self.line_customer = self.stock_window.lineEdit_customer_name
+        self.line_truck = self.stock_window.lineEdit_truck
+        self.line_phone = self.stock_window.lineEdit_phone
+        self.line_address = self.stock_window.lineEdit_address
         
-        self.fly_ash_input = self.stock_window.fly_ash_input_weight_lineEdit
-        self.fly_ash_remain = self.stock_window.fly_ash_left_weight_lineEdit
+        self.btn_save_import = self.stock_window.pushButton
+        self.table_history = self.stock_window.tableWidget_history
         
-        self.cement_input = self.stock_window.cement_input_weight_lineEdit
-        self.cement_remain = self.stock_window.cement_left_weight_lineEdit
-        
-        self.chem1_input = self.stock_window.chemical_solution1_input_weight_lineEdit
-        self.chem1_remain = self.stock_window.chemical_solution1_left_weight_lineEdit
-        
-        self.chem2_input = self.stock_window.chemical_solution2_input_weight_lineEdit
-        self.chem2_remain = self.stock_window.chemical_solution2_left_weight_lineEdit
-        
-        self.show_stock_button = self.stock_window.show_weight_pushButton
+        # Initialize UI Defaults
+        self.date_edit.setDate(QDate.currentDate())
+        self.time_edit.setTime(QTime.currentTime()) # Set default time to now
         
         # --- Connect Signals ---
         self.setup_signals()
+        
+        # Load history initially
+        self.load_import_history()
 
     def setup_signals(self):
-        """Connects the button signals for this tab."""
-        if self.show_stock_button:
-            self.show_stock_button.clicked.connect(self.update_stock_display)
-        
-        # --- ADJUSTMENT: This line is now commented out ---
-        # This stops the data from loading when the program starts
-        # self.update_stock_display()
-        # --- END ADJUSTMENT ---
+        # Tab Stock
+        if self.btn_refresh:
+            self.btn_refresh.clicked.connect(self.update_stock_display)
+            
+        # Tab Import
+        if self.btn_save_import:
+            self.btn_save_import.clicked.connect(self.save_import_data)
 
+    # ==========================================
+    #  LOGIC FOR STOCK STATUS TAB
+    # ==========================================
     @Slot()
     def update_stock_display(self):
-        """Fetches stock data from DB and populates the stock tab LineEdits."""
-        
-        # Call the function in your database reader
+        """Calculates stock and updates the TableWidget."""
         stock_data = database_reader.get_stock_levels()
         
         if not stock_data:
             print("No stock data found.")
             return
 
-        # Helper function to safely set text in LineEdits
-        def set_text(widget, material, key):
-            if widget and material in stock_data:
-                # Format number with 2 decimal places
-                widget.setText(f"{stock_data[material][key]:.2f}")
-            elif widget:
-                # Set to 0.00 if data is missing
-                widget.setText("0.00")
+        # Mapping: Row Index -> Material Key in 'stock_data'
+        row_map = {
+            0: 'rock1',
+            1: 'rock2',
+            2: 'sand',
+            3: 'fly_ash',
+            4: 'cement',
+            5: 'chem1',
+            6: 'chem2'
+        }
 
-        # Populate all fields
-        set_text(self.rock1_input, 'rock1', 'input')
-        set_text(self.rock1_remain, 'rock1', 'remaining')
+        for row_idx, material_key in row_map.items():
+            if material_key in stock_data:
+                remain_val = stock_data[material_key]['remaining']
+                item = QTableWidgetItem(f"{remain_val:,.2f}") 
+                self.table_stock.setItem(row_idx, 1, item)
+            else:
+                self.table_stock.setItem(row_idx, 1, QTableWidgetItem("0.00"))
+
+    # ==========================================
+    #  LOGIC FOR IMPORT TAB
+    # ==========================================
+    @Slot()
+    def save_import_data(self):
+        """Reads input, saves to DB, and updates history."""
         
-        set_text(self.rock2_input, 'rock2', 'input')
-        set_text(self.rock2_remain, 'rock2', 'remaining')
+        # 1. Get Data
+        date_part = self.date_edit.date().toString("yyyy-MM-dd") 
+        time_part = self.time_edit.time().toString("HH:mm:ss")
+        full_datetime = f"{date_part} {time_part}" # Combine Date + Time
         
-        set_text(self.sand_input, 'sand', 'input')
-        set_text(self.sand_remain, 'sand', 'remaining')
+        amount = self.spin_amount.value()
+        material_idx = self.combo_material.currentIndex()
         
-        set_text(self.fly_ash_input, 'fly_ash', 'input')
-        set_text(self.fly_ash_remain, 'fly_ash', 'remaining')
+        # Get extra fields
+        customer = self.line_customer.text()
+        truck = self.line_truck.text()
+        phone = self.line_phone.text()
+        address = self.line_address.text()
         
-        set_text(self.cement_input, 'cement', 'input')
-        set_text(self.cement_remain, 'cement', 'remaining')
+        if amount <= 0:
+            QMessageBox.warning(self.stock_window, "Warning", "กรุณาระบุจำนวนมากกว่า 0")
+            return
+
+        # 2. Map Combo Index to DB Column Name
+        col_map = {
+            0: 'rock1_total_weight',
+            1: 'rock2_total_weight',
+            2: 'sand_total_weight',
+            3: 'fly_ash_total_weight',
+            4: 'cement_total_weight',
+            5: 'chem1_total_weight',
+            6: 'chem2_total_weight'
+        }
         
-        set_text(self.chem1_input, 'chem1', 'input')
-        set_text(self.chem1_remain, 'chem1', 'remaining')
+        col_name = col_map.get(material_idx)
+        if not col_name:
+            return
+
+        # 3. Save to DB (Passing new fields)
+        success = database_reader.insert_stock_input(
+            full_datetime, col_name, amount, 
+            customer, truck, phone, address
+        )
         
-        set_text(self.chem2_input, 'chem2', 'input')
-        set_text(self.chem2_remain, 'chem2', 'remaining')
+        if success:
+            QMessageBox.information(self.stock_window, "Success", "บันทึกข้อมูลเรียบร้อย")
+            self.spin_amount.setValue(0.00) 
+            self.line_customer.clear()
+            self.line_truck.clear()
+            self.line_phone.clear()
+            self.line_address.clear()
+            self.load_import_history()   # Refresh table
+        else:
+            QMessageBox.critical(self.stock_window, "Error", "เกิดข้อผิดพลาดในการบันทึกข้อมูล")
+
+    def load_import_history(self):
+        """Loads latest imports, sorts them by date DESC (Newest First), and displays."""
+        history = database_reader.get_stock_history()
+        
+        # 1. Parse dates so we can sort them correctly in Python
+        sorted_history = []
+        for row in history:
+            dTime, material, amount = row
+            dTime_str = str(dTime)
+            
+            # Try to parse different formats that might be in your DB
+            dt_obj = QDateTime()
+            if "-" in dTime_str:
+                # Try ISO format (yyyy-MM-dd)
+                if ":" in dTime_str:
+                     dt_obj = QDateTime.fromString(dTime_str, "yyyy-MM-dd HH:mm:ss")
+                else:
+                     dt_obj = QDateTime.fromString(dTime_str, "yyyy-MM-dd")
+            elif "/" in dTime_str:
+                # Try Thai format (dd/MM/yyyy)
+                dt_obj = QDateTime.fromString(dTime_str, "dd/MM/yyyy")
+            
+            # Fallback if invalid
+            if not dt_obj.isValid():
+                # Treat invalid dates as very old so they go to the bottom
+                dt_obj = QDateTime.fromString("1900-01-01", "yyyy-MM-dd")
+
+            sorted_history.append({
+                "dt": dt_obj,
+                "display": dTime_str,
+                "material": material,
+                "amount": amount
+            })
+
+        # 2. Sort by Date Object (Reverse = Newest First)
+        sorted_history.sort(key=lambda x: x["dt"], reverse=True)
+
+        # 3. Display in Table
+        self.table_history.setRowCount(0) # Clear table
+        
+        for item in sorted_history:
+            row_idx = self.table_history.rowCount()
+            self.table_history.insertRow(row_idx)
+            
+            # Format date consistently for display (dd/MM/yyyy HH:mm) if valid
+            display_str = item["display"]
+            if item["dt"].isValid() and item["dt"].date().year() > 1900:
+                display_str = item["dt"].toString("dd/MM/yyyy HH:mm")
+
+            self.table_history.setItem(row_idx, 0, QTableWidgetItem(display_str))
+            self.table_history.setItem(row_idx, 1, QTableWidgetItem(item["material"]))
+            self.table_history.setItem(row_idx, 2, QTableWidgetItem(f"{item['amount']:,.2f}"))
