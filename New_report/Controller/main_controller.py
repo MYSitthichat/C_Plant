@@ -14,7 +14,7 @@ except ImportError:
     import stock_controller 
 
 
-# --- UPDATE: Point to the new UI file ---
+# --- UPDATE: Point to the file "Report.ui" ---
 UI_FILE_PATH = os.path.join(os.path.dirname(__file__), "..", "UI", "Report.ui")
 
 

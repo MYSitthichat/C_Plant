@@ -1,6 +1,6 @@
 import os
 import sys
-from PySide6.QtCore import Slot, QObject, QDate, QDateTime, QTime
+from PySide6.QtCore import Slot, QObject, QDate, QDateTime, QTime, Qt
 from PySide6.QtWidgets import QTableWidgetItem, QMessageBox
 
 # Import your database reader
@@ -20,13 +20,17 @@ class StockController(QObject):
         self.table_stock = self.stock_window.tableWidget_stock
         self.btn_refresh = self.stock_window.btn_refresh_stock
         
+        # Initialize date edits for Stock Status
+        self.date_stock_start = self.stock_window.dateEdit_stock_start
+        self.date_stock_end = self.stock_window.dateEdit_stock_end
+        
         # --- TAB: Import Stock (นำเข้าสินค้า) ---
         self.date_edit = self.stock_window.dateEdit_import
-        self.time_edit = self.stock_window.timeEdit_import # NEW: Time input
+        self.time_edit = self.stock_window.timeEdit_import 
         self.combo_material = self.stock_window.comboBox_material
         self.spin_amount = self.stock_window.doubleSpinBox_amount
         
-        # NEW: Extra fields (Customer Name, Truck, Phone, Address)
+        # Extra fields
         self.line_customer = self.stock_window.lineEdit_customer_name
         self.line_truck = self.stock_window.lineEdit_truck
         self.line_phone = self.stock_window.lineEdit_phone
@@ -36,8 +40,14 @@ class StockController(QObject):
         self.table_history = self.stock_window.tableWidget_history
         
         # Initialize UI Defaults
-        self.date_edit.setDate(QDate.currentDate())
-        self.time_edit.setTime(QTime.currentTime()) # Set default time to now
+        today = QDate.currentDate()
+        self.date_edit.setDate(today)
+        self.time_edit.setTime(QTime.currentTime())
+        
+        if self.date_stock_start:
+            self.date_stock_start.setDate(today) 
+        if self.date_stock_end:
+            self.date_stock_end.setDate(today)   
         
         # --- Connect Signals ---
         self.setup_signals()
@@ -59,8 +69,14 @@ class StockController(QObject):
     # ==========================================
     @Slot()
     def update_stock_display(self):
-        """Calculates stock and updates the TableWidget."""
-        stock_data = database_reader.get_stock_levels()
+        """Calculates stock based on Selected Date Range."""
+        
+        # 1. Get Dates from UI
+        start_date = self.date_stock_start.date().toString("yyyy-MM-dd")
+        end_date = self.date_stock_end.date().toString("yyyy-MM-dd")
+        
+        # 2. Fetch Data filtered by Date
+        stock_data = database_reader.get_stock_levels(start_date, end_date)
         
         if not stock_data:
             print("No stock data found.")
@@ -79,11 +95,39 @@ class StockController(QObject):
 
         for row_idx, material_key in row_map.items():
             if material_key in stock_data:
-                remain_val = stock_data[material_key]['remaining']
-                item = QTableWidgetItem(f"{remain_val:,.2f}") 
-                self.table_stock.setItem(row_idx, 1, item)
+                data = stock_data[material_key]
+                input_val = data['input']
+                output_val = data['output']
+                remain_val = data['remaining'] 
+                
+                # Column 1: Import (นำเข้า) - Add "+" sign
+                if input_val > 0:
+                    item_input = QTableWidgetItem(f"+{input_val:,.2f}")
+                else:
+                    item_input = QTableWidgetItem("0.00")
+                
+                item_input.setTextAlignment(Qt.AlignCenter)
+                self.table_stock.setItem(row_idx, 1, item_input)
+                
+                # Column 2: Used (ใช้ไป) - Add "-" sign, Hide if 0
+                if output_val > 0:
+                    item_output = QTableWidgetItem(f"-{output_val:,.2f}")
+                else:
+                    item_output = QTableWidgetItem("") # Hide if 0
+                
+                item_output.setTextAlignment(Qt.AlignCenter)
+                self.table_stock.setItem(row_idx, 2, item_output)
+                
+                # Column 3: Remaining (คงเหลือ)
+                item_remain = QTableWidgetItem(f"{remain_val:,.2f}")
+                item_remain.setTextAlignment(Qt.AlignCenter)
+                self.table_stock.setItem(row_idx, 3, item_remain)
+                
             else:
+                # If no data exists for this material
                 self.table_stock.setItem(row_idx, 1, QTableWidgetItem("0.00"))
+                self.table_stock.setItem(row_idx, 2, QTableWidgetItem(""))
+                self.table_stock.setItem(row_idx, 3, QTableWidgetItem("0.00"))
 
     # ==========================================
     #  LOGIC FOR IMPORT TAB
@@ -95,7 +139,7 @@ class StockController(QObject):
         # 1. Get Data
         date_part = self.date_edit.date().toString("yyyy-MM-dd") 
         time_part = self.time_edit.time().toString("HH:mm:ss")
-        full_datetime = f"{date_part} {time_part}" # Combine Date + Time
+        full_datetime = f"{date_part} {time_part}" 
         
         amount = self.spin_amount.value()
         material_idx = self.combo_material.currentIndex()
@@ -125,7 +169,7 @@ class StockController(QObject):
         if not col_name:
             return
 
-        # 3. Save to DB (Passing new fields)
+        # 3. Save to DB
         success = database_reader.insert_stock_input(
             full_datetime, col_name, amount, 
             customer, truck, phone, address
@@ -166,7 +210,6 @@ class StockController(QObject):
             
             # Fallback if invalid
             if not dt_obj.isValid():
-                # Treat invalid dates as very old so they go to the bottom
                 dt_obj = QDateTime.fromString("1900-01-01", "yyyy-MM-dd")
 
             sorted_history.append({

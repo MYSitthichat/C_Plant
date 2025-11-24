@@ -123,45 +123,55 @@ def get_unique_dates():
     return [result[0] for result in results] if results else []
 
 
-def get_stock_levels():
+def get_stock_levels(start_date=None, end_date=None):
     """
-    Calculates the total input, total output, and remaining stock for all materials.
+    Calculates total input and output for all materials within a date range.
+    If dates are None, returns empty or total (depending on usage).
     """
-    query = """
+    
+    # Date filter clause
+    date_filter_stock = ""
+    date_filter_order = ""
+    
+    if start_date and end_date:
+        date_filter_stock = f"WHERE DATE(dTime) BETWEEN '{start_date}' AND '{end_date}'"
+        date_filter_order = f"WHERE DATE(dTime) BETWEEN '{start_date}' AND '{end_date}'"
+
+    query = f"""
     SELECT
         material,
         IFNULL(SUM(total_input), 0) AS TotalInput,
         IFNULL(SUM(total_output), 0) AS TotalOutput
     FROM (
-        SELECT 'rock1' AS material, rock1_total_weight AS total_input, 0 AS total_output FROM concrete_stock
+        SELECT 'rock1' AS material, rock1_total_weight AS total_input, 0 AS total_output FROM concrete_stock {date_filter_stock}
         UNION ALL
-        SELECT 'rock2', rock2_total_weight, 0 FROM concrete_stock
+        SELECT 'rock2', rock2_total_weight, 0 FROM concrete_stock {date_filter_stock}
         UNION ALL
-        SELECT 'sand', sand_total_weight, 0 FROM concrete_stock
+        SELECT 'sand', sand_total_weight, 0 FROM concrete_stock {date_filter_stock}
         UNION ALL
-        SELECT 'cement', cement_total_weight, 0 FROM concrete_stock
+        SELECT 'cement', cement_total_weight, 0 FROM concrete_stock {date_filter_stock}
         UNION ALL
-        SELECT 'fly_ash', fly_ash_total_weight, 0 FROM concrete_stock
+        SELECT 'fly_ash', fly_ash_total_weight, 0 FROM concrete_stock {date_filter_stock}
         UNION ALL
-        SELECT 'chem1', chem1_total_weight, 0 FROM concrete_stock
+        SELECT 'chem1', chem1_total_weight, 0 FROM concrete_stock {date_filter_stock}
         UNION ALL
-        SELECT 'chem2', chem2_total_weight, 0 FROM concrete_stock
+        SELECT 'chem2', chem2_total_weight, 0 FROM concrete_stock {date_filter_stock}
         
         UNION ALL
         
-        SELECT 'rock1' AS material, 0 AS total_input, rock1_total_weight AS total_output FROM concrete_order
+        SELECT 'rock1' AS material, 0 AS total_input, rock1_total_weight AS total_output FROM concrete_order {date_filter_order}
         UNION ALL
-        SELECT 'rock2', 0, rock2_total_weight FROM concrete_order
+        SELECT 'rock2', 0, rock2_total_weight FROM concrete_order {date_filter_order}
         UNION ALL
-        SELECT 'sand', 0, sand_total_weight FROM concrete_order
+        SELECT 'sand', 0, sand_total_weight FROM concrete_order {date_filter_order}
         UNION ALL
-        SELECT 'cement', 0, cement_total_weight FROM concrete_order
+        SELECT 'cement', 0, cement_total_weight FROM concrete_order {date_filter_order}
         UNION ALL
-        SELECT 'fly_ash', 0, fly_ash_total_weight FROM concrete_order
+        SELECT 'fly_ash', 0, fly_ash_total_weight FROM concrete_order {date_filter_order}
         UNION ALL
-        SELECT 'chem1', 0, chemical1_total_weight FROM concrete_order
+        SELECT 'chem1', 0, chemical1_total_weight FROM concrete_order {date_filter_order}
         UNION ALL
-        SELECT 'chem2', 0, chemical2_total_weight FROM concrete_order
+        SELECT 'chem2', 0, chemical2_total_weight FROM concrete_order {date_filter_order}
     )
     GROUP BY material
     """
@@ -180,6 +190,7 @@ def get_stock_levels():
         
         stock_data[material] = {
             'input': total_input,
+            'output': total_output,
             'remaining': remaining
         }
     return stock_data
