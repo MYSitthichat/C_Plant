@@ -1926,7 +1926,8 @@ class MainController(QObject):
         # Flyash โหลดก่อน (ไม่มีอะไรก่อนหน้า)
         fyash_setpoint = int(fyash) - int(self.fyash_offset)
         # Cement โหลดทีหลัง (บวก flyash เข้าไป)
-        cement_setpoint = ((int(cement) + int(fyash)) - int(self.cement_offset)) + int(self.fyash_offset)
+        # cement_setpoint = ((int(cement) + int(fyash)) - int(self.cement_offset)) + int(self.fyash_offset) ## สูตรเก่า
+        cement_setpoint = ((int(cement) + int(fyash)) - int(self.cement_offset))
         
         if current_weight > 0:
             fyash_setpoint += current_weight
@@ -1937,6 +1938,8 @@ class MainController(QObject):
         self.target_fyash_weight = fyash_setpoint
         self.target_cement_total_weight = cement_setpoint
         
+        self.target_cement_weight = original_cement
+
         while self.is_loading_cement_and_fyash_in_progress:
             if self.state_load_cement_and_fyash == 0:
                 pass
@@ -1984,21 +1987,31 @@ class MainController(QObject):
                     # print(f"Setting Cement setpoint: {cement_setpoint}")
                     # self.plc_controller.loading_cement("start")
                     # self.state_load_cement_and_fyash = 4
+                    time.sleep(2)
                     self.cement_start_time = time.time()
                     self.cement_start_weight = int(self.main_window.mix_monitor_cement_lineEdit.text()) 
                     self.plc_controller.loading_cement("start")
                     self.state_load_cement_and_fyash = 100
 
             elif self.state_load_cement_and_fyash == 100:
-                self.cement_follow_weight = int(self.main_window.mix_monitor_cement_lineEdit.text()) 
+                try:
+                    self.cement_follow_weight = int(self.main_window.mix_monitor_cement_lineEdit.text())
+                except ValueError:
+                    self.cement_follow_weight = 0
+                    self.status_message.emit(f"อ่านค่าน้ำหนักปูนไม่ได้")
+                    self.plc_controller.loading_cement("stop")
+                    self.state_load_cement_and_fyash = 102
+                    
                 cutoff_offset = 20  # กำหนด offset สำหรับการหยุดโหลดรอบแรก
-                if self.cement_follow_weight >= self.target_cement_total_weight - cutoff_offset:
+                
+                if self.cement_follow_weight >= self.target_cement_weight - cutoff_offset:
                     self.plc_controller.loading_cement("stop")
                     time.sleep(3)
                     self.end_cement_time = time.time()
                     self.cement_follow_weight = int(self.main_window.mix_monitor_cement_lineEdit.text())
                     self.loading_duration = self.end_cement_time - self.cement_start_time
                     self.status_message.emit(f"โหลดปูนซีเมนต์รอบแรกเสร็จสิ้น ใช้เวลา {self.loading_duration:.2f} วินาที")
+                    time.sleep(2)
                     self.state_load_cement_and_fyash = 101
                 else:
                     self.status_message.emit("กำลังโหลดปูนซีเมนต์...")
@@ -2009,7 +2022,7 @@ class MainController(QObject):
                 except:
                     self.now_weight = 0
 
-                self.remain = self.target_cement_total_weight - self.now_weight
+                self.remain = self.target_cement_weight - self.now_weight
                 # 3. คำนวณอัตราการโหลดต่อวินาทีจากรอบแรก
                 # self.first_weight_loaded = self.cement_follow_weight  # น้ำหนักที่ได้รอบแรก
                 self.first_weight_loaded = self.cement_follow_weight - self.cement_start_weight
@@ -2033,7 +2046,7 @@ class MainController(QObject):
                     self.plc_controller.loading_cement("start")
                     time.sleep(self.safe_fill_time)
                     self.plc_controller.loading_cement("stop")
-                    self.status_message.emit("เติมปูนซีเมนต์ครบตามเป้าหมายแล้ว")
+                    self.status_message.emit("เติมปูนซีเมนต์ครบตามเป้าหมายรอบแรกแล้ว")
                     self.state_load_cement_and_fyash = 102
                 else:
                     self.status_message.emit("ค่า remain หรือ extra_time ไม่ถูกต้อง ไม่เติมปูนซีเมนต์เพิ่ม")
@@ -2049,7 +2062,7 @@ class MainController(QObject):
                     self.tried_weight = 0
                     self.state_load_cement_and_fyash = 4
 
-                self.target = self.target_cement_total_weight
+                self.target = self.target_cement_weight
                 self.diff = self.tried_weight - self.target
 
                 if abs(self.diff) <= 2:
@@ -2070,7 +2083,7 @@ class MainController(QObject):
             
             elif self.state_load_cement_and_fyash == 103:
                 self.plc_controller.loading_cement("start")
-                time.sleep(1)
+                time.sleep(0.5)
                 self.plc_controller.loading_cement("stop")
                 self.state_load_cement_and_fyash = 102
                 
@@ -2947,6 +2960,7 @@ class MainController(QObject):
         self.target = 0
         self.diff = 0
         self.safe_fill_time = 0
+        self.target_cement_weight = 0
         
         
         
