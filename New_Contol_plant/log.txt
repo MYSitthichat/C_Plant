@@ -1,0 +1,1021 @@
+water weight -1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight -1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight -1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight -1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+2025-12-16 12:52:25,347 - INFO - เปิดปากโม่จนสุด
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 19
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight -1
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight -1
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight -1
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 1
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+2025-12-16 12:52:34,653 - INFO - ปิดปั้มน้ำยาเคมี
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+2025-12-16 12:52:50,814 - INFO - ไม่มีคิวเหลือแล้ว จบกระบวนการผสม กำลังปิดปากโม่
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Mixer: Stop
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+cement & fyash weight 0
+water weight 0
+Chem weight -0.1
+rock and sand weight 18
+⏳ Saving sum data to database...
+cement & fyash weight 0
+2025-12-16 12:53:03,241 - INFO - update to database
+2025-12-16 12:53:03,245 - INFO - ==================================================
+2025-12-16 12:53:03,245 - INFO - END BATCH LOGGING: ID 2025-12-16_12-49-36
+2025-12-16 12:53:03,246 - INFO - ==================================================
+   Called from main_condition_load thread - will not join self
+   Skipping join of MainCondition thread (current thread)
+   Timer stopped
+Stop signal received by AUTODA_Controller.
+PLC Comport closed inside thread.
+   AutoDA Controller already stopped
+Stop signal received by PLC_Controller.
+PLC Comport closed inside thread.
+   ✓ PLC Controller already stopped
+   ✓ Disconnected device_status_changed signal
+   ✓ Disconnected status_loading_rock_and_sand signal
+   ✓ Disconnected status_loading_cement_and_fyash signal
+   ✓ Disconnected status_loading_water signal
+   ✓ Disconnected status_loading_chemical signal
+   ✓ Disconnected weight_rock_and_sand signal
+   ✓ Disconnected weight_cement_and_fyash signal
+   ✓ Disconnected weight_water signal
+   ✓ Disconnected weight_chemical signal
+   Blocked all controller signals
+    Processed pending events
+   Finalizing reset in main thread...
+   ✓ UI fields reset completed
+   UI reset completed
+   ✓ UI events processed
+   🔄 Restarting AutoDA and PLC controller threads...
+   ⏳ Restarting AutoDA Controller...
+   ✓ AutoDA Controller restarted
+   ⏳ Restarting PLC Controller...
+   ✓ PLC Controller restarted
+   ✓ All controller threads restarted
+   ✓ Reconnected device_status_changed signal
+   ✓ Reconnected status_loading_rock_and_sand signal
+   ✓ Reconnected status_loading_cement_and_fyash signal
+   ✓ Reconnected status_loading_water signal
+   ✓ Reconnected status_loading_chemical signal
+   ✓ Reconnected weight_rock_and_sand signal
+   ✓ Reconnected weight_cement_and_fyash signal
+   ✓ Reconnected weight_water signal
+   ✓ Reconnected weight_chemical signal
+   ✓ Unblocked controller signals
+   ✓ UI updates re-enabled
+✅ Reset complete - ready for new customer
+🔄 _switch_to_work_tab_safe called
+   ✓ Tab switching flag set to True
+   ✓ main_window exists and app is running
+   ✓ tab and work_tab exist, verifying widgets...
+   ✓ Widgets are valid, switching...
+📋 Switched to Work Tab - Ready for new customer
+   ✓ Tab switching flag cleared
+============================================================
+🎉 System is ready for next customer!
+============================================================
+Cleaning up before application exit...
+Stopping PLC controller...
+Stop signal received by PLC_Controller.
+PLC Comport closed inside thread.
+✅ PLC controller stopped.
+Stopping AutoDA controller...
+Stop signal received by AUTODA_Controller.
+PLC Comport closed inside thread.
+✅ AutoDA controller stopped.
+============================================================
+✅ Cleanup complete. Application will now exit.
+============================================================

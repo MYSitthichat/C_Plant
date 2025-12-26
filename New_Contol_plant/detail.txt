@@ -1,0 +1,505 @@
+autoda status port True
+2025-12-19 14:13:52,805 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:13:57,115 - ERROR - Repeating....
+2025-12-19 14:14:01,425 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:14:05,734 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:14:10,029 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:14:14,324 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:14:18,616 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:16:41,628 - INFO - ==================================================
+2025-12-19 14:16:41,630 - INFO - START BATCH LOGGING: ID 2025-12-19_14-16-41       
+2025-12-19 14:16:41,630 - INFO - ==================================================
+2025-12-19 14:16:41,631 - INFO - Total Queue Count to Load: 3.0
+2025-12-19 14:16:41,632 - INFO - 
+2025-12-19 14:16:41,632 - INFO - --- Start Queue #1 of 3 (Multiplier: 1.0) ---     
+2025-12-19 14:16:41,633 - INFO -    Target Rock1: 350
+2025-12-19 14:16:41,633 - INFO -    Target Sand: 970
+2025-12-19 14:16:41,633 - INFO -    Target Rock2: 670
+2025-12-19 14:16:41,634 - INFO -    Target Cement: 217
+2025-12-19 14:16:41,634 - INFO -    Target Flyash: 30
+2025-12-19 14:16:41,635 - INFO -    Target Water: 160
+2025-12-19 14:16:41,635 - INFO -    Target Chem1: 1.2
+2025-12-19 14:16:41,635 - INFO -    Target Chem2: 0.5
+2025-12-19 14:16:41,636 - INFO - 
+2025-12-19 14:16:44,162 - ERROR - Error reading cement weight from lineEdit
+2025-12-19 14:16:45,168 - ERROR - Error reading water weight from lineEdit
+2025-12-19 14:16:45,943 - INFO - feedback fyash = 25
+Loading Fly Ash: Start
+2025-12-19 14:16:46,953 - INFO - feedback water = 158
+Loading Water: Start
+2025-12-19 14:16:48,094 - INFO - feedback chem 1 = 1.2
+2025-12-19 14:16:48,158 - INFO - ค่า sand เป้าหมาย 920 ค่า Rock1 เป้าหมาย 1220 ค่า Rock2 เป้าหมาย 1890
+2025-12-19 14:16:48,164 - ERROR - Error reading weight
+Loading Chemical 1: Start
+2025-12-19 14:16:51,247 - INFO - feedback sand = 920
+Loading Sand: Start
+Vibrater Rock and Sand: Start
+2025-12-19 14:17:01,229 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+Loading Fly Ash: Stop
+2025-12-19 14:17:03,191 - INFO - feedback cement = 247
+Loading Fly Ash: Stop
+Loading Sand: Stop
+Vibrater Rock and Sand: Stop
+Loading Cement: Start
+2025-12-19 14:17:09,915 - INFO - feedback rock 1 = 1220
+Loading Sand: Stop
+Vibrater Rock and Sand: Stop
+Loading Chemical 1: Stop
+Loading Rock 3/8: Start
+2025-12-19 14:17:13,890 - INFO - feedback chem 2 = 1.7
+Loading Chemical 1: Stop
+Loading Chemical 2: Start
+Loading Water: Stop
+2025-12-19 14:17:18,496 - INFO - water is loaded
+2025-12-19 14:17:18,496 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2025-12-19 14:17:18,652 - INFO - Water loaded successfully.
+Loading Rock 3/8: Stop
+Loading Chemical 2: Stop
+Loading Chemical 1: Stop
+2025-12-19 14:17:23,569 - INFO - chemical is loaded
+2025-12-19 14:17:23,802 - INFO - feedback rock 2 = 1890
+Loading Rock 3/4: Start
+2025-12-19 14:17:23,960 - INFO - Chemical loaded successfully.
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+2025-12-19 14:17:35,747 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=True
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+2025-12-19 14:17:45,659 - INFO - rock and sand is success
+2025-12-19 14:17:46,641 - INFO - Rock and Sand loaded successfully.
+2025-12-19 14:17:53,012 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+Loading Cement: Stop
+2025-12-19 14:18:10,258 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2025-12-19 14:18:10,460 - INFO - เวลาที่ต้องเติมเพิ่ม5
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:18:15,479 - INFO - filling cement -15 KG ::: round 1
+2025-12-19 14:18:15,591 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:18:19,725 - INFO - filling cement -11 KG ::: round 2
+2025-12-19 14:18:19,849 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:18:23,990 - INFO - filling cement -7 KG ::: round 3
+2025-12-19 14:18:24,098 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:18:27,481 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+Loading Cement: Stop
+2025-12-19 14:18:29,397 - INFO - cement and fyash loading success
+2025-12-19 14:18:30,288 - INFO - Cement and Flyash loaded successfully.
+2025-12-19 14:18:30,289 - INFO - Queue 1 fully loaded - Setting next_queue_loaded_and_ready=True
+Mixer: Start
+2025-12-19 14:18:32,204 - INFO - เริ่มผสมคิวที่ 1
+2025-12-19 14:18:32,211 - INFO - เปิดมอเตอร์ผสม
+Converyer Top: Start
+2025-12-19 14:18:39,278 - INFO - เปิดสายพานบน
+Converyer Midle: Start
+2025-12-19 14:18:42,331 - INFO - เปิดสายพานล่าง
+2025-12-19 14:18:49,072 - INFO - เปิดปั้มน้ำยาขึ้น
+2025-12-19 14:18:54,132 - INFO - state 2
+Vale Water: Start
+2025-12-19 14:18:54,196 - INFO - เปิดวาล์วน้ำ
+Vale Cement and Flyash: Start
+2025-12-19 14:18:56,277 - INFO - เปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:18:57,555 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:18:58,871 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:00,137 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:01,405 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:02,686 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:03,951 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:05,215 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:06,495 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:07,808 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:09,090 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:10,352 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:11,629 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:12,897 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:14,172 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:15,434 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:16,693 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:17,950 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:19,215 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:20,507 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:21,786 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:23,049 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:24,327 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:25,404 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 1/3
+Vale Cement and Flyash: Stop
+2025-12-19 14:19:25,451 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:19:26,671 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:27,733 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 2/3
+Vale Cement and Flyash: Stop
+2025-12-19 14:19:27,795 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:19:29,008 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:30,068 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 3/3
+Vale Cement and Flyash: Stop
+2025-12-19 14:19:30,132 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:19:31,363 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:31,411 - INFO - เริ่มหน่วงเวลา 2.0 วินาที ก่อนปิดสายพาน
+2025-12-19 14:19:32,631 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:32,693 - INFO - รอเวลาหน่วง: เหลือ 1 วินาที
+2025-12-19 14:19:33,912 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:19:33,976 - INFO - หมดเวลาหน่วง เริ่มปิดอุปกรณ์
+Converyer Midle: Stop
+2025-12-19 14:19:36,033 - INFO - ปิดสายพานด้านล่าง
+Converyer Top: Stop
+2025-12-19 14:19:38,106 - INFO - ปิดสายพานด้านบน
+Vale Water: Stop
+2025-12-19 14:19:38,701 - INFO - ปิดวาล์วน้ำ
+2025-12-19 14:19:39,258 - INFO - ปิดปั้มน้ำยาขึ้น
+QObject::killTimer: Timers cannot be stopped from another thread
+QObject::startTimer: Timers cannot be started from another thread
+2025-12-19 14:19:44,595 - INFO -
+2025-12-19 14:19:44,595 - INFO - --- Start Queue #2 of 3 (Multiplier: 1.0) ---
+2025-12-19 14:19:44,596 - INFO -    Target Rock1: 350
+2025-12-19 14:19:44,597 - INFO -    Target Sand: 970
+2025-12-19 14:19:44,598 - INFO -    Target Rock2: 670
+2025-12-19 14:19:44,598 - INFO -    Target Cement: 217
+2025-12-19 14:19:44,599 - INFO -    Target Flyash: 30
+2025-12-19 14:19:44,600 - INFO -    Target Water: 160
+2025-12-19 14:19:44,601 - INFO -    Target Chem1: 1.2
+2025-12-19 14:19:44,601 - INFO -    Target Chem2: 0.5
+2025-12-19 14:19:44,602 - INFO -
+2025-12-19 14:19:49,161 - INFO - feedback fyash = 25
+Loading Fly Ash: Start
+2025-12-19 14:19:49,863 - INFO - state 4
+2025-12-19 14:19:50,393 - INFO - feedback water = 158
+Loading Water: Start
+2025-12-19 14:19:51,123 - INFO - ค่า sand เป้าหมาย 920 ค่า Rock1 เป้าหมาย 1220 ค่า Rock2 เป้าหมาย 1890
+2025-12-19 14:19:51,128 - ERROR - Error reading weight
+2025-12-19 14:19:51,654 - INFO - feedback chem 1 = 1.2
+Loading Chemical 1: Start
+2025-12-19 14:19:53,886 - INFO - feedback sand = 920
+Loading Sand: Start
+Vibrater Rock and Sand: Start
+2025-12-19 14:19:56,020 - INFO - เริ่มเปิดปาก first step
+Loading Fly Ash: Stop
+2025-12-19 14:20:02,614 - INFO - feedback cement = 247
+Loading Fly Ash: Stop
+2025-12-19 14:20:04,873 - INFO - เริ่มเปิดปากโม่ครึ่งนึง
+Loading Cement: Start
+Loading Sand: Stop
+Vibrater Rock and Sand: Stop
+2025-12-19 14:20:12,764 - INFO - feedback rock 1 = 1220
+Loading Sand: Stop
+2025-12-19 14:20:13,219 - INFO - เปิดปากโม่จนสุด
+Vibrater Rock and Sand: Stop
+Loading Rock 3/8: Start
+Loading Chemical 1: Stop
+2025-12-19 14:20:17,895 - INFO - feedback chem 2 = 1.7
+Loading Chemical 1: Stop
+Loading Chemical 2: Start
+Loading Water: Stop
+2025-12-19 14:20:22,512 - INFO - ปิดปั้มน้ำยาเคมี
+2025-12-19 14:20:22,560 - INFO - water is loaded
+2025-12-19 14:20:22,719 - INFO - Water loaded successfully.
+Loading Rock 3/8: Stop
+2025-12-19 14:20:26,760 - INFO - feedback rock 2 = 1890
+Loading Rock 3/4: Start
+Loading Chemical 2: Stop
+Loading Rock 3/8: Stop
+Loading Chemical 1: Stop
+2025-12-19 14:20:27,724 - INFO - chemical is loaded
+Loading Sand: Stop
+2025-12-19 14:20:28,997 - INFO - Chemical loaded successfully.
+2025-12-19 14:20:40,108 - INFO - state 7 ยังมีคิวเหลือกำลังรอโหลด
+2025-12-19 14:20:41,340 - INFO - state 6 คิวถัดไปยังไม่พร้อม ปิดปากโม่ก่อน
+Loading Cement: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+2025-12-19 14:20:48,073 - INFO - rock and sand is success
+2025-12-19 14:20:51,368 - INFO - Rock and Sand loaded successfully.
+2025-12-19 14:20:52,697 - INFO - เวลาที่ต้องเติมเพิ่ม4.713719592950283
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:20:57,735 - INFO - filling cement -16 KG ::: round 1
+2025-12-19 14:20:57,844 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:21:01,996 - INFO - filling cement -11 KG ::: round 2
+2025-12-19 14:21:02,104 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:21:06,231 - INFO - filling cement -8 KG ::: round 3
+2025-12-19 14:21:06,340 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:21:10,490 - INFO - filling cement -4 KG ::: round 4
+2025-12-19 14:21:10,600 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+Loading Cement: Stop
+2025-12-19 14:21:15,912 - INFO - cement and fyash loading success
+2025-12-19 14:21:16,193 - INFO - Cement and Flyash loaded successfully.
+2025-12-19 14:21:16,196 - INFO - Queue 2 fully loaded - Setting next_queue_loaded_and_ready=True
+2025-12-19 14:21:17,377 - INFO - state 6 คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว
+Mixer: Start
+2025-12-19 14:21:19,871 - INFO - เริ่มผสมคิวที่ 2
+2025-12-19 14:21:19,877 - INFO - เปิดมอเตอร์ผสม
+Converyer Top: Start
+2025-12-19 14:21:26,937 - INFO - เปิดสายพานบน
+Converyer Midle: Start
+2025-12-19 14:21:29,992 - INFO - เปิดสายพานล่าง
+2025-12-19 14:21:36,726 - INFO - เปิดปั้มน้ำยาขึ้น
+2025-12-19 14:21:41,780 - INFO - state 2
+Vale Water: Start
+2025-12-19 14:21:41,842 - INFO - เปิดวาล์วน้ำ
+Vale Cement and Flyash: Start
+2025-12-19 14:21:43,917 - INFO - เปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:21:45,171 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:46,462 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:47,735 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:48,990 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:50,248 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:51,524 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:52,851 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:54,122 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:55,385 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:56,649 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:57,925 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:21:59,198 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:00,446 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:01,701 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:02,981 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:04,262 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:05,520 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:06,797 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:08,057 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:09,316 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:10,567 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:11,847 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:13,111 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:14,172 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 1/3
+Vale Cement and Flyash: Stop
+2025-12-19 14:22:14,235 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:22:15,469 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:16,529 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 2/3
+Vale Cement and Flyash: Stop
+2025-12-19 14:22:16,592 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:22:17,841 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:18,944 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 3/3
+Vale Cement and Flyash: Stop
+2025-12-19 14:22:19,008 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:22:20,239 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:20,288 - INFO - เริ่มหน่วงเวลา 2.0 วินาที ก่อนปิดสายพาน
+2025-12-19 14:22:20,305 - INFO - รอเวลาหน่วง: เหลือ 2 วินาที
+2025-12-19 14:22:21,537 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:22,845 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:22:22,891 - INFO - หมดเวลาหน่วง เริ่มปิดอุปกรณ์
+Converyer Midle: Stop
+2025-12-19 14:22:24,961 - INFO - ปิดสายพานด้านล่าง
+Converyer Top: Stop
+2025-12-19 14:22:27,031 - INFO - ปิดสายพานด้านบน
+Vale Water: Stop
+2025-12-19 14:22:27,591 - INFO - ปิดวาล์วน้ำ
+2025-12-19 14:22:28,154 - INFO - ปิดปั้มน้ำยาขึ้น
+QObject::startTimer: Timers cannot be started from another thread
+2025-12-19 14:22:33,501 - INFO - 
+2025-12-19 14:22:33,502 - INFO - --- Start Queue #3 of 3 (Multiplier: 1.0) ---
+2025-12-19 14:22:33,504 - INFO -    Target Rock1: 350
+2025-12-19 14:22:33,505 - INFO -    Target Sand: 970
+2025-12-19 14:22:33,506 - INFO -    Target Rock2: 670
+2025-12-19 14:22:33,508 - INFO -    Target Cement: 217
+2025-12-19 14:22:33,510 - INFO -    Target Flyash: 30
+2025-12-19 14:22:33,511 - INFO -    Target Water: 160
+2025-12-19 14:22:33,512 - INFO -    Target Chem1: 1.2
+2025-12-19 14:22:33,514 - INFO -    Target Chem2: 0.5
+2025-12-19 14:22:33,516 - INFO - 
+2025-12-19 14:22:37,805 - INFO - feedback fyash = 25
+Loading Fly Ash: Start
+2025-12-19 14:22:38,802 - INFO - state 4
+2025-12-19 14:22:39,050 - INFO - feedback water = 158
+Loading Water: Start
+2025-12-19 14:22:40,063 - INFO - ค่า sand เป้าหมาย 920 ค่า Rock1 เป้าหมาย 1220 ค่า Rock2 เป้าหมาย 1890
+2025-12-19 14:22:40,250 - INFO - feedback chem 1 = 1.2
+Loading Chemical 1: Start
+2025-12-19 14:22:43,293 - INFO - feedback sand = 924
+Loading Sand: Start
+Vibrater Rock and Sand: Start
+2025-12-19 14:22:44,979 - INFO - เริ่มเปิดปาก first step
+Loading Fly Ash: Stop
+2025-12-19 14:22:50,034 - INFO - feedback cement = 247
+Loading Fly Ash: Stop
+Loading Cement: Start
+2025-12-19 14:22:53,852 - INFO - เริ่มเปิดปากโม่ครึ่งนึง
+Loading Sand: Stop
+Vibrater Rock and Sand: Stop
+2025-12-19 14:23:01,132 - INFO - feedback rock 1 = 1224
+Loading Sand: Stop
+2025-12-19 14:23:02,224 - INFO - เปิดปากโม่จนสุด
+Vibrater Rock and Sand: Stop
+Loading Rock 3/8: Start
+Loading Chemical 1: Stop
+2025-12-19 14:23:05,288 - INFO - feedback chem 2 = 1.7
+Loading Chemical 1: Stop
+Loading Chemical 2: Start
+Loading Water: Stop
+2025-12-19 14:23:11,012 - INFO - water is loaded
+2025-12-19 14:23:11,355 - INFO - Water loaded successfully.
+2025-12-19 14:23:11,511 - INFO - ปิดปั้มน้ำยาเคมี
+Loading Rock 3/8: Stop
+Loading Chemical 2: Stop
+Loading Chemical 1: Stop
+2025-12-19 14:23:14,977 - INFO - chemical is loaded
+2025-12-19 14:23:15,274 - INFO - feedback rock 2 = 1894
+2025-12-19 14:23:15,354 - INFO - Chemical loaded successfully.
+Loading Rock 3/4: Start
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+2025-12-19 14:23:29,115 - INFO - state 7 ยังมีคิวเหลือกำลังรอโหลด
+2025-12-19 14:23:30,337 - INFO - state 6 คิวถัดไปยังไม่พร้อม ปิดปากโม่ก่อน
+Loading Cement: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+Loading Rock 3/4: Stop
+Loading Rock 3/8: Stop
+Loading Sand: Stop
+2025-12-19 14:23:37,134 - INFO - rock and sand is success
+2025-12-19 14:23:37,917 - INFO - Rock and Sand loaded successfully.
+2025-12-19 14:23:40,657 - INFO - เวลาที่ต้องเติมเพิ่ม4.534900443894522
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:23:45,725 - INFO - filling cement -14 KG ::: round 1
+2025-12-19 14:23:45,834 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:23:50,015 - INFO - filling cement -9 KG ::: round 2
+2025-12-19 14:23:50,126 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+2025-12-19 14:23:54,261 - INFO - filling cement -4 KG ::: round 3
+2025-12-19 14:23:54,371 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+Loading Cement: Start
+Loading Cement: Stop
+Loading Cement: Stop
+2025-12-19 14:23:59,668 - INFO - cement and fyash loading success
+2025-12-19 14:24:00,543 - INFO - Cement and Flyash loaded successfully.
+2025-12-19 14:24:00,548 - INFO - Queue 3 fully loaded - Setting next_queue_loaded_and_ready=True
+2025-12-19 14:24:01,531 - INFO - state 6 คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว
+Mixer: Start
+2025-12-19 14:24:04,042 - INFO - เริ่มผสมคิวที่ 3
+2025-12-19 14:24:04,044 - INFO - เปิดมอเตอร์ผสม
+Converyer Top: Start
+2025-12-19 14:24:11,099 - INFO - เปิดสายพานบน
+Converyer Midle: Start
+2025-12-19 14:24:14,171 - INFO - เปิดสายพานล่าง
+2025-12-19 14:24:20,901 - INFO - เปิดปั้มน้ำยาขึ้น
+2025-12-19 14:24:25,974 - INFO - state 2
+Vale Water: Start
+2025-12-19 14:24:26,070 - INFO - เปิดวาล์วน้ำ
+Vale Cement and Flyash: Start
+2025-12-19 14:24:28,130 - INFO - เปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:24:29,411 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:30,678 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:31,935 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:33,212 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:34,475 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:35,738 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:37,009 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:38,318 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:39,593 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:40,870 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:42,150 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:43,419 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:44,687 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:45,951 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:47,218 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:48,484 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:49,744 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:51,008 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:52,258 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:53,507 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:54,765 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:56,016 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:57,279 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:58,545 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:24:59,619 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 1/3
+Vale Cement and Flyash: Stop
+2025-12-19 14:24:59,682 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:25:00,915 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:25:01,977 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 2/3
+Vale Cement and Flyash: Stop
+2025-12-19 14:25:02,040 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:25:03,259 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:25:04,330 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 3/3
+Vale Cement and Flyash: Stop
+2025-12-19 14:25:04,393 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-19 14:25:05,628 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:25:05,674 - INFO - เริ่มหน่วงเวลา 2.0 วินาที ก่อนปิดสายพาน
+2025-12-19 14:25:06,905 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:25:06,955 - INFO - รอเวลาหน่วง: เหลือ 1 วินาที
+2025-12-19 14:25:08,185 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-19 14:25:08,232 - INFO - หมดเวลาหน่วง เริ่มปิดอุปกรณ์
+Converyer Midle: Stop
+2025-12-19 14:25:10,291 - INFO - ปิดสายพานด้านล่าง
+Converyer Top: Stop
+2025-12-19 14:25:12,363 - INFO - ปิดสายพานด้านบน
+Vale Water: Stop
+2025-12-19 14:25:12,955 - INFO - ปิดวาล์วน้ำ
+2025-12-19 14:25:13,516 - INFO - ปิดปั้มน้ำยาขึ้น
+2025-12-19 14:25:19,744 - INFO - state 4
+2025-12-19 14:25:25,887 - INFO - เริ่มเปิดปาก first step
+2025-12-19 14:25:34,759 - INFO - เริ่มเปิดปากโม่ครึ่งนึง
+2025-12-19 14:25:43,110 - INFO - เปิดปากโม่จนสุด
+2025-12-19 14:25:52,412 - INFO - ปิดปั้มน้ำยาเคมี
+2025-12-19 14:26:08,802 - INFO - ไม่มีคิวเหลือแล้ว จบกระบวนการผสม กำลังปิดปากโม่
+Mixer: Stop
+2025-12-19 14:26:21,420 - INFO - Updated time for order ID 384
+2025-12-19 14:26:21,433 - INFO - update to database
+2025-12-19 14:26:21,435 - INFO - ==================================================
+2025-12-19 14:26:21,435 - INFO - END BATCH LOGGING: ID 2025-12-19_14-16-41
+2025-12-19 14:26:21,436 - INFO - ==================================================
+   Called from main_condition_load thread - will not join self
+2025-12-19 14:26:21,457 - INFO - Skipping join of MainCondition thread (current thread)
+Stop signal received by AUTODA_Controller.
+PLC Comport closed inside thread.
+   AutoDA Controller already stopped
+Stop signal received by PLC_Controller.
+PLC Comport closed inside thread.
+   PLC Controller already stopped
+2025-12-19 14:26:25,405 - INFO - Disconnected device_status_changed signal
+2025-12-19 14:26:25,406 - INFO - Disconnected status_loading_rock_and_sand signal
+2025-12-19 14:26:25,406 - INFO - Disconnected status_loading_cement_and_fyash signal
+2025-12-19 14:26:25,406 - INFO - Disconnected status_loading_water signal
+2025-12-19 14:26:25,407 - INFO - Disconnected status_loading_chemical signal
+2025-12-19 14:26:25,408 - INFO - Disconnected weight_rock_and_sand signal
+2025-12-19 14:26:25,408 - INFO - Disconnected weight_cement_and_fyash signal
+2025-12-19 14:26:25,409 - INFO - Disconnected weight_water signal
+2025-12-19 14:26:25,410 - INFO - Disconnected weight_chemical signal
+2025-12-19 14:26:29,871 - INFO - AutoDA Controller restarted
+2025-12-19 14:26:30,672 - INFO - PLC Controller restarted
+2025-12-19 14:26:31,822 - INFO - Reconnected All status
+2025-12-19 14:26:31,850 - INFO - Reconnected All status 2 
+Stop signal received by PLC_Controller.
+PLC Comport closed inside thread.
+Stop signal received by AUTODA_Controller.
+PLC Comport closed inside thread.

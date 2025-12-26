@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from datetime import datetime
 
 class C_palne_Database():
     def __init__(self):
@@ -360,6 +361,21 @@ class C_palne_Database():
         except sqlite3.Error as e:
             print(f"Error getting work queue: {e}")
             return []
+        finally:
+            if conn:
+                conn.close()
+
+    def update_time_for_order_id(self,order_id):    
+        dTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        query = "UPDATE concrete_order SET dTime = ? WHERE id = ?;"
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute(query, (dTime, order_id))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"Error updating customer batch_state: {e}")
         finally:
             if conn:
                 conn.close()

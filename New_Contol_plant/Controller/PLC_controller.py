@@ -288,8 +288,10 @@ class PLC_Controller(QThread, QObject):
     def vibrater_cement_and_fyash(self, status):
         # print("Vibrater Cement and Flyash:", status)
         if status == "start":
+            print("vabrator cement: start")
             self.safe_write_coil(address=17, value=1, device_id=int(self.PLC_id), operation_name="vibrater_cement_flyash_start")
         elif status == "stop":
+            print("vabrator cement: stop")
             self.safe_write_coil(address=17, value=0, device_id=int(self.PLC_id), operation_name="vibrater_cement_flyash_stop")
     
     def vale_water(self, status):
@@ -485,6 +487,32 @@ class PLC_Controller(QThread, QObject):
         """เมธอดสำหรับสั่งหยุด Thread และปิด Port จากภายนอก"""
         print("Stop signal received by PLC_Controller.")
         self.running = False # บอกให้ loop ใน run() หยุดทำงาน
+
+    def clear_memory(self):
+        self.plc_client.write_coil(address=0,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=1,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=2,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=3,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=4,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=5,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=6,value=0,device_id=1)       # clear m0
+
+        self.plc_client.write_coil(address=10,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=11,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=12,value=0,device_id=1)       # clear m0
+
+        self.plc_client.write_coil(address=16,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=17,value=0,device_id=1)       # clear m0
+
+        self.plc_client.write_coil(address=20,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=21,value=0,device_id=1)       # clear m0
+        #self.plc_client.write_coil(address=22,value=0,device_id=1)       # clear m0
+
+        self.plc_client.write_coil(address=24,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=25,value=0,device_id=1)       # clear m0
+        self.plc_client.write_coil(address=26,value=0,device_id=1)       # clear m0
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

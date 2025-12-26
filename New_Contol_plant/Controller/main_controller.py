@@ -4,6 +4,9 @@ from PySide6.QtWidgets import QMessageBox,QApplication
 from threading import Thread
 import time
 import sys
+import logging
+import os
+from datetime import datetime
 from Controller.database_control import C_palne_Database
 from Controller.PLC_controller import PLC_Controller
 from Controller.Autoda_controller import AUTODA_Controller
@@ -28,8 +31,18 @@ class MainController(QObject):
     # Signal สำหรับ finalize reset จาก worker thread
     finalize_reset_signal = Signal(float)  # ส่งค่า total_cubes
     
+    # read setpoint signals
+    read_setpoint_rock_and_sand = Signal()
+    read_setpoint_cement_and_fyash = Signal()
+    read_setpoint_water = Signal()
+    read_setpoint_chemical = Signal()
+    # read setpoint signals
+    
     def __init__(self):
         super(MainController, self).__init__()
+        self.setup_logging()
+        self.current_log_handler = None
+        self.current_batch_id = None
         self.main_window = MainWindow()
 
         self.db = C_palne_Database()
@@ -179,6 +192,7 @@ class MainController(QObject):
         self.is_workflow_active = False  # Flag เพื่อบอกว่า workflow กำลังทำงานหรือไม่
         # check weight to stop control
         self.this_weight_to_stop_control = 0
+        self.this_weight_to_new_offset = 0
         self.countdown_to_stop = 0
         self.offset_weight_to_stop_control = 200
         # Create temp queue instance
@@ -216,6 +230,20 @@ class MainController(QObject):
         self.autoda_controller.weight_cement_and_fyash.connect(self.update_weight_cement_and_fyash)
         self.autoda_controller.weight_water.connect(self.update_weight_water)
         self.autoda_controller.weight_chemical.connect(self.update_weight_chemical)
+        
+
+        self.read_setpoint_rock_and_sand.connect(self.autoda_controller.read_setpoint_rock_sand)
+        self.autoda_controller.setpoint_rock_sand_read.connect(self.feedback_setpoint_rock_and_sand)
+        
+
+        self.read_setpoint_cement_and_fyash.connect(self.autoda_controller.read_setpoint_cement_fyash)
+        self.autoda_controller.setpoint_cement_and_fyash_read.connect(self.feedback_setpoint_cement_and_fyash)
+        
+        self.read_setpoint_water.connect(self.autoda_controller.read_setpoint_water_work)
+        self.autoda_controller.setpoint_water_read.connect(self.feedback_setpoint_water_main)
+
+        self.read_setpoint_chemical.connect(self.autoda_controller.read_setpoint_chemical_work)
+        self.autoda_controller.setpoint_chemical_read.connect(self.feedback_setpoint_chemical_main)
 
         # debug tab
         self.debug_tab = debug_tab(self.main_window,self.plc_controller)
@@ -251,6 +279,77 @@ class MainController(QObject):
         if app:
             app.aboutToQuit.connect(self.cleanup_on_exit)
         
+    def setup_logging(self):
+        """ตั้งค่าระบบบันทึก Log File (Initial Setup)"""
+        if not os.path.exists('logs'):
+            os.makedirs('logs')
+            
+        # ลบ Log handler เก่าออกก่อน (ถ้ามี)
+        root = logging.getLogger()
+        if root.handlers:
+            for handler in root.handlers:
+                root.removeHandler(handler)
+        
+        # ตั้งค่า default (อาจจะลง console หรือ log รวมรายวัน)
+        # แต่ในที่นี้เราเน้น Batch Log ตามที่ User request
+        # ดังนั้น setup_logging นี้อาจจะแค่เตรียมโฟลเดอร์ หรือตั้งค่า Console Handler
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.StreamHandler() # แสดงใน Terminal
+            ],
+            force=True
+        )
+        # logging.info("=== System Started : เริ่มต้นการทำงานของระบบ ===")
+
+    def start_batch_logging(self):
+        """เริ่มบันทึก Log สำหรับ Batch ใหม่"""
+        # สร้าง Batch ID ตามเวลาปัจจุบัน
+        self.current_batch_id = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        log_filename = f'logs/log_Batch_{self.current_batch_id}.txt'
+        
+        # สร้าง File Handler ใหม่
+        self.current_log_handler = logging.FileHandler(log_filename, encoding='utf-8')
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        self.current_log_handler.setFormatter(formatter)
+        
+        # เพิ่ม Handler เข้าไปที่ Root Logger
+        root = logging.getLogger()
+        root.addHandler(self.current_log_handler)
+        
+        logging.info("==================================================")
+        logging.info(f"START BATCH LOGGING: ID {self.current_batch_id}")
+        logging.info("==================================================")
+
+    def stop_batch_logging(self):
+        """หยุดบันทึก Log ของ Batch ปัจจุบัน"""
+        if self.current_log_handler:
+            logging.info("==================================================")
+            logging.info(f"END BATCH LOGGING: ID {self.current_batch_id}")
+            logging.info("==================================================")
+            
+            # ลบ Handler ออก
+            root = logging.getLogger()
+            root.removeHandler(self.current_log_handler)
+            self.current_log_handler.close()
+            self.current_log_handler = None
+            self.current_batch_id = None
+
+    def log_queue_info(self, queue_number, total_queues, multiplier):
+        """บันทึกข้อมูลคิวลงใน Log"""
+        logging.info("")
+        logging.info(f"--- Start Queue #{queue_number} of {total_queues} (Multiplier: {multiplier}) ---")
+        logging.info(f"   Target Rock1: {self.display_target_rock1}")
+        logging.info(f"   Target Sand: {self.display_target_sand}")
+        logging.info(f"   Target Rock2: {self.display_target_rock2}")
+        logging.info(f"   Target Cement: {self.display_target_cement}")
+        logging.info(f"   Target Flyash: {self.display_target_fyash}")
+        logging.info(f"   Target Water: {self.display_target_water}")
+        logging.info(f"   Target Chem1: {self.display_target_chem1}")
+        logging.info(f"   Target Chem2: {self.display_target_chem2}")
+        logging.info("")
+
     @Slot(list)
     @Slot(int)
     
@@ -433,33 +532,33 @@ class MainController(QObject):
             if not self.sand_stabilizing:
                 self.sand_stabilizing = True
                 self.sand_stabilize_start_time = current_time
-                print(f"🏖️ Sand PLC finished, stabilizing... Current weight: {current_weight}")
+                # print(f"Sand PLC finished, stabilizing... Current weight: {current_weight}")
             elif current_time - self.sand_stabilize_start_time >= self.stabilize_delay:
                 self.sand_frozen_weight = current_weight
                 self.sand_only_frozen = current_weight  # Sand โหลดก่อน จึงเป็นน้ำหนักเดี่ยว
                 self.is_sand_frozen = True
                 self.sand_stabilizing = False
-                print(f"✅ Sand frozen at: {self.sand_frozen_weight} kg (Sand only: {self.sand_only_frozen} kg)")
+                # print(f"Sand frozen at: {self.sand_frozen_weight} kg (Sand only: {self.sand_only_frozen} kg)")
 
         # ตรวจสอบ Rock1 freeze - รอให้ PLC ส่งสัญญาณเสร็จก่อน จึงค่อย stabilize (โหลดที่ 2)
         if (self.state_load_rock_and_sand == 4 and self.rock_success and not self.is_rock1_frozen):
             if not self.rock1_stabilizing:
                 self.rock1_stabilizing = True
                 self.rock1_stabilize_start_time = current_time
-                print(f"🪨 Rock1 PLC finished, stabilizing... Current weight: {current_weight}")
+                # print(f"Rock1 PLC finished, stabilizing... Current weight: {current_weight}")
             elif current_time - self.rock1_stabilize_start_time >= self.stabilize_delay:
                 self.rock1_frozen_weight = current_weight
                 self.rock1_only_frozen = max(0, current_weight - self.sand_frozen_weight if self.is_sand_frozen else current_weight)
                 self.is_rock1_frozen = True
                 self.rock1_stabilizing = False
-                print(f"✅ Rock1 frozen at total: {self.rock1_frozen_weight} kg (Rock1 only: {self.rock1_only_frozen} kg)")
+                # print(f"Rock1 frozen at total: {self.rock1_frozen_weight} kg (Rock1 only: {self.rock1_only_frozen} kg)")
 
         # ตรวจสอบ Rock2 freeze - รอให้ PLC ส่งสัญญาณเสร็จก่อน จึงค่อย stabilize (โหลดสุดท้าย)
         if (self.state_load_rock_and_sand == 6 and self.rock_success and not self.is_rock2_frozen):
             if not self.rock2_stabilizing:
                 self.rock2_stabilizing = True
                 self.rock2_stabilize_start_time = current_time
-                print(f"🪨 Rock2 PLC finished, stabilizing... Current weight: {current_weight}")
+                # print(f" Rock2 PLC finished, stabilizing... Current weight: {current_weight}")
             elif current_time - self.rock2_stabilize_start_time >= self.stabilize_delay:
                 self.rock2_frozen_weight = current_weight
                 # Rock2 โหลดทีหลัง ต้องหัก Rock1 (ที่รวม Sand อยู่แล้ว) ออก
@@ -467,7 +566,23 @@ class MainController(QObject):
                 self.rock2_only_frozen = max(0, current_weight - rock1_total)
                 self.is_rock2_frozen = True
                 self.rock2_stabilizing = False
-                print(f"✅ Rock2 frozen at total: {self.rock2_frozen_weight} kg (Rock2 only: {self.rock2_only_frozen} kg)")
+                # print(f"Rock2 frozen at total: {self.rock2_frozen_weight} kg (Rock2 only: {self.rock2_only_frozen} kg)")
+
+    def feedback_setpoint_rock_and_sand(self,value):
+        self.feedback_setpoint_rock_sand = value
+        return self.feedback_setpoint_rock_sand
+
+    def feedback_setpoint_cement_and_fyash(self,value):
+        self.feedback_setpoint_cement_fyash = value
+        return self.feedback_setpoint_cement_fyash
+
+    def feedback_setpoint_water_main(self,value):
+        self.feedback_setpoint_water = value
+        return self.feedback_setpoint_water
+
+    def feedback_setpoint_chemical_main(self,value):
+        self.feedback_setpoint_chemical = value
+        return self.feedback_setpoint_chemical
 
     def update_weight_rock_and_sand(self, weight):
         try:
@@ -497,7 +612,9 @@ class MainController(QObject):
                     return
             
             current_weight = int(weight)
+            # print(f"rock and sand weight {current_weight}")
             self.this_weight_to_stop_control = current_weight
+            self.this_weight_to_new_offset = current_weight
             
             if self.is_loading_rock_and_sand_in_progress:
                 self._check_freeze_conditions(current_weight)
@@ -622,7 +739,8 @@ class MainController(QObject):
                     return
                 
             current_weight = int(weight)
-            
+            self.now_cement_fyash_dispaly_weight = current_weight
+            # print(f"cement & fyash weight {current_weight}")
             # Check freeze conditions during loading
             if getattr(self, 'is_loading_cement_and_fyash_in_progress', False):
                 self._check_cement_fyash_freeze_conditions(current_weight)
@@ -705,7 +823,8 @@ class MainController(QObject):
                     return
                 
             current_weight = int(weight)
-            
+            self.now_water_display_weight = current_weight
+            # print(f"water weight {current_weight}")
             # Check freeze conditions during loading
             if getattr(self, 'is_loading_water_in_progress', False):
                 self._check_water_freeze_conditions(current_weight)
@@ -808,6 +927,7 @@ class MainController(QObject):
                     return
                 
             current_weight = float(weight)
+            # print(f"Chem weight {current_weight}")
             if getattr(self, 'is_loading_chemical_in_progress', False):
                 self._check_chemical_freeze_conditions(current_weight)
                 
@@ -862,6 +982,7 @@ class MainController(QObject):
             self.loaded_rock_and_sand_successfully()
             self.rock_and_sand_loading_success = False
             self.rock_and_sand_success_start_main = True
+            logging.info("Rock and Sand loaded successfully.")
             # ตรวจสอบว่าโหลดเสร็จทั้ง 4 ประเภท แล้วหรือยัง
             self._check_all_materials_loaded()
         else:
@@ -877,6 +998,7 @@ class MainController(QObject):
             self.cement_and_fyash_loading_success = False
             self.cement_and_fyash_success_start_main = True
             # ตรวจสอบว่าโหลดเสร็จทั้ง 4 ประเภท แล้วหรือยัง
+            logging.info("Cement and Flyash loaded successfully.")
             self._check_all_materials_loaded()
         else:
             pass
@@ -891,6 +1013,7 @@ class MainController(QObject):
             self.water_loading_success = False
             self.water_success_start_main = True
             # ตรวจสอบว่าโหลดเสร็จทั้ง 4 ประเภท แล้วหรือยัง
+            logging.info("Water loaded successfully.")
             self._check_all_materials_loaded()
         else:
             pass
@@ -905,6 +1028,7 @@ class MainController(QObject):
             self.chemical_loading_success = False
             self.chemical_success_start_main = True
             # ตรวจสอบว่าโหลดเสร็จทั้ง 4 ประเภท แล้วหรือยัง
+            logging.info("Chemical loaded successfully.")
             self._check_all_materials_loaded()
         else:
             pass
@@ -912,51 +1036,57 @@ class MainController(QObject):
     def _check_all_materials_loaded(self):
         """ตรวจสอบว่าวัตถุดิบทั้ง 4 ประเภทโหลดเสร็จหมดแล้วหรือยัง"""
         # แสดงสถานะการโหลดปัจจุบัน
-        print(f"🔍 Checking material loading status:")
-        print(f"   Rock & Sand: {'✅' if self.rock_and_sand_success_start_main else '⏳'}")
-        print(f"   Cement & Flyash: {'✅' if self.cement_and_fyash_success_start_main else '⏳'}")
-        print(f"   Water: {'✅' if self.water_success_start_main else '⏳'}")
-        print(f"   Chemical: {'✅' if self.chemical_success_start_main else '⏳'}")
+        # print(f"   Checking material loading status:")
+        # print(f"   Rock & Sand: {'' if self.rock_and_sand_success_start_main else ''}")
+        # print(f"   Cement & Flyash: {'' if self.cement_and_fyash_success_start_main else ''}")
+        # print(f"   Water: {'' if self.water_success_start_main else ''}")
+        # print(f"   Chemical: {'' if self.chemical_success_start_main else ''}")
         
         if (self.rock_and_sand_success_start_main and self.cement_and_fyash_success_start_main and self.water_success_start_main and self.chemical_success_start_main):
             # ถ้าโหลดเสร็จทุกอย่างแล้ว ให้ตั้ง flag บอกว่าพร้อมลำเลียงขึ้นไป
             self.next_queue_loaded_and_ready = True
             current_queue = self.current_queue_loaded + 1
-            print(f"🎉 Queue {current_queue} is fully loaded and ready for transport!")
-            print(f"   All materials loaded successfully ✅")
+            # print(f" Queue {current_queue} is fully loaded and ready for transport!")
+            # print(f"   All materials loaded successfully ")
+            logging.info(f"Queue {current_queue} fully loaded - Setting next_queue_loaded_and_ready=True")
+            
 # END STATUS UPDATES AND LOADING CHECKS
 
 # MIX START LOAD
     def mix_start_load(self):
-        # print("\n🚀 === STARTING LOADING PROCESS ===")
+        # print("\n === STARTING LOADING PROCESS ===")
         # ตรวจสอบจำนวนคิว ถ้ามี error จะ return ทันที
         self.start_button_load_enabled = True
         self.is_workflow_active = True  # เปิดใช้งาน workflow
-        print("✅ Workflow activated")
+        # print(" Workflow activated")
         
         try:
             self.check_all_result_loaded()
-            print(f"📊 Queue configuration validated:")
-            print(f"   Total cubes to load: {self.get_all_loaded_cube}")
-            print(f"   Total queue count: {self.total_queue_count}")
-            print(f"   Queue multipliers: {self.queue_multipliers}")
+            # เริ่มต้น Logging สำหรับ Batch นี้
+            self.start_batch_logging()
+            logging.info(f"Total Queue Count to Load: {self.get_all_loaded_cube}")
+            
+            # print(f"Queue configuration validated:")
+            # print(f"   Total cubes to load: {self.get_all_loaded_cube}")
+            # print(f"   Total queue count: {self.total_queue_count}")
+            # print(f"   Queue multipliers: {self.queue_multipliers}")
         except ValueError as e:
-            print(f"❌ Queue validation failed: {e}")
+            print(f"Queue validation failed: {e}")
             # Error message ถูกแสดงใน check_all_result_loaded แล้ว
             self.is_workflow_active = False
             return
         
-        # print("🔄 Resetting freeze values...")
+        # print(" Resetting freeze values...")
         self.reset_freeze_values()
         self.reset_sum_data()
-        # print("📊 Initializing counters...")
+        # print(" Initializing counters...")
         # รีเซ็ต counter
         self.current_queue_transporting = 0
         self.completed_queue_count = 0  # รีเซ็ตจำนวนคิวที่ผสมเสร็จ
         self.next_queue_loaded_and_ready = False
         self.lock_target_display = True  # ล็อค Target UI ตั้งแต่เริ่มโหลด
         
-        # print("🎯 Resetting UI displays...")
+        # print(" Resetting UI displays...")
         # รีเซ็ตการแสดงผลจำนวนคิว - ห่อด้วย try-except
         try:
             if hasattr(self, 'main_window') and self.main_window:
@@ -1021,7 +1151,7 @@ class MainController(QObject):
             pass
         
         # เริ่ม target monitor
-        # print("🎯 Starting target monitor...")
+        # print(" Starting target monitor...")
         self._start_target_monitor()
         self.reset_variable_for_cement_loaded()
         self.rock_and_sand_values = [int(self.rock1), int(self.sand), int(self.rock2)]
@@ -1029,49 +1159,52 @@ class MainController(QObject):
         self.water_value = int(self.water)
         self.chemical_values = [float(self.chem1), float(self.chem2)]
         
-        print(f"📋 Material loading targets for queue 1:")
-        print(f"   Rock & Sand: {self.rock_and_sand_values} kg")
-        print(f"   Cement & Flyash: {self.cement_and_fyash_values} kg") 
-        print(f"   Water: {self.water_value} kg")
-        print(f"   Chemical: {self.chemical_values} kg")
+        # บันทึกข้อมูลคิวแรก
+        self.log_queue_info(1, self.total_queue_count, self.queue_multiplier)
         
-        print("🔧 Starting loading threads...")
+        # print(f" Material loading targets for queue 1:")
+        # print(f"   Rock & Sand: {self.rock_and_sand_values} kg")
+        # print(f"   Cement & Flyash: {self.cement_and_fyash_values} kg") 
+        # print(f"   Water: {self.water_value} kg")
+        # print(f"   Chemical: {self.chemical_values} kg")
+        
+        # print(" Starting loading threads...")
         time.sleep(1)
         self.is_loading_rock_and_sand_in_progress = True
         self.thread_rock_and_sand = Thread(target=self.load_rock_and_sand_sequence,args=(self.rock_and_sand_values,))
         self.thread_rock_and_sand.start()
         self.state_load_rock_and_sand = 1
-        print("✅ Rock & Sand thread started")
+        # print(" Rock & Sand thread started")
         
         time.sleep(1)
         self.is_loading_cement_and_fyash_in_progress = True
         self.thread_cement_and_fyash = Thread(target=self.load_cement_and_fyash_sequence,args=(self.cement_and_fyash_values,))
         self.thread_cement_and_fyash.start()
         self.state_load_cement_and_fyash = 1
-        print("✅ Cement & Flyash thread started")
+        # print(" Cement & Flyash thread started")
         
         time.sleep(1)
         self.is_loading_water_in_progress = True
         self.thread_water = Thread(target=self.loading_water_sequence, args=(self.water_value,))
         self.thread_water.start()
         self.state_load_water = 1
-        print("✅ Water thread started")
+        # print(" Water thread started")
         
         time.sleep(1)
         self.is_loading_chemical_in_progress = True
         self.thread_chemical = Thread(target=self.loading_chemical_sequence, args=(self.chemical_values,))
         self.thread_chemical.start()
         self.state_load_chemical = 1
-        print("✅ Chemical thread started")
+        # print(" Chemical thread started")
         
         # print("Started loading sequence.")
-        print("🏭 Starting main condition load controller...")
+        # print(" Starting main condition load controller...")
         self.main_condition_load_running = True
         self.state_main_condition_load = 0  # เริ่มที่ state 0
         self.thread_main_condition_load = Thread(target=self.main_condition_load)
         self.thread_main_condition_load.start()
-        print("✅ Main condition load thread started")
-        print("🚀 === LOADING PROCESS INITIALIZATION COMPLETE ===\n")
+        # print(" Main condition load thread started")
+        # print(" === LOADING PROCESS INITIALIZATION COMPLETE ===\n")
 # END MIX START LOAD
         
         
@@ -1169,9 +1302,9 @@ class MainController(QObject):
     def _start_loading_new_queue(self):
         """เริ่มโหลดคิวใหม่โดยไม่รบกวนกระบวนการผสมที่กำลังทำงานอยู่"""
         next_queue_number = self.current_queue_loaded + 1
-        print(f"\n🔄 === STARTING NEW QUEUE #{next_queue_number} ===")
+        # print(f"\n === STARTING NEW QUEUE #{next_queue_number} ===")
         
-        print("📋 Resetting success flags for new queue...")
+        # print(" Resetting success flags for new queue...")
         # รีเซ็ต success flags สำหรับการโหลดใหม่
         self.rock_and_sand_loading_success = False
         self.cement_and_fyash_loading_success = False
@@ -1182,7 +1315,7 @@ class MainController(QObject):
         self.water_success_start_main = False
         self.chemical_success_start_main = False
         self.reset_variable_for_cement_loaded()
-        print("🔄 Resetting freeze values for new queue...")
+        # print(" Resetting freeze values for new queue...")
         # รีเซ็ต freeze values สำหรับการโหลดใหม่
         self.reset_freeze_values()
         
@@ -1191,12 +1324,12 @@ class MainController(QObject):
         next_queue_index = self.current_queue_loaded  # current_queue_loaded ถูกเพิ่มแล้วใน start_next_load_ready
         if next_queue_index < len(self.queue_multipliers):
             next_multiplier = self.queue_multipliers[next_queue_index]
-            print(f"📊 Queue #{next_queue_number} configuration:")
-            print(f"   Queue index: {next_queue_index}")
-            print(f"   Multiplier: {next_multiplier}")
+            # print(f" Queue #{next_queue_number} configuration:")
+            # print(f"   Queue index: {next_queue_index}")
+            # print(f"   Multiplier: {next_multiplier}")
             
             # อัพเดต Target UI ตาม multiplier ของรอบนี้ (ต้องทำก่อนเริ่ม threads)
-            print("🎯 Updating target display...")
+            # print(" Updating target display...")
             self._update_target_display(next_multiplier)
             
             # คำนวณค่าใหม่ตาม multiplier ของรอบนี้
@@ -1211,7 +1344,7 @@ class MainController(QObject):
             
         else:
             # ใช้ค่าเดิม (กรณี fallback)
-            print("⚠️ Using fallback values (queue index out of range)")
+            # print(" Using fallback values (queue index out of range)")
             rock1 = self.rock1
             sand = self.sand
             rock2 = self.rock2
@@ -1227,44 +1360,48 @@ class MainController(QObject):
         self.water_value = int(water)
         self.chemical_values = [float(chem1), float(chem2)]
         
-        print(f"📋 Material loading targets for queue #{next_queue_number}:")
-        print(f"   Rock & Sand: {self.rock_and_sand_values} kg")
-        print(f"   Cement & Flyash: {self.cement_and_fyash_values} kg")
-        print(f"   Water: {self.water_value} kg")
-        print(f"   Chemical: {self.chemical_values} kg")
+        # บันทึกข้อมูลคิวถัดไป
+        self.log_queue_info(next_queue_number, self.total_queue_count, self.queue_multiplier)
         
-        print("🔧 Starting loading threads for new queue...")
+        
+        # print(f" Material loading targets for queue #{next_queue_number}:")
+        # print(f"   Rock & Sand: {self.rock_and_sand_values} kg")
+        # print(f"   Cement & Flyash: {self.cement_and_fyash_values} kg")
+        # print(f"   Water: {self.water_value} kg")
+        # print(f"   Chemical: {self.chemical_values} kg")
+        
+        # print(" Starting loading threads for new queue...")
         # เริ่มโหลดในแต่ละ thread
         time.sleep(1)
         self.is_loading_rock_and_sand_in_progress = True
         self.thread_rock_and_sand = Thread(target=self.load_rock_and_sand_sequence, args=(self.rock_and_sand_values,))
         self.thread_rock_and_sand.start()
         self.state_load_rock_and_sand = 1
-        print("✅ Rock & Sand thread started for new queue")
+        # print(" Rock & Sand thread started for new queue")
         
         time.sleep(1)
         self.is_loading_cement_and_fyash_in_progress = True
         self.thread_cement_and_fyash = Thread(target=self.load_cement_and_fyash_sequence, args=(self.cement_and_fyash_values,))
         self.thread_cement_and_fyash.start()
         self.state_load_cement_and_fyash = 1
-        print("✅ Cement & Flyash thread started for new queue")
+        # print(" Cement & Flyash thread started for new queue")
         
         time.sleep(1)
         self.is_loading_water_in_progress = True
         self.thread_water = Thread(target=self.loading_water_sequence, args=(self.water_value,))
         self.thread_water.start()
         self.state_load_water = 1
-        print("✅ Water thread started for new queue")
+        # print(" Water thread started for new queue")
         
         time.sleep(1)
         self.is_loading_chemical_in_progress = True
         self.thread_chemical = Thread(target=self.loading_chemical_sequence, args=(self.chemical_values,))
         self.thread_chemical.start()
         self.state_load_chemical = 1
-        print("✅ Chemical thread started for new queue")
+        # print(" Chemical thread started for new queue")
         
         self.ready_to_start_next_load = False
-        print(f"🔄 === NEW QUEUE #{next_queue_number} LOADING STARTED ===\n")
+        # print(f" === NEW QUEUE #{next_queue_number} LOADING STARTED ===\n")
 
     def _update_target_display(self, multiplier):
         """อัพเดตค่าเป้าหมาย (Target) ใน UI ตาม multiplier"""
@@ -1318,7 +1455,7 @@ class MainController(QObject):
             # Qt object ถูก destroy แล้ว
             pass
         except Exception as e:
-            print(f"⚠️ Error in _update_target_display: {e}")
+            print(f" Error in _update_target_display: {e}")
     
     def _start_target_monitor(self):
         """เริ่ม timer เพื่อตรวจสอบและรักษาค่า Target UI (เรียกจาก main thread เท่านั้น)"""
@@ -1328,7 +1465,7 @@ class MainController(QObject):
         
         if self.lock_target_display:
             self.target_monitor_timer.start(500)  # ตรวจสอบทุก 500ms
-            # print("▶️ Target monitor started")
+            # print(" Target monitor started")
     
     @Slot()
     def _start_target_monitor_safe(self):
@@ -1339,7 +1476,7 @@ class MainController(QObject):
         """หยุด timer ตรวจสอบ Target UI (เรียกจาก main thread เท่านั้น)"""
         if hasattr(self, 'target_monitor_timer'):
             self.target_monitor_timer.stop()
-            # print("⏹️ Target monitor stopped")
+            # print(" Target monitor stopped")
     
     @Slot()
     def _stop_target_monitor_safe(self):
@@ -1426,9 +1563,10 @@ class MainController(QObject):
         except Exception as e:
             # หยุด timer ถ้าเกิด error
             self._stop_target_monitor()
-            print(f"⚠️ Error in _maintain_target_display: {e}")
+            print(f" Error in _maintain_target_display: {e}")
     
     def main_condition_load(self):
+        wait_counter = 0
         while self.main_condition_load_running:
             try:
                 # state 0
@@ -1437,8 +1575,17 @@ class MainController(QObject):
                         self.next_queue_loaded_and_ready = False  # รีเซ็ต flag
                         self.current_queue_transporting += 1
                         self.state_main_condition_load = 1
+                        wait_counter = 0
                     else:
-                        pass
+                        wait_counter += 1
+                        if wait_counter % 10 == 0:
+                            self.status_message.emit("รอให้วัตถุดิบโหลดครบทั้ง 4 ประเภท...")
+                            logging.info(f"State 0 waiting - Flags: R&S={self.rock_and_sand_success_start_main}, "
+                                    f"C&F={self.cement_and_fyash_success_start_main}, "
+                                    f"W={self.water_success_start_main}, "
+                                    f"Chem={self.chemical_success_start_main}")
+                        time.sleep(0.5)
+                
                 
                 # state 1
                 elif self.state_main_condition_load == 1:
@@ -1450,13 +1597,17 @@ class MainController(QObject):
                     self.status_message.emit("state 1")
                     self.plc_controller.mixer("start") #run mixer
                     self.status_message.emit("เริ่มผสมคิวที่ {}".format(self.current_queue_transporting))
+                    logging.info("เริ่มผสมคิวที่ {}".format(self.current_queue_transporting))
                     self.status_message.emit("เปิดมอเตอร์ผสม")
+                    logging.info("เปิดมอเตอร์ผสม")
                     time.sleep(7)
                     self.plc_controller.converyer_top("start") #run converyer top
                     self.status_message.emit("เปิดสายพานบน")
+                    logging.info("เปิดสายพานบน")
                     time.sleep(3)
                     self.plc_controller.converyer_midle("start")
                     self.status_message.emit("เปิดสายพานล่าง")
+                    logging.info("เปิดสายพานล่าง")
                     time.sleep(0.5)
                     self.state_main_condition_load = 2
                 
@@ -1464,14 +1615,18 @@ class MainController(QObject):
                 elif self.state_main_condition_load == 2:
                     time.sleep(5)
                     self.status_message.emit("เปิดปั้มน้ำยาขึ้น")
+                    logging.info("เปิดปั้มน้ำยาขึ้น")
                     self.plc_controller.pump_chemical_up("start")
                     time.sleep(5)
                     self.status_message.emit("state 2")
+                    logging.info("state 2")
                     self.plc_controller.vale_water("start")
                     self.status_message.emit("เปิดวาล์วน้ำ")
+                    logging.info("เปิดวาล์วน้ำ")
                     time.sleep(int(self.cement_release_time))
                     self.plc_controller.vale_cement_and_fyash("start")
                     self.status_message.emit("เปิดวาล์วปูนซีเมนต์และเถ้าลอย")
+                    logging.info("เปิดวาล์วปูนซีเมนต์และเถ้าลอย")
                     #time.sleep(4)
                     self.plc_controller.pump_chemical_up("stop")
                     #time.sleep(3)
@@ -1480,36 +1635,47 @@ class MainController(QObject):
                 # state 3   
                 elif self.state_main_condition_load == 3:
                     self.status_message.emit("state 3 - ติดตามน้ำหนัก Rock & Sand")
+                    logging.info("state 3 - ติดตามน้ำหนัก Rock & Sand")
                     self.plc_controller.pump_chemical_up("start")
                     
                     if self.this_weight_to_stop_control <= self.offset_weight_to_stop_control and self.countdown_to_stop < 3:
                         self.countdown_to_stop += 1
                         time.sleep(1)
                         self.status_message.emit(f"น้ำหนักต่ำกว่า {self.offset_weight_to_stop_control} kg - นับถอยหลัง {self.countdown_to_stop}/3")
-                        
+                        logging.info(f"น้ำหนักต่ำกว่า {self.offset_weight_to_stop_control} kg - นับถอยหลัง {self.countdown_to_stop}/3")
+                        self.plc_controller.vale_cement_and_fyash("stop")
+                        self.status_message.emit("ปิดวาล์วปูนซีเมนต์และเถ้าลอย")
+                        logging.info("ปิดวาล์วปูนซีเมนต์และเถ้าลอย")
+                    
                     elif self.countdown_to_stop >= 3:
                         if not hasattr(self, 'converyer_stop_timer_start'):
                             self.converyer_stop_timer_start = time.time()
                             self.status_message.emit(f"เริ่มหน่วงเวลา {self.converyer_time} วินาที ก่อนปิดสายพาน")
+                            logging.info(f"เริ่มหน่วงเวลา {self.converyer_time} วินาที ก่อนปิดสายพาน")
                         
                         elapsed_time = time.time() - self.converyer_stop_timer_start
                         remaining_time = max(0, int(self.converyer_time) - int(elapsed_time))
                         
                         if elapsed_time >= int(self.converyer_time):
                             self.status_message.emit("หมดเวลาหน่วง เริ่มปิดอุปกรณ์")
-                            self.plc_controller.vale_cement_and_fyash("stop")
-                            self.status_message.emit("ปิดวาล์วปูนซีเมนต์และเถ้าลอย")
+                            logging.info("หมดเวลาหน่วง เริ่มปิดอุปกรณ์")
+                            # self.plc_controller.vale_cement_and_fyash("stop")
+                            # self.status_message.emit("ปิดวาล์วปูนซีเมนต์และเถ้าลอย")
                             time.sleep(2)
                             self.plc_controller.converyer_midle("stop")
                             self.status_message.emit("ปิดสายพานด้านล่าง")
+                            logging.info("ปิดสายพานด้านล่าง")
                             time.sleep(2)
                             self.plc_controller.converyer_top("stop")
                             self.status_message.emit("ปิดสายพานด้านบน")
+                            logging.info("ปิดสายพานด้านบน")
                             time.sleep(0.5)
                             self.plc_controller.vale_water("stop")
                             self.status_message.emit("ปิดวาล์วน้ำ")
+                            logging.info("ปิดวาล์วน้ำ")
                             time.sleep(0.5)
                             self.plc_controller.pump_chemical_up("stop")
+                            logging.info("ปิดปั้มน้ำยาขึ้น")
                             time.sleep(5)
                             
                             del self.converyer_stop_timer_start
@@ -1519,14 +1685,17 @@ class MainController(QObject):
                         else:
                             if int(time.time()) % 2 == 0:
                                 self.status_message.emit(f"รอเวลาหน่วง: เหลือ {remaining_time} วินาที")
+                                logging.info(f"รอเวลาหน่วง: เหลือ {remaining_time} วินาที")
                             
                     else:
                         if self.countdown_to_stop > 0:
                             self.status_message.emit("น้ำหนักกลับมาสูงกว่าเกณฑ์ - ยกเลิกการนับถอยหลัง")
+                            logging.info("น้ำหนักกลับมาสูงกว่าเกณฑ์ - ยกเลิกการนับถอยหลัง")
                             self.countdown_to_stop = 0
                 # state 4
                 elif self.state_main_condition_load == 4:
                     self.status_message.emit("state 4")
+                    logging.info("state 4")
                     for i in range(int(self.mixer_start_time)):
                         time.sleep(1)
                     
@@ -1535,6 +1704,7 @@ class MainController(QObject):
                     time.sleep(1)
                     self.plc_controller.vale_mixer_open("start")
                     self.status_message.emit("เริ่มเปิดปาก first step")
+                    logging.info("เริ่มเปิดปาก first step")
                     time.sleep(1)
                     self.plc_controller.off_coil_vale_mixer("start")
                     time.sleep(0.5)
@@ -1546,6 +1716,7 @@ class MainController(QObject):
                     time.sleep(1)
                     self.plc_controller.vale_mixer_open("start")
                     self.status_message.emit("เริ่มเปิดปากโม่ครึ่งนึง")
+                    logging.info("เริ่มเปิดปากโม่ครึ่งนึง")
                     time.sleep(1)
                     self.plc_controller.off_coil_vale_mixer("start")
                     time.sleep(0.5)
@@ -1557,6 +1728,7 @@ class MainController(QObject):
                     time.sleep(0.5)
                     self.plc_controller.vale_mixer_open("start")
                     self.status_message.emit("เปิดปากโม่จนสุด")
+                    logging.info("เปิดปากโม่จนสุด")
                     time.sleep(7)
                     self.plc_controller.off_coil_vale_mixer("start")
                     time.sleep(0.5)
@@ -1564,6 +1736,7 @@ class MainController(QObject):
                     time.sleep(0.5)
                     self.plc_controller.pump_chemical_up("stop")
                     self.status_message.emit("ปิดปั้มน้ำยาเคมี")
+                    logging.info("ปิดปั้มน้ำยาเคมี")
                     self.close_vale_mixer_when_waiting = True
                     self.state_main_condition_load = 5
                     # self._update_database_after_loading()
@@ -1571,12 +1744,13 @@ class MainController(QObject):
                 # state 5   
                 elif self.state_main_condition_load == 5:
                     self.status_message.emit("state 5")
-                    for i in range(18):
+                    for i in range(15):
                         time.sleep(1)
                     has_more_queues = (self.next_queue_loaded_and_ready or self.current_queue_transporting < self.total_queue_count)
                     
                     if not has_more_queues:
                         self.status_message.emit("ไม่มีคิวเหลือแล้ว จบกระบวนการผสม กำลังปิดปากโม่")
+                        logging.info("ไม่มีคิวเหลือแล้ว จบกระบวนการผสม กำลังปิดปากโม่")
                         self.plc_controller.vale_mixer_close("start")
                         time.sleep(0.5)
                         self.plc_controller.vale_mixer_close("start")
@@ -1594,15 +1768,17 @@ class MainController(QObject):
                 # state 6      
                 elif self.state_main_condition_load == 6:
                     # State รอคิวถัดไปโหลดเสร็จ
-                    self.status_message.emit("state 6")
+                    # self.status_message.emit("state 6")
                     if self.next_queue_loaded_and_ready:
                         self.status_message.emit("คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว")
+                        logging.info("state 6 คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว")
                         self.close_vale_mixer_when_waiting = True
                         # คิวถัดไปโหลดเสร็จแล้ว เริ่มลำเลียงได้
                         self.state_main_condition_load = 0  # กลับไป state 0 เพื่อเริ่มลำเลียงคิวถัดไป
                     else:
                         if self.close_vale_mixer_when_waiting == True:
                             self.status_message.emit("คิวถัดไปยังไม่พร้อม ปิดปากโม่ก่อน")
+                            logging.info("state 6 คิวถัดไปยังไม่พร้อม ปิดปากโม่ก่อน")
                             self.plc_controller.vale_mixer_close("start")
                             time.sleep(0.5)
                             self.plc_controller.vale_mixer_close("start")
@@ -1621,12 +1797,16 @@ class MainController(QObject):
                         completed_amount = self.queue_multipliers[current_queue_index]
                         self.completed_queue_count += completed_amount
                         self._update_queue_display()
+                    else:
+                        pass
                     
                     if self.next_queue_loaded_and_ready:
                         self.close_vale_mixer_when_waiting = True
                         self.status_message.emit("คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว")
+                        logging.info("state 7 คิวถัดไปพร้อมสำหรับการลำเลียงแล้ว")
                         if self.close_vale_mixer_when_waiting == True:
                             self.status_message.emit("ปิดปากโม่ก่อนเริ่มกระบวนการลำเลียงคิวถัดไป")
+                            logging.info("state 7 ปิดปากโม่ก่อนเริ่มกระบวนการลำเลียงคิวถัดไป")
                             self.plc_controller.vale_mixer_close("start")
                             time.sleep(0.5)
                             self.plc_controller.vale_mixer_close("start")
@@ -1643,6 +1823,7 @@ class MainController(QObject):
                         self.state_main_condition_load = 6
                         self.close_vale_mixer_when_waiting = True
                         self.status_message.emit("ยังมีคิวเหลือกำลังรอโหลด")
+                        logging.info("state 7 ยังมีคิวเหลือกำลังรอโหลด")
 
                 # state 8 ===> close all process
                 elif self.state_main_condition_load == 8:
@@ -1652,28 +1833,34 @@ class MainController(QObject):
                     self.state_main_condition_load = 0
                     self.start_button_load_enabled = False
                         
-                    # print("💾 Starting database update...")
+                    # print("Starting database update...")
                     # อัพเดต database ด้วยน้ำหนักจริงที่โหลดได้
                     # self._update_database_after_loading()
                     
                     self.reset_variable_for_cement_loaded()
                     self._update_database_from_sum_data()
                     
+                    # หยุดบันทึก Batch Log
+                    self.stop_batch_logging()
                     
-                    # print("🎨 Resetting device indicators...")
+                    
+                    # print("Resetting device indicators...")
                     # รีเซ็ตสี label ทั้งหมดกลับเป็นสีเดิมเมื่อเสร็จสิ้นกระบวนการ
                     self._reset_all_device_indicators()
                         
-                    # print("🔄 Resetting for new customer...")
+                    # print(" Resetting for new customer...")
                     # รีเซ็ตค่าทั้งหมดเพื่อเตรียมพร้อมสำหรับลูกค้ารายใหม่
                     self._reset_all_for_new_customer()
                     self.status_message.emit("เสร็จสิ้นกระบวนการ")
-                    # print("✅ === COMPLETE PROCESS FINISHED ===\n")
+                    # print(" === COMPLETE PROCESS FINISHED ===\n")
 
                 # out of state
                 else:
-                    print("Machine run out of state")
-                        
+                    # print("Machine run out of state")
+                    self.status_message.emit("เกิดข้อผิดพลาด: Machine run out of state")
+                    logging.error("เกิดข้อผิดพลาด: Machine run out of state")
+                    
+                time.sleep(0.2)        
             except Exception as e:
                 print(f"Error in main condition load: {e}")
             time.sleep(1)
@@ -1774,37 +1961,57 @@ class MainController(QObject):
         original_sand = sand_real
         original_rock2 = rock_2
         
+        self.start_load_sand_time = 0
+        self.time_load_sand_target = 0
+        # self.new_offset = 0
+        # rock_1_new = 0
+        # rock1_setpoint = 0
+        # actual_sand_weight = 0
+        # actual_rock1_weight = 0
         # รอให้ weight signal อัพเดทและอ่านน้ำหนักปัจจุบัน (ที่ค้างอยู่)
         time.sleep(5)  # รอให้ Autoda อัพเดทค่า
         try:
             current_weight = int(self.main_window.mix_monitor_sand_lineEdit.text())
         except:
+            logging.error("Error reading sand weight")
             try:
                 current_weight = int(self.main_window.mix_monitor_rock_1_lineEdit.text())
             except:
+                logging.error("Error reading rock 1 weight")
                 current_weight = 0
         
         # คำนวณ setpoint (หักลบ offset) - ลำดับ: Sand → Rock1 → Rock2
         # Sand: โหลดแค่ sand เฉย ๆ ไม่มีอะไรก่อนหน้า
-        sand = int(sand_real) - int(self.sand_offset)
+        sand = int(original_sand) - int(self.sand_offset)
         
         # Rock1: โหลด rock1 + น้ำหนัก sand ที่โหลดไปแล้ว (ไม่ใช่สูตร sand!)
-        rock_1 = int(rock_1) + sand - int(self.rock1_offset) + int(self.sand_offset)
+        # rock_1 = int(rock_1) + sand - int(self.rock1_offset) + int(self.sand_offset)  #OLD
+        rock_1 = int(original_rock1) + int(original_sand) - int(self.rock1_offset)
+
+        # rock_1_new = int(original_rock1)- int(self.rock1_offset)
         
         # Rock2: โหลด rock2 + น้ำหนัก rock1 ที่โหลดไปแล้ว (ซึ่งรวม sand อยู่แล้ว)
-        rock_2 = int(rock_2) + rock_1 - int(self.rock2_offset) + int(self.rock1_offset)
+        # rock_2 = int(rock_2) + rock_1 - int(self.rock2_offset) + int(self.rock1_offset) #OLD
+        rock_2 = int(original_rock2) + int(original_rock1) + int(original_sand) - int(self.rock2_offset)
         
+        self.status_message.emit(f"ค่าที่ค้างอยู่ที่หน้าจอ  {current_weight} KG")
+        time.sleep(0.5)
+        self.status_message.emit(f"ค่า sand เป้าหมาย {sand} ค่า Rock1 เป้าหมาย {rock_1} ค่า Rock2 เป้าหมาย {rock_2}")
+        logging.info(f"ค่า sand เป้าหมาย {sand} ค่า Rock1 เป้าหมาย {rock_1} ค่า Rock2 เป้าหมาย {rock_2}")
         if current_weight > 0:
             sand += current_weight
             rock_1 += current_weight
             rock_2 += current_weight
+            # rock_1_new += current_weight
         else:
-            pass
+            logging.error("Error reading weight")
         
         self.target_sand_total_weight = sand
         self.target_rock1_weight = rock_1
         self.target_rock2_total_weight = rock_2
         
+        # self.new_offset = self.this_weight_to_new_offset
+
         while self.is_loading_rock_and_sand_in_progress:
             if self.state_load_rock_and_sand == 0:
                 pass
@@ -1819,29 +2026,59 @@ class MainController(QObject):
                 else:
                     # print(f"sand  {sand}")
                     self.autoda_controller.write_set_point_rock_and_sand(sand)
-                    time.sleep(0.5)           
-                    self.plc_controller.start_vibrater_rock_and_sand("start")
-                    time.sleep(0.5)
-                    self.plc_controller.loading_sand("start")
-                    self.state_load_rock_and_sand = 2
+                    time.sleep(1)
+                    self.read_setpoint_rock_and_sand.emit()
+                    time.sleep(1.5)        
+                    logging.info(f"feedback sand = {self.feedback_setpoint_rock_sand}")   
+                    if self.feedback_setpoint_rock_sand == sand:
+                        self.plc_controller.loading_sand("start")
+                        time.sleep(1)
+                        self.plc_controller.start_vibrater_rock_and_sand("start")
+                        self.state_load_rock_and_sand = 2
+                        self.start_load_sand_time = time.time()
+                    else:
+                        logging.error("Error reading setpoint sand weight")
+                        self.autoda_controller.write_set_point_rock_and_sand(sand)
+                        time.sleep(1)
+                        self.read_setpoint_rock_and_sand.emit()
+
             
             # STATE 2: รอ Sand โหลดเสร็จ
             elif self.state_load_rock_and_sand == 2:
+                self.time_load_sand_target = time.time()
                 if self.is_sand_frozen:
                     self.plc_controller.loading_sand("stop")
                     time.sleep(1)
                     self.plc_controller.start_vibrater_rock_and_sand("stop")
+                    time.sleep(2)
                     # เช็คว่า Rock1 ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_rock1 > 0:
-                        # print(f"Rock 1 3/8 {rock_1}")
                         self.autoda_controller.write_set_point_rock_and_sand(rock_1)
-                    time.sleep(1)
-                    self.state_load_rock_and_sand = 3
-            
+                        time.sleep(1)
+                        self.read_setpoint_rock_and_sand.emit()
+                        time.sleep(0.5)
+                        logging.info(f"feedback rock 1 = {self.feedback_setpoint_rock_sand}")  
+                        if self.feedback_setpoint_rock_sand == rock_1:
+                            self.state_load_rock_and_sand = 3
+                        else:
+                            logging.error("Error reading setpoint rock 1 weight")
+                            self.autoda_controller.write_set_point_rock_and_sand(rock_1)
+                            time.sleep(1)
+                            self.read_setpoint_rock_and_sand.emit()
+                            time.sleep(0.5)
+                            
+
+                if self.time_load_sand_target - self.start_load_sand_time >= 20:
+                    self.status_message.emit(f" ==================================== ทรายเปียกอาจค้างกรุณาเช็คทราย !!! ====================================")
+                    logging.info("sand is moist")
+                    self.start_load_sand_time = time.time()
+                    self.state_load_rock_and_sand = 2
+                    
+
             # STATE 3: เริ่มโหลด Rock1
             elif self.state_load_rock_and_sand == 3:
                 self.plc_controller.loading_sand("stop")
-                time.sleep(0.5)
+                time.sleep(1)
                 self.plc_controller.start_vibrater_rock_and_sand("stop")
                 time.sleep(1)
                 if original_rock1 <= 0:
@@ -1850,7 +2087,6 @@ class MainController(QObject):
                     self.rock1_only_frozen = 0
                     # เช็คว่า Rock2 ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_rock2 > 0:
-                        # print(f"in state 3 Rock 2 3/4 {rock_2}")
                         self.autoda_controller.write_set_point_rock_and_sand(rock_2)
                     time.sleep(1)
                     self.state_load_rock_and_sand = 5
@@ -1864,10 +2100,18 @@ class MainController(QObject):
                     self.plc_controller.loading_rock1("stop")
                     # เช็คว่า Rock2 ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_rock2 > 0:
-                        # print(f"in state 4 Rock 2 3/4 {rock_2}")
                         self.autoda_controller.write_set_point_rock_and_sand(rock_2)
-                    time.sleep(1)
-                    self.state_load_rock_and_sand = 5
+                        time.sleep(1)
+                        self.read_setpoint_rock_and_sand.emit()
+                        time.sleep(0.5)
+                        logging.info(f"feedback rock 2 = {self.feedback_setpoint_rock_sand}")  
+                        if self.feedback_setpoint_rock_sand == rock_2:
+                            self.state_load_rock_and_sand = 5
+                        else:
+                            self.autoda_controller.write_set_point_rock_and_sand(rock_2)
+                            time.sleep(1)
+                            self.read_setpoint_rock_and_sand.emit()
+                            time.sleep(0.5)
             
             # STATE 5: เริ่มโหลด Rock2
             elif self.state_load_rock_and_sand == 5:
@@ -1890,21 +2134,19 @@ class MainController(QObject):
             elif self.state_load_rock_and_sand == 6:
                 # เมื่อ PLC ส่งสัญญาณว่าถึงน้ำหนักแล้ว ให้หยุดโหลดทันที
                 if self.rock_success and not self.is_rock2_frozen:
-                    # print("⚠️ Rock2 reached target, stopping loading immediately...")
                     self.plc_controller.loading_rock2("stop")
                     time.sleep(0.5)
                     self.plc_controller.loading_rock1("stop")
                     time.sleep(0.5)
                     self.plc_controller.loading_sand("stop")
-                    # รอให้ freeze (จะ freeze ใน _check_freeze_conditions)
                 
                 # เมื่อ freeze เสร็จแล้ว จึงจบกระบวนการโหลด
                 if self.is_rock2_frozen:
-                    # print("✅ Rock2 loading complete!")
+                    logging.info("rock and sand is success")  
                     self.state_load_rock_and_sand = 0
                     self.rock_and_sand_loading_success = True
                     self.is_loading_rock_and_sand_in_progress = False
-            # print(f"{self.state_load_rock_and_sand} loading state")
+
 
             time.sleep(0.1)
     
@@ -1916,18 +2158,17 @@ class MainController(QObject):
         # รอให้ weight signal อัพเดทและอ่านน้ำหนักปัจจุบัน (ที่ค้างอยู่)
         time.sleep(0.5)
         try:
-            current_weight = int(self.main_window.mix_monitor_cement_lineEdit.text())
+            current_weight = int(self.now_cement_fyash_dispaly_weight)
         except:
+            logging.error("Error reading cement weight from lineEdit")
             current_weight = 0
-        
-        # print(f"🔍 Cement/Flyash initial weight: {current_weight} kg")
-        
         # คำนวณ setpoint ตามลำดับใหม่: Flyash ก่อน แล้วค่อย Cement
         # Flyash โหลดก่อน (ไม่มีอะไรก่อนหน้า)
         fyash_setpoint = int(fyash) - int(self.fyash_offset)
         # Cement โหลดทีหลัง (บวก flyash เข้าไป)
         # cement_setpoint = ((int(cement) + int(fyash)) - int(self.cement_offset)) + int(self.fyash_offset) ## สูตรเก่า
-        cement_setpoint = ((int(cement) + int(fyash)) - int(self.cement_offset))
+        # cement_setpoint = ((int(cement) + int(fyash)) - int(self.cement_offset)) #formular old
+        cement_setpoint = ((int(cement) + int(fyash)))
         
         if current_weight > 0:
             fyash_setpoint += current_weight
@@ -1950,17 +2191,23 @@ class MainController(QObject):
                     self.is_fyash_frozen = True
                     self.fyash_frozen_weight = current_weight
                     self.fyash_only_frozen = 0
-                    # เช็คว่า Cement ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
-                    if original_cement > 0:
-                        self.autoda_controller.write_set_point_cement_and_fyash(cement_setpoint)
                     time.sleep(1)
                     self.state_load_cement_and_fyash = 3
                 else:
-                    # print(f"Setting Flyash setpoint: {fyash_setpoint}")
                     self.autoda_controller.write_set_point_cement_and_fyash(fyash_setpoint)
                     time.sleep(1)
-                    self.plc_controller.loading_flyash("start")
-                    self.state_load_cement_and_fyash = 2
+                    self.read_setpoint_cement_and_fyash.emit()
+                    time.sleep(0.5)
+                    logging.info(f"feedback fyash = {self.feedback_setpoint_cement_fyash}")  
+                    if self.feedback_setpoint_cement_fyash == fyash_setpoint:
+                        self.plc_controller.loading_flyash("start")
+                        self.state_load_cement_and_fyash = 2
+                    else:
+                        logging.info("Flyash state 1 setpoint not matched, retrying...")
+                        self.autoda_controller.write_set_point_cement_and_fyash(fyash_setpoint)
+                        time.sleep(1)
+                        self.read_setpoint_cement_and_fyash.emit()
+                        time.sleep(0.5)
                     
             # STATE 2: รอ Flyash โหลดเสร็จ
             elif self.state_load_cement_and_fyash == 2:
@@ -1969,8 +2216,23 @@ class MainController(QObject):
                     # เช็คว่า Cement ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_cement > 0:
                         self.autoda_controller.write_set_point_cement_and_fyash(cement_setpoint)
-                    time.sleep(1)
-                    self.state_load_cement_and_fyash = 3
+                        time.sleep(1)
+                        self.read_setpoint_cement_and_fyash.emit()
+                        time.sleep(0.5)
+                        logging.info(f"feedback cement = {self.feedback_setpoint_cement_fyash}")  
+                        if self.feedback_setpoint_cement_fyash == cement_setpoint:
+                            self.state_load_cement_and_fyash = 3
+                        else:
+                            logging.info("Cement state 2 setpoint not matched, retrying...")
+                            self.autoda_controller.write_set_point_cement_and_fyash(cement_setpoint)
+                            time.sleep(1)
+                            self.read_setpoint_cement_and_fyash.emit()
+                            time.sleep(0.5)
+                    else:
+                        time.sleep(1)
+                        self.state_load_cement_and_fyash = 3
+                else:
+                    pass
             
             # STATE 3: เริ่มโหลด Cement
             elif self.state_load_cement_and_fyash == 3:
@@ -1984,9 +2246,11 @@ class MainController(QObject):
                     self.cement_and_fyash_loading_success = True
                     self.is_loading_cement_and_fyash_in_progress = False
                 else:
-                    # print(f"Setting Cement setpoint: {cement_setpoint}")
-                    # self.plc_controller.loading_cement("start")
-                    # self.state_load_cement_and_fyash = 4
+                    try:
+                        self.fyash_weight_finish = int(self.main_window.mix_monitor_fyash_lineEdit.text())
+                    except ValueError:
+                        self.fyash_weight_finish = fyash_setpoint
+                        logging.error("Error reading fyash weight from lineEdit")
                     time.sleep(2)
                     self.cement_start_time = time.time()
                     self.cement_start_weight = int(self.main_window.mix_monitor_cement_lineEdit.text()) 
@@ -1997,29 +2261,32 @@ class MainController(QObject):
                 try:
                     self.cement_follow_weight = int(self.main_window.mix_monitor_cement_lineEdit.text())
                 except ValueError:
+                    logging.error("Error state 100reading cement weight from lineEdit")
                     self.cement_follow_weight = 0
                     self.status_message.emit(f"อ่านค่าน้ำหนักปูนไม่ได้")
                     self.plc_controller.loading_cement("stop")
                     self.state_load_cement_and_fyash = 102
                     
-                cutoff_offset = 20  # กำหนด offset สำหรับการหยุดโหลดรอบแรก
+                cutoff_offset = 30  # กำหนด offset สำหรับการหยุดโหลดรอบแรก
                 
                 if self.cement_follow_weight >= self.target_cement_weight - cutoff_offset:
                     self.plc_controller.loading_cement("stop")
-                    time.sleep(3)
+                    time.sleep(5)
                     self.end_cement_time = time.time()
                     self.cement_follow_weight = int(self.main_window.mix_monitor_cement_lineEdit.text())
                     self.loading_duration = self.end_cement_time - self.cement_start_time
                     self.status_message.emit(f"โหลดปูนซีเมนต์รอบแรกเสร็จสิ้น ใช้เวลา {self.loading_duration:.2f} วินาที")
-                    time.sleep(2)
+                    time.sleep(5)
                     self.state_load_cement_and_fyash = 101
                 else:
-                    self.status_message.emit("กำลังโหลดปูนซีเมนต์...")
+                    # self.status_message.emit("กำลังโหลดปูนซีเมนต์...")
+                    pass
 
             elif self.state_load_cement_and_fyash == 101:
                 try:
                     self.now_weight = int(self.main_window.mix_monitor_cement_lineEdit.text())
                 except:
+                    logging.error("Error state 101 reading cement weight from lineEdit")
                     self.now_weight = 0
 
                 self.remain = self.target_cement_weight - self.now_weight
@@ -2031,6 +2298,7 @@ class MainController(QObject):
                 if self.time_loaded_duration > 1.0 and self.first_weight_loaded > 5:
                     self.rate_loaded = self.first_weight_loaded / self.time_loaded_duration if self.time_loaded_duration > 0 else 0
                 else:
+                    logging.error("Error state 101 calculate rate loaded")
                     self.rate_loaded = 0
                 # 4. คำนวณเวลาที่ต้องเติมเพิ่ม
                 self.extra_time = self.remain / self.rate_loaded if self.rate_loaded > 0 else 0
@@ -2042,60 +2310,100 @@ class MainController(QObject):
                     
                 elif self.remain > 0 and self.extra_time > 0:
                     self.safe_fill_time = min(self.extra_time, 5)
+                    logging.info(f"เวลาที่ต้องเติมเพิ่ม{self.safe_fill_time}")
                     self.status_message.emit(f"เติมปูนซีเมนต์เพิ่มอีก {self.remain:.1f} กก. (ประมาณ {self.extra_time:.2f} วินาที)")
                     self.plc_controller.loading_cement("start")
-                    time.sleep(self.safe_fill_time)
+                    time.sleep(0.8)
                     self.plc_controller.loading_cement("stop")
                     self.status_message.emit("เติมปูนซีเมนต์ครบตามเป้าหมายรอบแรกแล้ว")
+                    time.sleep(4)
                     self.state_load_cement_and_fyash = 102
                 else:
+                    logging.error("Error state 102 can't operate cement")
                     self.status_message.emit("ค่า remain หรือ extra_time ไม่ถูกต้อง ไม่เติมปูนซีเมนต์เพิ่ม")
                     self.state_load_cement_and_fyash = 4
 
             elif self.state_load_cement_and_fyash == 102:
-                time.sleep(2) # รอให้น้ำหนักนิ่ง
                 try:
                     self.tried_weight = int(self.main_window.mix_monitor_cement_lineEdit.text())
+                    logging.info(f"Current cement weight: {self.tried_weight} KG")
+                    self.status_message.emit(f"อ่านน้ำหนักครั้งล่าสุด {self.tried_weight}")
                     if self.tried_weight == 0:
                         self.state_load_cement_and_fyash = 4
                 except ValueError:
+                    logging.error("Error state 102 reading cement weight from lineEdit")
                     self.tried_weight = 0
                     self.state_load_cement_and_fyash = 4
 
                 self.target = self.target_cement_weight
                 self.diff = self.tried_weight - self.target
 
-                if abs(self.diff) <= 2:
+                if abs(self.diff) <= 3:
                     self.status_message.emit(f"OK: น้ำหนักตรงเป้า (Diff: {self.diff})")
+                    logging.info(f"cement loading success with weight {self.tried_weight} And Diff {self.diff} KG")
+                    self.is_cement_frozen = True
+                    self.cement_frozen_weight = self.tried_weight + self.fyash_weight_finish
                     self.state_load_cement_and_fyash = 4
                     self.retry_count = 0  # รีเซ็ตตัวนับ
-                elif self.tried_weight > (self.target + 2):
+                elif self.tried_weight > (self.target + 1):
+                    self.is_cement_frozen = True
+                    self.cement_frozen_weight = self.tried_weight + self.fyash_weight_finish
                     self.status_message.emit(f"Error: น้ำหนักเกิน! (Got: {self.tried_weight}) หยุดทันที")
+                    logging.warning(f"cement loading over target with weight {self.tried_weight} KG")
                     self.state_load_cement_and_fyash = 4
                 else:
                     if self.retry_count > 10:  # ยอมให้เติมทีละนิดได้ไม่เกิน 10 ครั้ง
                         self.status_message.emit("Critical Error: เติมปูนหลายรอบแล้วน้ำหนักไม่ถึงเป้า (เช็คปูนหมด/เซนเซอร์เสีย)")
+                        logging.error("Critical Error: เติมปูนหลายรอบแล้วน้ำหนักไม่ถึงเป้า (เช็คปูนหมด/เซนเซอร์เสีย)")
+                        self.is_cement_frozen = True
+                        self.cement_frozen_weight = self.tried_weight + self.fyash_weight_finish
                         self.state_load_cement_and_fyash = 4  # สั่งจบการทำงาน
                     else:
                         self.status_message.emit(f"Filling: ขาด {abs(self.diff)} กก. (รอบที่ {self.retry_count})")
                         self.state_load_cement_and_fyash = 103
                         self.retry_count += 1  # บวกตัวนับเพิ่ม
+                        logging.info(f"filling cement {self.diff} KG ::: round {self.retry_count}")
             
             elif self.state_load_cement_and_fyash == 103:
+                logging.info("กำลังเติมปูนทีละ 0.5 วินาที")
+                self.status_message.emit("กำลังเติมปูนทีละ 0.5 วินาที")
+                time.sleep(0.2)
                 self.plc_controller.loading_cement("start")
                 time.sleep(0.5)
                 self.plc_controller.loading_cement("stop")
+                time.sleep(0.2)
+                self.status_message.emit("กลับไป state 102 เพื่อเช็ค")
+                time.sleep(3)
                 self.state_load_cement_and_fyash = 102
                 
             # STATE 4: Cement โหลดเสร็จ
             elif self.state_load_cement_and_fyash == 4:
                 if self.is_cement_frozen:
+                    self.status_message.emit("โหลดปูนเสร็จแล้ว")
                     self.plc_controller.loading_cement("stop")
                     time.sleep(1)
                     self.state_load_cement_and_fyash = 0
                     self.cement_and_fyash_loading_success = True
                     self.is_loading_cement_and_fyash_in_progress = False
-                    
+                    logging.info("cement and fyash loading success")
+                else:
+                    logging.error("ถึง state 4 แต่ไม่ได้ Freeze")
+                    try:
+                        current_weight = int(self.main_window.mix_monitor_cement_lineEdit.text())
+                    except:
+                        current_weight = self.target_cement_weight
+                    self.is_cement_frozen = True
+                    self.cement_frozen_weight = current_weight
+                    self.status_message.emit("โหลดปูนเสร็จสิ้นแล้ว")
+                    logging.warning(f"set ค่าไปที่ {current_weight}")
+                    self.plc_controller.loading_cement("stop")
+                    time.sleep(1)                    
+                    self.state_load_cement_and_fyash = 0
+                    self.cement_and_fyash_loading_success = True
+                    self.is_loading_cement_and_fyash_in_progress = False
+
+
+
             time.sleep(0.1)
 
     def loading_water_sequence(self,data_loaded):
@@ -2107,8 +2415,9 @@ class MainController(QObject):
         # รอให้ weight signal อัพเดทและอ่านน้ำหนักปัจจุบัน
         time.sleep(0.5)
         try:
-            current_weight = int(self.main_window.mix_monitor_water_lineEdit.text())
+            current_weight = int(self.now_water_display_weight)
         except:
+            logging.error("Error reading water weight from lineEdit")
             current_weight = 0
         # คำนวณ setpoint (หักลบ offset)
         water = int(water) - int(self.water_offset)
@@ -2130,21 +2439,37 @@ class MainController(QObject):
                     self.water_loading_success = True
                     self.is_loading_water_in_progress = False
                 else:
-                    print(water)
+                    # print(water)
                     self.autoda_controller.write_set_point_water(water)
+                    time.sleep(1)
+                    self.read_setpoint_water.emit()
                     time.sleep(0.5)
-                    self.plc_controller.loading_water("start")
-                    time.sleep(0.5)
-                    self.state_load_water = 2
+                    logging.info(f"feedback water = {self.feedback_setpoint_water}")  
+                    if self.feedback_setpoint_water == water:
+                        time.sleep(0.5)
+                        self.plc_controller.loading_water("start")
+                        time.sleep(0.5)
+                        self.state_load_water = 2
+                    else:
+                        logging.info("water is not send to setpoint retry")
+                        self.autoda_controller.write_set_point_water(water)
+                        time.sleep(1)
+                        self.read_setpoint_water.emit()
+                        time.sleep(0.5)
+
             elif self.state_load_water == 2:
                 if self.is_water_frozen:
                     self.plc_controller.loading_water("stop")
                     time.sleep(0.5)
                     self.state_load_water = 3
+                else:
+                    pass
+
             elif self.state_load_water == 3:
                     self.state_load_water = 0
                     self.water_loading_success = True
                     self.is_loading_water_in_progress = False
+                    logging.info("water is loaded")
             time.sleep(0.1)
 
     def loading_chemical_sequence(self, data_loaded):
@@ -2159,9 +2484,10 @@ class MainController(QObject):
         try:
             current_weight = float(self.main_window.mix_monitor_chem_1_lineEdit.text())
         except:
+            logging.error("Error reading chemical weight from lineEdit")
             current_weight = 0.0
         
-        print(f"🔍 Chemical initial weight: {current_weight} kg")
+        # print(f"Chemical initial weight: {current_weight} kg")
         
         # คำนวณ setpoint (หักลบ offset)
         chem1 = float(chem1) - float(self.chem1_offset)
@@ -2174,9 +2500,9 @@ class MainController(QObject):
             chem2 += current_weight
             chem1 = round(chem1, 1)
             chem2 = round(chem2, 1)
-            print(f"✅ Chemical setpoints:")
-            print(f"   Chem1: {chem1} kg")
-            print(f"   Chem2: {chem2} kg")
+            # print(f"   Chemical setpoints:")
+            # print(f"   Chem1: {chem1} kg")
+            # print(f"   Chem2: {chem2} kg")
             
         if original_chem1 <= 0 and original_chem2 <= 0:
             self.is_chem1_frozen = True
@@ -2201,10 +2527,21 @@ class MainController(QObject):
                     self.state_load_chemical = 3
                 else:
                     self.autoda_controller.write_set_point_chemical(chem1)
+                    time.sleep(1)
+                    self.read_setpoint_chemical.emit()
                     time.sleep(0.5)
-                    self.plc_controller.loading_chemical_1("start")
-                    time.sleep(0.5)
-                    self.state_load_chemical = 2
+                    logging.info(f"feedback chem 1 = {self.feedback_setpoint_chemical}")
+                    if self.feedback_setpoint_chemical == chem1:
+                        time.sleep(0.5)
+                        self.plc_controller.loading_chemical_1("start")
+                        time.sleep(0.5)
+                        self.state_load_chemical = 2
+                    else:
+                        logging.info("chem1 is not send to setpoint retry")
+                        self.autoda_controller.write_set_point_chemical(chem1)
+                        time.sleep(1)
+                        self.read_setpoint_chemical.emit()
+                        time.sleep(0.5)
 
             elif self.state_load_chemical == 2:
                 if self.is_chem1_frozen:
@@ -2212,8 +2549,21 @@ class MainController(QObject):
                     # เช็คว่า Chem2 ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_chem2 > 0:
                         self.autoda_controller.write_set_point_chemical(chem2)
-                    time.sleep(0.5)
-                    self.state_load_chemical = 3
+                        time.sleep(1)
+                        self.read_setpoint_chemical.emit()
+                        time.sleep(0.5)
+                        logging.info(f"feedback chem 2 = {self.feedback_setpoint_chemical}")
+                        if self.feedback_setpoint_chemical == chem2:
+                            time.sleep(0.5)
+                            self.state_load_chemical = 3
+                        else:
+                            logging.info("chem2 is not send to setpoint retry")
+                            self.autoda_controller.write_set_point_chemical(chem2)
+                            time.sleep(1)
+                            self.read_setpoint_chemical.emit()
+                            time.sleep(0.5)
+                    else:
+                        self.state_load_chemical = 3
 
             elif self.state_load_chemical == 3:
                 self.plc_controller.loading_chemical_1("stop")
@@ -2226,8 +2576,6 @@ class MainController(QObject):
                     self.chemical_loading_success = True
                     self.is_loading_chemical_in_progress = False
                 else:
-                    self.autoda_controller.write_set_point_chemical(chem2)
-                    time.sleep(0.5)
                     self.plc_controller.loading_chemical_2("start")
                     self.state_load_chemical = 4
 
@@ -2239,6 +2587,7 @@ class MainController(QObject):
                     self.state_load_chemical = 0
                     self.chemical_loading_success = True
                     self.is_loading_chemical_in_progress = False
+                    logging.info("chemical is loaded")
             time.sleep(0.1)
 
     def loaded_rock_and_sand_successfully(self):
@@ -2258,9 +2607,10 @@ class MainController(QObject):
             self.thread_chemical.join()
 
     def mix_cancel_load(self):
-        print("Cancelling load operation...")
+        # print("Cancelling load operation...")
         self.start_button_load_enabled = False
         self.is_workflow_active = False  # ปิด workflow
+        self.stop_batch_logging()
         self.reset_freeze_values()
         self.lock_target_display = False  # ปลดล็อค Target UI เมื่อยกเลิก
         self._stop_target_monitor()  # หยุด monitor
@@ -2315,7 +2665,7 @@ class MainController(QObject):
             for device in all_devices:
                 self.update_device_status_indicator(device, False)
                 
-            print("✅ Reset all device indicators to inactive state")
+            # print("Reset all device indicators to inactive state")
             
         except Exception as e:
             print(f"Error resetting device indicators: {e}")
@@ -2376,17 +2726,23 @@ class MainController(QObject):
     def _update_database_from_sum_data(self):
         """อัพเดตฐานข้อมูลด้วยน้ำหนักรวมจาก sum_lineEdit หลังจากเสร็จสิ้นกระบวนการ"""
         try:
-            # print("\n💾 === DATABASE UPDATE FROM SUM DATA STARTED ===")
+            # print("\n === DATABASE UPDATE FROM SUM DATA STARTED ===")
             order_id = self.load_work_queue.get_current_order_id()
             # print(f"   Order ID: {order_id}")
             if not order_id:
-                # print("❌ No order ID found - cannot update database")
+                # print(" No order ID found - cannot update database")
                 return
             # ตรวจสอบว่า main_window ยังมีอยู่
             if not hasattr(self, 'main_window') or self.main_window is None:
-                # print("❌ main_window not available - cannot read sum data")
+                # print(" main_window not available - cannot read sum data")
                 return
             
+            try:
+                self.db.update_time_for_order_id(order_id)
+                logging.info(f"Updated time for order ID {order_id}")
+            except Exception as e:
+                logging.error(f"Error updating time for order ID {order_id}: {e}")
+
             try:
                 # อ่านค่าจาก sum_lineEdit fields
                 sand_total = int(self.main_window.mix_wieght_sum_sand_lineEdit.text() or "0")
@@ -2398,21 +2754,21 @@ class MainController(QObject):
                 chem1_total = float(self.main_window.mix_wieght_sum_chem_1_lineEdit.text() or "0")
                 chem2_total = float(self.main_window.mix_wieght_sum_chem_2_lineEdit.text() or "0")
             except (ValueError, RuntimeError, AttributeError) as e:
-                print(f"❌ Error reading sum data from UI: {e}")
+                print(f" Error reading sum data from UI: {e}")
                 return
             
             # แสดงข้อมูลก่อนบันทึก
-            print(f"   Final sum weights to be saved:")
-            print(f"   Total cubes loaded: {self.get_all_loaded_cube}")
-            print(f"   Total queues completed: {self.completed_queue_count}")
-            print(f"   Sand: {sand_total} kg")
-            print(f"   Rock1: {rock1_total} kg")
-            print(f"   Rock2: {rock2_total} kg")
-            print(f"   Cement: {cement_total} kg")
-            print(f"   Flyash: {flyash_total} kg")
-            print(f"   Water: {water_total} kg")
-            print(f"   Chem1: {chem1_total} kg")
-            print(f"   Chem2: {chem2_total} kg")
+            # print(f"   Final sum weights to be saved:")
+            # print(f"   Total cubes loaded: {self.get_all_loaded_cube}")
+            # print(f"   Total queues completed: {self.completed_queue_count}")
+            # print(f"   Sand: {sand_total} kg")
+            # print(f"   Rock1: {rock1_total} kg")
+            # print(f"   Rock2: {rock2_total} kg")
+            # print(f"   Cement: {cement_total} kg")
+            # print(f"   Flyash: {flyash_total} kg")
+            # print(f"   Water: {water_total} kg")
+            # print(f"   Chem1: {chem1_total} kg")
+            # print(f"   Chem2: {chem2_total} kg")
             
             # สร้าง mixer object จากข้อมูล sum
             current_mixer = self.load_work_queue.current_mixer
@@ -2426,22 +2782,23 @@ class MainController(QObject):
             current_mixer.chem2_total_weight = chem2_total
             
             if not hasattr(self.load_work_queue, 'order_inserter'):
-                print("No order_inserter found - cannot update database")
+                # print("No order_inserter found - cannot update database")
                 return
             
-            print("⏳ Saving sum data to database...")
+            # print("Saving sum data to database...")
             success = self.load_work_queue.order_inserter.update_complete(order_id, current_mixer)
 
             if success:
-                print("✅ Database updated successfully with sum data!")
-                print(f"   Order {order_id} marked as complete")
+                # print(" Database updated successfully with sum data!")
+                # print(f"   Order {order_id} marked as complete")
+                logging.info("update to database")
             else:
-                print("❌ Database update failed!")
+                print(" Database update failed!")
             
-            print("💾 === DATABASE UPDATE FROM SUM DATA COMPLETED ===\n")
+            # print(" === DATABASE UPDATE FROM SUM DATA COMPLETED ===\n")
             
         except Exception as e:
-            print(f"❌ Error updating database from sum data: {e}")
+            # print(f" Error updating database from sum data: {e}")
             import traceback
             traceback.print_exc()
 
@@ -2451,15 +2808,15 @@ class MainController(QObject):
         try:
             current_mixer = self.load_work_queue.current_mixer
             if not current_mixer:
-                print("No current mixer found for weight accumulation")
+                # print("No current mixer found for weight accumulation")
                 return
             
             # แสดงข้อมูลก่อนเริ่มสะสม
             current_queue_index = self.current_queue_transporting - 1
             multiplier = self.queue_multipliers[current_queue_index] if current_queue_index < len(self.queue_multipliers) else 1.0
-            print(f"\n📊 === ACCUMULATING BATCH #{self.current_queue_transporting} ===")
-            print(f"   Queue multiplier: {multiplier}")
-            print(f"   Progress: {self.current_queue_transporting}/{self.total_queue_count} queues")
+            # print(f"\n === ACCUMULATING BATCH #{self.current_queue_transporting} ===")
+            # print(f"   Queue multiplier: {multiplier}")
+            # print(f"   Progress: {self.current_queue_transporting}/{self.total_queue_count} queues")
             
             # Sand (only sand, โหลดก่อนในลำดับใหม่)
             sand_this_batch = getattr(self, 'sand_only_frozen', 0)
@@ -2503,77 +2860,78 @@ class MainController(QObject):
             old_chem2_total = current_mixer.chem2_total_weight
             current_mixer.chem2_total_weight += chem2_this_batch
             
-            print("=" * 70)
-            print(f"   Batch #{self.current_queue_transporting} weights accumulated:")
-            print(f"   Sand: {old_sand_total} + {sand_this_batch} → {current_mixer.sand_total_weight} kg")
-            print(f"   Rock1: {old_rock1_total} + {rock1_this_batch} → {current_mixer.rock1_total_weight} kg")
-            print(f"   Rock2: {old_rock2_total} + {rock2_this_batch} → {current_mixer.rock2_total_weight} kg")
-            print(f"   Cement: {old_cement_total} + {cement_this_batch} → {current_mixer.cement_total_weight} kg")
-            print(f"   Flyash: {old_flyash_total} + {flyash_this_batch} → {current_mixer.fly_ash_total_weight} kg")
-            print(f"   Water: {old_water_total} + {water_this_batch} → {current_mixer.water_total_weight} kg")
-            print(f"   Chem1: {old_chem1_total} + {chem1_this_batch} → {current_mixer.chem1_total_weight} kg")
-            print(f"   Chem2: {old_chem2_total} + {chem2_this_batch} → {current_mixer.chem2_total_weight} kg")
-            print("=" * 70)
+            # print("=" * 70)
+            # print(f"   Batch #{self.current_queue_transporting} weights accumulated:")
+            # print(f"   Sand: {old_sand_total} + {sand_this_batch} → {current_mixer.sand_total_weight} kg")
+            # print(f"   Rock1: {old_rock1_total} + {rock1_this_batch} → {current_mixer.rock1_total_weight} kg")
+            # print(f"   Rock2: {old_rock2_total} + {rock2_this_batch} → {current_mixer.rock2_total_weight} kg")
+            # print(f"   Cement: {old_cement_total} + {cement_this_batch} → {current_mixer.cement_total_weight} kg")
+            # print(f"   Flyash: {old_flyash_total} + {flyash_this_batch} → {current_mixer.fly_ash_total_weight} kg")
+            # print(f"   Water: {old_water_total} + {water_this_batch} → {current_mixer.water_total_weight} kg")
+            # print(f"   Chem1: {old_chem1_total} + {chem1_this_batch} → {current_mixer.chem1_total_weight} kg")
+            # print(f"   Chem2: {old_chem2_total} + {chem2_this_batch} → {current_mixer.chem2_total_weight} kg")
+            # print("=" * 70)
             
         except Exception as e:
-            print(f"❌ Error accumulating batch weights: {e}")
+            # print(f" Error accumulating batch weights: {e}")
             import traceback
             traceback.print_exc()
     
     def _update_database_after_loading(self):
         """อัพเดตฐานข้อมูลด้วยน้ำหนักจริงที่โหลดได้หลังจากเสร็จสิ้นกระบวนการ"""
         try:
-            print("\n💾 === DATABASE UPDATE STARTED ===")
+            # print("\n === DATABASE UPDATE STARTED ===")
             
             order_id = self.load_work_queue.get_current_order_id()
-            print(f"   Order ID: {order_id}")
+            # print(f"   Order ID: {order_id}")
             
             if not order_id:
-                print("❌ No order ID found - cannot update database")
+                # print(" No order ID found - cannot update database")
                 return
                 
             current_mixer = self.load_work_queue.current_mixer
             
             if not current_mixer:
-                print("❌ No current mixer found - cannot update database")
+                # print(" No current mixer found - cannot update database")
                 return
             
             # แสดงข้อมูลก่อนบันทึก
-            print(f"   Final accumulated weights to be saved:")
-            print(f"   Total cubes loaded: {self.get_all_loaded_cube}")
-            print(f"   Total queues completed: {self.completed_queue_count}")
-            print(f"   Sand: {current_mixer.sand_total_weight} kg")
-            print(f"   Rock1: {current_mixer.rock1_total_weight} kg") 
-            print(f"   Rock2: {current_mixer.rock2_total_weight} kg")
-            print(f"   Cement: {current_mixer.cement_total_weight} kg")
-            print(f"   Flyash: {current_mixer.fly_ash_total_weight} kg")
-            print(f"   Water: {current_mixer.water_total_weight} kg")
-            print(f"   Chem1: {current_mixer.chem1_total_weight} kg")
-            print(f"   Chem2: {current_mixer.chem2_total_weight} kg")
+            # print(f"   Final accumulated weights to be saved:")
+            # print(f"   Total cubes loaded: {self.get_all_loaded_cube}")
+            # print(f"   Total queues completed: {self.completed_queue_count}")
+            # print(f"   Sand: {current_mixer.sand_total_weight} kg")
+            # print(f"   Rock1: {current_mixer.rock1_total_weight} kg") 
+            # print(f"   Rock2: {current_mixer.rock2_total_weight} kg")
+            # print(f"   Cement: {current_mixer.cement_total_weight} kg")
+            # print(f"   Flyash: {current_mixer.fly_ash_total_weight} kg")
+            # print(f"   Water: {current_mixer.water_total_weight} kg")
+            # print(f"   Chem1: {current_mixer.chem1_total_weight} kg")
+            # print(f"   Chem2: {current_mixer.chem2_total_weight} kg")
             
             if not hasattr(self.load_work_queue, 'order_inserter'):
-                print("No order_inserter found - cannot update database")
+                # print("No order_inserter found - cannot update database")
                 return
                 
-            print("⏳ Saving to database...")
+            # print("Saving to database...")
             success = self.load_work_queue.order_inserter.update_complete(order_id, current_mixer)
             
             if success:
-                print("✅ Database updated successfully!")
-                print(f"   Order {order_id} marked as complete")
+                # print(" Database updated successfully!")
+                # print(f"   Order {order_id} marked as complete")
+                logging.info(f"Order {order_id} marked as complete")
             else:
-                print("❌ Database update failed!")
+                print(" Database update failed!")
                 
-            print("💾 === DATABASE UPDATE COMPLETED ===\n")
+            # print(" === DATABASE UPDATE COMPLETED ===\n")
                 
         except Exception as e:
-            print(f"❌ Error updating database: {e}")
+            # print(f" Error updating database: {e}")
             import traceback
             traceback.print_exc()
     
     def _reset_all_for_new_customer(self):
         """Reset ค่าทั้งหมดเพื่อเตรียมพร้อมสำหรับลูกค้าใหม่ - Thread Safe"""
-        print("🔄 Starting reset for new customer...")
+        # print("Starting reset for new customer...")
         
         # ตรวจสอบว่าถูกเรียกจาก main_condition_load thread หรือไม่
         import threading
@@ -2583,12 +2941,12 @@ class MainController(QObject):
                                     current_thread == self.thread_main_condition_load)
         
         if is_main_condition_thread:
-            print("   ℹ️ Called from main_condition_load thread - will not join self")
+            print("   Called from main_condition_load thread - will not join self")
         
         # 🚨 CRITICAL: ปิด workflow ก่อนอื่นหมดเพื่อหยุด ALL signals
         self.is_workflow_active = False
         self.is_tab_switching = True  # บล็อกการอัพเดท UI ทันที
-        print("   ✓ Workflow deactivated and UI updates blocked")
+        # print("   ✓ Workflow deactivated and UI updates blocked")
         
         # 0. หยุด Threads ทั้งหมดก่อนเป็นอันดับแรก
         self.is_loading_rock_and_sand_in_progress = False
@@ -2596,7 +2954,7 @@ class MainController(QObject):
         self.is_loading_water_in_progress = False
         self.is_loading_chemical_in_progress = False
         self.main_condition_load_running = False
-        print("   ✓ All loading flags set to False")
+        # print("   ✓ All loading flags set to False")
         
         # รอให้ Threads หยุดสนิท พร้อม join threads (ยกเว้น current thread)
         threads_to_join = []
@@ -2614,21 +2972,24 @@ class MainController(QObject):
             if hasattr(self, 'thread_main_condition_load') and self.thread_main_condition_load and self.thread_main_condition_load.is_alive():
                 threads_to_join.append(('MainCondition', self.thread_main_condition_load))
         else:
-            print("   ⚠️ Skipping join of MainCondition thread (current thread)")
+            logging.info("Skipping join of MainCondition thread (current thread)")
+            # print("   Skipping join of MainCondition thread (current thread)")
         
         for thread_name, thread in threads_to_join:
-            print(f"   ⏳ Waiting for {thread_name} thread to finish...")
+            # print(f"   Waiting for {thread_name} thread to finish...")
             try:
                 thread.join(timeout=3.0)  # รอสูงสุด 3 วินาทีต่อ thread
                 if thread.is_alive():
-                    print(f"   ⚠️ {thread_name} thread still alive after timeout")
+                    logging.info(f"{thread_name} thread still alive after timeout")
+                    # print(f"{thread_name} thread still alive after timeout")
                 else:
-                    print(f"   ✓ {thread_name} thread stopped")
+                    logging.info(f"{thread_name} thread stopped")
+                    # print(f"{thread_name} thread stopped")
             except RuntimeError as e:
-                print(f"   ⚠️ Cannot join {thread_name} thread: {e}")
+                print(f"  Cannot join {thread_name} thread: {e}")
         
         time.sleep(0.5)  # รอเพิ่มเติม
-        print("   ✓ All threads cleanup completed")
+        # print("   ✓ All threads cleanup completed")
         
         # 1. หยุด timer และปลดล็อค Target
         self.lock_target_display = False  # ปลดล็อค Target
@@ -2637,59 +2998,60 @@ class MainController(QObject):
         try:
             if hasattr(self, 'target_monitor_timer') and self.target_monitor_timer:
                 self.target_monitor_timer.stop()
-                print("   ✓ Timer stopped")
+                # print("   Timer stopped")
             time.sleep(0.3)  # รอให้ timer หยุดสนิท
         except Exception as e:
-            print(f"   ⚠️ Error stopping timer: {e}")
+            # print(f"    Error stopping timer: {e}")
+            logging.info(f"Error stopping timer: {e}")
         
         # 2. หยุด AutoDA และ PLC Controller threads อย่างสมบูรณ์
-        print("   🛑 Stopping AutoDA and PLC controller threads...")
+        # print("   Stopping AutoDA and PLC controller threads...")
         try:
             # หยุด AutoDA Controller
             if hasattr(self, 'autoda_controller') and self.autoda_controller:
-                print("   ⏳ Stopping AutoDA Controller...")
+                # print("   Stopping AutoDA Controller...")
                 self.autoda_controller.stop_controller()  # ตั้งค่า running = False
                 time.sleep(0.8)  # รอให้ loop หยุด (เพิ่มเวลา)
                 # ตรวจสอบว่า thread หยุดแล้วหรือยัง
                 if self.autoda_controller.isRunning():
-                    print("   ⏳ Waiting for AutoDA thread to stop...")
+                    # print("   Waiting for AutoDA thread to stop...")
                     self.autoda_controller.wait(3000)  # รอสูงสุด 3 วินาที (เพิ่มเวลา)
                     if self.autoda_controller.isRunning():
-                        print("   ⚠️ AutoDA thread still running after timeout")
+                        # print("    AutoDA thread still running after timeout")
                         # Force terminate if needed
                         self.autoda_controller.terminate()
                         self.autoda_controller.wait(1000)
-                        print("   ⚠️ AutoDA thread force terminated")
+                        # print("    AutoDA thread force terminated")
                     else:
-                        print("   ✓ AutoDA Controller stopped")
+                        print("   AutoDA Controller stopped")
                 else:
-                    print("   ✓ AutoDA Controller already stopped")
+                    print("   AutoDA Controller already stopped")
             
             # หยุด PLC Controller
             if hasattr(self, 'plc_controller') and self.plc_controller:
-                print("   ⏳ Stopping PLC Controller...")
+                # print("   Stopping PLC Controller...")
                 self.plc_controller.stop_controller()  # ตั้งค่า running = False
                 time.sleep(0.8)  # รอให้ loop หยุด (เพิ่มเวลา)
                 # ตรวจสอบว่า thread หยุดแล้วหรือยัง
                 if self.plc_controller.isRunning():
-                    print("   ⏳ Waiting for PLC thread to stop...")
+                    # print("   Waiting for PLC thread to stop...")
                     self.plc_controller.wait(3000)  # รอสูงสุด 3 วินาที (เพิ่มเวลา)
                     if self.plc_controller.isRunning():
-                        print("   ⚠️ PLC thread still running after timeout")
+                        # print("    PLC thread still running after timeout")
                         # Force terminate if needed
                         self.plc_controller.terminate()
                         self.plc_controller.wait(1000)
-                        print("   ⚠️ PLC thread force terminated")
+                        # print("    PLC thread force terminated")
                     else:
-                        print("   ✓ PLC Controller stopped")
+                        print("   PLC Controller stopped")
                 else:
-                    print("   ✓ PLC Controller already stopped")
+                    print("   PLC Controller already stopped")
             
             time.sleep(1.5)  # รอให้ทุกอย่างหยุดสนิทและ signal queue ว่าง (เพิ่มเวลา)
-            print("   ✓ All controller threads stopped")
+            # print("   ✓ All controller threads stopped")
             
         except Exception as e:
-            print(f"   ⚠️ Error stopping controller threads: {e}")
+            print(f"   Error stopping controller threads: {e}")
         
         # 3. Disconnect และ Block signals ชั่วคราว
         try:
@@ -2697,59 +3059,68 @@ class MainController(QObject):
             if hasattr(self, 'plc_controller'):
                 try:
                     self.plc_controller.device_status_changed.disconnect(self.update_device_status_indicator)
-                    print("   ✓ Disconnected device_status_changed signal")
+                    logging.info("Disconnected device_status_changed signal")
+                    # print("   ✓ Disconnected device_status_changed signal")
                 except (TypeError, RuntimeError) as e:
-                    print(f"   ℹ️ Could not disconnect device_status_changed: {e}")
+                    print(f"   Could not disconnect device_status_changed: {e}")
                 
                 try:
                     self.plc_controller.status_loading_rock_and_sand.disconnect(self.check_loading_rock_and_sand)
-                    print("   ✓ Disconnected status_loading_rock_and_sand signal")
+                    logging.info("Disconnected status_loading_rock_and_sand signal")
+                    # print("   ✓ Disconnected status_loading_rock_and_sand signal")
                 except (TypeError, RuntimeError) as e:
-                    print(f"   ℹ️ Could not disconnect status_loading_rock_and_sand: {e}")
+                    print(f"   Could not disconnect status_loading_rock_and_sand: {e}")
                 
                 try:
                     self.plc_controller.status_loading_cement_and_fyash.disconnect(self.check_loading_cement_and_fyash)
-                    print("   ✓ Disconnected status_loading_cement_and_fyash signal")
+                    logging.info("Disconnected status_loading_cement_and_fyash signal")
+                    # print("   ✓ Disconnected status_loading_cement_and_fyash signal")
                 except (TypeError, RuntimeError) as e:
-                    print(f"   ℹ️ Could not disconnect status_loading_cement_and_fyash: {e}")
+                    print(f"   Could not disconnect status_loading_cement_and_fyash: {e}")
                 
                 try:
                     self.plc_controller.status_loading_water.disconnect(self.check_loading_water)
-                    print("   ✓ Disconnected status_loading_water signal")
+                    logging.info("Disconnected status_loading_water signal")
+                    # print("   ✓ Disconnected status_loading_water signal")
                 except (TypeError, RuntimeError) as e:
-                    print(f"   ℹ️ Could not disconnect status_loading_water: {e}")
+                    print(f"   Could not disconnect status_loading_water: {e}")
                 
                 try:
                     self.plc_controller.status_loading_chemical.disconnect(self.check_loading_chemical)
-                    print("   ✓ Disconnected status_loading_chemical signal")
+                    logging.info("Disconnected status_loading_chemical signal")
+                    # print("   ✓ Disconnected status_loading_chemical signal")
                 except (TypeError, RuntimeError) as e:
-                    print(f"   ℹ️ Could not disconnect status_loading_chemical: {e}")
+                    print(f"   Could not disconnect status_loading_chemical: {e}")
             
             # Disconnect AutoDA weight signals - CRITICAL!
             if hasattr(self, 'autoda_controller'):
                 try:
                     self.autoda_controller.weight_rock_and_sand.disconnect(self.update_weight_rock_and_sand)
-                    print("   ✓ Disconnected weight_rock_and_sand signal")
+                    # print("   ✓ Disconnected weight_rock_and_sand signal")
+                    logging.info("Disconnected weight_rock_and_sand signal")
                 except (TypeError, RuntimeError) as e:
-                    print(f"   ℹ️ Could not disconnect weight_rock_and_sand: {e}")
+                    print(f"   Could not disconnect weight_rock_and_sand: {e}")
                 
                 try:
                     self.autoda_controller.weight_cement_and_fyash.disconnect(self.update_weight_cement_and_fyash)
-                    print("   ✓ Disconnected weight_cement_and_fyash signal")
+                    # print("   ✓ Disconnected weight_cement_and_fyash signal")
+                    logging.info("Disconnected weight_cement_and_fyash signal")
                 except (TypeError, RuntimeError) as e:
-                    print(f"   ℹ️ Could not disconnect weight_cement_and_fyash: {e}")
+                    print(f"   Could not disconnect weight_cement_and_fyash: {e}")
                 
                 try:
                     self.autoda_controller.weight_water.disconnect(self.update_weight_water)
-                    print("   ✓ Disconnected weight_water signal")
+                    # print("   ✓ Disconnected weight_water signal")
+                    logging.info("Disconnected weight_water signal")
                 except (TypeError, RuntimeError) as e:
-                    print(f"   ℹ️ Could not disconnect weight_water: {e}")
+                    print(f"   Could not disconnect weight_water: {e}")
                 
                 try:
                     self.autoda_controller.weight_chemical.disconnect(self.update_weight_chemical)
-                    print("   ✓ Disconnected weight_chemical signal")
+                    # print("   ✓ Disconnected weight_chemical signal")
+                    logging.info("Disconnected weight_chemical signal")
                 except (TypeError, RuntimeError) as e:
-                    print(f"   ℹ️ Could not disconnect weight_chemical: {e}")
+                    print(f"   Could not disconnect weight_chemical: {e}")
             
             # Block signals จาก controllers
             if hasattr(self, 'autoda_controller'):
@@ -2757,11 +3128,11 @@ class MainController(QObject):
             if hasattr(self, 'plc_controller'):
                 self.plc_controller.blockSignals(True)
             
-            print("   ✓ Blocked all controller signals")
+            # print("   Blocked all controller signals")
             time.sleep(1.5)  # รอให้ signal queue ว่างสนิท (เพิ่มเวลามาก)
             
         except Exception as e:
-            print(f"   ⚠️ Error disconnecting/blocking signals: {e}")
+            print(f"   Error disconnecting/blocking signals: {e}")
         
         # 3. Reset state variables (ปลอดภัย ไม่กระทบ UI)
         self.current_queue_loaded = 0
@@ -2784,7 +3155,7 @@ class MainController(QObject):
         self.state_load_water = 0
         self.state_load_chemical = 0
         self.state_main_condition_load = 0
-        print("   ✓ All state variables reset")
+        # print("   ✓ All state variables reset")
         
         # 4. Process pending events to clear signal queue (ระมัดระวังมาก)
         try:
@@ -2793,22 +3164,22 @@ class MainController(QObject):
                 app.processEvents()
                 time.sleep(0.3)
                 app.processEvents()
-                print("   ✓ Processed pending events")
+                # print("    Processed pending events")
         except Exception as e:
-            print(f"   ⚠️ Error processing events: {e}")
+            print(f"   Error processing events: {e}")
         
         # 5. เก็บค่า total_cubes สำหรับแสดงผล
         total_cubes = self.get_all_loaded_cube
-        print(f"   ✓ Total cubes completed: {total_cubes}")
+        # print(f"   ✓ Total cubes completed: {total_cubes}")
         
         # 6. ใช้ Signal เพื่อ emit ไปยัง main thread (ไม่ใช้ QTimer เพราะไม่สามารถสร้างจาก worker thread)
-        print("   ✓ Emitting finalize_reset_signal...")
+        # print("   ✓ Emitting finalize_reset_signal...")
         try:
             # Emit signal ไปยัง main thread โดยตรง (Qt จะจัดการ thread safety ให้)
             self.finalize_reset_signal.emit(total_cubes)
-            print("   ✓ Signal emitted successfully - finalize will run in main thread")
+            # print("   ✓ Signal emitted successfully - finalize will run in main thread")
         except Exception as e:
-            print(f"   ⚠️ Error emitting finalize_reset_signal: {e}")
+            print(f"   Error emitting finalize_reset_signal: {e}")
             # Fallback: ลองทำแบบปกติ
             try:
                 self.reset_ui_signal.emit()
@@ -2819,12 +3190,12 @@ class MainController(QObject):
                     self.plc_controller.blockSignals(False)
                 self.work_completed.emit(total_cubes)
             except Exception as e2:
-                print(f"   ⚠️ Fallback also failed: {e2}")
+                print(f"   Fallback also failed: {e2}")
     
     @Slot(float)
     def _finalize_reset(self, total_cubes):
         """Finalize reset ใน main thread - ถูกเรียกผ่าน Signal"""
-        print("   🔧 Finalizing reset in main thread...")
+        # print("   Finalizing reset in main thread...")
         
         # รอสักครู่เพื่อให้ main_condition_load thread มีเวลาจบ
         time.sleep(0.8)
@@ -2833,9 +3204,9 @@ class MainController(QObject):
             # Reset UI
             self.reset_ui_signal.emit()
             time.sleep(0.8)  # รอให้ UI reset เสร็จ (เพิ่มเวลา)
-            print("   ✓ UI reset completed")
+            # print("   UI reset completed")
         except Exception as e:
-            print(f"   ⚠️ Error emitting reset_ui_signal: {e}")
+            print(f"   Error emitting reset_ui_signal: {e}")
         
         # Process events เพื่อให้แน่ใจว่า UI reset เสร็จสมบูรณ์
         try:
@@ -2843,48 +3214,54 @@ class MainController(QObject):
             if app:
                 app.processEvents()
                 time.sleep(0.3)
-                print("   ✓ UI events processed")
+                # print("   ✓ UI events processed")
         except Exception as e:
-            print(f"   ⚠️ Error processing UI events: {e}")
+            print(f"   Error processing UI events: {e}")
         
-        # 🔄 เริ่ม AutoDA และ PLC Controller threads ใหม่
-        print("   🔄 Restarting AutoDA and PLC controller threads...")
+        # เริ่ม AutoDA และ PLC Controller threads ใหม่
+        # print("   Restarting AutoDA and PLC controller threads...")
         try:
             # เริ่ม AutoDA Controller ใหม่
             if hasattr(self, 'autoda_controller') and self.autoda_controller:
                 if not self.autoda_controller.isRunning():
-                    print("   ⏳ Restarting AutoDA Controller...")
+                    # print("    Restarting AutoDA Controller...")
                     # Reset running flag และเริ่มใหม่
                     self.autoda_controller.running = True
                     self.autoda_controller.start()
                     time.sleep(0.5)  # เพิ่มเวลารอ
                     if self.autoda_controller.isRunning():
-                        print("   ✓ AutoDA Controller restarted")
+                        # print("   AutoDA Controller restarted")
+                        logging.info("AutoDA Controller restarted")
                     else:
-                        print("   ⚠️ AutoDA Controller failed to restart")
+                        # print("   AutoDA Controller failed to restart")
+                        logging.info("AutoDA Controller failed to restart")
                 else:
-                    print("   ℹ️ AutoDA Controller already running")
+                    # print("   AutoDA Controller already running")
+                    logging.info("AutoDA Controller already running")
             
             # เริ่ม PLC Controller ใหม่
             if hasattr(self, 'plc_controller') and self.plc_controller:
                 if not self.plc_controller.isRunning():
-                    print("   ⏳ Restarting PLC Controller...")
+                    # print("   Restarting PLC Controller...")
                     # Reset running flag และเริ่มใหม่
                     self.plc_controller.running = True
                     self.plc_controller.start()
                     time.sleep(0.5)  # เพิ่มเวลารอ
                     if self.plc_controller.isRunning():
-                        print("   ✓ PLC Controller restarted")
+                        logging.info("PLC Controller restarted")
+                        # print("  PLC Controller restarted")
                     else:
-                        print("   ⚠️ PLC Controller failed to restart")
+                        logging.info("PLC Controller failed to restart")
+                        # print("   PLC Controller failed to restart")
                 else:
-                    print("   ℹ️ PLC Controller already running")
+                    logging.info("PLC Controller already running")
+                    # print("   PLC Controller already running")
             
             time.sleep(1.0)  # รอให้ controllers เริ่มทำงานสนิทและเสถียร (เพิ่มเวลา)
-            print("   ✓ All controller threads restarted")
+            # print("    All controller threads restarted")
             
         except Exception as e:
-            print(f"   ⚠️ Error restarting controller threads: {e}")
+            print(f"   Error restarting controller threads: {e}")
         
         # Reconnect และ Unblock signals
         try:
@@ -2892,56 +3269,58 @@ class MainController(QObject):
             if hasattr(self, 'plc_controller'):
                 # Connect signal ใหม่โดยตรง
                 self.plc_controller.device_status_changed.connect(self.update_device_status_indicator)
-                print("   ✓ Reconnected device_status_changed signal")
+                # print("   ✓ Reconnected device_status_changed signal")
                 
                 self.plc_controller.status_loading_rock_and_sand.connect(self.check_loading_rock_and_sand)
-                print("   ✓ Reconnected status_loading_rock_and_sand signal")
+                # print("   ✓ Reconnected status_loading_rock_and_sand signal")
                 
                 self.plc_controller.status_loading_cement_and_fyash.connect(self.check_loading_cement_and_fyash)
-                print("   ✓ Reconnected status_loading_cement_and_fyash signal")
+                # print("   ✓ Reconnected status_loading_cement_and_fyash signal")
                 
                 self.plc_controller.status_loading_water.connect(self.check_loading_water)
-                print("   ✓ Reconnected status_loading_water signal")
+                # print("   ✓ Reconnected status_loading_water signal")
                 
                 self.plc_controller.status_loading_chemical.connect(self.check_loading_chemical)
-                print("   ✓ Reconnected status_loading_chemical signal")
+                # print("   ✓ Reconnected status_loading_chemical signal")
+                logging.info("Reconnected All status")
             
             # Reconnect AutoDA weight signals (ไม่ต้อง disconnect เพราะถูก disconnect ไปแล้ว)
             if hasattr(self, 'autoda_controller'):
                 self.autoda_controller.weight_rock_and_sand.connect(self.update_weight_rock_and_sand)
-                print("   ✓ Reconnected weight_rock_and_sand signal")
+                # print("   ✓ Reconnected weight_rock_and_sand signal")
                 
                 self.autoda_controller.weight_cement_and_fyash.connect(self.update_weight_cement_and_fyash)
-                print("   ✓ Reconnected weight_cement_and_fyash signal")
+                # print("   ✓ Reconnected weight_cement_and_fyash signal")
                 
                 self.autoda_controller.weight_water.connect(self.update_weight_water)
-                print("   ✓ Reconnected weight_water signal")
+                # print("   ✓ Reconnected weight_water signal")
                 
                 self.autoda_controller.weight_chemical.connect(self.update_weight_chemical)
-                print("   ✓ Reconnected weight_chemical signal")
+                # print("   ✓ Reconnected weight_chemical signal")
+                logging.info("Reconnected All status 2 ")
             
             # Unblock signals
             if hasattr(self, 'autoda_controller'):
                 self.autoda_controller.blockSignals(False)
             if hasattr(self, 'plc_controller'):
                 self.plc_controller.blockSignals(False)
-            print("   ✓ Unblocked controller signals")
+            # print("   ✓ Unblocked controller signals")
         except Exception as e:
-            print(f"   ⚠️ Error reconnecting/unblocking signals: {e}")
+            print(f"    Error reconnecting/unblocking signals: {e}")
         
         # รอให้ทุกอย่างพร้อมก่อนแสดงผล
         time.sleep(1.0)  # เพิ่มเวลารอให้ทุกอย่างเสถียร
         
         # ปลดบล็อก is_tab_switching เพื่อให้ weight updates ทำงานได้อีกครั้ง
         self.is_tab_switching = False
-        print("   ✓ UI updates re-enabled")
+        # print("   ✓ UI updates re-enabled")
         
         # Emit work_completed signal
         try:
             self.work_completed.emit(total_cubes)
-            print("✅ Reset complete - ready for new customer")
+            # print("✅ Reset complete - ready for new customer")
         except Exception as e:
-            print(f"   ⚠️ Error emitting work_completed signal: {e}")
+            print(f"   Error emitting work_completed signal: {e}")
             
     def reset_variable_for_cement_loaded(self):
         self.cement_start_time = 0
@@ -2956,6 +3335,7 @@ class MainController(QObject):
         self.rate_loaded = 0
         self.extra_time = 0
         self.tried_weight = 0
+        self.fyash_weight_finish = 0
         self.retry_count = 0
         self.target = 0
         self.diff = 0
@@ -2970,14 +3350,14 @@ class MainController(QObject):
         try:
             # ตรวจสอบว่า main_window ยังมีอยู่และไม่ถูก destroy
             if not hasattr(self, 'main_window') or self.main_window is None:
-                print("   ⚠️ main_window is None in _reset_ui_safe")
+                # print("   main_window is None in _reset_ui_safe")
                 return
             
             # ตรวจสอบ Qt object
             try:
                 self.main_window.objectName()
             except RuntimeError:
-                print("   ⚠️ main_window has been destroyed in _reset_ui_safe")
+                # print("  main_window has been destroyed in _reset_ui_safe")
                 return
             
             # Reset แต่ละ field ด้วย try-except แยกเพื่อป้องกัน crash
@@ -3011,53 +3391,53 @@ class MainController(QObject):
                     # ข้าม field นี้ถ้า error
                     pass
                     
-            print("   ✓ UI fields reset completed")
+            # print("   ✓ UI fields reset completed")
             
         except RuntimeError as e:
             # Qt object ถูก destroy แล้ว ไม่ต้องทำอะไร
-            print(f"   ⚠️ Warning: Qt object already destroyed in reset UI: {e}")
+            print(f"   Warning: Qt object already destroyed in reset UI: {e}")
         except Exception as e:
-            print(f"   ⚠️ Warning: Error resetting UI: {e}")
+            print(f"   Warning: Error resetting UI: {e}")
     
     @Slot(float)
     
     def cleanup_on_exit(self):
-        print("Cleaning up before application exit...")
+        # print("Cleaning up before application exit...")
         
         # 1. หยุด Thread main_condition_load (ถ้ามี)
         self.main_condition_load_running = False
 
         # 2. หยุด PLC Controller ก่อน
         if hasattr(self, 'plc_controller'):
-            print("Stopping PLC controller...")
+            # print("Stopping PLC controller...")
             try:
                 if hasattr(self.plc_controller, 'stop_controller'):
                     self.plc_controller.stop_controller()  # 1. เรียกเมธอดที่เราสร้าง
                 self.plc_controller.quit()                 # 2. สั่งหยุด QThread
                 if not self.plc_controller.wait(3000):     # 3. รอให้หยุดสนิท (timeout 3 วินาที)
-                    print("⚠️ PLC controller did not stop gracefully, forcing termination")
+                    # print("PLC controller did not stop gracefully, forcing termination")
                     self.plc_controller.terminate()
-                print("✅ PLC controller stopped.")
+                # print(" PLC controller stopped.")
             except Exception as e:
-                print(f"❌ Error stopping PLC controller: {e}")
+                print(f" Error stopping PLC controller: {e}")
 
         # 3. หยุด AutoDA Controller
         if hasattr(self, 'autoda_controller'):
-            print("Stopping AutoDA controller...")
+            # print("Stopping AutoDA controller...")
             try:
                 if hasattr(self.autoda_controller, 'stop_controller'):
                     self.autoda_controller.stop_controller()  # 1. เรียกเมธอดที่เราสร้าง
                 self.autoda_controller.quit()                 # 2. สั่งหยุด QThread
                 if not self.autoda_controller.wait(3000):     # 3. รอให้หยุดสนิท (timeout 3 วินาที)
-                    print("⚠️ AutoDA controller did not stop gracefully, forcing termination")
+                    # print(" AutoDA controller did not stop gracefully, forcing termination")
                     self.autoda_controller.terminate()
-                print("✅ AutoDA controller stopped.")
+                # print("AutoDA controller stopped.")
             except Exception as e:
-                print(f"❌ Error stopping AutoDA controller: {e}")
+                print(f"Error stopping AutoDA controller: {e}")
             
         # 4. หยุด Loading Threads (ถ้ามีการโหลดอยู่)
         if self.start_button_load_enabled == True:
-            print("Stopping loading threads...")
+            # print("Stopping loading threads...")
             self.reset_freeze_values()
             self.lock_target_display = False  # ปลดล็อค Target UI เมื่อยกเลิก
             self._stop_target_monitor()  # หยุด monitor
@@ -3086,11 +3466,11 @@ class MainController(QObject):
                 self.main_condition_load_running = False
                 self.thread_main_condition_load.join(timeout=2)
                 
-            print("✅ All loading threads stopped.")
+            # print("All loading threads stopped.")
             
-        print("=" * 60)
-        print("✅ Cleanup complete. Application will now exit.")
-        print("=" * 60)
+        # print("=" * 60)
+        # print("✅ Cleanup complete. Application will now exit.")
+        # print("=" * 60)
     # ===================================================
     
     @Slot(float)
@@ -3105,26 +3485,26 @@ class MainController(QObject):
         try:
             # ตรวจสอบว่า main_window ยังมีอยู่และไม่ถูก destroy
             if not hasattr(self, 'main_window') or self.main_window is None:
-                print("⚠️ main_window is None, skipping completion message")
+                # print("main_window is None, skipping completion message")
                 return
             
             # ตรวจสอบ Qt application ยังทำงานอยู่
             app = QApplication.instance()
             if app is None or app.closingDown():
-                print("⚠️ Application is closing, skipping completion message")
+                # print("Application is closing, skipping completion message")
                 return
             
             # ตรวจสอบ Qt object
             try:
                 self.main_window.objectName()
             except RuntimeError:
-                print("⚠️ main_window has been destroyed, skipping completion message")
+                # print("main_window has been destroyed, skipping completion message")
                 return
                 
             msg_box = QMessageBox(self.main_window)
             msg_box.setIcon(QMessageBox.Information)
             msg_box.setWindowTitle("งานเสร็จสมบูรณ์")
-            msg_box.setText(f"✅ การผสมคอนกรีตเสร็จสมบูรณ์แล้ว\n\n"
+            msg_box.setText(f"การผสมคอนกรีตเสร็จสมบูรณ์แล้ว\n\n"
                            f"จำนวนที่ผสม: {round(total_cubes, 1)} คิว\n"
                            f"สถานะ: เสร็จสิ้น")
             msg_box.setInformativeText("กรุณาเลือกลูกค้ารายใหม่เพื่อเริ่มงานต่อไป")
@@ -3160,26 +3540,26 @@ class MainController(QObject):
                     if app and not app.closingDown():
                         self.switch_to_work_tab_signal.emit()
                     else:
-                        print("⚠️ Application closing, skipping tab switch")
+                        print(" Application closing, skipping tab switch")
                 except RuntimeError:
-                    print("⚠️ main_window destroyed before tab switch")
+                    print(" main_window destroyed before tab switch")
                 
         except RuntimeError as e:
             # Qt object ถูก destroy แล้ว
-            print(f"⚠️ Warning: Qt object already destroyed in completion message: {e}")
+            print(f" Warning: Qt object already destroyed in completion message: {e}")
         except Exception as e:
-            print(f"⚠️ Error showing completion message: {e}")
+            print(f" Error showing completion message: {e}")
             import traceback
             traceback.print_exc()
     
     @Slot()
     def _switch_to_work_tab_safe(self):
         """Switch ไปหน้า Work Tab อย่างปลอดภัย"""
-        print("🔄 _switch_to_work_tab_safe called")
+        # print(" _switch_to_work_tab_safe called")
         
         # Set flag เพื่อป้องกันการ access UI widgets ระหว่างที่กำลัง switch
         self.is_tab_switching = True
-        print("   ✓ Tab switching flag set to True")
+        # print("   ✓ Tab switching flag set to True")
         
         # ใช้ QTimer.singleShot เพื่อ defer การ switch tab ไปยัง event loop ถัดไป
         # เพื่อให้ Qt ทำ cleanup และ reconnect signals เสร็จก่อน
@@ -3191,69 +3571,69 @@ class MainController(QObject):
         try:
             # ตรวจสอบหลายชั้น
             if not hasattr(self, 'main_window') or self.main_window is None:
-                print("   ⚠️ main_window is None or doesn't exist")
+                # print("    main_window is None or doesn't exist")
                 return
             
             # ตรวจสอบว่า Qt application ยังทำงานอยู่
             app = QApplication.instance()
             if app is None or app.closingDown():
-                print("   ⚠️ Application is closing down")
+                # print("    Application is closing down")
                 return
             
-            print("   ✓ main_window exists and app is running")
+            # print("   ✓ main_window exists and app is running")
             
             # ตรวจสอบ Qt object ก่อนทำอะไร
             try:
                 self.main_window.objectName()  # ทดสอบว่า object ยังใช้งานได้
             except RuntimeError:
-                print("   ⚠️ main_window object has been destroyed")
+                # print("    main_window object has been destroyed")
                 return
                 
             if hasattr(self.main_window, 'tab') and hasattr(self.main_window, 'work_tab'):
-                print("   ✓ tab and work_tab exist, verifying widgets...")
+                # print("   ✓ tab and work_tab exist, verifying widgets...")
                 
                 # ตรวจสอบ widget ก่อนใช้งาน
                 try:
                     self.main_window.tab.objectName()
                     self.main_window.work_tab.objectName()
-                    print("   ✓ Widgets are valid, switching...")
+                    # print("    Widgets are valid, switching...")
                 except RuntimeError:
-                    print("   ⚠️ tab or work_tab widget has been destroyed")
+                    # print("    tab or work_tab widget has been destroyed")
                     return
                 
                 # Switch tab อย่างปลอดภัย พร้อม exception handling
                 try:
                     self.main_window.tab.setCurrentWidget(self.main_window.work_tab)
-                    print("📋 Switched to Work Tab - Ready for new customer")
+                    # print("Switched to Work Tab - Ready for new customer")
                     
                     # Clear flag หลัง switch เสร็จ
                     self.is_tab_switching = False
-                    print("   ✓ Tab switching flag cleared")
+                    # print("    Tab switching flag cleared")
                     
                     # รอให้ Qt process event
                     time.sleep(0.1)
                     
-                    print("=" * 60)
-                    print("🎉 System is ready for next customer!")
-                    print("=" * 60)
+                    # print("=" * 60)
+                    # print("🎉 System is ready for next customer!")
+                    # print("=" * 60)
                 except RuntimeError as e:
-                    print(f"   ⚠️ Error during tab switch: {e}")
+                    # print(f"    Error during tab switch: {e}")
                     self.is_tab_switching = False  # Clear flag แม้ error
                     return
                 except Exception as e:
-                    print(f"   ⚠️ Unexpected error during tab switch: {e}")
+                    # print(f"    Unexpected error during tab switch: {e}")
                     self.is_tab_switching = False  # Clear flag แม้ error
                     return
             else:
-                print("   ⚠️ tab or work_tab doesn't exist")
+                # print("    tab or work_tab doesn't exist")
                 self.is_tab_switching = False  # Clear flag
                 
         except RuntimeError as e:
             # Qt object ถูก destroy แล้ว
-            print(f"⚠️ Warning: Qt object already destroyed during switch: {e}")
+            # print(f" Warning: Qt object already destroyed during switch: {e}")
             self.is_tab_switching = False  # Clear flag
         except Exception as e:
-            print(f"⚠️ Error switching to work tab: {e}")
+            # print(f" Error switching to work tab: {e}")
             self.is_tab_switching = False  # Clear flag
             import traceback
             traceback.print_exc()

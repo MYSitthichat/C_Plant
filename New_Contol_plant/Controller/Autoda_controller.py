@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QApplication
-from PySide6.QtCore import QObject, Signal, QThread
+from PySide6.QtCore import QObject, Signal, QThread, QMutex
 import os
 import sys
 from pymodbus.client import ModbusSerialClient
@@ -22,10 +22,17 @@ class AUTODA_Controller(QThread,QObject):
     weight_cement_and_fyash = Signal(int)
     weight_water = Signal(int)
     weight_chemical = Signal(float)  # เปลี่ยนเป็น float สำหรับทศนิยม
+
+    setpoint_rock_sand_read = Signal(int)
+    setpoint_cement_and_fyash_read = Signal(int)
+    setpoint_water_read = Signal(int)
+    setpoint_chemical_read = Signal(float)
+
     
     def __init__(self,main_window,db):
-    # def __init__(self,):
+    # def __init__(self,): #Debug
         super(AUTODA_Controller, self).__init__()
+        self.mutex = QMutex()
         self.running = True
         self.main_window = main_window
         self.db = db
@@ -108,6 +115,14 @@ class AUTODA_Controller(QThread,QObject):
             print(f"port.conf file not found at {config_path}")
     
     def connect_to_autodac(self):
+        # debug
+        # autoda_port = 'COM4'
+        # baudrate = 9600
+        # stop_bits = 1
+        # parity = 'N'
+        # data_bits = 8
+        # timeout = 3
+        # debug
         autoda_port = self.autoda_port
         baudrate = int(self.baudrate)
         stop_bits = int(self.stop_bits)
@@ -125,6 +140,7 @@ class AUTODA_Controller(QThread,QObject):
         )
         try:
             if self.autoda_client.connect():
+                print(f"autoda status port {self.autoda_client.is_socket_open()}")
                 self.comport_error.emit([False, 'AutoDA'])
             else:
                 self.comport_error.emit([True, 'AutoDA'])
@@ -135,118 +151,244 @@ class AUTODA_Controller(QThread,QObject):
         self.autoda_client.close()
 
     def read_weight_rock_and_sand(self):
-        register_weight = 81  # Register weight rock and sand
-        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.rock_and_sand_id)
-        raw_value = (read_weight.registers[0])
-        if raw_value > 32767:
-            weight_value = raw_value - 65536
-        else:
-            weight_value = raw_value
-        self.weight_rock_and_sand.emit(weight_value)
-
-    def read_cement_and_fyash(self):
-        register_weight = 81  # Register weight cement and flyash
-        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.cement_and_flyash_id)
-        raw_value = (read_weight.registers[0])
-        if raw_value > 32767:
-            weight_value = raw_value - 65536
-        else:
-            weight_value = raw_value
-        # weight_value = 20  # ตัวอย่างค่าที่อ่านได้
-        self.weight_cement_and_fyash.emit(weight_value)
-
-    def read_water(self):
-        register_weight = 81  # Register weight water
-        read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.water_id)
-        raw_value = (read_weight.registers[0])
-        if raw_value > 32767:
-            weight_value = raw_value - 65536
-        else:
-            weight_value = raw_value
-        # weight_value = 10  # ตัวอย่างค่าที่อ่านได้
-        self.weight_water.emit(weight_value)
-
-    def read_chemical(self):
-        if not self.chemical_decimal_initialized:
-            self.read_chemical_decimal_setting()
-        
-        register_weight = 81  # Register weight chemical
+        self.mutex.lock()
         try:
-            read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.chemical_id)
-            
-            if read_weight.isError():
-                self.weight_chemical.emit(0.0)
-                return
-                
+            register_weight = 81  # Register weight rock and sand
+            read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.rock_and_sand_id)
             raw_value = (read_weight.registers[0])
             if raw_value > 32767:
-                signed_value = raw_value - 65536
+                weight_value = raw_value - 65536
             else:
-                signed_value = raw_value
-            float_value = signed_value / self.chemical_divisor
-            # float_value = 5.0  # ตัวอย่างค่าที่อ่านได้
-            # print(float_value)
-            self.weight_chemical.emit(float_value)
-            
+                weight_value = raw_value
+            self.weight_rock_and_sand.emit(weight_value)
+            # print(weight_value)
         except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+            self.weight_chemical.emit(0)
+        finally:
+            self.mutex.unlock()
+
+    def read_cement_and_fyash(self):
+        self.mutex.lock()
+        try:
+            register_weight = 81  # Register weight cement and flyash
+            read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.cement_and_flyash_id)
+            raw_value = (read_weight.registers[0])
+            if raw_value > 32767:
+                weight_value = raw_value - 65536
+            else:
+                weight_value = raw_value
+            # weight_value = 20  # ตัวอย่างค่าที่อ่านได้
+            self.weight_cement_and_fyash.emit(weight_value)
+            # print(weight_value)
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+            self.weight_chemical.emit(0)
+        finally:
+            self.mutex.unlock()
+
+    def read_water(self):
+        self.mutex.lock()
+        try:
+            register_weight = 81  # Register weight water
+            read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.water_id)
+            raw_value = (read_weight.registers[0])
+            if raw_value > 32767:
+                weight_value = raw_value - 65536
+            else:
+                weight_value = raw_value
+            # weight_value = 10  # ตัวอย่างค่าที่อ่านได้
+            self.weight_water.emit(weight_value)
+            # print(weight_value)
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+            self.weight_chemical.emit(0)
+        finally:
+            self.mutex.unlock()
+
+    def read_chemical(self):
+        self.mutex.lock()
+        try:
+            if not self.chemical_decimal_initialized:
+                self.read_chemical_decimal_setting()
+            
+            register_weight = 81  # Register weight chemical
+            try:
+                read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.chemical_id)
+                
+                if read_weight.isError():
+                    self.weight_chemical.emit(0.0)
+                    return
+                    
+                raw_value = (read_weight.registers[0])
+                if raw_value > 32767:
+                    signed_value = raw_value - 65536
+                else:
+                    signed_value = raw_value
+                float_value = signed_value / self.chemical_divisor
+                # float_value = 5.0  # ตัวอย่างค่าที่อ่านได้
+                # print(float_value)
+                self.weight_chemical.emit(float_value)
+                # print(float_value)
+            except Exception as e:
+                self.weight_chemical.emit(0.0)
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
             self.weight_chemical.emit(0.0)
+        finally:
+            self.mutex.unlock()
+
+    def read_setpoint_rock_sand(self):
+        self.mutex.lock()
+        try:
+            address_register = 314 #register set point rock and sand
+            rock_sand_address = 1
+            result = self.autoda_client.read_holding_registers(address=address_register, count=2, device_id=rock_sand_address)
+            self.setpoint_rock_sand_read.emit(result.registers[1])
+            # return result.registers[1]
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+            # return 0.0
+        finally:
+            self.mutex.unlock()
+
+    def read_setpoint_cement_fyash(self):
+        self.mutex.lock()
+        try:
+            address_register = 314 #register set point rock and sand
+            cement_and_fyash_address = 2
+            result = self.autoda_client.read_holding_registers(address=address_register, count=2, device_id=cement_and_fyash_address)
+            self.setpoint_cement_and_fyash_read.emit(result.registers[1])
+            # return result.registers[1]
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+            # return 0.0
+        finally:
+            self.mutex.unlock()
+
+    def read_setpoint_water_work(self):
+        self.mutex.lock()
+        try:
+            address_register = 314 #register set point rock and sand
+            water_address = 3
+            result = self.autoda_client.read_holding_registers(address=address_register, count=2, device_id=water_address)
+            self.setpoint_water_read.emit(result.registers[1])
+            # return result.registers[1]
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+            # return 0.0
+        finally:
+            self.mutex.unlock()
+
+    def read_setpoint_chemical_work(self):
+        self.mutex.lock()
+        try:
+            if not self.chemical_decimal_initialized:
+                self.read_chemical_decimal_setting()
+            address_register = 314
+            chemical_drress = 4 
+            result = self.autoda_client.read_holding_registers(
+                address=address_register, 
+                count=2, 
+                device_id=chemical_drress
+            )
+            if result.isError():
+                print("Error reading chemical setpoint")
+                return 0.0
+            high_word = result.registers[0]
+            low_word = result.registers[1]
+            raw_int = (high_word << 16) | low_word
+            if raw_int >= 0x80000000:
+                raw_int -= 0x100000000
+            float_setpoint = raw_int / self.chemical_divisor
+            self.setpoint_chemical_read.emit(float_setpoint)
+            # return float_setpoint
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+            # return 0.0
+        finally:
+            self.mutex.unlock()
 
     def write_set_point_rock_and_sand(self,value):
-        address_register = 314 #register set point rock and sand
-        unlock_address = 5      # Address 5 (คือ Register 40006)
-        unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
-        self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.rock_and_sand_id)
-        self.msleep(100)
-        register_values = self.int32_to_registers(value)
-        self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.rock_and_sand_id)
+        self.mutex.lock()
+        try:
+            address_register = 314 #register set point rock and sand
+            unlock_address = 5      # Address 5 (คือ Register 40006)
+            unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+            self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.rock_and_sand_id)
+            self.msleep(100)
+            register_values = self.int32_to_registers(value)
+            self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.rock_and_sand_id)
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+        finally:
+            self.mutex.unlock()
 
     def write_set_point_cement_and_fyash(self,value):
-        address_register = 314 #register set point rock and sand
-        unlock_address = 5      # Address 5 (คือ Register 40006)
-        unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
-        self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.cement_and_flyash_id)
-        self.msleep(100)
-        register_values = self.int32_to_registers(value)
-        self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.cement_and_flyash_id)
+        self.mutex.lock()
+        try:
+            address_register = 314 #register set point rock and sand
+            unlock_address = 5      # Address 5 (คือ Register 40006)
+            unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+            self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.cement_and_flyash_id)
+            self.msleep(100)
+            register_values = self.int32_to_registers(value)
+            self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.cement_and_flyash_id)
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+        finally:
+            self.mutex.unlock()
 
     def write_set_point_water(self,value):
-        address_register = 314 #register set point rock and sand
-        unlock_address = 5      # Address 5 (คือ Register 40006)
-        unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
-        self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.water_id)
-        self.msleep(100)
-        register_values = self.int32_to_registers(value)
-        self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.water_id)
+        self.mutex.lock()
+        try:
+            address_register = 314 #register set point rock and sand
+            unlock_address = 5      # Address 5 (คือ Register 40006)
+            unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+            self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.water_id)
+            self.msleep(100)
+            register_values = self.int32_to_registers(value)
+            self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.water_id)
+        except Exception as e:
+            print(f"Exception in read_setpoint_chemical: {e}")
+        finally:
+            self.mutex.unlock()
     
     def write_set_point_chemical(self, value):
-        if not self.chemical_decimal_initialized:
-            self.read_chemical_decimal_setting()
-        address_register = 314  # register set point chemical
-        unlock_address = 5      # Address 5 (คือ Register 40006)
-        unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+        self.mutex.lock()
         try:
-            # Unlock register
-            unlock_result = self.autoda_client.write_register(
-                address=unlock_address, 
-                value=unlock_code, 
-                device_id=self.chemical_id
-            )
-            if unlock_result.isError():
+            if not self.chemical_decimal_initialized:
+                self.read_chemical_decimal_setting()
+            address_register = 314  # register set point chemical
+            unlock_address = 5      # Address 5 (คือ Register 40006)
+            unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+            try:
+                # Unlock register
+                unlock_result = self.autoda_client.write_register(
+                    address=unlock_address, 
+                    value=unlock_code, 
+                    device_id=self.chemical_id
+                )
+                if unlock_result.isError():
+                    return False
+                self.msleep(100)
+                int_value = self.float_to_int_with_chemical_divisor(value)
+                register_values = self.int32_to_registers(int_value)
+                write_result = self.autoda_client.write_registers(
+                    address=address_register, 
+                    values=register_values, 
+                    device_id=self.chemical_id
+                )
+                if write_result.isError():
+                    return False
+                else:
+                    return True
+            except Exception as e:
                 return False
-            self.msleep(100)
-            int_value = self.float_to_int_with_chemical_divisor(value)
-            register_values = self.int32_to_registers(int_value)
-            write_result = self.autoda_client.write_registers(
-                address=address_register, 
-                values=register_values, 
-                device_id=self.chemical_id
-            )
-            if write_result.isError():
-                return False
-            else:
-                return True
         except Exception as e:
-            return False
+            print(f"Exception in read_setpoint_chemical: {e}")
+        finally:
+            self.mutex.unlock()
 
     def run(self):
         try:
@@ -258,7 +400,6 @@ class AUTODA_Controller(QThread,QObject):
                     self.read_chemical()
                 except Exception as e:
                     print(f"Error in AutoDA Controller: {e}")
-                    pass
                 
         except Exception as e:
             print(f"Fatal Error in AutoDA Controller: {e}")
@@ -286,4 +427,38 @@ if __name__ == "__main__":
     autoda_controller.initialize_connections()
     time.sleep(2)
     autoda_controller.start()
+    time.sleep(5)
+    # test_rock_sand = 1975
+    # test_cement_fyash = 280
+    # test_water = 155
+    # test_chemical = 2.9
+    # autoda_controller.write_set_point_rock_and_sand(test_rock_sand)
+    # time.sleep(0.5)
+    # autoda_controller.write_set_point_cement_and_fyash(test_cement_fyash)
+    # time.sleep(0.5)
+    # autoda_controller.write_set_point_water(test_water)
+    # time.sleep(0.5)
+    # autoda_controller.write_set_point_chemical(test_chemical)
+    # # print
+    # time.sleep(2)
+    # rock = autoda_controller.read_setpoint_rock_sand()
+    # time.sleep(0.5)
+    # cement = autoda_controller.read_setpoint_cement_fyash()
+    # time.sleep(0.5)
+    # water = autoda_controller.read_setpoint_water_work()
+    # time.sleep(0.5)
+    # chemical = autoda_controller.read_setpoint_chemical_work()
+    # time.sleep(0.5)
+    # print(f"Rock and Sand: {rock}")
+    # print(f"Cement and Flyash: {cement}")
+    # print(f"Water: {water}")
+    # print(f"Chemical: {chemical}")
+    # if rock == test_rock_sand and cement == test_cement_fyash and water == test_water and chemical == test_chemical:
+    #     print("Setpoint match")
+    #     autoda_controller.stop_controller()
+    # else:
+    #     print("Setpoint not match")
+    autoda_controller.disconnect_to_autodac()
+    autoda_controller.stop()
+    time.sleep(3)
     sys.exit(0)

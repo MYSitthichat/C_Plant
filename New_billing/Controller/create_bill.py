@@ -26,7 +26,9 @@ class CreateBillConfig:
         
         # Bills directory - organized by date
         self.bills_dir = "C:\\Users\\plant\\Desktop\\bills"
-        # self.bills_dir = os.path.normpath(self.bills_dir) # No longer needed
+        # self.bills_dir = "D:\\C_Plant\\New_billing\\bills"
+        
+        self.bills_dir = os.path.normpath(self.bills_dir) # No longer needed
         
         # Create bills directory if it doesn't exist
         os.makedirs(self.bills_dir, exist_ok=True)
@@ -72,7 +74,7 @@ class BillGenerator:
     
     def create_canvas(self, customer_information):
         """Create PDF canvas with customer information overlay"""
-        [record_time, name, address, amount, strength, age, slump] = customer_information
+        [record_time, name, address, amount, strength, age, slump, truck_number] = customer_information
         
         packet = BytesIO()
         c = canvas.Canvas(packet, pagesize=landscape(A5))
@@ -101,7 +103,8 @@ class BillGenerator:
         c.drawString(220, 264, str(strength))
         c.drawString(425, 264, str(age))
         c.drawString(116, 235, str(slump))
-        
+        c.drawString(120, 185, str(truck_number))
+
         c.save()
         packet.seek(0)
         return packet
@@ -212,8 +215,14 @@ class BillGenerator:
             # Load age and slump using data_loader
             age = self.data_loader.load_concrete_age(id)
             slump = self.data_loader.load_concrete_slump(id)
-            
+            truck_number = self.data_loader.load_truck_dataa(id)
+            # truck_number = truck_number.strip()
+
             # Prepare customer information
+            # Normalize record_time format if needed (handle both space and underscore separator)
+            if record_time and "_" in record_time:
+                record_time = record_time.replace("_", " ")
+
             customer_information = [
                 record_time,
                 name,
@@ -221,7 +230,8 @@ class BillGenerator:
                 amount,
                 strength,
                 age,
-                slump
+                slump,
+                truck_number[0]
             ]
             
             # Generate PDF

@@ -81,11 +81,12 @@ class MainController(QObject):
             success = self.bill_generator.generate_and_print_bill(bill_id)
             
             if success:
-                QMessageBox.information(
-                    self.main_window,
-                    "Success",
-                    f"Bill for ID {bill_id} has been generated and sent to printer."
-                )
+                pass
+                # QMessageBox.information(
+                #     self.main_window,
+                #     "Success",
+                #     f"Bill for ID {bill_id} has been generated and sent to printer."
+                # )
             else:
                 QMessageBox.warning(
                     self.main_window,

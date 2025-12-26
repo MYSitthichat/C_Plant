@@ -29,6 +29,18 @@ class load_data:
         if not os.path.exists(self.db_path):
             print(f"[load_data] Warning: Database file not found at {self.db_path}. It should be created.")
     
+    def load_truck_dataa(self,id):
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT truck_number FROM concrete_order WHERE id = ?", (id,))
+            records = cursor.fetchall()
+            conn.close()
+            return records[0] if records else None
+        except sqlite3.Error as e:
+            print(f"[load_data] Database error: {e}")
+            return None
+
     def load_all_data(self):
         try:
             conn = sqlite3.connect(self.db_path)
