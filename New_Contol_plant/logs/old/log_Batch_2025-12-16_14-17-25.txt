@@ -1,0 +1,23 @@
+2025-12-16 14:17:25,960 - INFO - ==================================================
+2025-12-16 14:17:25,961 - INFO - START BATCH LOGGING: ID 2025-12-16_14-17-25
+2025-12-16 14:17:25,962 - INFO - ==================================================
+2025-12-16 14:17:25,962 - INFO - Total Queue Count to Load: 3.5
+2025-12-16 14:17:25,963 - INFO - 
+2025-12-16 14:17:25,963 - INFO - --- Start Queue #1 of 4 (Multiplier: 1.0) ---
+2025-12-16 14:17:25,963 - INFO -    Target Rock1: 350
+2025-12-16 14:17:25,964 - INFO -    Target Sand: 950
+2025-12-16 14:17:25,964 - INFO -    Target Rock2: 700
+2025-12-16 14:17:25,966 - INFO -    Target Cement: 220
+2025-12-16 14:17:25,966 - INFO -    Target Flyash: 49
+2025-12-16 14:17:25,966 - INFO -    Target Water: 160
+2025-12-16 14:17:25,966 - INFO -    Target Chem1: 1.2
+2025-12-16 14:17:25,967 - INFO -    Target Chem2: 0.5
+2025-12-16 14:17:25,967 - INFO - 
+2025-12-16 14:17:28,506 - ERROR - Error reading cement weight from lineEdit
+2025-12-16 14:17:29,513 - ERROR - Error reading water weight from lineEdit
+2025-12-16 14:17:30,278 - INFO - feedback fyash = 49
+2025-12-16 14:17:31,306 - INFO - feedback water = 160
+2025-12-16 14:17:32,646 - INFO - feedback chem 1 = 1.1
+2025-12-16 14:17:35,971 - INFO - feedback sand = 970
+2025-12-16 14:17:57,053 - INFO - sand is moist
+2025-12-16 14:18:17,093 - INFO - sand is moist

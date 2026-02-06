@@ -419,7 +419,7 @@ class PLC_Controller(QThread, QObject):
                 try:
                     if self.write_queue:
                         self.process_write_queue()
-                        self.msleep(10)  
+                        self.msleep(50)  
                         continue  
                     if self.reading_state and read_cycle_count >= 5:
                         if read_functions:

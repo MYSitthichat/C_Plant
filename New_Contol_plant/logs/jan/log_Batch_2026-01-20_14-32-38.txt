@@ -1,0 +1,36 @@
+2026-01-20 14:32:38,951 - INFO - ==================================================
+2026-01-20 14:32:38,966 - INFO - START BATCH LOGGING: ID 2026-01-20_14-32-38
+2026-01-20 14:32:38,966 - INFO - ==================================================
+2026-01-20 14:32:38,966 - INFO - Total Queue Count to Load: 3.0
+2026-01-20 14:32:38,966 - INFO - 
+2026-01-20 14:32:38,966 - INFO - --- Start Queue #1 of 3 (Multiplier: 1.0) ---
+2026-01-20 14:32:38,966 - INFO -    Target Rock1: 350
+2026-01-20 14:32:38,966 - INFO -    Target Sand: 970
+2026-01-20 14:32:38,966 - INFO -    Target Rock2: 700
+2026-01-20 14:32:38,966 - INFO -    Target Cement: 237
+2026-01-20 14:32:38,966 - INFO -    Target Flyash: 0
+2026-01-20 14:32:38,966 - INFO -    Target Water: 165
+2026-01-20 14:32:38,966 - INFO -    Target Chem1: 1.2
+2026-01-20 14:32:38,966 - INFO -    Target Chem2: 0.4
+2026-01-20 14:32:38,966 - INFO - 
+2026-01-20 14:32:40,983 - INFO - start state load cement fyash
+2026-01-20 14:32:44,237 - INFO - feedback water = 163
+2026-01-20 14:32:45,489 - INFO - feedback chem 1 = 1.7
+2026-01-20 14:32:45,490 - INFO - ค่า sand เป้าหมาย 920 ค่า Rock1 เป้าหมาย 1220 ค่า Rock2 เป้าหมาย 1920
+2026-01-20 14:32:45,828 - INFO - start state load cement
+2026-01-20 14:32:49,963 - INFO - feedback sand = 1686
+2026-01-20 14:32:50,187 - INFO - start state load sand
+2026-01-20 14:32:58,544 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-20 14:33:06,925 - ERROR - Repeating....
+2026-01-20 14:33:11,271 - ERROR - No response received after 3 retries, continue with next request
+2026-01-20 14:33:11,419 - INFO - sand is moist
+2026-01-20 14:33:15,647 - ERROR - No response received after 3 retries, continue with next request
+2026-01-20 14:33:15,832 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-20 14:33:19,956 - ERROR - No response received after 3 retries, continue with next request
+2026-01-20 14:33:24,283 - ERROR - No response received after 3 retries, continue with next request
+2026-01-20 14:33:28,596 - ERROR - No response received after 3 retries, continue with next request
+2026-01-20 14:33:31,490 - INFO - sand is moist
+2026-01-20 14:33:33,077 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-20 14:33:38,230 - INFO - ==================================================
+2026-01-20 14:33:38,230 - INFO - END BATCH LOGGING: ID 2026-01-20_14-32-38
+2026-01-20 14:33:38,230 - INFO - ==================================================

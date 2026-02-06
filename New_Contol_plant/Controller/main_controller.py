@@ -123,6 +123,9 @@ class MainController(QObject):
         self.display_target_chem1 = 0
         self.display_target_chem2 = 0
         
+        self.now_cement_fyash_dispaly_weight = 0
+        self.now_water_display_weight = 0
+
         # ตัวแปรสำหรับจัดการคิว
         self.total_queue_count = 1  # จำนวนคิวทั้งหมดที่ต้องโหลด
         self.current_queue_loaded = 0  # จำนวนคิวที่โหลดไปแล้ว
@@ -196,6 +199,23 @@ class MainController(QObject):
         self.countdown_to_stop = 0
         self.offset_weight_to_stop_control = 200
         # Create temp queue instance
+
+        self.feedback_setpoint_rock_sand = 0
+        self.feedback_setpoint_cement_fyash = 0
+        self.feedback_setpoint_water = 0
+        self.feedback_setpoint_chemical = 0
+
+        self.sand_now = 0
+        self.rock_1_now = 0
+        self.diff_sand = 0
+        self.new_rock1 = 0
+        self.overall_2_met = 0
+        self.diff_sand_rock1 = 0
+        self.new_rock2 = 0
+        self.time_out_sand_moist = 0
+        self.sand_current_weight = 0
+        # ------------------------------
+         
         self.temp_queue = TempQueue()
 
         # reg tab
@@ -253,6 +273,9 @@ class MainController(QObject):
 
         self.main_window.mix_start_load_pushButton.clicked.connect(self.mix_start_load)
         self.main_window.mix_cancel_load_pushButton.clicked.connect(self.mix_cancel_load)
+        self.main_window.mix_start_load_pushButton.setDisabled(False)
+        self.main_window.mix_cancel_load_pushButton.setDisabled(True)
+        
         
         # Connect signal สำหรับแจ้งเตือนงานเสร็จ
         self.work_completed.connect(self._show_completion_message)
@@ -740,7 +763,8 @@ class MainController(QObject):
                 
             current_weight = int(weight)
             self.now_cement_fyash_dispaly_weight = current_weight
-            # print(f"cement & fyash weight {current_weight}")
+            # print(f"update cement weight Type weight data {type(weight)} type current data {type(current_weight)}")
+
             # Check freeze conditions during loading
             if getattr(self, 'is_loading_cement_and_fyash_in_progress', False):
                 self._check_cement_fyash_freeze_conditions(current_weight)
@@ -821,10 +845,12 @@ class MainController(QObject):
                         return
                 except RuntimeError:
                     return
-                
+            
             current_weight = int(weight)
+
             self.now_water_display_weight = current_weight
-            # print(f"water weight {current_weight}")
+            # print(f"update weight water Type weight data {type(weight)} type current data {type(current_weight)}")
+
             # Check freeze conditions during loading
             if getattr(self, 'is_loading_water_in_progress', False):
                 self._check_water_freeze_conditions(current_weight)
@@ -1056,6 +1082,8 @@ class MainController(QObject):
     def mix_start_load(self):
         # print("\n === STARTING LOADING PROCESS ===")
         # ตรวจสอบจำนวนคิว ถ้ามี error จะ return ทันที
+        self.main_window.mix_start_load_pushButton.setDisabled(True)
+        self.main_window.mix_cancel_load_pushButton.setDisabled(False)
         self.start_button_load_enabled = True
         self.is_workflow_active = True  # เปิดใช้งาน workflow
         # print(" Workflow activated")
@@ -1154,7 +1182,7 @@ class MainController(QObject):
         # print(" Starting target monitor...")
         self._start_target_monitor()
         self.reset_variable_for_cement_loaded()
-        self.rock_and_sand_values = [int(self.rock1), int(self.sand), int(self.rock2)]
+        self.rock_and_sand_values = [int(self.rock1), int(self.sand), int(self.rock2), float(self.queue_multiplier)]
         self.cement_and_fyash_values = [int(self.cement), int(self.fyash)]
         self.water_value = int(self.water)
         self.chemical_values = [float(self.chem1), float(self.chem2)]
@@ -1355,7 +1383,7 @@ class MainController(QObject):
             chem2 = self.chem2
         
         # เตรียมค่าสำหรับโหลด
-        self.rock_and_sand_values = [int(rock1), int(sand), int(rock2)]
+        self.rock_and_sand_values = [int(rock1), int(sand), int(rock2),float(next_multiplier)]
         self.cement_and_fyash_values = [int(cement), int(fyash)]
         self.water_value = int(water)
         self.chemical_values = [float(chem1), float(chem2)]
@@ -1596,15 +1624,21 @@ class MainController(QObject):
                         self.main_window.mix_result_mix_lineEdit.setText(str(current_mixing_amount))
                     self.status_message.emit("state 1")
                     self.plc_controller.mixer("start") #run mixer
+                    time.sleep(0.5)
+                    self.plc_controller.mixer("start") #run mixer
                     self.status_message.emit("เริ่มผสมคิวที่ {}".format(self.current_queue_transporting))
                     logging.info("เริ่มผสมคิวที่ {}".format(self.current_queue_transporting))
                     self.status_message.emit("เปิดมอเตอร์ผสม")
                     logging.info("เปิดมอเตอร์ผสม")
                     time.sleep(7)
                     self.plc_controller.converyer_top("start") #run converyer top
+                    time.sleep(0.5)
+                    self.plc_controller.converyer_top("start") #run converyer top
                     self.status_message.emit("เปิดสายพานบน")
                     logging.info("เปิดสายพานบน")
                     time.sleep(3)
+                    self.plc_controller.converyer_midle("start")
+                    time.sleep(0.5)
                     self.plc_controller.converyer_midle("start")
                     self.status_message.emit("เปิดสายพานล่าง")
                     logging.info("เปิดสายพานล่าง")
@@ -1617,17 +1651,25 @@ class MainController(QObject):
                     self.status_message.emit("เปิดปั้มน้ำยาขึ้น")
                     logging.info("เปิดปั้มน้ำยาขึ้น")
                     self.plc_controller.pump_chemical_up("start")
+                    time.sleep(0.5)
+                    self.plc_controller.pump_chemical_up("start")
                     time.sleep(5)
                     self.status_message.emit("state 2")
                     logging.info("state 2")
+                    self.plc_controller.vale_water("start")
+                    time.sleep(0.5)
                     self.plc_controller.vale_water("start")
                     self.status_message.emit("เปิดวาล์วน้ำ")
                     logging.info("เปิดวาล์วน้ำ")
                     time.sleep(int(self.cement_release_time))
                     self.plc_controller.vale_cement_and_fyash("start")
+                    time.sleep(0.5)
+                    self.plc_controller.vale_cement_and_fyash("start")
                     self.status_message.emit("เปิดวาล์วปูนซีเมนต์และเถ้าลอย")
                     logging.info("เปิดวาล์วปูนซีเมนต์และเถ้าลอย")
                     #time.sleep(4)
+                    self.plc_controller.pump_chemical_up("stop")
+                    time.sleep(0.5)
                     self.plc_controller.pump_chemical_up("stop")
                     #time.sleep(3)
                     self.state_main_condition_load = 3
@@ -1637,12 +1679,16 @@ class MainController(QObject):
                     self.status_message.emit("state 3 - ติดตามน้ำหนัก Rock & Sand")
                     logging.info("state 3 - ติดตามน้ำหนัก Rock & Sand")
                     self.plc_controller.pump_chemical_up("start")
+                    time.sleep(0.5)
+                    self.plc_controller.pump_chemical_up("start")
                     
                     if self.this_weight_to_stop_control <= self.offset_weight_to_stop_control and self.countdown_to_stop < 3:
                         self.countdown_to_stop += 1
                         time.sleep(1)
                         self.status_message.emit(f"น้ำหนักต่ำกว่า {self.offset_weight_to_stop_control} kg - นับถอยหลัง {self.countdown_to_stop}/3")
                         logging.info(f"น้ำหนักต่ำกว่า {self.offset_weight_to_stop_control} kg - นับถอยหลัง {self.countdown_to_stop}/3")
+                        self.plc_controller.vale_cement_and_fyash("stop")
+                        time.sleep(0.5)
                         self.plc_controller.vale_cement_and_fyash("stop")
                         self.status_message.emit("ปิดวาล์วปูนซีเมนต์และเถ้าลอย")
                         logging.info("ปิดวาล์วปูนซีเมนต์และเถ้าลอย")
@@ -1663,16 +1709,24 @@ class MainController(QObject):
                             # self.status_message.emit("ปิดวาล์วปูนซีเมนต์และเถ้าลอย")
                             time.sleep(2)
                             self.plc_controller.converyer_midle("stop")
+                            time.sleep(0.5)
+                            self.plc_controller.converyer_midle("stop")
                             self.status_message.emit("ปิดสายพานด้านล่าง")
                             logging.info("ปิดสายพานด้านล่าง")
                             time.sleep(2)
+                            self.plc_controller.converyer_top("stop")
+                            time.sleep(0.5)
                             self.plc_controller.converyer_top("stop")
                             self.status_message.emit("ปิดสายพานด้านบน")
                             logging.info("ปิดสายพานด้านบน")
                             time.sleep(0.5)
                             self.plc_controller.vale_water("stop")
+                            time.sleep(0.5)
+                            self.plc_controller.vale_water("stop")
                             self.status_message.emit("ปิดวาล์วน้ำ")
                             logging.info("ปิดวาล์วน้ำ")
+                            time.sleep(0.5)
+                            self.plc_controller.pump_chemical_up("stop")
                             time.sleep(0.5)
                             self.plc_controller.pump_chemical_up("stop")
                             logging.info("ปิดปั้มน้ำยาขึ้น")
@@ -1733,6 +1787,8 @@ class MainController(QObject):
                     self.plc_controller.off_coil_vale_mixer("start")
                     time.sleep(0.5)
                     self.plc_controller.off_coil_vale_mixer("start")
+                    time.sleep(0.5)
+                    self.plc_controller.pump_chemical_up("stop")
                     time.sleep(0.5)
                     self.plc_controller.pump_chemical_up("stop")
                     self.status_message.emit("ปิดปั้มน้ำยาเคมี")
@@ -1853,6 +1909,8 @@ class MainController(QObject):
                     self._reset_all_for_new_customer()
                     self.status_message.emit("เสร็จสิ้นกระบวนการ")
                     # print(" === COMPLETE PROCESS FINISHED ===\n")
+                    self.main_window.mix_start_load_pushButton.setDisabled(False)
+                    self.main_window.mix_cancel_load_pushButton.setDisabled(True)
 
                 # out of state
                 else:
@@ -1954,13 +2012,14 @@ class MainController(QObject):
             pass
     
     def load_rock_and_sand_sequence(self,data_loaded):
-        rock_1, sand_real, rock_2 = data_loaded
+        rock_1, sand_real, rock_2, multipiler = data_loaded
         
         # เก็บค่าต้นฉบับก่อนคำนวณ setpoint
         original_rock1 = rock_1
         original_sand = sand_real
         original_rock2 = rock_2
-        
+        multipiler_target = multipiler
+
         self.start_load_sand_time = 0
         self.time_load_sand_target = 0
         # self.new_offset = 0
@@ -1969,6 +2028,8 @@ class MainController(QObject):
         # actual_sand_weight = 0
         # actual_rock1_weight = 0
         # รอให้ weight signal อัพเดทและอ่านน้ำหนักปัจจุบัน (ที่ค้างอยู่)
+        print(f" multipiler {type(multipiler_target)}")
+
         time.sleep(5)  # รอให้ Autoda อัพเดทค่า
         try:
             current_weight = int(self.main_window.mix_monitor_sand_lineEdit.text())
@@ -1998,13 +2059,13 @@ class MainController(QObject):
         time.sleep(0.5)
         self.status_message.emit(f"ค่า sand เป้าหมาย {sand} ค่า Rock1 เป้าหมาย {rock_1} ค่า Rock2 เป้าหมาย {rock_2}")
         logging.info(f"ค่า sand เป้าหมาย {sand} ค่า Rock1 เป้าหมาย {rock_1} ค่า Rock2 เป้าหมาย {rock_2}")
-        if current_weight > 0:
+        if current_weight >= 0:
             sand += current_weight
             rock_1 += current_weight
             rock_2 += current_weight
             # rock_1_new += current_weight
         else:
-            logging.error("Error reading weight")
+            logging.info("rock & sand weight < 0")
         
         self.target_sand_total_weight = sand
         self.target_rock1_weight = rock_1
@@ -2013,6 +2074,7 @@ class MainController(QObject):
         # self.new_offset = self.this_weight_to_new_offset
 
         while self.is_loading_rock_and_sand_in_progress:
+            logging.debug(f" State load rock and sand: {self.state_load_rock_and_sand}")
             if self.state_load_rock_and_sand == 0:
                 pass
             
@@ -2026,13 +2088,20 @@ class MainController(QObject):
                 else:
                     # print(f"sand  {sand}")
                     self.autoda_controller.write_set_point_rock_and_sand(sand)
+                    logging.info(sand)
                     time.sleep(1)
-                    self.read_setpoint_rock_and_sand.emit()
+                    # self.read_setpoint_rock_and_sand.emit()
                     time.sleep(1.5)        
-                    logging.info(f"feedback sand = {self.feedback_setpoint_rock_sand}")   
-                    if self.feedback_setpoint_rock_sand == sand:
+                    # logging.info(f"feedback sand = {self.feedback_setpoint_rock_sand}")   
+                    # if self.feedback_setpoint_rock_sand == sand:
+                    if sand == sand:
                         self.plc_controller.loading_sand("start")
+                        time.sleep(0.1)
+                        self.plc_controller.loading_sand("start")
+                        logging.info("start state load sand")
                         time.sleep(1)
+                        self.plc_controller.start_vibrater_rock_and_sand("start")
+                        time.sleep(0.1)
                         self.plc_controller.start_vibrater_rock_and_sand("start")
                         self.state_load_rock_and_sand = 2
                         self.start_load_sand_time = time.time()
@@ -2048,71 +2117,142 @@ class MainController(QObject):
                 self.time_load_sand_target = time.time()
                 if self.is_sand_frozen:
                     self.plc_controller.loading_sand("stop")
+                    time.sleep(0.1)
+                    self.plc_controller.loading_sand("stop")
                     time.sleep(1)
+                    self.plc_controller.start_vibrater_rock_and_sand("stop")
+                    time.sleep(0.1)
                     self.plc_controller.start_vibrater_rock_and_sand("stop")
                     time.sleep(2)
                     # เช็คว่า Rock1 ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_rock1 > 0:
-                        self.autoda_controller.write_set_point_rock_and_sand(rock_1)
-                        time.sleep(1)
-                        self.read_setpoint_rock_and_sand.emit()
-                        time.sleep(0.5)
-                        logging.info(f"feedback rock 1 = {self.feedback_setpoint_rock_sand}")  
-                        if self.feedback_setpoint_rock_sand == rock_1:
-                            self.state_load_rock_and_sand = 3
+                        self.sand_now = int(self.main_window.mix_monitor_sand_lineEdit.text())
+                        if multipiler_target < 1.0:
+                            logging.debug(" load Sand with < 1.0 Cubic Meter")
+                            self.diff_sand = (rock_1 + int(self.rock1_offset)) - self.sand_now
+                            if self.diff_sand > 100:    #defualt 50
+                                
+                                self.new_rock1 = self.sand_now + original_rock1 - int(self.rock1_offset)
+                                self.autoda_controller.write_set_point_rock_and_sand(self.new_rock1)
+                                logging.info(f" New rock2 for {multipiler_target} to {self.new_rock1} of sand now = {self.sand_now}")
+                                self.state_load_rock_and_sand = 3
+                            else:
+                                self.is_rock1_frozen = True
+                                self.rock1_frozen_weight = current_weight if current_weight > 0 else self.sand_frozen_weight
+                                self.rock1_only_frozen = 0
+                                self.state_load_rock_and_sand = 4
                         else:
-                            logging.error("Error reading setpoint rock 1 weight")
                             self.autoda_controller.write_set_point_rock_and_sand(rock_1)
                             time.sleep(1)
-                            self.read_setpoint_rock_and_sand.emit()
+                            logging.info(rock_1)
+                            # self.read_setpoint_rock_and_sand.emit()
                             time.sleep(0.5)
-                            
-
+                            # logging.info(f"feedback rock 1 = {self.feedback_setpoint_rock_sand}")  
+                            # if self.feedback_setpoint_rock_sand == rock_1:
+                            if rock_1 == rock_1:
+                                self.state_load_rock_and_sand = 3
+                            else:
+                                logging.error("Error reading setpoint rock 1 weight")
+                                self.autoda_controller.write_set_point_rock_and_sand(rock_1)
+                                time.sleep(1)
+                                self.read_setpoint_rock_and_sand.emit()
+                                time.sleep(0.5)
+                    else:
+                        self.state_load_rock_and_sand = 4
+                        
                 if self.time_load_sand_target - self.start_load_sand_time >= 20:
                     self.status_message.emit(f" ==================================== ทรายเปียกอาจค้างกรุณาเช็คทราย !!! ====================================")
                     logging.info("sand is moist")
                     self.start_load_sand_time = time.time()
+                    self.time_out_sand_moist += 1
                     self.state_load_rock_and_sand = 2
+                    
+                if self.time_out_sand_moist == 3:
+                    self.sand_current_weight = int(self.main_window.mix_monitor_sand_lineEdit.text())
+                    logging.info("sand is moist and count tinout = 3 this skip sand loading")
+                    self.is_sand_frozen = True
+                    self.sand_frozen_weight = self.sand_current_weight
+                    self.state_load_rock_and_sand = 2
+                    self.time_out_sand_moist = 0
                     
 
             # STATE 3: เริ่มโหลด Rock1
             elif self.state_load_rock_and_sand == 3:
                 self.plc_controller.loading_sand("stop")
+                time.sleep(0.1)
+                self.plc_controller.loading_sand("stop")
                 time.sleep(1)
+                self.plc_controller.start_vibrater_rock_and_sand("stop")
+                time.sleep(0.1)
                 self.plc_controller.start_vibrater_rock_and_sand("stop")
                 time.sleep(1)
                 if original_rock1 <= 0:
+                    logging.debug(" skip rock1 loading in state 3")
                     self.is_rock1_frozen = True
                     self.rock1_frozen_weight = current_weight if current_weight > 0 else self.sand_frozen_weight
                     self.rock1_only_frozen = 0
                     # เช็คว่า Rock2 ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_rock2 > 0:
+                        logging.debug(" set rock2 setpoint in state 3")
+                        # sand_loadded = int(self.main_window.mix_monitor_sand_lineEdit.text())
+                        # rock1_loadded = int(self.main_window.mix_monitor_rock_1_lineEdit.text())
+                        # overall_loadded = sand_loadded + rock1_loadded
+                        # if overall_loadded > rock_2:
                         self.autoda_controller.write_set_point_rock_and_sand(rock_2)
                     time.sleep(1)
+                    logging.info(rock_2)
                     self.state_load_rock_and_sand = 5
                 else:
+                    logging.debug(" start rock1 loading in state 3")
                     self.plc_controller.loading_rock1("start")
+                    time.sleep(0.1)
+                    self.plc_controller.loading_rock1("start")
+                    logging.info("start state load rock1")
                     self.state_load_rock_and_sand = 4
             
             # STATE 4: รอ Rock1 โหลดเสร็จ
             elif self.state_load_rock_and_sand == 4:
                 if self.is_rock1_frozen:
+                    logging.debug(" rock1 is frozen in state 4")
+                    self.plc_controller.loading_rock1("stop")
+                    time.sleep(0.1)
                     self.plc_controller.loading_rock1("stop")
                     # เช็คว่า Rock2 ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_rock2 > 0:
-                        self.autoda_controller.write_set_point_rock_and_sand(rock_2)
-                        time.sleep(1)
-                        self.read_setpoint_rock_and_sand.emit()
-                        time.sleep(0.5)
-                        logging.info(f"feedback rock 2 = {self.feedback_setpoint_rock_sand}")  
-                        if self.feedback_setpoint_rock_sand == rock_2:
-                            self.state_load_rock_and_sand = 5
+                        self.sand_now = int(self.main_window.mix_monitor_sand_lineEdit.text())
+                        self.rock_1_now = int(self.main_window.mix_monitor_rock_1_lineEdit.text())
+                        self.overall_2_met = self.sand_now + self.rock_1_now
+                        self.diff_sand_rock1 = (rock_2 + int(self.rock2_offset)) - self.overall_2_met
+                        if multipiler_target < 1.0:
+                            if self.diff_sand_rock1 > 100:  #defualt 50
+                                self.new_rock2 = self.overall_2_met + original_rock2 - int(self.rock2_offset) - 40
+                                self.autoda_controller.write_set_point_rock_and_sand(self.new_rock2)
+                                logging.info(f" New rock2 for {multipiler_target}  to {self.new_rock2} of sand now = {self.sand_now} and rock1 now = {self.rock_1_now}")
+                                self.state_load_rock_and_sand = 5
+                            else:
+                                self.is_rock2_frozen = True
+                                self.rock2_frozen_weight = current_weight if current_weight > 0 else self.rock1_frozen_weight
+                                self.rock2_only_frozen = 0
+                                self.state_load_rock_and_sand = 0
+                                self.rock_and_sand_loading_success = True
+                                self.is_loading_rock_and_sand_in_progress = False
                         else:
                             self.autoda_controller.write_set_point_rock_and_sand(rock_2)
                             time.sleep(1)
-                            self.read_setpoint_rock_and_sand.emit()
+                            # self.read_setpoint_rock_and_sand.emit()
                             time.sleep(0.5)
-            
+                            # logging.info(f"feedback rock 2 = {self.feedback_setpoint_rock_sand}")  
+                            # if self.feedback_setpoint_rock_sand == rock_2:
+                            if rock_2 == rock_2:
+                                self.state_load_rock_and_sand = 5
+                            else:
+                                self.autoda_controller.write_set_point_rock_and_sand(rock_2)
+                                time.sleep(1)
+                                self.read_setpoint_rock_and_sand.emit()
+                                time.sleep(0.5)
+                    else:
+                        logging.debug(" rock 2 fomular = 0 in state 4")
+
             # STATE 5: เริ่มโหลด Rock2
             elif self.state_load_rock_and_sand == 5:
                 if original_rock2 <= 0:
@@ -2124,6 +2264,9 @@ class MainController(QObject):
                     self.is_loading_rock_and_sand_in_progress = False
                 else:
                     self.plc_controller.loading_rock2("start")
+                    time.sleep(0.1)
+                    self.plc_controller.loading_rock2("start")
+                    logging.info("start state load rock2")
                     time.sleep(0.5)
                     self.plc_controller.loading_rock1("stop")
                     time.sleep(0.5)
@@ -2133,15 +2276,12 @@ class MainController(QObject):
             # STATE 6: รอ Rock2 โหลดเสร็จ
             elif self.state_load_rock_and_sand == 6:
                 # เมื่อ PLC ส่งสัญญาณว่าถึงน้ำหนักแล้ว ให้หยุดโหลดทันที
-                if self.rock_success and not self.is_rock2_frozen:
+                if self.is_rock2_frozen:
                     self.plc_controller.loading_rock2("stop")
                     time.sleep(0.5)
                     self.plc_controller.loading_rock1("stop")
                     time.sleep(0.5)
                     self.plc_controller.loading_sand("stop")
-                
-                # เมื่อ freeze เสร็จแล้ว จึงจบกระบวนการโหลด
-                if self.is_rock2_frozen:
                     logging.info("rock and sand is success")  
                     self.state_load_rock_and_sand = 0
                     self.rock_and_sand_loading_success = True
@@ -2154,13 +2294,13 @@ class MainController(QObject):
         cement, fyash = data_loaded
         original_cement = cement
         original_fyash = fyash
-        
+        logging.info("start state load cement fyash")
         # รอให้ weight signal อัพเดทและอ่านน้ำหนักปัจจุบัน (ที่ค้างอยู่)
         time.sleep(0.5)
         try:
-            current_weight = int(self.now_cement_fyash_dispaly_weight)
+            current_weight = self.now_cement_fyash_dispaly_weight
         except:
-            logging.error("Error reading cement weight from lineEdit")
+            logging.error(f"Error reading cement weight from lineEdit{self.now_cement_fyash_dispaly_weight}")
             current_weight = 0
         # คำนวณ setpoint ตามลำดับใหม่: Flyash ก่อน แล้วค่อย Cement
         # Flyash โหลดก่อน (ไม่มีอะไรก่อนหน้า)
@@ -2182,6 +2322,7 @@ class MainController(QObject):
         self.target_cement_weight = original_cement
 
         while self.is_loading_cement_and_fyash_in_progress:
+            logging.debug(f" State load cement and fyash: {self.state_load_cement_and_fyash}")
             if self.state_load_cement_and_fyash == 0:
                 pass
                     
@@ -2196,11 +2337,16 @@ class MainController(QObject):
                 else:
                     self.autoda_controller.write_set_point_cement_and_fyash(fyash_setpoint)
                     time.sleep(1)
-                    self.read_setpoint_cement_and_fyash.emit()
+                    logging.info(fyash_setpoint)
+                    # self.read_setpoint_cement_and_fyash.emit()
                     time.sleep(0.5)
-                    logging.info(f"feedback fyash = {self.feedback_setpoint_cement_fyash}")  
-                    if self.feedback_setpoint_cement_fyash == fyash_setpoint:
+                    # logging.info(f"feedback fyash = {self.feedback_setpoint_cement_fyash}")  
+                    # if self.feedback_setpoint_cement_fyash == fyash_setpoint:
+                    if fyash_setpoint == fyash_setpoint:
                         self.plc_controller.loading_flyash("start")
+                        time.sleep(0.1)
+                        self.plc_controller.loading_flyash("start")
+                        logging.info("start state load fyash")
                         self.state_load_cement_and_fyash = 2
                     else:
                         logging.info("Flyash state 1 setpoint not matched, retrying...")
@@ -2213,14 +2359,18 @@ class MainController(QObject):
             elif self.state_load_cement_and_fyash == 2:
                 if self.is_fyash_frozen:
                     self.plc_controller.loading_flyash("stop")
+                    time.sleep(0.1)
+                    self.plc_controller.loading_flyash("stop")
                     # เช็คว่า Cement ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_cement > 0:
                         self.autoda_controller.write_set_point_cement_and_fyash(cement_setpoint)
                         time.sleep(1)
-                        self.read_setpoint_cement_and_fyash.emit()
+                        logging.info(cement_setpoint)
+                        # self.read_setpoint_cement_and_fyash.emit()
                         time.sleep(0.5)
-                        logging.info(f"feedback cement = {self.feedback_setpoint_cement_fyash}")  
-                        if self.feedback_setpoint_cement_fyash == cement_setpoint:
+                        # logging.info(f"feedback cement = {self.feedback_setpoint_cement_fyash}")  
+                        # if self.feedback_setpoint_cement_fyash == cement_setpoint:
+                        if cement_setpoint == cement_setpoint:
                             self.state_load_cement_and_fyash = 3
                         else:
                             logging.info("Cement state 2 setpoint not matched, retrying...")
@@ -2237,7 +2387,13 @@ class MainController(QObject):
             # STATE 3: เริ่มโหลด Cement
             elif self.state_load_cement_and_fyash == 3:
                 self.plc_controller.loading_flyash("stop")
+                time.sleep(0.1)
+                self.plc_controller.loading_flyash("stop")
                 time.sleep(1)
+                self.autoda_controller.write_set_point_cement_and_fyash(cement_setpoint)
+                time.sleep(1)
+                self.read_setpoint_cement_and_fyash.emit()
+                time.sleep(0.5)
                 self.retry_count = 0  # ตัวนับสำหรับการเติมปูนซ้ำ
                 if original_cement <= 0:
                     self.is_cement_frozen = True
@@ -2254,6 +2410,9 @@ class MainController(QObject):
                     time.sleep(2)
                     self.cement_start_time = time.time()
                     self.cement_start_weight = int(self.main_window.mix_monitor_cement_lineEdit.text()) 
+                    logging.info("start state load cement")
+                    self.plc_controller.loading_cement("start")
+                    time.sleep(0.1)
                     self.plc_controller.loading_cement("start")
                     self.state_load_cement_and_fyash = 100
 
@@ -2265,11 +2424,15 @@ class MainController(QObject):
                     self.cement_follow_weight = 0
                     self.status_message.emit(f"อ่านค่าน้ำหนักปูนไม่ได้")
                     self.plc_controller.loading_cement("stop")
+                    time.sleep(0.1)
+                    self.plc_controller.loading_cement("stop")
                     self.state_load_cement_and_fyash = 102
                     
-                cutoff_offset = 30  # กำหนด offset สำหรับการหยุดโหลดรอบแรก
+                cutoff_offset = 15  # กำหนด offset สำหรับการหยุดโหลดรอบแรก
                 
                 if self.cement_follow_weight >= self.target_cement_weight - cutoff_offset:
+                    self.plc_controller.loading_cement("stop")
+                    time.sleep(0.1)
                     self.plc_controller.loading_cement("stop")
                     time.sleep(5)
                     self.end_cement_time = time.time()
@@ -2415,9 +2578,9 @@ class MainController(QObject):
         # รอให้ weight signal อัพเดทและอ่านน้ำหนักปัจจุบัน
         time.sleep(0.5)
         try:
-            current_weight = int(self.now_water_display_weight)
+            current_weight = self.now_water_display_weight
         except:
-            logging.error("Error reading water weight from lineEdit")
+            logging.error(f"Error reading water weight from lineEdit{self.now_water_display_weight}")
             current_weight = 0
         # คำนวณ setpoint (หักลบ offset)
         water = int(water) - int(self.water_offset)
@@ -2428,6 +2591,7 @@ class MainController(QObject):
         self.target_water_weight = water
         
         while self.is_loading_water_in_progress:
+            logging.debug(f" State load water: {self.state_load_water}")
             if self.state_load_water == 0:
                 pass
             elif self.state_load_water == 1:
@@ -2442,11 +2606,15 @@ class MainController(QObject):
                     # print(water)
                     self.autoda_controller.write_set_point_water(water)
                     time.sleep(1)
-                    self.read_setpoint_water.emit()
+                    logging.info(water)
+                    # self.read_setpoint_water.emit()
                     time.sleep(0.5)
-                    logging.info(f"feedback water = {self.feedback_setpoint_water}")  
-                    if self.feedback_setpoint_water == water:
+                    # logging.info(f"feedback water = {self.feedback_setpoint_water}")  
+                    # if self.feedback_setpoint_water == water:
+                    if water == water:
                         time.sleep(0.5)
+                        self.plc_controller.loading_water("start")
+                        time.sleep(0.1)
                         self.plc_controller.loading_water("start")
                         time.sleep(0.5)
                         self.state_load_water = 2
@@ -2459,6 +2627,8 @@ class MainController(QObject):
 
             elif self.state_load_water == 2:
                 if self.is_water_frozen:
+                    self.plc_controller.loading_water("stop")
+                    time.sleep(0.1)
                     self.plc_controller.loading_water("stop")
                     time.sleep(0.5)
                     self.state_load_water = 3
@@ -2517,6 +2687,7 @@ class MainController(QObject):
         self.target_chem1_weight = chem1
         self.target_chem2_total_weight = chem2
         while self.is_loading_chemical_in_progress:
+            logging.debug(f" State load chemical: {self.state_load_chemical}")
             if self.state_load_chemical == 0:
                 pass
             elif self.state_load_chemical == 1:
@@ -2528,11 +2699,15 @@ class MainController(QObject):
                 else:
                     self.autoda_controller.write_set_point_chemical(chem1)
                     time.sleep(1)
-                    self.read_setpoint_chemical.emit()
+                    logging.info(chem1)
+                    # self.read_setpoint_chemical.emit()
                     time.sleep(0.5)
-                    logging.info(f"feedback chem 1 = {self.feedback_setpoint_chemical}")
-                    if self.feedback_setpoint_chemical == chem1:
+                    # logging.info(f"feedback chem 1 = {self.feedback_setpoint_chemical}")
+                    # if self.feedback_setpoint_chemical == chem1:
+                    if chem1 == chem1:
                         time.sleep(0.5)
+                        self.plc_controller.loading_chemical_1("start")
+                        time.sleep(0.1)
                         self.plc_controller.loading_chemical_1("start")
                         time.sleep(0.5)
                         self.state_load_chemical = 2
@@ -2546,14 +2721,18 @@ class MainController(QObject):
             elif self.state_load_chemical == 2:
                 if self.is_chem1_frozen:
                     self.plc_controller.loading_chemical_1("stop")
+                    time.sleep(0.1)
+                    self.plc_controller.loading_chemical_1("stop")
                     # เช็คว่า Chem2 ต้องโหลดหรือไม่ก่อนเซ็ต setpoint
                     if original_chem2 > 0:
                         self.autoda_controller.write_set_point_chemical(chem2)
                         time.sleep(1)
-                        self.read_setpoint_chemical.emit()
+                        logging.info(chem2)
+                        # self.read_setpoint_chemical.emit()
                         time.sleep(0.5)
-                        logging.info(f"feedback chem 2 = {self.feedback_setpoint_chemical}")
-                        if self.feedback_setpoint_chemical == chem2:
+                        # logging.info(f"feedback chem 2 = {self.feedback_setpoint_chemical}")
+                        # if self.feedback_setpoint_chemical == chem2:
+                        if chem2 == chem2:
                             time.sleep(0.5)
                             self.state_load_chemical = 3
                         else:
@@ -2567,6 +2746,8 @@ class MainController(QObject):
 
             elif self.state_load_chemical == 3:
                 self.plc_controller.loading_chemical_1("stop")
+                time.sleep(0.1)
+                self.plc_controller.loading_chemical_1("stop")
                 time.sleep(0.5)
                 if original_chem2 <= 0:
                     self.is_chem2_frozen = True
@@ -2577,12 +2758,18 @@ class MainController(QObject):
                     self.is_loading_chemical_in_progress = False
                 else:
                     self.plc_controller.loading_chemical_2("start")
+                    time.sleep(0.1)
+                    self.plc_controller.loading_chemical_2("start")
                     self.state_load_chemical = 4
 
             elif self.state_load_chemical == 4:
                 if self.is_chem2_frozen:
                     self.plc_controller.loading_chemical_2("stop")
+                    time.sleep(0.1)
+                    self.plc_controller.loading_chemical_2("stop")
                     time.sleep(0.5)
+                    self.plc_controller.loading_chemical_1("stop")
+                    time.sleep(0.1)
                     self.plc_controller.loading_chemical_1("stop")
                     self.state_load_chemical = 0
                     self.chemical_loading_success = True
@@ -2607,6 +2794,8 @@ class MainController(QObject):
             self.thread_chemical.join()
 
     def mix_cancel_load(self):
+        self.main_window.mix_start_load_pushButton.setDisabled(False)
+        self.main_window.mix_cancel_load_pushButton.setDisabled(True)
         # print("Cancelling load operation...")
         self.start_button_load_enabled = False
         self.is_workflow_active = False  # ปิด workflow

@@ -1,0 +1,36 @@
+2026-01-21 11:10:33,833 - INFO - ==================================================
+2026-01-21 11:10:33,833 - INFO - START BATCH LOGGING: ID 2026-01-21_11-10-33
+2026-01-21 11:10:33,833 - INFO - ==================================================
+2026-01-21 11:10:33,833 - INFO - Total Queue Count to Load: 2.0
+2026-01-21 11:10:33,833 - INFO - 
+2026-01-21 11:10:33,833 - INFO - --- Start Queue #1 of 2 (Multiplier: 1.0) ---
+2026-01-21 11:10:33,833 - INFO -    Target Rock1: 350
+2026-01-21 11:10:33,833 - INFO -    Target Sand: 950
+2026-01-21 11:10:33,833 - INFO -    Target Rock2: 700
+2026-01-21 11:10:33,833 - INFO -    Target Cement: 260
+2026-01-21 11:10:33,833 - INFO -    Target Flyash: 0
+2026-01-21 11:10:33,833 - INFO -    Target Water: 168
+2026-01-21 11:10:33,833 - INFO -    Target Chem1: 1.2
+2026-01-21 11:10:33,833 - INFO -    Target Chem2: 0.4
+2026-01-21 11:10:33,833 - INFO - 
+2026-01-21 11:10:35,867 - INFO - start state load cement fyash
+2026-01-21 11:10:39,163 - INFO - feedback water = 166
+2026-01-21 11:10:40,395 - INFO - ค่า sand เป้าหมาย 900 ค่า Rock1 เป้าหมาย 1200 ค่า Rock2 เป้าหมาย 1900
+2026-01-21 11:10:40,445 - INFO - feedback chem 1 = 1.2
+2026-01-21 11:10:40,735 - INFO - start state load cement
+2026-01-21 11:10:43,313 - INFO - feedback sand = 917
+2026-01-21 11:10:43,519 - INFO - start state load sand
+2026-01-21 11:10:53,473 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-21 11:11:02,831 - INFO - feedback rock 1 = 1217
+2026-01-21 11:11:04,606 - INFO - feedback chem 2 = 1.6
+2026-01-21 11:11:06,722 - INFO - start state load rock1
+2026-01-21 11:11:10,804 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-21 11:11:11,771 - ERROR - No response received after 3 retries, continue with next request
+2026-01-21 11:11:16,127 - ERROR - Repeating....
+2026-01-21 11:11:20,468 - ERROR - No response received after 3 retries, continue with next request
+2026-01-21 11:11:24,809 - ERROR - No response received after 3 retries, continue with next request
+2026-01-21 11:11:28,052 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-21 11:11:29,136 - ERROR - No response received after 3 retries, continue with next request
+2026-01-21 11:11:31,184 - INFO - ==================================================
+2026-01-21 11:11:31,184 - INFO - END BATCH LOGGING: ID 2026-01-21_11-10-33
+2026-01-21 11:11:31,184 - INFO - ==================================================

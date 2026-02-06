@@ -150,207 +150,638 @@ class AUTODA_Controller(QThread,QObject):
     def disconnect_to_autodac(self):
         self.autoda_client.close()
 
+    def monitor_connection(self):
+        """ตรวจสอบ connection status และ reconnect ถ้าจำเป็น"""
+        if not hasattr(self, 'autoda_client') or not self.autoda_client:
+            print("AutoDA client not initialized")
+            return False
+        
+        try:
+            if not self.autoda_client.is_socket_open():
+                print("AutoDA serial port is closed - attempting reconnect...")
+                self.connect_to_autodac()
+                self.msleep(2000)  # รอ 2 วินาที
+                
+                if self.autoda_client and self.autoda_client.is_socket_open():
+                    print("✓ AutoDA reconnected successfully")
+                    # อ่านค่า chemical decimal setting ใหม่หลัง reconnect
+                    self.chemical_decimal_initialized = False
+                    self.read_chemical_decimal_setting()
+                    return True
+                else:
+                    print("✗ AutoDA reconnect failed")
+                    self.comport_error.emit([True, 'AutoDA'])
+                    return False
+            return True
+        except Exception as e:
+            print(f"Error checking AutoDA connection: {e}")
+            return False
+
+    def ensure_connection(self, operation_name="operation"):
+        """ตรวจสอบและรับประกัน connection ก่อนทำงาน"""
+        max_retry = 3
+        for attempt in range(max_retry):
+            if self.monitor_connection():
+                return True
+            print(f"Connection failed for {operation_name}, retry {attempt + 1}/{max_retry}")
+            self.msleep(1000)
+        
+        print(f"Failed to ensure connection for {operation_name} after {max_retry} retries")
+        return False
+
     def read_weight_rock_and_sand(self):
         self.mutex.lock()
+        max_retries = 3
         try:
-            register_weight = 81  # Register weight rock and sand
-            read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.rock_and_sand_id)
-            raw_value = (read_weight.registers[0])
-            if raw_value > 32767:
-                weight_value = raw_value - 65536
-            else:
-                weight_value = raw_value
-            self.weight_rock_and_sand.emit(weight_value)
-            # print(weight_value)
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนอ่าน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before reading rock_sand weight, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            self.weight_rock_and_sand.emit(0)
+                            return
+                    
+                    register_weight = 81  # Register weight rock and sand
+                    read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.rock_and_sand_id)
+                    
+                    if read_weight.isError():
+                        print(f"Error reading rock_sand weight, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(300)
+                            continue
+                        else:
+                            self.weight_rock_and_sand.emit(0)
+                            return
+                    
+                    raw_value = (read_weight.registers[0])
+                    if raw_value > 32767:
+                        weight_value = raw_value - 65536
+                    else:
+                        weight_value = raw_value
+                    self.weight_rock_and_sand.emit(weight_value)
+                    return
+                    
+                except Exception as e:
+                    print(f"Exception reading rock_sand weight, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(300)
+                    else:
+                        self.weight_rock_and_sand.emit(0)
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
-            self.weight_chemical.emit(0)
+            print(f"Fatal exception in read_weight_rock_and_sand: {e}")
+            self.weight_rock_and_sand.emit(0)
         finally:
             self.mutex.unlock()
 
     def read_cement_and_fyash(self):
         self.mutex.lock()
+        max_retries = 3
         try:
-            register_weight = 81  # Register weight cement and flyash
-            read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.cement_and_flyash_id)
-            raw_value = (read_weight.registers[0])
-            if raw_value > 32767:
-                weight_value = raw_value - 65536
-            else:
-                weight_value = raw_value
-            # weight_value = 20  # ตัวอย่างค่าที่อ่านได้
-            self.weight_cement_and_fyash.emit(weight_value)
-            # print(weight_value)
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนอ่าน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before reading cement weight, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            self.weight_cement_and_fyash.emit(0)
+                            return
+                    
+                    register_weight = 81  # Register weight cement and flyash
+                    read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.cement_and_flyash_id)
+                    
+                    if read_weight.isError():
+                        print(f"Error reading cement weight, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(300)
+                            continue
+                        else:
+                            self.weight_cement_and_fyash.emit(0)
+                            return
+                    
+                    raw_value = (read_weight.registers[0])
+                    if raw_value > 32767:
+                        weight_value = raw_value - 65536
+                    else:
+                        weight_value = raw_value
+                    self.weight_cement_and_fyash.emit(weight_value)
+                    return
+                    
+                except Exception as e:
+                    print(f"Exception reading cement weight, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(300)
+                    else:
+                        self.weight_cement_and_fyash.emit(0)
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
-            self.weight_chemical.emit(0)
+            print(f"Fatal exception in read_cement_and_fyash: {e}")
+            self.weight_cement_and_fyash.emit(0)
         finally:
             self.mutex.unlock()
 
     def read_water(self):
         self.mutex.lock()
+        max_retries = 3
         try:
-            register_weight = 81  # Register weight water
-            read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.water_id)
-            raw_value = (read_weight.registers[0])
-            if raw_value > 32767:
-                weight_value = raw_value - 65536
-            else:
-                weight_value = raw_value
-            # weight_value = 10  # ตัวอย่างค่าที่อ่านได้
-            self.weight_water.emit(weight_value)
-            # print(weight_value)
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนอ่าน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before reading water weight, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            self.weight_water.emit(0)
+                            return
+                    
+                    register_weight = 81  # Register weight water
+                    read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.water_id)
+                    
+                    if read_weight.isError():
+                        print(f"Error reading water weight, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(300)
+                            continue
+                        else:
+                            self.weight_water.emit(0)
+                            return
+                    
+                    raw_value = (read_weight.registers[0])
+                    if raw_value > 32767:
+                        weight_value = raw_value - 65536
+                    else:
+                        weight_value = raw_value
+                    self.weight_water.emit(weight_value)
+                    return
+                    
+                except Exception as e:
+                    print(f"Exception reading water weight, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(300)
+                    else:
+                        self.weight_water.emit(0)
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
-            self.weight_chemical.emit(0)
+            print(f"Fatal exception in read_water: {e}")
+            self.weight_water.emit(0)
         finally:
             self.mutex.unlock()
 
     def read_chemical(self):
         self.mutex.lock()
+        max_retries = 3
         try:
             if not self.chemical_decimal_initialized:
                 self.read_chemical_decimal_setting()
             
-            register_weight = 81  # Register weight chemical
-            try:
-                read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.chemical_id)
-                
-                if read_weight.isError():
-                    self.weight_chemical.emit(0.0)
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนอ่าน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before reading chemical weight, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            self.weight_chemical.emit(0.0)
+                            return
+                    
+                    register_weight = 81  # Register weight chemical
+                    read_weight = self.autoda_client.read_holding_registers(address=register_weight, count=1, device_id=self.chemical_id)
+                    
+                    if read_weight.isError():
+                        print(f"Error reading chemical weight, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(300)
+                            continue
+                        else:
+                            self.weight_chemical.emit(0.0)
+                            return
+                    
+                    raw_value = (read_weight.registers[0])
+                    if raw_value > 32767:
+                        signed_value = raw_value - 65536
+                    else:
+                        signed_value = raw_value
+                    float_value = signed_value / self.chemical_divisor
+                    self.weight_chemical.emit(float_value)
                     return
                     
-                raw_value = (read_weight.registers[0])
-                if raw_value > 32767:
-                    signed_value = raw_value - 65536
-                else:
-                    signed_value = raw_value
-                float_value = signed_value / self.chemical_divisor
-                # float_value = 5.0  # ตัวอย่างค่าที่อ่านได้
-                # print(float_value)
-                self.weight_chemical.emit(float_value)
-                # print(float_value)
-            except Exception as e:
-                self.weight_chemical.emit(0.0)
+                except Exception as e:
+                    print(f"Exception reading chemical weight, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(300)
+                    else:
+                        self.weight_chemical.emit(0.0)
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
+            print(f"Fatal exception in read_chemical: {e}")
             self.weight_chemical.emit(0.0)
         finally:
             self.mutex.unlock()
 
     def read_setpoint_rock_sand(self):
         self.mutex.lock()
+        max_retries = 3
         try:
-            address_register = 314 #register set point rock and sand
-            rock_sand_address = 1
-            result = self.autoda_client.read_holding_registers(address=address_register, count=2, device_id=rock_sand_address)
-            self.setpoint_rock_sand_read.emit(result.registers[1])
-            # return result.registers[1]
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนอ่าน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before reading setpoint rock_sand, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            print(f"No response received after {max_retries} retries for setpoint rock_sand")
+                            self.setpoint_rock_sand_read.emit(0)
+                            return
+                    
+                    address_register = 314 #register set point rock and sand
+                    rock_sand_address = 1
+                    result = self.autoda_client.read_holding_registers(address=address_register, count=2, device_id=rock_sand_address)
+                    
+                    if result.isError():
+                        print(f"Error reading setpoint rock_sand, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            print(f"No response received after {max_retries} retries, continue with next request")
+                            self.setpoint_rock_sand_read.emit(0)
+                            return
+                    
+                    self.setpoint_rock_sand_read.emit(result.registers[1])
+                    return
+                    
+                except Exception as e:
+                    print(f"Exception reading setpoint rock_sand, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(500)
+                    else:
+                        print(f"No response received after {max_retries} retries, continue with next request")
+                        self.setpoint_rock_sand_read.emit(0)
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
-            # return 0.0
+            print(f"Fatal exception in read_setpoint_rock_sand: {e}")
+            self.setpoint_rock_sand_read.emit(0)
         finally:
             self.mutex.unlock()
 
     def read_setpoint_cement_fyash(self):
         self.mutex.lock()
+        max_retries = 3
         try:
-            address_register = 314 #register set point rock and sand
-            cement_and_fyash_address = 2
-            result = self.autoda_client.read_holding_registers(address=address_register, count=2, device_id=cement_and_fyash_address)
-            self.setpoint_cement_and_fyash_read.emit(result.registers[1])
-            # return result.registers[1]
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนอ่าน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before reading setpoint cement, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            print(f"No response received after {max_retries} retries for setpoint cement")
+                            self.setpoint_cement_and_fyash_read.emit(0)
+                            return
+                    
+                    address_register = 314 #register set point rock and sand
+                    cement_and_fyash_address = 2
+                    result = self.autoda_client.read_holding_registers(address=address_register, count=2, device_id=cement_and_fyash_address)
+                    
+                    if result.isError():
+                        print(f"Error reading setpoint cement, attempt {attempt + 1}: Repeating....")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            print(f"No response received after {max_retries} retries, continue with next request")
+                            self.setpoint_cement_and_fyash_read.emit(0)
+                            return
+                    
+                    self.setpoint_cement_and_fyash_read.emit(result.registers[1])
+                    return
+                    
+                except Exception as e:
+                    print(f"Exception reading setpoint cement, attempt {attempt + 1}: {e}")
+                    print("Repeating....")
+                    if attempt < max_retries - 1:
+                        self.msleep(500)
+                    else:
+                        print(f"No response received after {max_retries} retries, continue with next request")
+                        self.setpoint_cement_and_fyash_read.emit(0)
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
-            # return 0.0
+            print(f"Fatal exception in read_setpoint_cement_fyash: {e}")
+            self.setpoint_cement_and_fyash_read.emit(0)
         finally:
             self.mutex.unlock()
 
     def read_setpoint_water_work(self):
         self.mutex.lock()
+        max_retries = 3
         try:
-            address_register = 314 #register set point rock and sand
-            water_address = 3
-            result = self.autoda_client.read_holding_registers(address=address_register, count=2, device_id=water_address)
-            self.setpoint_water_read.emit(result.registers[1])
-            # return result.registers[1]
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนอ่าน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before reading setpoint water, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            print(f"No response received after {max_retries} retries for setpoint water")
+                            self.setpoint_water_read.emit(0)
+                            return
+                    
+                    address_register = 314 #register set point rock and sand
+                    water_address = 3
+                    result = self.autoda_client.read_holding_registers(address=address_register, count=2, device_id=water_address)
+                    
+                    if result.isError():
+                        print(f"Error reading setpoint water, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            print(f"No response received after {max_retries} retries, continue with next request")
+                            self.setpoint_water_read.emit(0)
+                            return
+                    
+                    self.setpoint_water_read.emit(result.registers[1])
+                    return
+                    
+                except Exception as e:
+                    print(f"Exception reading setpoint water, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(500)
+                    else:
+                        print(f"No response received after {max_retries} retries, continue with next request")
+                        self.setpoint_water_read.emit(0)
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
-            # return 0.0
+            print(f"Fatal exception in read_setpoint_water: {e}")
+            self.setpoint_water_read.emit(0)
         finally:
             self.mutex.unlock()
 
     def read_setpoint_chemical_work(self):
         self.mutex.lock()
+        max_retries = 3
         try:
             if not self.chemical_decimal_initialized:
                 self.read_chemical_decimal_setting()
-            address_register = 314
-            chemical_drress = 4 
-            result = self.autoda_client.read_holding_registers(
-                address=address_register, 
-                count=2, 
-                device_id=chemical_drress
-            )
-            if result.isError():
-                print("Error reading chemical setpoint")
-                return 0.0
-            high_word = result.registers[0]
-            low_word = result.registers[1]
-            raw_int = (high_word << 16) | low_word
-            if raw_int >= 0x80000000:
-                raw_int -= 0x100000000
-            float_setpoint = raw_int / self.chemical_divisor
-            self.setpoint_chemical_read.emit(float_setpoint)
-            # return float_setpoint
+            
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนอ่าน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before reading setpoint chemical, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            print(f"No response received after {max_retries} retries for setpoint chemical")
+                            self.setpoint_chemical_read.emit(0.0)
+                            return
+                    
+                    address_register = 314
+                    chemical_drress = 4 
+                    result = self.autoda_client.read_holding_registers(
+                        address=address_register, 
+                        count=2, 
+                        device_id=chemical_drress
+                    )
+                    
+                    if result.isError():
+                        print(f"Error reading setpoint chemical, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            print(f"No response received after {max_retries} retries, continue with next request")
+                            self.setpoint_chemical_read.emit(0.0)
+                            return
+                    
+                    high_word = result.registers[0]
+                    low_word = result.registers[1]
+                    raw_int = (high_word << 16) | low_word
+                    if raw_int >= 0x80000000:
+                        raw_int -= 0x100000000
+                    float_setpoint = raw_int / self.chemical_divisor
+                    self.setpoint_chemical_read.emit(float_setpoint)
+                    return
+                    
+                except Exception as e:
+                    print(f"Exception reading setpoint chemical, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(500)
+                    else:
+                        print(f"No response received after {max_retries} retries, continue with next request")
+                        self.setpoint_chemical_read.emit(0.0)
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
-            # return 0.0
+            print(f"Fatal exception in read_setpoint_chemical: {e}")
+            self.setpoint_chemical_read.emit(0.0)
         finally:
             self.mutex.unlock()
 
     def write_set_point_rock_and_sand(self,value):
         self.mutex.lock()
+        max_retries = 3
         try:
-            address_register = 314 #register set point rock and sand
-            unlock_address = 5      # Address 5 (คือ Register 40006)
-            unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
-            self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.rock_and_sand_id)
-            self.msleep(100)
-            register_values = self.int32_to_registers(value)
-            self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.rock_and_sand_id)
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนเขียน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before writing setpoint rock_sand, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            print(f"Failed to write setpoint rock_sand after {max_retries} retries")
+                            return False
+                    
+                    address_register = 314 #register set point rock and sand
+                    unlock_address = 5      # Address 5 (คือ Register 40006)
+                    unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+                    
+                    unlock_result = self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.rock_and_sand_id)
+                    if unlock_result.isError():
+                        print(f"Error unlocking rock_sand register, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            return False
+                    
+                    self.msleep(100)
+                    register_values = self.int32_to_registers(value)
+                    write_result = self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.rock_and_sand_id)
+                    
+                    if write_result.isError():
+                        print(f"Error writing setpoint rock_sand, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            return False
+                    
+                    return True
+                    
+                except Exception as e:
+                    print(f"Exception writing setpoint rock_sand, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(500)
+                    else:
+                        return False
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
+            print(f"Fatal exception in write_set_point_rock_and_sand: {e}")
+            return False
         finally:
             self.mutex.unlock()
 
     def write_set_point_cement_and_fyash(self,value):
         self.mutex.lock()
+        max_retries = 3
         try:
-            address_register = 314 #register set point rock and sand
-            unlock_address = 5      # Address 5 (คือ Register 40006)
-            unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
-            self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.cement_and_flyash_id)
-            self.msleep(100)
-            register_values = self.int32_to_registers(value)
-            self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.cement_and_flyash_id)
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนเขียน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before writing setpoint cement, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            print(f"Failed to write setpoint cement after {max_retries} retries")
+                            return False
+                    
+                    address_register = 314 #register set point rock and sand
+                    unlock_address = 5      # Address 5 (คือ Register 40006)
+                    unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+                    
+                    unlock_result = self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.cement_and_flyash_id)
+                    if unlock_result.isError():
+                        print(f"Error unlocking cement register, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            return False
+                    
+                    self.msleep(100)
+                    register_values = self.int32_to_registers(value)
+                    write_result = self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.cement_and_flyash_id)
+                    
+                    if write_result.isError():
+                        print(f"Error writing setpoint cement, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            return False
+                    
+                    return True
+                    
+                except Exception as e:
+                    print(f"Exception writing setpoint cement, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(500)
+                    else:
+                        return False
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
+            print(f"Fatal exception in write_set_point_cement_and_fyash: {e}")
+            return False
         finally:
             self.mutex.unlock()
 
     def write_set_point_water(self,value):
         self.mutex.lock()
+        max_retries = 3
         try:
-            address_register = 314 #register set point rock and sand
-            unlock_address = 5      # Address 5 (คือ Register 40006)
-            unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
-            self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.water_id)
-            self.msleep(100)
-            register_values = self.int32_to_registers(value)
-            self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.water_id)
+            for attempt in range(max_retries):
+                try:
+                    # ตรวจสอบ connection ก่อนเขียน
+                    if not self.autoda_client or not self.autoda_client.is_socket_open():
+                        if attempt < max_retries - 1:
+                            print(f"Connection lost before writing setpoint water, retry {attempt + 1}")
+                            self.mutex.unlock()
+                            self.monitor_connection()
+                            self.mutex.lock()
+                            continue
+                        else:
+                            print(f"Failed to write setpoint water after {max_retries} retries")
+                            return False
+                    
+                    address_register = 314 #register set point rock and sand
+                    unlock_address = 5      # Address 5 (คือ Register 40006)
+                    unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
+                    
+                    unlock_result = self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.water_id)
+                    if unlock_result.isError():
+                        print(f"Error unlocking water register, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            return False
+                    
+                    self.msleep(100)
+                    register_values = self.int32_to_registers(value)
+                    write_result = self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.water_id)
+                    
+                    if write_result.isError():
+                        print(f"Error writing setpoint water, attempt {attempt + 1}")
+                        if attempt < max_retries - 1:
+                            self.msleep(500)
+                            continue
+                        else:
+                            return False
+                    
+                    return True
+                    
+                except Exception as e:
+                    print(f"Exception writing setpoint water, attempt {attempt + 1}: {e}")
+                    if attempt < max_retries - 1:
+                        self.msleep(500)
+                    else:
+                        return False
+                        
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
+            print(f"Fatal exception in write_set_point_water: {e}")
+            return False
         finally:
             self.mutex.unlock()
     
@@ -391,15 +822,38 @@ class AUTODA_Controller(QThread,QObject):
             self.mutex.unlock()
 
     def run(self):
+        last_monitor_time = time.time()
+        connection_error_count = 0
+        max_connection_errors = 10
+        
         try:
             while self.running:
                 try:
+                    # ตรวจสอบ connection ทุก 10 วินาที
+                    current_time = time.time()
+                    if current_time - last_monitor_time > 10:
+                        if not self.monitor_connection():
+                            connection_error_count += 1
+                            print(f"Connection monitor failed ({connection_error_count}/{max_connection_errors})")
+                            
+                            if connection_error_count >= max_connection_errors:
+                                print(f"CRITICAL: AutoDA connection lost for {max_connection_errors} checks")
+                                self.comport_error.emit([True, 'AutoDA'])
+                                connection_error_count = 0
+                        else:
+                            connection_error_count = 0
+                        
+                        last_monitor_time = current_time
+                    
+                    # อ่านค่าน้ำหนักปกติ
                     self.read_weight_rock_and_sand()
                     self.read_cement_and_fyash()
                     self.read_water()
                     self.read_chemical()
+                    
                 except Exception as e:
-                    print(f"Error in AutoDA Controller: {e}")
+                    print(f"Error in AutoDA Controller run loop: {e}")
+                    self.msleep(1000)
                 
         except Exception as e:
             print(f"Fatal Error in AutoDA Controller: {e}")
@@ -407,9 +861,9 @@ class AUTODA_Controller(QThread,QObject):
         finally:
             if self.autoda_client and self.autoda_client.is_socket_open():
                 self.autoda_client.close()
-                print("PLC Comport closed inside thread.")
+                print("AutoDA Comport closed inside thread.")
                     
-            self.msleep(10)
+            self.msleep(100)
 
     def stop(self):
         self.running = False

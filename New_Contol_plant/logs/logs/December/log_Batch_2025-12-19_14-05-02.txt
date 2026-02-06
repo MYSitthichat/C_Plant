@@ -1,0 +1,29 @@
+2025-12-19 14:05:02,549 - INFO - ==================================================
+2025-12-19 14:05:02,549 - INFO - START BATCH LOGGING: ID 2025-12-19_14-05-02
+2025-12-19 14:05:02,550 - INFO - ==================================================
+2025-12-19 14:05:02,550 - INFO - Total Queue Count to Load: 1.0
+2025-12-19 14:05:02,552 - INFO - 
+2025-12-19 14:05:02,552 - INFO - --- Start Queue #1 of 1 (Multiplier: 1.0) ---
+2025-12-19 14:05:02,552 - INFO -    Target Rock1: 0
+2025-12-19 14:05:02,553 - INFO -    Target Sand: 0
+2025-12-19 14:05:02,553 - INFO -    Target Rock2: 0
+2025-12-19 14:05:02,553 - INFO -    Target Cement: 0
+2025-12-19 14:05:02,554 - INFO -    Target Flyash: 0
+2025-12-19 14:05:02,554 - INFO -    Target Water: 0
+2025-12-19 14:05:02,554 - INFO -    Target Chem1: 0.0
+2025-12-19 14:05:02,555 - INFO -    Target Chem2: 0.0
+2025-12-19 14:05:02,555 - INFO - 
+2025-12-19 14:05:05,094 - ERROR - Error reading cement weight from lineEdit
+2025-12-19 14:05:05,421 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:05:06,107 - ERROR - Error reading water weight from lineEdit
+2025-12-19 14:05:09,095 - INFO - ค่า sand เป้าหมาย -50 ค่า Rock1 เป้าหมาย -100 ค่า Rock2 เป้าหมาย -100
+2025-12-19 14:05:09,725 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:05:14,023 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:05:18,330 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:05:22,108 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2025-12-19 14:05:22,653 - ERROR - No response received after 3 retries, continue with next request
+2025-12-19 14:05:39,323 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2025-12-19 14:05:56,592 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2025-12-19 14:06:10,460 - INFO - ==================================================
+2025-12-19 14:06:10,461 - INFO - END BATCH LOGGING: ID 2025-12-19_14-05-02
+2025-12-19 14:06:10,462 - INFO - ==================================================

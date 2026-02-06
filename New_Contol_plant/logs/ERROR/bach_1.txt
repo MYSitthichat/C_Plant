@@ -1,0 +1,576 @@
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+
+
+
+
+
+
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+
+
+
+
+
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+
+
+
+
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+
+
+
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+
+
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_CPS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+autoda status port True
+Stop signal received by PLC_Controller.
+2025-12-27 13:43:07,211 - ERROR - No response received after 3 retries, continue with next request
+PLC Comport closed inside thread.
+Stop signal received by AUTODA_Controller.
+PLC Comport closed inside thread.
+PS C:\C_Plant> & C:/Users/plant/AppData/Local/Programs/Python/Python310/python.exe c:/C_Plant/New_Contol_plant/App.py
+autoda status port True
+2025-12-27 13:47:14,439 - INFO - ==================================================
+2025-12-27 13:47:14,439 - INFO - START BATCH LOGGING: ID 2025-12-27_13-47-14       
+2025-12-27 13:47:14,440 - INFO - ==================================================
+2025-12-27 13:47:14,441 - INFO - Total Queue Count to Load: 4.0
+2025-12-27 13:47:14,442 - INFO -
+2025-12-27 13:47:14,442 - INFO - --- Start Queue #1 of 4 (Multiplier: 1.0) ---
+2025-12-27 13:47:14,445 - INFO -    Target Rock1: 350
+2025-12-27 13:47:14,445 - INFO -    Target Sand: 970
+2025-12-27 13:47:14,446 - INFO -    Target Rock2: 700
+2025-12-27 13:47:14,448 - INFO -    Target Cement: 215
+2025-12-27 13:47:14,450 - INFO -    Target Flyash: 32
+2025-12-27 13:47:14,450 - INFO -    Target Water: 160
+2025-12-27 13:47:14,451 - INFO -    Target Chem1: 1.2
+2025-12-27 13:47:14,451 - INFO -    Target Chem2: 0.4
+2025-12-27 13:47:14,453 - INFO - 
+2025-12-27 13:47:16,473 - INFO - start state load cement fyash
+Exception in thread Thread-2 (load_cement_and_fyash_sequence):
+Traceback (most recent call last):
+  File "c:\C_Plant\New_Contol_plant\Controller\main_controller.py", line 2167, in load_cement_and_fyash_sequence
+    current_weight = self.now_cement_fyash_dispaly_weight
+AttributeError: 'MainController' object has no attribute 'now_cement_fyash_dispaly_weight'. Did you mean: '_get_cement_fyash_display_weight'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\plant\AppData\Local\Programs\Python\Python310\lib\threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "C:\Users\plant\AppData\Local\Programs\Python\Python310\lib\threading.py", line 953, in run 
+    self._target(*self._args, **self._kwargs)
+  File "c:\C_Plant\New_Contol_plant\Controller\main_controller.py", line 2169, in load_cement_and_fyash_sequence
+    logging.error(f"Error reading cement weight from lineEdit{self.now_cement_fyash_dispaly_weight}")
+AttributeError: 'MainController' object has no attribute 'now_cement_fyash_dispaly_weight'. Did you mean: '_get_cement_fyash_display_weight'?
+Exception in thread Thread-3 (loading_water_sequence):
+Traceback (most recent call last):
+  File "c:\C_Plant\New_Contol_plant\Controller\main_controller.py", line 2426, in loading_water_sequence
+    current_weight = self.now_water_display_weight
+AttributeError: 'MainController' object has no attribute 'now_water_display_weight'. Did you mean: 
+'_get_water_display_weight'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\plant\AppData\Local\Programs\Python\Python310\lib\threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "C:\Users\plant\AppData\Local\Programs\Python\Python310\lib\threading.py", line 953, in run 
+    self._target(*self._args, **self._kwargs)
+  File "c:\C_Plant\New_Contol_plant\Controller\main_controller.py", line 2428, in loading_water_sequence
+    logging.error(f"Error reading water weight from lineEdit{self.now_water_display_weight}")      
+AttributeError: 'MainController' object has no attribute 'now_water_display_weight'. Did you mean: 
+'_get_water_display_weight'?
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+2025-12-27 13:47:20,922 - INFO - feedback chem 1 = 1.6
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+2025-12-27 13:47:20,968 - INFO - ค่า sand เป้าหมาย 920 ค่า Rock1 เป้าหมาย 1220 ค่า Rock2 เป้าหมาย 1
+920
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+Loading Chemical 1: Start
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+2025-12-27 13:47:24,301 - INFO - feedback sand = 928
+Loading Sand: Start
+2025-12-27 13:47:24,348 - INFO - start state load sand
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+Vibrater Rock and Sand: Start
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+2025-12-27 13:47:33,972 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=Falseupdate cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+Loading Sand: Stop
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+Vibrater Rock and Sand: Stop
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+Loading Chemical 1: Stop
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+2025-12-27 13:47:53,709 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=Falseupdate weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+2025-12-27 13:47:54,971 - INFO - feedback chem 2 = 2.0
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+2025-12-27 13:47:55,243 - INFO - feedback rock 1 = 1228
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+Loading Sand: Stop
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+Loading Chemical 1: Stop
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+Loading Chemical 2: Start
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+Vibrater Rock and Sand: Stop
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+Loading Rock 3/8: Start
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+2025-12-27 13:47:58,665 - INFO - start state load rock1
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+update cement weight Type weight data <class 'int'> type current data <class 'int'>
+update weight water Type weight data <class 'int'> type current data <class 'int'>
+2025-12-27 13:47:59,096 - INFO - ==================================================
+2025-12-27 13:47:59,142 - INFO - END BATCH LOGGING: ID 2025-12-27_13-47-14
+2025-12-27 13:47:59,143 - INFO - ==================================================
+Stop signal received by PLC_Controller.
+2025-12-27 13:48:03,730 - ERROR - No response received after 3 retries, continue with next request
+PLC Comport closed inside thread.
+Stop signal received by AUTODA_Controller.
+PLC Comport closed inside thread.

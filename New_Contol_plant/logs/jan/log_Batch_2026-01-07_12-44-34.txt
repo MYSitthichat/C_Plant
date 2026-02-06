@@ -1,0 +1,172 @@
+2026-01-07 12:44:34,020 - INFO - ==================================================
+2026-01-07 12:44:34,020 - INFO - START BATCH LOGGING: ID 2026-01-07_12-44-34
+2026-01-07 12:44:34,020 - INFO - ==================================================
+2026-01-07 12:44:34,021 - INFO - Total Queue Count to Load: 5.0
+2026-01-07 12:44:34,021 - INFO - 
+2026-01-07 12:44:34,022 - INFO - --- Start Queue #1 of 5 (Multiplier: 1.0) ---
+2026-01-07 12:44:34,022 - INFO -    Target Rock1: 350
+2026-01-07 12:44:34,022 - INFO -    Target Sand: 950
+2026-01-07 12:44:34,022 - INFO -    Target Rock2: 700
+2026-01-07 12:44:34,023 - INFO -    Target Cement: 232
+2026-01-07 12:44:34,023 - INFO -    Target Flyash: 33
+2026-01-07 12:44:34,024 - INFO -    Target Water: 178
+2026-01-07 12:44:34,024 - INFO -    Target Chem1: 1.2
+2026-01-07 12:44:34,024 - INFO -    Target Chem2: 0.4
+2026-01-07 12:44:34,024 - INFO - 
+2026-01-07 12:44:36,037 - INFO - start state load cement fyash
+2026-01-07 12:44:38,302 - INFO - feedback fyash = 28
+2026-01-07 12:44:38,504 - INFO - start state load fyash
+2026-01-07 12:44:39,317 - INFO - feedback water = 176
+2026-01-07 12:44:40,553 - INFO - ค่า sand เป้าหมาย 900 ค่า Rock1 เป้าหมาย 1200 ค่า Rock2 เป้าหมาย 1900
+2026-01-07 12:44:40,583 - INFO - feedback chem 1 = 2.1
+2026-01-07 12:44:43,852 - INFO - feedback sand = 928
+2026-01-07 12:44:44,071 - INFO - start state load sand
+2026-01-07 12:44:50,520 - INFO - feedback cement = 265
+2026-01-07 12:44:53,617 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-07 12:44:53,849 - INFO - start state load cement
+2026-01-07 12:45:04,525 - INFO - feedback chem 2 = 2.5
+2026-01-07 12:45:09,364 - INFO - feedback rock 1 = 1228
+2026-01-07 12:45:10,904 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-07 12:45:12,102 - INFO - start state load rock1
+2026-01-07 12:45:14,097 - INFO - water is loaded
+2026-01-07 12:45:14,206 - INFO - Water loaded successfully.
+2026-01-07 12:45:18,027 - INFO - chemical is loaded
+2026-01-07 12:45:19,333 - INFO - Chemical loaded successfully.
+2026-01-07 12:45:24,678 - INFO - เวลาที่ต้องเติมเพิ่ม3.1057328129736117
+2026-01-07 12:45:25,660 - INFO - feedback rock 2 = 1928
+2026-01-07 12:45:25,987 - INFO - start state load rock2
+2026-01-07 12:45:28,179 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=True
+2026-01-07 12:45:29,722 - INFO - Current cement weight: 218 KG
+2026-01-07 12:45:29,723 - INFO - filling cement -14 KG ::: round 1
+2026-01-07 12:45:29,831 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:45:34,011 - INFO - Current cement weight: 226 KG
+2026-01-07 12:45:34,014 - INFO - filling cement -6 KG ::: round 2
+2026-01-07 12:45:34,120 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:45:38,255 - INFO - Current cement weight: 234 KG
+2026-01-07 12:45:38,256 - INFO - cement loading success with weight 234 And Diff 2 KG
+2026-01-07 12:45:39,441 - INFO - cement and fyash loading success
+2026-01-07 12:45:39,724 - INFO - Cement and Flyash loaded successfully.
+2026-01-07 12:45:45,443 - INFO - State 0 waiting - Flags: R&S=False, C&F=True, W=True, Chem=True
+2026-01-07 12:45:54,621 - INFO - rock and sand is success
+2026-01-07 12:45:55,495 - INFO - Rock and Sand loaded successfully.
+2026-01-07 12:45:55,496 - INFO - Queue 1 fully loaded - Setting next_queue_loaded_and_ready=True
+2026-01-07 12:45:57,663 - INFO - เริ่มผสมคิวที่ 1
+2026-01-07 12:45:57,666 - INFO - เปิดมอเตอร์ผสม
+2026-01-07 12:46:05,273 - INFO - เปิดสายพานบน
+2026-01-07 12:46:08,894 - INFO - เปิดสายพานล่าง
+2026-01-07 12:46:15,627 - INFO - เปิดปั้มน้ำยาขึ้น
+2026-01-07 12:46:21,241 - INFO - state 2
+2026-01-07 12:46:21,894 - INFO - เปิดวาล์วน้ำ
+2026-01-07 12:46:24,513 - INFO - เปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-01-07 12:46:26,337 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:28,161 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:29,985 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:31,809 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:33,638 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:35,451 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:37,291 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:39,120 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:40,943 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:42,767 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:44,592 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:46,432 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:48,255 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:50,080 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:51,902 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:53,542 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 1/3
+2026-01-07 12:46:54,198 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-01-07 12:46:55,429 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:46:57,084 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 2/3
+2026-01-07 12:46:57,692 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-01-07 12:46:58,909 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:47:00,530 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 3/3
+2026-01-07 12:47:01,185 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-01-07 12:47:02,414 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:47:03,053 - INFO - เริ่มหน่วงเวลา 2.0 วินาที ก่อนปิดสายพาน
+2026-01-07 12:47:04,285 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:47:04,924 - INFO - รอเวลาหน่วง: เหลือ 1 วินาที
+2026-01-07 12:47:06,158 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-07 12:47:06,795 - INFO - หมดเวลาหน่วง เริ่มปิดอุปกรณ์
+2026-01-07 12:47:09,419 - INFO - ปิดสายพานด้านล่าง
+2026-01-07 12:47:12,023 - INFO - ปิดสายพานด้านบน
+2026-01-07 12:47:13,159 - INFO - ปิดวาล์วน้ำ
+2026-01-07 12:47:14,277 - INFO - ปิดปั้มน้ำยาขึ้น
+2026-01-07 12:47:19,613 - INFO - 
+2026-01-07 12:47:19,615 - INFO - --- Start Queue #2 of 5 (Multiplier: 1.0) ---
+2026-01-07 12:47:19,616 - INFO -    Target Rock1: 350
+2026-01-07 12:47:19,619 - INFO -    Target Sand: 950
+2026-01-07 12:47:19,620 - INFO -    Target Rock2: 700
+2026-01-07 12:47:19,621 - INFO -    Target Cement: 232
+2026-01-07 12:47:19,623 - INFO -    Target Flyash: 33
+2026-01-07 12:47:19,624 - INFO -    Target Water: 178
+2026-01-07 12:47:19,626 - INFO -    Target Chem1: 1.2
+2026-01-07 12:47:19,627 - INFO -    Target Chem2: 0.4
+2026-01-07 12:47:19,630 - INFO - 
+2026-01-07 12:47:21,654 - INFO - start state load cement fyash
+2026-01-07 12:47:24,097 - INFO - feedback fyash = 28
+2026-01-07 12:47:24,299 - INFO - start state load fyash
+2026-01-07 12:47:24,893 - INFO - state 4
+2026-01-07 12:47:25,347 - INFO - feedback water = 176
+2026-01-07 12:47:26,158 - INFO - ค่า sand เป้าหมาย 900 ค่า Rock1 เป้าหมาย 1200 ค่า Rock2 เป้าหมาย 1900
+2026-01-07 12:47:26,595 - INFO - feedback chem 1 = 1.2
+2026-01-07 12:47:31,048 - INFO - เริ่มเปิดปาก first step
+2026-01-07 12:47:31,357 - INFO - feedback sand = 922
+2026-01-07 12:47:31,589 - INFO - start state load sand
+2026-01-07 12:47:36,529 - INFO - feedback cement = 265
+2026-01-07 12:47:39,858 - INFO - start state load cement
+2026-01-07 12:47:39,860 - INFO - เริ่มเปิดปากโม่ครึ่งนึง
+2026-01-07 12:47:48,200 - INFO - เปิดปากโม่จนสุด
+2026-01-07 12:47:51,567 - INFO - feedback rock 1 = 1222
+2026-01-07 12:47:51,831 - INFO - feedback chem 2 = 1.6
+2026-01-07 12:47:54,308 - INFO - start state load rock1
+2026-01-07 12:47:58,020 - INFO - ปิดปั้มน้ำยาเคมี
+2026-01-07 12:48:06,660 - INFO - เวลาที่ต้องเติมเพิ่ม3.221645721114508
+2026-01-07 12:48:11,679 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:11,679 - INFO - filling cement -30 KG ::: round 1
+2026-01-07 12:48:11,789 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:15,590 - INFO - state 7 ยังมีคิวเหลือกำลังรอโหลด
+2026-01-07 12:48:15,948 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:15,949 - INFO - filling cement -30 KG ::: round 2
+2026-01-07 12:48:16,057 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:16,823 - INFO - state 6 คิวถัดไปยังไม่พร้อม ปิดปากโม่ก่อน
+2026-01-07 12:48:20,187 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:20,190 - INFO - filling cement -30 KG ::: round 3
+2026-01-07 12:48:20,297 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:24,468 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:24,469 - INFO - filling cement -30 KG ::: round 4
+2026-01-07 12:48:24,577 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:28,717 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:28,718 - INFO - filling cement -30 KG ::: round 5
+2026-01-07 12:48:28,826 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:32,935 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:32,936 - INFO - filling cement -30 KG ::: round 6
+2026-01-07 12:48:33,044 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:37,180 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:37,181 - INFO - filling cement -30 KG ::: round 7
+2026-01-07 12:48:37,289 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:41,419 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:41,420 - INFO - filling cement -30 KG ::: round 8
+2026-01-07 12:48:41,528 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:45,686 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:45,687 - INFO - filling cement -30 KG ::: round 9
+2026-01-07 12:48:45,795 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:49,922 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:49,923 - INFO - filling cement -30 KG ::: round 10
+2026-01-07 12:48:50,031 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:54,161 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:54,162 - INFO - filling cement -30 KG ::: round 11
+2026-01-07 12:48:54,271 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-07 12:48:58,413 - INFO - Current cement weight: 202 KG
+2026-01-07 12:48:58,415 - ERROR - Critical Error: เติมปูนหลายรอบแล้วน้ำหนักไม่ถึงเป้า (เช็คปูนหมด/เซนเซอร์เสีย)
+2026-01-07 12:48:59,578 - INFO - cement and fyash loading success
+2026-01-07 12:49:00,544 - INFO - Cement and Flyash loaded successfully.
+2026-01-07 12:49:53,584 - ERROR - No response received after 3 retries, continue with next request
+2026-01-07 12:49:57,874 - ERROR - Repeating....
+2026-01-07 12:50:02,180 - ERROR - No response received after 3 retries, continue with next request
+2026-01-07 12:50:06,483 - ERROR - No response received after 3 retries, continue with next request
+2026-01-07 12:50:10,790 - ERROR - No response received after 3 retries, continue with next request
+2026-01-07 12:50:15,104 - ERROR - No response received after 3 retries, continue with next request
+2026-01-07 12:50:19,394 - ERROR - No response received after 3 retries, continue with next request
+2026-01-07 12:51:39,274 - INFO - ==================================================
+2026-01-07 12:51:39,275 - INFO - END BATCH LOGGING: ID 2026-01-07_12-44-34
+2026-01-07 12:51:39,276 - INFO - ==================================================

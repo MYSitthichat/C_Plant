@@ -25,8 +25,8 @@ class CreateBillConfig:
         self.font_path = os.path.normpath(self.font_path)
         
         # Bills directory - organized by date
-        self.bills_dir = "C:\\Users\\plant\\Desktop\\bills"
-        # self.bills_dir = "D:\\C_Plant\\New_billing\\bills"
+        # self.bills_dir = "C:\\Users\\plant\\Desktop\\bills"
+        self.bills_dir = "D:\\C_Plant\\New_billing\\bills"
         
         self.bills_dir = os.path.normpath(self.bills_dir) # No longer needed
         

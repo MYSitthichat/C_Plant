@@ -1,0 +1,28 @@
+2026-01-20 14:30:32,467 - INFO - ==================================================
+2026-01-20 14:30:32,467 - INFO - START BATCH LOGGING: ID 2026-01-20_14-30-32
+2026-01-20 14:30:32,467 - INFO - ==================================================
+2026-01-20 14:30:32,467 - INFO - Total Queue Count to Load: 3.0
+2026-01-20 14:30:32,467 - INFO - 
+2026-01-20 14:30:32,467 - INFO - --- Start Queue #1 of 3 (Multiplier: 1.0) ---
+2026-01-20 14:30:32,467 - INFO -    Target Rock1: 350
+2026-01-20 14:30:32,482 - INFO -    Target Sand: 970
+2026-01-20 14:30:32,482 - INFO -    Target Rock2: 700
+2026-01-20 14:30:32,482 - INFO -    Target Cement: 215
+2026-01-20 14:30:32,482 - INFO -    Target Flyash: 32
+2026-01-20 14:30:32,482 - INFO -    Target Water: 165
+2026-01-20 14:30:32,482 - INFO -    Target Chem1: 1.2
+2026-01-20 14:30:32,482 - INFO -    Target Chem2: 0.4
+2026-01-20 14:30:32,482 - INFO - 
+2026-01-20 14:30:34,504 - INFO - start state load cement fyash
+2026-01-20 14:30:36,811 - INFO - feedback fyash = 27
+2026-01-20 14:30:37,046 - INFO - start state load fyash
+2026-01-20 14:30:37,768 - INFO - feedback water = 163
+2026-01-20 14:30:38,893 - INFO - feedback chem 1 = 1.2
+2026-01-20 14:30:39,001 - INFO - ค่า sand เป้าหมาย 920 ค่า Rock1 เป้าหมาย 1220 ค่า Rock2 เป้าหมาย 1920
+2026-01-20 14:30:42,430 - INFO - feedback sand = 974
+2026-01-20 14:30:42,691 - INFO - start state load sand
+2026-01-20 14:30:52,087 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-20 14:30:53,610 - ERROR - No response received after 3 retries, continue with next request
+2026-01-20 14:30:54,724 - INFO - ==================================================
+2026-01-20 14:30:54,724 - INFO - END BATCH LOGGING: ID 2026-01-20_14-30-32
+2026-01-20 14:30:54,724 - INFO - ==================================================

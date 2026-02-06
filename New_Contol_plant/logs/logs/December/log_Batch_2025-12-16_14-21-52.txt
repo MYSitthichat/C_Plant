@@ -1,0 +1,145 @@
+2025-12-16 14:21:52,602 - INFO - ==================================================
+2025-12-16 14:21:52,603 - INFO - START BATCH LOGGING: ID 2025-12-16_14-21-52
+2025-12-16 14:21:52,603 - INFO - ==================================================
+2025-12-16 14:21:52,604 - INFO - Total Queue Count to Load: 3.5
+2025-12-16 14:21:52,605 - INFO - 
+2025-12-16 14:21:52,605 - INFO - --- Start Queue #1 of 4 (Multiplier: 1.0) ---
+2025-12-16 14:21:52,605 - INFO -    Target Rock1: 350
+2025-12-16 14:21:52,605 - INFO -    Target Sand: 950
+2025-12-16 14:21:52,606 - INFO -    Target Rock2: 700
+2025-12-16 14:21:52,606 - INFO -    Target Cement: 220
+2025-12-16 14:21:52,606 - INFO -    Target Flyash: 49
+2025-12-16 14:21:52,606 - INFO -    Target Water: 160
+2025-12-16 14:21:52,607 - INFO -    Target Chem1: 1.2
+2025-12-16 14:21:52,607 - INFO -    Target Chem2: 0.5
+2025-12-16 14:21:52,607 - INFO - 
+2025-12-16 14:21:55,137 - ERROR - Error reading cement weight from lineEdit
+2025-12-16 14:21:56,145 - ERROR - Error reading water weight from lineEdit
+2025-12-16 14:21:56,882 - INFO - feedback fyash = 49
+2025-12-16 14:21:57,909 - INFO - feedback water = 160
+2025-12-16 14:21:59,155 - INFO - feedback chem 1 = 1.1
+2025-12-16 14:22:03,125 - INFO - feedback sand = 970
+2025-12-16 14:22:15,220 - INFO - feedback cement = 269
+2025-12-16 14:22:24,308 - INFO - sand is moist
+2025-12-16 14:22:24,478 - INFO - feedback chem 2 = 1.7
+2025-12-16 14:22:29,442 - INFO - water is loaded
+2025-12-16 14:22:35,573 - INFO - chemical is loaded
+2025-12-16 14:22:44,354 - INFO - sand is moist
+2025-12-16 14:22:52,880 - INFO - เวลาที่ต้องเติมเพิ่ม0.7189706026339063
+2025-12-16 14:22:56,325 - INFO - feedback rock 1 = 1301
+2025-12-16 14:23:04,184 - INFO - cement and fyash loading success
+2025-12-16 14:23:10,499 - INFO - feedback rock 2 = 2020
+2025-12-16 14:23:22,393 - INFO - rock and sand is success
+2025-12-16 14:23:24,587 - INFO - เริ่มผสมคิวที่ 1
+2025-12-16 14:23:24,593 - INFO - เปิดมอเตอร์ผสม
+2025-12-16 14:23:31,648 - INFO - เปิดสายพานบน
+2025-12-16 14:23:34,701 - INFO - เปิดสายพานล่าง
+2025-12-16 14:23:41,230 - INFO - เปิดปั้มน้ำยาขึ้น
+2025-12-16 14:23:46,287 - INFO - state 2
+2025-12-16 14:23:46,336 - INFO - เปิดวาล์วน้ำ
+2025-12-16 14:23:48,406 - INFO - เปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-16 14:23:49,477 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:23:50,533 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:23:51,607 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:23:52,664 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:23:53,741 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:23:54,801 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:23:55,866 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:23:56,942 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:23:58,002 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:23:59,050 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:00,112 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:01,188 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:02,246 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:03,319 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:04,376 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:05,453 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:06,516 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:07,594 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:08,650 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:09,722 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:10,775 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:11,851 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:12,907 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:13,978 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:15,026 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:16,116 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:17,186 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:18,246 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:19,319 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:20,379 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:21,437 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:22,511 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 1/3
+2025-12-16 14:24:22,560 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-16 14:24:23,569 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:24,644 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 2/3
+2025-12-16 14:24:24,691 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-16 14:24:25,718 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:26,790 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 3/3
+2025-12-16 14:24:26,837 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2025-12-16 14:24:27,860 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:27,907 - INFO - เริ่มหน่วงเวลา 2.0 วินาที ก่อนปิดสายพาน
+2025-12-16 14:24:28,923 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:28,970 - INFO - รอเวลาหน่วง: เหลือ 1 วินาที
+2025-12-16 14:24:29,976 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2025-12-16 14:24:30,024 - INFO - หมดเวลาหน่วง เริ่มปิดอุปกรณ์
+2025-12-16 14:24:32,086 - INFO - ปิดสายพานด้านล่าง
+2025-12-16 14:24:34,141 - INFO - ปิดสายพานด้านบน
+2025-12-16 14:24:34,702 - INFO - ปิดวาล์วน้ำ
+2025-12-16 14:24:35,263 - INFO - ปิดปั้มน้ำยาขึ้น
+2025-12-16 14:24:40,615 - INFO - 
+2025-12-16 14:24:40,616 - INFO - --- Start Queue #2 of 4 (Multiplier: 1.0) ---
+2025-12-16 14:24:40,618 - INFO -    Target Rock1: 350
+2025-12-16 14:24:40,620 - INFO -    Target Sand: 950
+2025-12-16 14:24:40,621 - INFO -    Target Rock2: 700
+2025-12-16 14:24:40,623 - INFO -    Target Cement: 220
+2025-12-16 14:24:40,625 - INFO -    Target Flyash: 49
+2025-12-16 14:24:40,627 - INFO -    Target Water: 160
+2025-12-16 14:24:40,629 - INFO -    Target Chem1: 1.2
+2025-12-16 14:24:40,631 - INFO -    Target Chem2: 0.5
+2025-12-16 14:24:40,633 - INFO - 
+2025-12-16 14:24:45,415 - INFO - feedback fyash = 49
+2025-12-16 14:24:45,710 - INFO - state 4
+2025-12-16 14:24:46,250 - INFO - feedback water = 160
+2025-12-16 14:24:47,121 - INFO - feedback chem 1 = 2.2
+2025-12-16 14:24:50,251 - INFO - feedback sand = 1930
+2025-12-16 14:24:51,846 - INFO - เริ่มเปิดปาก first step
+2025-12-16 14:25:00,676 - INFO - เริ่มเปิดปากโม่ครึ่งนึง
+2025-12-16 14:25:09,023 - INFO - เปิดปากโม่จนสุด
+2025-12-16 14:25:09,599 - INFO - feedback cement = 269
+2025-12-16 14:25:11,414 - INFO - sand is moist
+2025-12-16 14:25:17,504 - INFO - water is loaded
+2025-12-16 14:25:18,326 - INFO - ปิดปั้มน้ำยาเคมี
+2025-12-16 14:25:22,707 - INFO - feedback chem 2 = 2.8
+2025-12-16 14:25:31,473 - INFO - sand is moist
+2025-12-16 14:25:32,408 - INFO - chemical is loaded
+2025-12-16 14:25:35,532 - INFO - state 7 ยังมีคิวเหลือกำลังรอโหลด
+2025-12-16 14:25:36,543 - INFO - state 6 คิวถัดไปยังไม่พร้อม ปิดปากโม่ก่อน
+2025-12-16 14:25:46,681 - INFO - เวลาที่ต้องเติมเพิ่ม2.8789493083953857
+2025-12-16 14:25:51,511 - INFO - sand is moist
+2025-12-16 14:25:51,651 - INFO - filling cement -10 KG ::: round 1
+2025-12-16 14:25:51,760 - INFO - กำลังเติมปูนทีละ 1.5 วินาที
+2025-12-16 14:25:57,504 - INFO - filling cement -4 KG ::: round 2
+2025-12-16 14:25:57,614 - INFO - กำลังเติมปูนทีละ 1.5 วินาที
+2025-12-16 14:26:03,372 - INFO - filling cement -4 KG ::: round 3
+2025-12-16 14:26:03,481 - INFO - กำลังเติมปูนทีละ 1.5 วินาที
+2025-12-16 14:26:09,243 - INFO - filling cement -4 KG ::: round 4
+2025-12-16 14:26:09,353 - INFO - กำลังเติมปูนทีละ 1.5 วินาที
+2025-12-16 14:26:11,578 - INFO - sand is moist
+2025-12-16 14:26:15,104 - INFO - filling cement -4 KG ::: round 5
+2025-12-16 14:26:15,212 - INFO - กำลังเติมปูนทีละ 1.5 วินาที
+2025-12-16 14:26:20,981 - INFO - filling cement -4 KG ::: round 6
+2025-12-16 14:26:21,091 - INFO - กำลังเติมปูนทีละ 1.5 วินาที
+2025-12-16 14:26:31,635 - INFO - sand is moist
+2025-12-16 14:26:33,035 - INFO - cement and fyash loading success
+2025-12-16 14:26:51,704 - INFO - sand is moist
+2025-12-16 14:27:11,750 - INFO - sand is moist
+2025-12-16 14:27:31,807 - INFO - sand is moist
+2025-12-16 14:27:46,061 - ERROR - No response received after 3 retries, continue with next request
+2025-12-16 14:27:50,370 - ERROR - Repeating....
+2025-12-16 14:27:51,861 - INFO - sand is moist
+2025-12-16 14:27:54,665 - ERROR - No response received after 3 retries, continue with next request
+2025-12-16 14:27:58,978 - ERROR - No response received after 3 retries, continue with next request
+2025-12-16 14:28:03,274 - ERROR - No response received after 3 retries, continue with next request
+2025-12-16 14:28:07,589 - ERROR - No response received after 3 retries, continue with next request
+2025-12-16 14:28:11,895 - ERROR - No response received after 3 retries, continue with next request
