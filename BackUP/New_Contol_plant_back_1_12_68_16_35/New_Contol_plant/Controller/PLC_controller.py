@@ -1,0 +1,492 @@
+from PySide6.QtWidgets import QApplication
+from PySide6.QtCore import QObject, Signal, QThread
+import os
+import sys
+from pymodbus.client import ModbusSerialClient
+import time
+
+class PLC_Controller(QThread, QObject):
+    comport_error = Signal(list)
+    status_loading_rock_and_sand = Signal(bool)
+    status_loading_cement_and_fyash = Signal(bool)
+    status_loading_water = Signal(bool)
+    status_loading_chemical = Signal(bool)
+    # Signal สำหรับแจ้งสถานะอุปกรณ์ (device_name: str, is_running: bool)
+    device_status_changed = Signal(str, bool)
+    
+    def __init__(self, main_window, db):
+        super(PLC_Controller, self).__init__()
+        self.running = True
+        self.main_window = main_window
+        self.db = db
+        self.read_config_file()
+        self.reading_state = True
+        self.write_state = False
+        self.write_success = False
+        self.write_queue = []
+        self.write_in_progress = False
+        
+        self.device_timeout = {}  
+        self.last_communication_time = {} 
+        self.communication_delay = 20  # ลดเวลา delay ลงเพื่อ response เร็วขึ้น
+        self.read_delay = 200  # delay สำหรับ read ยาวกว่า write
+        self.error_count = {}
+        self.max_error_count = 3
+
+    def initialize_connections(self):
+        self.connect_to_plc()
+    
+    def read_config_file(self):
+        self.config = {}
+        self.plc_port = ''
+        self.baudrate = ''
+        self.stop_bits = ''
+        self.parity = ''
+        self.data_bits = ''
+        self.timeout_error = ''
+        self.PLC_id = ''
+        try:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            config_path = os.path.join(script_dir, 'port.conf')
+            with open(config_path, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if '=' in line:
+                        key, value = line.split('=', 1)
+                        self.config[key.strip()] = value.strip()
+                        self.plc_port = self.config.get('PLC_PORT', '')
+                        self.baudrate = self.config.get('BAUDRATE_PLC', '')
+                        self.stop_bits = self.config.get('STOP_BITS', '')
+                        self.parity = self.config.get('PARITY', '')
+                        self.data_bits = self.config.get('DATA_BITS', '')
+                        self.timeout_error = self.config.get('TIMEOUT_ERROR', '')
+                        self.PLC_id = self.config.get('PLC_ID_WEIGHT', '')
+                        
+        except FileNotFoundError:
+            print(f"port.conf file not found at {config_path}")
+            
+            
+    def connect_to_plc(self):
+        plc_port = self.plc_port
+        baudrate = int(self.baudrate)
+        stop_bits = int(self.stop_bits)
+        parity = str(self.parity)
+        data_bits = int(self.data_bits)
+        timeout = int(self.timeout_error)
+        
+        reduced_timeout = min(timeout, 1)  # ไม่เกิน 1 วินาที
+        
+        self.plc_client = ModbusSerialClient(
+            port=plc_port,
+            baudrate=baudrate,
+            parity=parity,
+            stopbits=stop_bits,
+            bytesize=data_bits,
+            timeout=reduced_timeout
+        )
+        try:
+            if self.plc_client.connect():
+                self.comport_error.emit([False, 'PLC'])
+                self.initialize_device_management()
+            else:
+                self.comport_error.emit([True, 'PLC'])
+        except Exception as e:
+            self.comport_error.emit([True, 'PLC'])
+    
+    def initialize_device_management(self):
+        devices = [self.PLC_id, self.PLC_id]
+        current_time = time.time()
+        
+        for device_id in devices:
+            if device_id: 
+                self.device_timeout[device_id] = current_time
+                self.last_communication_time[device_id] = current_time
+                self.error_count[device_id] = 0
+
+    def disconnect_to_plc(self):
+        self.plc_client.close()
+    
+    def safe_modbus_operation(self, operation_func, device_id, operation_name="unknown", is_write=False):
+        try:
+            current_time = time.time()
+            if device_id in self.error_count and self.error_count[device_id] >= self.max_error_count:
+                if current_time - self.last_communication_time.get(device_id, 0) < 5:  # รอ 5 วินาที
+                    return None
+                else:
+                    self.error_count[device_id] = 0
+            delay = self.communication_delay if is_write else self.read_delay
+            last_comm_time = self.last_communication_time.get(device_id, 0)
+            if current_time - last_comm_time < (delay / 1000):
+                return None
+                
+            result = operation_func()
+            self.last_communication_time[device_id] = current_time
+            if device_id in self.error_count:
+                self.error_count[device_id] = 0
+                
+            return result
+            
+        except Exception as e:
+            if device_id not in self.error_count:
+                self.error_count[device_id] = 0
+            self.error_count[device_id] += 1
+            # print(f"Error in {operation_name} for device {device_id}: {e} (Error count: {self.error_count[device_id]})")
+            return None
+    
+    def add_write_to_queue(self, address, value, device_id, operation_name="write_coil"):
+        """เพิ่ม write operation ลงใน priority queue"""
+        write_item = {
+            'address': address,
+            'value': value,
+            'device_id': device_id,
+            'operation_name': operation_name,
+            'timestamp': time.time()
+        }
+        self.write_queue.append(write_item)
+        self.write_queue = [item for item in self.write_queue[-10:] 
+                           if not (item['address'] == address and item['device_id'] == device_id) 
+                           or item == write_item]
+
+    def process_write_queue(self):
+        if self.write_queue and not self.write_in_progress:
+            self.write_in_progress = True
+            write_item = self.write_queue.pop(0)
+            def write_operation():
+                return self.plc_client.write_coil(
+                    address=write_item['address'], 
+                    value=write_item['value'], 
+                    device_id=write_item['device_id']
+                )
+            result = self.safe_modbus_operation(
+                write_operation, 
+                str(write_item['device_id']), 
+                write_item['operation_name'],
+                is_write=True
+            )
+            self.write_in_progress = False
+            if result and result.isError():
+                print(f"Failed to write coil {write_item['address']} to device {write_item['device_id']}: {result}")
+                return False
+            return result is not None
+        return True
+
+    def safe_write_coil(self, address, value, device_id, operation_name="write_coil"):
+        """เพิ่ม write ลงใน queue เพื่อให้ได้ priority สูง"""
+        self.add_write_to_queue(address, value, device_id, operation_name)
+        return self.process_write_queue()
+    
+    def loading_rock1(self, status):
+        # print("Loading Rock 1:", status)
+        if status == "start":
+            print("Loading Rock 3/8: Start")
+            self.device_status_changed.emit("rock1", True)
+            self.safe_write_coil(address=2, value=1, device_id=int(self.PLC_id), operation_name="loading_rock1_start")
+        elif status == "stop":
+            print("Loading Rock 3/8: Stop")
+            self.device_status_changed.emit("rock1", False)
+            self.safe_write_coil(address=2, value=0, device_id=int(self.PLC_id), operation_name="loading_rock1_stop")
+    
+    def loading_sand(self, status):
+        # print("Loading Sand:", status)
+        if status == "start":
+            print("Loading Sand: Start")
+            self.device_status_changed.emit("sand", True)
+            self.safe_write_coil(address=1, value=1, device_id=int(self.PLC_id), operation_name="loading_sand_start")
+        elif status == "stop":
+            print("Loading Sand: Stop")
+            self.device_status_changed.emit("sand", False)
+            self.safe_write_coil(address=1, value=0, device_id=int(self.PLC_id), operation_name="loading_sand_stop")
+    
+    def loading_rock2(self, status):
+        # print("Loading Rock 2:", status)
+        if status == "start":
+            print("Loading Rock 3/4: Start")
+            self.device_status_changed.emit("rock2", True)
+            self.safe_write_coil(address=0, value=1, device_id=int(self.PLC_id), operation_name="loading_rock2_start")
+        elif status == "stop":
+            print("Loading Rock 3/4: Stop")
+            self.device_status_changed.emit("rock2", False)
+            self.safe_write_coil(address=0, value=0, device_id=int(self.PLC_id), operation_name="loading_rock2_stop")
+    
+    def loading_cement(self, status):
+        # print("Loading Cement:", status)
+        if status == "start":
+            print("Loading Cement: Start")
+            self.device_status_changed.emit("cement", True)
+            self.safe_write_coil(address=10, value=1, device_id=int(self.PLC_id), operation_name="loading_cement_start")
+        elif status == "stop":
+            print("Loading Cement: Stop")
+            self.device_status_changed.emit("cement", False)
+            self.safe_write_coil(address=10, value=0, device_id=int(self.PLC_id), operation_name="loading_cement_stop")
+    
+    def loading_flyash(self, status):
+        # print("Loading Fly Ash:", status)
+        if status == "start":
+            print("Loading Fly Ash: Start")
+            self.device_status_changed.emit("flyash", True)
+            self.safe_write_coil(address=11, value=1, device_id=int(self.PLC_id), operation_name="loading_flyash_start")
+        elif status == "stop":
+            print("Loading Fly Ash: Stop")
+            self.device_status_changed.emit("flyash", False)
+            self.safe_write_coil(address=11, value=0, device_id=int(self.PLC_id), operation_name="loading_flyash_stop")
+    
+    def loading_water(self, status):
+        # print("Loading Water:", status)
+        if status == "start":
+            print("Loading Water: Start")
+            self.device_status_changed.emit("water", True)
+            self.safe_write_coil(address=12, value=1, device_id=int(self.PLC_id), operation_name="loading_water_start")
+        elif status == "stop":
+            print("Loading Water: Stop")
+            self.device_status_changed.emit("water", False)
+            self.safe_write_coil(address=12, value=0, device_id=int(self.PLC_id), operation_name="loading_water_stop")
+    
+
+
+    def start_vibrater_rock_and_sand(self, status):
+        # print("Vibrater Rock and Sand:", status)
+        if status == "start":
+            print("Vibrater Rock and Sand: Start")
+            self.safe_write_coil(address=16, value=1, device_id=int(self.PLC_id), operation_name="vibrater_rock_sand_start")
+        elif status == "stop":
+            print("Vibrater Rock and Sand: Stop")
+            self.safe_write_coil(address=16, value=0, device_id=int(self.PLC_id), operation_name="vibrater_rock_sand_stop")
+
+    def converyer_midle(self, status):
+        # print("Converyer Midle:", status)
+        if status == "start":
+            print("Converyer Midle: Start")
+            self.device_status_changed.emit("conveyor_middle", True)
+            success = self.safe_write_coil(address=20, value=1, device_id=int(self.PLC_id), operation_name="converyer_midle_start")
+        elif status == "stop":
+            print("Converyer Midle: Stop")
+            self.device_status_changed.emit("conveyor_middle", False)
+            success = self.safe_write_coil(address=20, value=0, device_id=int(self.PLC_id), operation_name="converyer_midle_stop")
+
+    def converyer_top(self, status):
+        # print("Converyer Top:", status)
+        if status == "start":
+            print("Converyer Top: Start")
+            self.device_status_changed.emit("conveyor_top", True)
+            self.safe_write_coil(address=21, value=1, device_id=int(self.PLC_id), operation_name="converyer_top_start")
+        elif status == "stop":
+            print("Converyer Top: Stop")
+            self.device_status_changed.emit("conveyor_top", False)
+            self.safe_write_coil(address=21, value=0, device_id=int(self.PLC_id), operation_name="converyer_top_stop")
+
+    def mixer(self, status):
+        # print("Mixer:", status)
+        if status == "start":
+            print("Mixer: Start")
+            self.device_status_changed.emit("mixer", True)
+            self.safe_write_coil(address=22, value=1, device_id=int(self.PLC_id), operation_name="mixer_start")
+        elif status == "stop":
+            print("Mixer: Stop")
+            self.device_status_changed.emit("mixer", False)
+            self.safe_write_coil(address=22, value=0, device_id=int(self.PLC_id), operation_name="mixer_stop")
+    
+    def vibrater_cement_and_fyash(self, status):
+        # print("Vibrater Cement and Flyash:", status)
+        if status == "start":
+            self.safe_write_coil(address=17, value=1, device_id=int(self.PLC_id), operation_name="vibrater_cement_flyash_start")
+        elif status == "stop":
+            self.safe_write_coil(address=17, value=0, device_id=int(self.PLC_id), operation_name="vibrater_cement_flyash_stop")
+    
+    def vale_water(self, status):
+        # print("Vale Water:", status)
+        if status == "start":
+            print("Vale Water: Start")
+            self.device_status_changed.emit("valve_water", True)
+            self.safe_write_coil(address=3, value=1, device_id=int(self.PLC_id), operation_name="vale_water_start")
+        elif status == "stop":
+            print("Vale Water: Stop")
+            self.device_status_changed.emit("valve_water", False)
+            self.safe_write_coil(address=3, value=0, device_id=int(self.PLC_id), operation_name="vale_water_stop")
+    
+    def vale_cement_and_fyash(self, status):
+        # print("Vale Cement and Flyash:", status)
+        if status == "start":
+            print("Vale Cement and Flyash: Start")
+            self.device_status_changed.emit("valve_cement_flyash", True)
+            self.safe_write_coil(address=4, value=1, device_id=int(self.PLC_id), operation_name="vale_cement_flyash_start")
+        elif status == "stop":
+            print("Vale Cement and Flyash: Stop")
+            self.device_status_changed.emit("valve_cement_flyash", False)
+            self.safe_write_coil(address=4, value=0, device_id=int(self.PLC_id), operation_name="vale_cement_flyash_stop")
+    
+    def vale_mixer_open(self, status):
+        if status == "start":
+            # print("vale mixwe open start")
+            self.device_status_changed.emit("valve_mixer", True)
+            self.safe_write_coil(address=5, value=1, device_id=int(self.PLC_id), operation_name="vale_mixer_start")
+        else:
+            pass
+
+    def vale_mixer_close(self,status):
+        if status == "start":
+            # print("vale mixwe close start")
+            self.device_status_changed.emit("valve_mixer", False)
+            self.safe_write_coil(address=6, value=1, device_id=int(self.PLC_id), operation_name="vale_mixer_start")
+        else:
+            pass
+
+    def off_coil_vale_mixer(self,status):
+        if status == "start":
+            # print("off vale mixwe start")
+            self.safe_write_coil(address=5, value=0, device_id=int(self.PLC_id), operation_name="off_vale_mixer_start")
+            time.sleep(0.5)
+            self.safe_write_coil(address=6, value=0, device_id=int(self.PLC_id), operation_name="off_vale_mixer_start")
+        else:
+            pass
+        
+    def loading_chemical_1(self, status):
+        # print("Loading Chemical 1:", status)
+        if status == "start":
+            print("Loading Chemical 1: Start")
+            self.device_status_changed.emit("chemical1", True)
+            self.safe_write_coil(address=24, value=1, device_id=int(self.PLC_id), operation_name="loading_chemical_1_start")
+        elif status == "stop":
+            print("Loading Chemical 1: Stop")
+            self.device_status_changed.emit("chemical1", False)
+            self.safe_write_coil(address=24, value=0, device_id=int(self.PLC_id), operation_name="loading_chemical_1_stop")
+
+    def loading_chemical_2(self, status):
+        # print("Loading Chemical 2:", status)
+        if status == "start":
+            print("Loading Chemical 2: Start")
+            self.device_status_changed.emit("chemical2", True)
+            self.safe_write_coil(address=26, value=1, device_id=int(self.PLC_id), operation_name="loading_chemical_2_start")
+        elif status == "stop":
+            print("Loading Chemical 2: Stop")
+            self.device_status_changed.emit("chemical2", False)
+            self.safe_write_coil(address=26, value=0, device_id=int(self.PLC_id), operation_name="loading_chemical_2_stop")
+
+    def pump_chemical_up(self, status):
+        # print("Pump Chemical Up:", status)
+        if status == "start":
+            self.device_status_changed.emit("pump_chemical", True)
+            self.safe_write_coil(address=25, value=1, device_id=int(self.PLC_id), operation_name="pump_chemical_start")
+        elif status == "stop":
+            self.device_status_changed.emit("pump_chemical", False)
+            self.safe_write_coil(address=25, value=0, device_id=int(self.PLC_id), operation_name="pump_chemical_stop")
+
+    def reading_finish_load_rock_and_sand(self):
+        def read_operation():
+            return self.plc_client.read_coils(address=100, count=1, device_id=int(self.PLC_id))
+        
+        result = self.safe_modbus_operation(read_operation, self.PLC_id, "read_rock_sand_status", is_write=False)
+        if result and not result.isError():
+            self.status_loading_rock_and_sand.emit(result.bits[0])
+        
+    def reading_finish_load_cement_and_fyash(self):
+        def read_operation():
+            return self.plc_client.read_coils(address=110, count=1, device_id=int(self.PLC_id))
+        
+        result = self.safe_modbus_operation(read_operation, self.PLC_id, "read_cement_flyash_status", is_write=False)
+        if result and not result.isError():
+            self.status_loading_cement_and_fyash.emit(result.bits[0])
+
+    def reading_finish_load_water(self):
+        def read_operation():
+            return self.plc_client.read_coils(address=120, count=1, device_id=int(self.PLC_id))
+        
+        result = self.safe_modbus_operation(read_operation, self.PLC_id, "read_water_status", is_write=False)
+        if result and not result.isError():
+            self.status_loading_water.emit(result.bits[0])
+
+    def reading_finish_load_chemical(self):
+        def read_operation():
+            return self.plc_client.read_coils(address=130, count=1, device_id=int(self.PLC_id))
+        
+        result = self.safe_modbus_operation(read_operation, self.PLC_id, "read_chemical_status", is_write=False)
+        if result and not result.isError():
+            self.status_loading_chemical.emit(result.bits[0])
+
+    def run(self):
+        read_functions = [
+            self.reading_finish_load_rock_and_sand,
+            self.reading_finish_load_cement_and_fyash,
+            self.reading_finish_load_water,
+            self.reading_finish_load_chemical
+        ]
+        read_index = 0
+        read_cycle_count = 0
+        
+        try:
+            while self.running:
+                try:
+                    if self.write_queue:
+                        self.process_write_queue()
+                        self.msleep(10)  
+                        continue  
+                    if self.reading_state and read_cycle_count >= 5:
+                        if read_functions:
+                            read_functions[read_index]()
+                            read_index = (read_index + 1) % len(read_functions)
+                            read_cycle_count = 0
+                            self.msleep(100)
+                    else:
+                        read_cycle_count += 1
+                        self.msleep(20) 
+                        
+                except Exception as e:
+                    print(f"Error in PLC Controller: {e}")
+                    self.msleep(50)
+                    
+        except Exception as e:
+            print(f"Critical error in PLC Controller thread: {e}")
+        
+        finally:
+            if self.plc_client and self.plc_client.is_socket_open():
+                self.plc_client.close()
+                print("PLC Comport closed inside thread.")
+
+    def set_communication_parameters(self, communication_delay=20, read_delay=200, max_error_count=3, timeout_seconds=1):
+        self.communication_delay = communication_delay  
+        self.read_delay = read_delay 
+        self.max_error_count = max_error_count
+        if hasattr(self, 'plc_client') and self.plc_client:
+            self.plc_client.timeout = timeout_seconds
+            # print(f"Updated communication parameters - Write delay: {communication_delay}ms, Read delay: {read_delay}ms, Max errors: {max_error_count}, Timeout: {timeout_seconds}s")
+    
+    def get_communication_status(self):
+        status = {}
+        current_time = time.time()
+        for device_id, error_count in self.error_count.items():
+            last_comm = self.last_communication_time.get(device_id, 0)
+            time_since_last = current_time - last_comm
+            
+            status[device_id] = {
+                'error_count': error_count,
+                'last_communication': last_comm,
+                'seconds_since_last_comm': round(time_since_last, 2),
+                'is_active': error_count < self.max_error_count
+            }
+        return status
+    
+    def reset_device_errors(self, device_id=None):
+        if device_id:
+            if device_id in self.error_count:
+                self.error_count[device_id] = 0
+                # print(f"Reset error count for device {device_id}")
+        else:
+            for device in self.error_count:
+                self.error_count[device] = 0
+
+    def stop(self):
+        self.running = False
+        self.wait()
+        status = self.get_communication_status()
+        for device_id, stats in status.items():
+            # print(f"Device {device_id}: Errors={stats['error_count']}, Last comm={stats['seconds_since_last_comm']}s ago")
+            pass
+
+    def stop_controller(self):
+        """เมธอดสำหรับสั่งหยุด Thread และปิด Port จากภายนอก"""
+        print("Stop signal received by PLC_Controller.")
+        self.running = False # บอกให้ loop ใน run() หยุดทำงาน
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    plc_controller = PLC_Controller()
+    sys.exit(0)

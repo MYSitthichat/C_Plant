@@ -1,0 +1,53 @@
+2026-03-12 13:53:29,109 - INFO - ==================================================
+2026-03-12 13:53:29,109 - INFO - START BATCH LOGGING: ID 2026-03-12_13-53-29
+2026-03-12 13:53:29,109 - INFO - ==================================================
+2026-03-12 13:53:29,109 - INFO - Total Queue Count to Load: 3.0
+2026-03-12 13:53:29,109 - INFO - 
+2026-03-12 13:53:29,109 - INFO - --- Start Queue #1 of 3 (Multiplier: 1.0) ---
+2026-03-12 13:53:29,109 - INFO -    Target Rock1: 340
+2026-03-12 13:53:29,109 - INFO -    Target Sand: 890
+2026-03-12 13:53:29,109 - INFO -    Target Rock2: 700
+2026-03-12 13:53:29,109 - INFO -    Target Cement: 280
+2026-03-12 13:53:29,109 - INFO -    Target Flyash: 63
+2026-03-12 13:53:29,109 - INFO -    Target Water: 170
+2026-03-12 13:53:29,109 - INFO -    Target Chem1: 1.5
+2026-03-12 13:53:29,109 - INFO -    Target Chem2: 0.8
+2026-03-12 13:53:29,109 - INFO - 
+2026-03-12 13:53:31,126 - INFO - start state load cement fyash
+2026-03-12 13:53:35,210 - INFO - 58
+2026-03-12 13:53:35,428 - INFO - 1.9
+2026-03-12 13:53:35,647 - INFO - 168
+2026-03-12 13:53:35,647 - INFO - ค่า sand เป้าหมาย 840 ค่า Rock1 เป้าหมาย 1130 ค่า Rock2 เป้าหมาย 1830
+2026-03-12 13:53:35,928 - INFO - start state load fyash
+2026-03-12 13:53:36,131 - INFO - 840
+2026-03-12 13:53:38,839 - INFO - start state load sand
+2026-03-12 13:53:48,569 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-03-12 13:53:57,579 - INFO - 1130
+2026-03-12 13:54:00,802 - INFO - start state load rock1
+2026-03-12 13:54:05,730 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-03-12 13:54:11,627 - INFO - water is loaded
+2026-03-12 13:54:11,737 - INFO - Water loaded successfully.
+2026-03-12 13:54:12,879 - INFO - start state load rock2
+2026-03-12 13:54:21,763 - INFO - 2.7
+2026-03-12 13:54:22,905 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=False
+2026-03-12 13:54:36,108 - INFO - rock and sand is success
+2026-03-12 13:54:37,110 - INFO - Rock and Sand loaded successfully.
+2026-03-12 13:54:40,097 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=False
+2026-03-12 13:54:52,971 - INFO - chemical is loaded
+2026-03-12 13:54:54,285 - INFO - Chemical loaded successfully.
+2026-03-12 13:54:57,274 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:55:14,433 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:55:31,605 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:55:48,765 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:56:05,955 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:56:23,115 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:56:40,290 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:56:57,436 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:57:14,613 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:57:31,762 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:57:48,937 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:58:06,096 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:58:23,270 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-12 13:58:31,021 - INFO - ==================================================
+2026-03-12 13:58:31,021 - INFO - END BATCH LOGGING: ID 2026-03-12_13-53-29
+2026-03-12 13:58:31,021 - INFO - ==================================================

@@ -7,3 +7,7 @@ venv/
 # IDE / Editor folders
 .vscode/
 .idea/
+
+# Local backups / archives
+BackUP/*.rar
+*.rar

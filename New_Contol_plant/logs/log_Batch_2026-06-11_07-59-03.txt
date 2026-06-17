@@ -1,0 +1,50 @@
+2026-06-11 07:59:03,187 - INFO - ==================================================
+2026-06-11 07:59:03,187 - INFO - START BATCH LOGGING: ID 2026-06-11_07-59-03
+2026-06-11 07:59:03,187 - INFO - ==================================================
+2026-06-11 07:59:03,187 - INFO - Total Queue Count to Load: 5.0
+2026-06-11 07:59:03,219 - INFO - 
+2026-06-11 07:59:03,219 - INFO - --- Start Queue #1 of 5 (Multiplier: 1.0) ---
+2026-06-11 07:59:03,219 - INFO -    Target Rock1: 350
+2026-06-11 07:59:03,219 - INFO -    Target Sand: 970
+2026-06-11 07:59:03,219 - INFO -    Target Rock2: 700
+2026-06-11 07:59:03,219 - INFO -    Target Cement: 218
+2026-06-11 07:59:03,219 - INFO -    Target Flyash: 45
+2026-06-11 07:59:03,219 - INFO -    Target Water: 138
+2026-06-11 07:59:03,219 - INFO -    Target Chem1: 1.2
+2026-06-11 07:59:03,219 - INFO -    Target Chem2: 0.4
+2026-06-11 07:59:03,219 - INFO - 
+2026-06-11 07:59:05,249 - INFO - start state load cement fyash
+2026-06-11 07:59:09,420 - INFO - 1.4
+2026-06-11 07:59:09,639 - INFO - 40
+2026-06-11 07:59:09,764 - INFO - ค่า sand เป้าหมาย 920 ค่า Rock1 เป้าหมาย 1220 ค่า Rock2 เป้าหมาย 1920
+2026-06-11 07:59:09,858 - INFO - 136
+2026-06-11 07:59:11,717 - INFO - 920
+2026-06-11 07:59:14,357 - INFO - start state load sand
+2026-06-11 07:59:16,294 - INFO - start state load fyash
+2026-06-11 07:59:22,886 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 07:59:35,492 - INFO - sand is moist
+2026-06-11 07:59:40,226 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 07:59:55,503 - INFO - sand is moist
+2026-06-11 07:59:57,565 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:00:14,905 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:00:15,530 - INFO - sand is moist
+2026-06-11 08:00:15,530 - INFO - sand is moist and count tinout = 3 this skip sand loading
+2026-06-11 08:00:32,235 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:00:47,726 - INFO - 1220
+2026-06-11 08:00:49,585 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:01:06,924 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:01:24,264 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:01:33,027 - INFO - start state load rock1
+2026-06-11 08:01:41,604 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:01:58,943 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:02:16,283 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:02:33,623 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:02:50,962 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:03:08,302 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:03:25,642 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:03:42,981 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:04:00,321 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:04:17,661 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-11 08:04:23,206 - INFO - ==================================================
+2026-06-11 08:04:23,222 - INFO - END BATCH LOGGING: ID 2026-06-11_07-59-03
+2026-06-11 08:04:23,222 - INFO - ==================================================

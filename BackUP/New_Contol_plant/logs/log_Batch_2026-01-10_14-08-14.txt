@@ -1,0 +1,42 @@
+2026-01-10 14:08:14,866 - INFO - ==================================================
+2026-01-10 14:08:14,866 - INFO - START BATCH LOGGING: ID 2026-01-10_14-08-14
+2026-01-10 14:08:14,866 - INFO - ==================================================
+2026-01-10 14:08:14,866 - INFO - Total Queue Count to Load: 0.5
+2026-01-10 14:08:14,866 - INFO - 
+2026-01-10 14:08:14,866 - INFO - --- Start Queue #1 of 1 (Multiplier: 0.5) ---
+2026-01-10 14:08:14,870 - INFO -    Target Rock1: 150
+2026-01-10 14:08:14,870 - INFO -    Target Sand: 480
+2026-01-10 14:08:14,870 - INFO -    Target Rock2: 375
+2026-01-10 14:08:14,870 - INFO -    Target Cement: 125
+2026-01-10 14:08:14,870 - INFO -    Target Flyash: 0
+2026-01-10 14:08:14,870 - INFO -    Target Water: 86
+2026-01-10 14:08:14,870 - INFO -    Target Chem1: 0.6
+2026-01-10 14:08:14,870 - INFO -    Target Chem2: 0.2
+2026-01-10 14:08:14,870 - INFO - 
+2026-01-10 14:08:16,897 - INFO - start state load cement fyash
+2026-01-10 14:08:20,195 - INFO - feedback water = 84
+2026-01-10 14:08:21,423 - INFO - ค่า sand เป้าหมาย 430 ค่า Rock1 เป้าหมาย 530 ค่า Rock2 เป้าหมาย 905
+2026-01-10 14:08:21,808 - INFO - start state load cement
+2026-01-10 14:08:26,609 - INFO - feedback sand = 430
+2026-01-10 14:08:26,815 - INFO - start state load sand
+2026-01-10 14:08:34,469 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-10 14:08:41,635 - INFO - water is loaded
+2026-01-10 14:08:41,991 - INFO - Water loaded successfully.
+2026-01-10 14:08:44,396 - INFO - feedback rock 1 = 530
+2026-01-10 14:08:44,593 - INFO - Current cement weight: 148 KG
+2026-01-10 14:08:44,593 - WARNING - cement loading over target with weight 148 KG
+2026-01-10 14:08:45,777 - INFO - cement and fyash loading success
+2026-01-10 14:08:46,706 - INFO - Cement and Flyash loaded successfully.
+2026-01-10 14:08:47,145 - INFO - start state load rock1
+2026-01-10 14:08:51,755 - INFO - State 0 waiting - Flags: R&S=False, C&F=True, W=True, Chem=False
+2026-01-10 14:08:57,806 - INFO - feedback rock 2 = 905
+2026-01-10 14:08:58,127 - INFO - start state load rock2
+2026-01-10 14:09:09,043 - INFO - State 0 waiting - Flags: R&S=False, C&F=True, W=True, Chem=False
+2026-01-10 14:09:11,391 - INFO - rock and sand is success
+2026-01-10 14:09:12,403 - INFO - Rock and Sand loaded successfully.
+2026-01-10 14:09:26,297 - INFO - State 0 waiting - Flags: R&S=True, C&F=True, W=True, Chem=False
+2026-01-10 14:09:43,519 - INFO - State 0 waiting - Flags: R&S=True, C&F=True, W=True, Chem=False
+2026-01-10 14:10:00,717 - INFO - State 0 waiting - Flags: R&S=True, C&F=True, W=True, Chem=False
+2026-01-10 14:10:13,879 - INFO - ==================================================
+2026-01-10 14:10:13,879 - INFO - END BATCH LOGGING: ID 2026-01-10_14-08-14
+2026-01-10 14:10:13,879 - INFO - ==================================================

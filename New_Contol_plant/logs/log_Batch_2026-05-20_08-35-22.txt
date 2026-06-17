@@ -1,0 +1,24 @@
+2026-05-20 08:35:22,361 - INFO - ==================================================
+2026-05-20 08:35:22,361 - INFO - START BATCH LOGGING: ID 2026-05-20_08-35-22
+2026-05-20 08:35:22,361 - INFO - ==================================================
+2026-05-20 08:35:22,361 - INFO - Total Queue Count to Load: 3.0
+2026-05-20 08:35:22,361 - INFO - 
+2026-05-20 08:35:22,361 - INFO - --- Start Queue #1 of 3 (Multiplier: 1.0) ---
+2026-05-20 08:35:22,361 - INFO -    Target Rock1: 350
+2026-05-20 08:35:22,361 - INFO -    Target Sand: 950
+2026-05-20 08:35:22,361 - INFO -    Target Rock2: 700
+2026-05-20 08:35:22,361 - INFO -    Target Cement: 232
+2026-05-20 08:35:22,361 - INFO -    Target Flyash: 45
+2026-05-20 08:35:22,376 - INFO -    Target Water: 165
+2026-05-20 08:35:22,376 - INFO -    Target Chem1: 1.3
+2026-05-20 08:35:22,376 - INFO -    Target Chem2: 0.4
+2026-05-20 08:35:22,376 - INFO - 
+2026-05-20 08:35:24,407 - INFO - start state load cement fyash
+2026-05-20 08:35:26,954 - ERROR - Error reading chemical weight from lineEdit
+2026-05-20 08:35:28,407 - ERROR - Error reading sand weight
+2026-05-20 08:35:28,407 - ERROR - Error reading rock 1 weight
+2026-05-20 08:35:28,922 - INFO - ค่า sand เป้าหมาย 900 ค่า Rock1 เป้าหมาย 1200 ค่า Rock2 เป้าหมาย 1900
+2026-05-20 08:35:42,044 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-05-20 08:35:56,681 - INFO - ==================================================
+2026-05-20 08:35:56,681 - INFO - END BATCH LOGGING: ID 2026-05-20_08-35-22
+2026-05-20 08:35:56,681 - INFO - ==================================================

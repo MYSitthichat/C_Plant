@@ -1,0 +1,54 @@
+2026-01-10 14:04:04,352 - INFO - ==================================================
+2026-01-10 14:04:04,352 - INFO - START BATCH LOGGING: ID 2026-01-10_14-04-04
+2026-01-10 14:04:04,352 - INFO - ==================================================
+2026-01-10 14:04:04,352 - INFO - Total Queue Count to Load: 1.5
+2026-01-10 14:04:04,352 - INFO - 
+2026-01-10 14:04:04,352 - INFO - --- Start Queue #1 of 2 (Multiplier: 1.0) ---
+2026-01-10 14:04:04,352 - INFO -    Target Rock1: 300
+2026-01-10 14:04:04,352 - INFO -    Target Sand: 960
+2026-01-10 14:04:04,352 - INFO -    Target Rock2: 750
+2026-01-10 14:04:04,352 - INFO -    Target Cement: 250
+2026-01-10 14:04:04,352 - INFO -    Target Flyash: 0
+2026-01-10 14:04:04,352 - INFO -    Target Water: 172
+2026-01-10 14:04:04,352 - INFO -    Target Chem1: 1.2
+2026-01-10 14:04:04,364 - INFO -    Target Chem2: 0.4
+2026-01-10 14:04:04,364 - INFO - 
+2026-01-10 14:04:06,388 - INFO - start state load cement fyash
+2026-01-10 14:04:09,745 - INFO - feedback water = 170
+2026-01-10 14:04:10,892 - INFO - ค่า sand เป้าหมาย 910 ค่า Rock1 เป้าหมาย 1160 ค่า Rock2 เป้าหมาย 1910
+2026-01-10 14:04:11,038 - INFO - feedback chem 1 = 1.2
+2026-01-10 14:04:11,229 - INFO - start state load cement
+2026-01-10 14:04:13,827 - INFO - feedback sand = 910
+2026-01-10 14:04:14,047 - INFO - start state load sand
+2026-01-10 14:04:23,990 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-10 14:04:34,095 - INFO - feedback rock 1 = 1160
+2026-01-10 14:04:36,895 - INFO - start state load rock1
+2026-01-10 14:04:37,953 - INFO - feedback chem 2 = 1.6
+2026-01-10 14:04:41,274 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-10 14:04:42,145 - INFO - เวลาที่ต้องเติมเพิ่ม2.131144416850546
+2026-01-10 14:04:45,556 - INFO - water is loaded
+2026-01-10 14:04:45,842 - INFO - Water loaded successfully.
+2026-01-10 14:04:47,240 - INFO - Current cement weight: 244 KG
+2026-01-10 14:04:47,240 - INFO - filling cement -6 KG ::: round 1
+2026-01-10 14:04:47,347 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-10 14:04:48,493 - INFO - chemical is loaded
+2026-01-10 14:04:48,524 - INFO - feedback rock 2 = 1910
+2026-01-10 14:04:48,889 - INFO - start state load rock2
+2026-01-10 14:04:49,896 - INFO - Chemical loaded successfully.
+2026-01-10 14:04:51,540 - INFO - Current cement weight: 255 KG
+2026-01-10 14:04:51,540 - WARNING - cement loading over target with weight 255 KG
+2026-01-10 14:04:52,728 - INFO - cement and fyash loading success
+2026-01-10 14:04:53,032 - INFO - Cement and Flyash loaded successfully.
+2026-01-10 14:04:58,588 - INFO - State 0 waiting - Flags: R&S=False, C&F=True, W=True, Chem=True
+2026-01-10 14:05:15,959 - INFO - State 0 waiting - Flags: R&S=False, C&F=True, W=True, Chem=True
+2026-01-10 14:05:28,359 - ERROR - No response received after 3 retries, continue with next request
+2026-01-10 14:05:32,689 - ERROR - Repeating....
+2026-01-10 14:05:33,254 - INFO - State 0 waiting - Flags: R&S=False, C&F=True, W=True, Chem=True
+2026-01-10 14:05:36,997 - ERROR - No response received after 3 retries, continue with next request
+2026-01-10 14:05:41,322 - ERROR - No response received after 3 retries, continue with next request
+2026-01-10 14:05:45,649 - ERROR - No response received after 3 retries, continue with next request
+2026-01-10 14:05:49,967 - ERROR - No response received after 3 retries, continue with next request
+2026-01-10 14:05:50,543 - INFO - State 0 waiting - Flags: R&S=False, C&F=True, W=True, Chem=True
+2026-01-10 14:05:52,974 - INFO - ==================================================
+2026-01-10 14:05:52,974 - INFO - END BATCH LOGGING: ID 2026-01-10_14-04-04
+2026-01-10 14:05:52,974 - INFO - ==================================================

@@ -1,0 +1,57 @@
+2026-03-14 12:41:45,976 - INFO - ==================================================
+2026-03-14 12:41:45,976 - INFO - START BATCH LOGGING: ID 2026-03-14_12-41-45
+2026-03-14 12:41:45,976 - INFO - ==================================================
+2026-03-14 12:41:45,976 - INFO - Total Queue Count to Load: 3.5
+2026-03-14 12:41:45,976 - INFO - 
+2026-03-14 12:41:45,976 - INFO - --- Start Queue #1 of 4 (Multiplier: 1.0) ---
+2026-03-14 12:41:45,976 - INFO -    Target Rock1: 350
+2026-03-14 12:41:45,976 - INFO -    Target Sand: 970
+2026-03-14 12:41:45,976 - INFO -    Target Rock2: 730
+2026-03-14 12:41:45,976 - INFO -    Target Cement: 220
+2026-03-14 12:41:45,976 - INFO -    Target Flyash: 42
+2026-03-14 12:41:45,976 - INFO -    Target Water: 160
+2026-03-14 12:41:45,976 - INFO -    Target Chem1: 1.2
+2026-03-14 12:41:45,976 - INFO -    Target Chem2: 0.4
+2026-03-14 12:41:45,991 - INFO - 
+2026-03-14 12:41:47,994 - INFO - start state load cement fyash
+2026-03-14 12:41:52,513 - INFO - ค่า sand เป้าหมาย 920 ค่า Rock1 เป้าหมาย 1220 ค่า Rock2 เป้าหมาย 1950
+2026-03-14 12:41:53,171 - INFO - 934
+2026-03-14 12:41:53,374 - INFO - 1.4
+2026-03-14 12:41:53,593 - INFO - 158
+2026-03-14 12:41:53,827 - INFO - 37
+2026-03-14 12:41:54,548 - INFO - start state load fyash
+2026-03-14 12:41:55,877 - INFO - start state load sand
+2026-03-14 12:42:05,467 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-03-14 12:42:19,919 - INFO - 1234
+2026-03-14 12:42:22,656 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-03-14 12:42:23,156 - INFO - start state load rock1
+2026-03-14 12:42:30,414 - INFO - water is loaded
+2026-03-14 12:42:30,648 - INFO - Water loaded successfully.
+2026-03-14 12:42:35,138 - INFO - 1.8
+2026-03-14 12:42:35,747 - INFO - start state load rock2
+2026-03-14 12:42:39,815 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=False
+2026-03-14 12:42:56,990 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=False
+2026-03-14 12:43:00,135 - INFO - chemical is loaded
+2026-03-14 12:43:01,917 - INFO - rock and sand is success
+2026-03-14 12:43:02,622 - INFO - Chemical loaded successfully.
+2026-03-14 12:43:02,934 - INFO - Rock and Sand loaded successfully.
+2026-03-14 12:43:14,164 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:43:31,356 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:43:48,517 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:44:05,677 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:44:22,853 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:44:40,029 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:44:57,189 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:45:03,023 - ERROR - No response received after 3 retries, continue with next request
+2026-03-14 12:45:07,308 - ERROR - Repeating....
+2026-03-14 12:45:11,579 - ERROR - No response received after 3 retries, continue with next request
+2026-03-14 12:45:14,347 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:45:15,863 - ERROR - No response received after 3 retries, continue with next request
+2026-03-14 12:45:20,134 - ERROR - No response received after 3 retries, continue with next request
+2026-03-14 12:45:24,419 - ERROR - No response received after 3 retries, continue with next request
+2026-03-14 12:45:28,706 - ERROR - No response received after 3 retries, continue with next request
+2026-03-14 12:45:31,506 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:45:48,696 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-03-14 12:46:00,570 - INFO - ==================================================
+2026-03-14 12:46:00,570 - INFO - END BATCH LOGGING: ID 2026-03-14_12-41-45
+2026-03-14 12:46:00,570 - INFO - ==================================================

@@ -1,0 +1,75 @@
+2026-06-10 13:35:01,950 - INFO - ==================================================
+2026-06-10 13:35:01,950 - INFO - START BATCH LOGGING: ID 2026-06-10_13-35-01
+2026-06-10 13:35:01,950 - INFO - ==================================================
+2026-06-10 13:35:01,950 - INFO - Total Queue Count to Load: 3.0
+2026-06-10 13:35:01,950 - INFO - 
+2026-06-10 13:35:01,950 - INFO - --- Start Queue #1 of 3 (Multiplier: 1.0) ---
+2026-06-10 13:35:01,950 - INFO -    Target Rock1: 350
+2026-06-10 13:35:01,950 - INFO -    Target Sand: 970
+2026-06-10 13:35:01,950 - INFO -    Target Rock2: 700
+2026-06-10 13:35:01,950 - INFO -    Target Cement: 218
+2026-06-10 13:35:01,950 - INFO -    Target Flyash: 45
+2026-06-10 13:35:01,950 - INFO -    Target Water: 130
+2026-06-10 13:35:01,950 - INFO -    Target Chem1: 1.2
+2026-06-10 13:35:01,950 - INFO -    Target Chem2: 0.4
+2026-06-10 13:35:01,950 - INFO - 
+2026-06-10 13:35:03,981 - INFO - start state load cement fyash
+2026-06-10 13:35:06,574 - INFO - 40
+2026-06-10 13:35:07,292 - INFO - start state load fyash
+2026-06-10 13:35:08,479 - INFO - 1.3
+2026-06-10 13:35:08,495 - INFO - ค่า sand เป้าหมาย 920 ค่า Rock1 เป้าหมาย 1220 ค่า Rock2 เป้าหมาย 1920
+2026-06-10 13:35:08,698 - INFO - 128
+2026-06-10 13:35:09,729 - INFO - 920
+2026-06-10 13:35:12,463 - INFO - start state load sand
+2026-06-10 13:35:21,617 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:35:23,710 - INFO - 263
+2026-06-10 13:35:30,724 - INFO - start state load cement
+2026-06-10 13:35:38,957 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:35:44,580 - INFO - 1220
+2026-06-10 13:35:56,296 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:36:13,636 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:36:30,976 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:36:32,725 - INFO - start state load rock1
+2026-06-10 13:36:40,270 - INFO - start state load rock2
+2026-06-10 13:36:47,581 - INFO - rock and sand is success
+2026-06-10 13:36:48,315 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:36:59,110 - INFO - เวลาที่ต้องเติมเพิ่ม2.762234995150453
+2026-06-10 13:37:04,046 - INFO - Current cement weight: 211 KG
+2026-06-10 13:37:04,046 - INFO - filling cement -7 KG ::: round 1
+2026-06-10 13:37:04,155 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-06-10 13:37:05,655 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:37:08,202 - INFO - Current cement weight: 211 KG
+2026-06-10 13:37:08,202 - INFO - filling cement -7 KG ::: round 2
+2026-06-10 13:37:08,311 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-06-10 13:37:12,357 - INFO - Current cement weight: 211 KG
+2026-06-10 13:37:12,357 - INFO - filling cement -7 KG ::: round 3
+2026-06-10 13:37:12,466 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-06-10 13:37:16,512 - INFO - Current cement weight: 211 KG
+2026-06-10 13:37:16,512 - INFO - filling cement -7 KG ::: round 4
+2026-06-10 13:37:16,622 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-06-10 13:37:20,668 - INFO - Current cement weight: 211 KG
+2026-06-10 13:37:20,668 - INFO - filling cement -7 KG ::: round 5
+2026-06-10 13:37:20,777 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-06-10 13:37:22,995 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:37:24,823 - INFO - Current cement weight: 211 KG
+2026-06-10 13:37:24,823 - INFO - filling cement -7 KG ::: round 6
+2026-06-10 13:37:24,932 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-06-10 13:37:28,978 - INFO - Current cement weight: 211 KG
+2026-06-10 13:37:28,978 - INFO - filling cement -7 KG ::: round 7
+2026-06-10 13:37:29,087 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-06-10 13:37:33,134 - INFO - Current cement weight: 213 KG
+2026-06-10 13:37:33,134 - INFO - filling cement -5 KG ::: round 8
+2026-06-10 13:37:33,243 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-06-10 13:37:37,289 - INFO - Current cement weight: 217 KG
+2026-06-10 13:37:37,289 - INFO - cement loading success with weight 217 And Diff -1 KG
+2026-06-10 13:37:38,414 - INFO - cement and fyash loading success
+2026-06-10 13:37:40,335 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:37:57,675 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:38:14,999 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:38:32,338 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:38:49,663 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:39:07,003 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:39:24,343 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-10 13:39:41,401 - INFO - ==================================================
+2026-06-10 13:39:41,401 - INFO - END BATCH LOGGING: ID 2026-06-10_13-35-01
+2026-06-10 13:39:41,401 - INFO - ==================================================

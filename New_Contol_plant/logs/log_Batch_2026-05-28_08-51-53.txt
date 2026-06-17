@@ -1,0 +1,107 @@
+2026-05-28 08:51:53,025 - INFO - ==================================================
+2026-05-28 08:51:53,025 - INFO - START BATCH LOGGING: ID 2026-05-28_08-51-53
+2026-05-28 08:51:53,025 - INFO - ==================================================
+2026-05-28 08:51:53,025 - INFO - Total Queue Count to Load: 1.0
+2026-05-28 08:51:53,025 - INFO - 
+2026-05-28 08:51:53,025 - INFO - --- Start Queue #1 of 1 (Multiplier: 1.0) ---
+2026-05-28 08:51:53,025 - INFO -    Target Rock1: 740
+2026-05-28 08:51:53,025 - INFO -    Target Sand: 850
+2026-05-28 08:51:53,025 - INFO -    Target Rock2: 300
+2026-05-28 08:51:53,025 - INFO -    Target Cement: 307
+2026-05-28 08:51:53,025 - INFO -    Target Flyash: 73
+2026-05-28 08:51:53,025 - INFO -    Target Water: 150
+2026-05-28 08:51:53,025 - INFO -    Target Chem1: 2.0
+2026-05-28 08:51:53,025 - INFO -    Target Chem2: 0.5
+2026-05-28 08:51:53,025 - INFO - 
+2026-05-28 08:51:55,028 - INFO - start state load cement fyash
+2026-05-28 08:51:59,125 - INFO - 148
+2026-05-28 08:51:59,360 - INFO - 2.4
+2026-05-28 08:51:59,533 - INFO - ค่า sand เป้าหมาย 800 ค่า Rock1 เป้าหมาย 1490 ค่า Rock2 เป้าหมาย 1790
+2026-05-28 08:51:59,565 - INFO - 68
+2026-05-28 08:51:59,768 - INFO - 807
+2026-05-28 08:52:00,283 - INFO - start state load fyash
+2026-05-28 08:52:02,489 - INFO - start state load sand
+2026-05-28 08:52:12,499 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-05-28 08:52:21,229 - INFO - 1497
+2026-05-28 08:52:24,569 - INFO - start state load rock1
+2026-05-28 08:52:26,058 - INFO - 380
+2026-05-28 08:52:29,735 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-05-28 08:52:32,409 - INFO - start state load cement
+2026-05-28 08:52:35,225 - INFO - water is loaded
+2026-05-28 08:52:36,148 - INFO - Water loaded successfully.
+2026-05-28 08:52:42,156 - INFO - 2.9
+2026-05-28 08:52:42,765 - INFO - start state load rock2
+2026-05-28 08:52:46,912 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=False
+2026-05-28 08:52:57,442 - INFO - rock and sand is success
+2026-05-28 08:52:58,457 - INFO - Rock and Sand loaded successfully.
+2026-05-28 08:53:04,074 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=False
+2026-05-28 08:53:05,513 - INFO - chemical is loaded
+2026-05-28 08:53:06,765 - INFO - Chemical loaded successfully.
+2026-05-28 08:53:21,267 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-05-28 08:53:38,445 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-05-28 08:53:55,619 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-05-28 08:54:12,779 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-05-28 08:54:29,971 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-05-28 08:54:47,103 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-05-28 08:55:04,280 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-05-28 08:55:21,411 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-05-28 08:55:38,627 - INFO - State 0 waiting - Flags: R&S=True, C&F=False, W=True, Chem=True
+2026-05-28 08:55:40,896 - INFO - เวลาที่ต้องเติมเพิ่ม3.729573319321972
+2026-05-28 08:55:45,922 - INFO - Current cement weight: 306 KG
+2026-05-28 08:55:45,922 - INFO - cement loading success with weight 306 And Diff -1 KG
+2026-05-28 08:55:47,095 - INFO - cement and fyash loading success
+2026-05-28 08:55:47,706 - INFO - Cement and Flyash loaded successfully.
+2026-05-28 08:55:47,706 - INFO - Queue 1 fully loaded - Setting next_queue_loaded_and_ready=True
+2026-05-28 08:55:50,817 - INFO - เริ่มผสมคิวที่ 1
+2026-05-28 08:55:50,817 - INFO - เปิดมอเตอร์ผสม
+2026-05-28 08:55:58,420 - INFO - เปิดสายพานบน
+2026-05-28 08:56:02,048 - INFO - เปิดสายพานล่าง
+2026-05-28 08:56:08,774 - INFO - เปิดปั้มน้ำยาขึ้น
+2026-05-28 08:56:14,374 - INFO - state 2
+2026-05-28 08:56:14,984 - INFO - เปิดวาล์วน้ำ
+2026-05-28 08:56:17,598 - INFO - เปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-05-28 08:56:19,427 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:21,227 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:23,041 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:24,841 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:26,655 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:28,455 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:30,269 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:32,069 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:33,883 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:35,683 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:37,497 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:39,296 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:41,110 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:42,911 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:44,724 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:46,524 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:48,338 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:49,949 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 1/3
+2026-05-28 08:56:50,591 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-05-28 08:56:51,796 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:53,422 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 2/3
+2026-05-28 08:56:54,065 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-05-28 08:56:55,269 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:56,880 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 3/3
+2026-05-28 08:56:57,475 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-05-28 08:56:58,680 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:56:59,289 - INFO - เริ่มหน่วงเวลา 2.0 วินาที ก่อนปิดสายพาน
+2026-05-28 08:57:00,509 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:57:02,309 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-05-28 08:57:02,919 - INFO - หมดเวลาหน่วง เริ่มปิดอุปกรณ์
+2026-05-28 08:57:05,531 - INFO - ปิดสายพานด้านล่าง
+2026-05-28 08:57:08,162 - INFO - ปิดสายพานด้านบน
+2026-05-28 08:57:09,359 - INFO - ปิดวาล์วน้ำ
+2026-05-28 08:57:10,483 - INFO - ปิดปั้มน้ำยาขึ้น
+2026-05-28 08:57:16,695 - INFO - state 4
+2026-05-28 08:57:18,869 - INFO - เริ่มเปิดปาก first step
+2026-05-28 08:57:27,709 - INFO - เริ่มเปิดปากโม่ครึ่งนึง
+2026-05-28 08:57:36,048 - INFO - เปิดปากโม่จนสุด
+2026-05-28 08:57:45,920 - INFO - ปิดปั้มน้ำยาเคมี
+2026-05-28 08:58:02,189 - INFO - ไม่มีคิวเหลือแล้ว จบกระบวนการผสม กำลังปิดปากโม่
+2026-05-28 08:58:14,781 - INFO - Updated time for order ID 1032
+2026-05-28 08:58:14,797 - INFO - update to database
+2026-05-28 08:58:14,797 - INFO - ==================================================
+2026-05-28 08:58:14,797 - INFO - END BATCH LOGGING: ID 2026-05-28_08-51-53
+2026-05-28 08:58:14,797 - INFO - ==================================================

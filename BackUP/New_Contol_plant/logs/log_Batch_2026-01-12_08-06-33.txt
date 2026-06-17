@@ -1,0 +1,130 @@
+2026-01-12 08:06:33,420 - INFO - ==================================================
+2026-01-12 08:06:33,420 - INFO - START BATCH LOGGING: ID 2026-01-12_08-06-33
+2026-01-12 08:06:33,420 - INFO - ==================================================
+2026-01-12 08:06:33,420 - INFO - Total Queue Count to Load: 3.0
+2026-01-12 08:06:33,420 - INFO - 
+2026-01-12 08:06:33,420 - INFO - --- Start Queue #1 of 3 (Multiplier: 1.0) ---
+2026-01-12 08:06:33,420 - INFO -    Target Rock1: 350
+2026-01-12 08:06:33,420 - INFO -    Target Sand: 950
+2026-01-12 08:06:33,420 - INFO -    Target Rock2: 700
+2026-01-12 08:06:33,420 - INFO -    Target Cement: 260
+2026-01-12 08:06:33,420 - INFO -    Target Flyash: 0
+2026-01-12 08:06:33,420 - INFO -    Target Water: 174
+2026-01-12 08:06:33,420 - INFO -    Target Chem1: 1.2
+2026-01-12 08:06:33,420 - INFO -    Target Chem2: 0.4
+2026-01-12 08:06:33,420 - INFO - 
+2026-01-12 08:06:35,434 - INFO - start state load cement fyash
+2026-01-12 08:06:38,702 - INFO - feedback water = 172
+2026-01-12 08:06:39,953 - INFO - feedback chem 1 = 1.2
+2026-01-12 08:06:39,953 - INFO - ค่า sand เป้าหมาย 900 ค่า Rock1 เป้าหมาย 1200 ค่า Rock2 เป้าหมาย 1900
+2026-01-12 08:06:40,302 - INFO - start state load cement
+2026-01-12 08:06:43,998 - INFO - feedback sand = 903
+2026-01-12 08:06:44,219 - INFO - start state load sand
+2026-01-12 08:06:53,039 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-12 08:07:02,844 - INFO - feedback rock 1 = 1203
+2026-01-12 08:07:03,104 - INFO - feedback chem 2 = 1.6
+2026-01-12 08:07:05,684 - INFO - start state load rock1
+2026-01-12 08:07:10,333 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-01-12 08:07:10,621 - INFO - เวลาที่ต้องเติมเพิ่ม3.938446454703808
+2026-01-12 08:07:11,311 - INFO - water is loaded
+2026-01-12 08:07:11,989 - INFO - Water loaded successfully.
+2026-01-12 08:07:13,289 - INFO - chemical is loaded
+2026-01-12 08:07:13,493 - INFO - Chemical loaded successfully.
+2026-01-12 08:07:15,695 - INFO - Current cement weight: 233 KG
+2026-01-12 08:07:15,695 - INFO - filling cement -27 KG ::: round 1
+2026-01-12 08:07:15,813 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-12 08:07:17,354 - INFO - feedback rock 2 = 1903
+2026-01-12 08:07:17,689 - INFO - start state load rock2
+2026-01-12 08:07:19,974 - INFO - Current cement weight: 241 KG
+2026-01-12 08:07:19,974 - INFO - filling cement -19 KG ::: round 2
+2026-01-12 08:07:20,091 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-12 08:07:24,292 - INFO - Current cement weight: 251 KG
+2026-01-12 08:07:24,292 - INFO - filling cement -9 KG ::: round 3
+2026-01-12 08:07:24,410 - INFO - กำลังเติมปูนทีละ 0.5 วินาที
+2026-01-12 08:07:27,635 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=True
+2026-01-12 08:07:28,568 - INFO - Current cement weight: 266 KG
+2026-01-12 08:07:28,569 - WARNING - cement loading over target with weight 266 KG
+2026-01-12 08:07:29,749 - INFO - cement and fyash loading success
+2026-01-12 08:07:30,708 - INFO - Cement and Flyash loaded successfully.
+2026-01-12 08:07:39,422 - INFO - rock and sand is success
+2026-01-12 08:07:40,657 - INFO - Rock and Sand loaded successfully.
+2026-01-12 08:07:40,657 - INFO - Queue 1 fully loaded - Setting next_queue_loaded_and_ready=True
+2026-01-12 08:07:43,325 - INFO - เริ่มผสมคิวที่ 1
+2026-01-12 08:07:43,330 - INFO - เปิดมอเตอร์ผสม
+2026-01-12 08:07:50,973 - INFO - เปิดสายพานบน
+2026-01-12 08:07:54,600 - INFO - เปิดสายพานล่าง
+2026-01-12 08:08:01,344 - INFO - เปิดปั้มน้ำยาขึ้น
+2026-01-12 08:08:07,008 - INFO - state 2
+2026-01-12 08:08:07,664 - INFO - เปิดวาล์วน้ำ
+2026-01-12 08:08:10,279 - INFO - เปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-01-12 08:08:12,151 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:14,015 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:15,887 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:17,756 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:19,590 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:21,461 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:23,286 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:25,115 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:26,968 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:28,785 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:30,631 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:32,452 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:34,307 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:36,199 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:38,092 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:39,771 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 1/3
+2026-01-12 08:08:40,413 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-01-12 08:08:41,631 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:43,280 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 2/3
+2026-01-12 08:08:43,938 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-01-12 08:08:45,168 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:46,823 - INFO - น้ำหนักต่ำกว่า 200 kg - นับถอยหลัง 3/3
+2026-01-12 08:08:47,502 - INFO - ปิดวาล์วปูนซีเมนต์และเถ้าลอย
+2026-01-12 08:08:48,744 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:49,368 - INFO - เริ่มหน่วงเวลา 2.0 วินาที ก่อนปิดสายพาน
+2026-01-12 08:08:50,581 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:52,435 - INFO - state 3 - ติดตามน้ำหนัก Rock & Sand
+2026-01-12 08:08:53,076 - INFO - หมดเวลาหน่วง เริ่มปิดอุปกรณ์
+2026-01-12 08:08:55,708 - INFO - ปิดสายพานด้านล่าง
+2026-01-12 08:08:58,384 - INFO - ปิดสายพานด้านบน
+2026-01-12 08:08:59,500 - INFO - ปิดวาล์วน้ำ
+2026-01-12 08:09:00,644 - INFO - ปิดปั้มน้ำยาขึ้น
+2026-01-12 08:09:06,022 - INFO - 
+2026-01-12 08:09:06,022 - INFO - --- Start Queue #2 of 3 (Multiplier: 1.0) ---
+2026-01-12 08:09:06,022 - INFO -    Target Rock1: 350
+2026-01-12 08:09:06,022 - INFO -    Target Sand: 950
+2026-01-12 08:09:06,032 - INFO -    Target Rock2: 700
+2026-01-12 08:09:06,032 - INFO -    Target Cement: 260
+2026-01-12 08:09:06,032 - INFO -    Target Flyash: 0
+2026-01-12 08:09:06,036 - INFO -    Target Water: 174
+2026-01-12 08:09:06,036 - INFO -    Target Chem1: 1.2
+2026-01-12 08:09:06,036 - INFO -    Target Chem2: 0.4
+2026-01-12 08:09:06,036 - INFO - 
+2026-01-12 08:09:08,067 - INFO - start state load cement fyash
+2026-01-12 08:09:11,297 - INFO - state 4
+2026-01-12 08:09:11,478 - INFO - feedback water = 172
+2026-01-12 08:09:12,360 - INFO - feedback chem 1 = 1.2
+2026-01-12 08:09:12,600 - INFO - ค่า sand เป้าหมาย 900 ค่า Rock1 เป้าหมาย 1200 ค่า Rock2 เป้าหมาย 1900
+2026-01-12 08:09:12,936 - INFO - start state load cement
+2026-01-12 08:09:15,889 - INFO - feedback sand = 900
+2026-01-12 08:09:16,115 - INFO - start state load sand
+2026-01-12 08:09:17,475 - INFO - เริ่มเปิดปาก first step
+2026-01-12 08:09:26,456 - INFO - เริ่มเปิดปากโม่ครึ่งนึง
+2026-01-12 08:09:34,854 - INFO - feedback rock 1 = 1200
+2026-01-12 08:09:34,914 - INFO - เปิดปากโม่จนสุด
+2026-01-12 08:09:37,192 - INFO - feedback chem 2 = 1.6
+2026-01-12 08:09:37,618 - INFO - start state load rock1
+2026-01-12 08:09:44,797 - INFO - ปิดปั้มน้ำยาเคมี
+2026-01-12 08:09:46,084 - INFO - water is loaded
+2026-01-12 08:09:46,352 - INFO - Water loaded successfully.
+2026-01-12 08:09:47,816 - INFO - chemical is loaded
+2026-01-12 08:09:49,153 - INFO - feedback rock 2 = 1900
+2026-01-12 08:09:49,206 - INFO - Chemical loaded successfully.
+2026-01-12 08:09:49,458 - INFO - start state load rock2
+2026-01-12 08:10:02,437 - INFO - state 7 ยังมีคิวเหลือกำลังรอโหลด
+2026-01-12 08:10:03,667 - INFO - state 6 คิวถัดไปยังไม่พร้อม ปิดปากโม่ก่อน
+2026-01-12 08:10:16,537 - INFO - rock and sand is success
+2026-01-12 08:10:17,403 - INFO - Rock and Sand loaded successfully.
+2026-01-12 08:14:47,048 - INFO - ==================================================
+2026-01-12 08:14:47,048 - INFO - END BATCH LOGGING: ID 2026-01-12_08-06-33
+2026-01-12 08:14:47,048 - INFO - ==================================================

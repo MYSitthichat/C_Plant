@@ -1,0 +1,55 @@
+2026-06-12 11:16:36,085 - INFO - ==================================================
+2026-06-12 11:16:36,085 - INFO - START BATCH LOGGING: ID 2026-06-12_11-16-36
+2026-06-12 11:16:36,085 - INFO - ==================================================
+2026-06-12 11:16:36,085 - INFO - Total Queue Count to Load: 1.0
+2026-06-12 11:16:36,085 - INFO - 
+2026-06-12 11:16:36,085 - INFO - --- Start Queue #1 of 1 (Multiplier: 1.0) ---
+2026-06-12 11:16:36,085 - INFO -    Target Rock1: 740
+2026-06-12 11:16:36,085 - INFO -    Target Sand: 850
+2026-06-12 11:16:36,085 - INFO -    Target Rock2: 300
+2026-06-12 11:16:36,085 - INFO -    Target Cement: 307
+2026-06-12 11:16:36,085 - INFO -    Target Flyash: 73
+2026-06-12 11:16:36,085 - INFO -    Target Water: 140
+2026-06-12 11:16:36,085 - INFO -    Target Chem1: 2.0
+2026-06-12 11:16:36,085 - INFO -    Target Chem2: 0.5
+2026-06-12 11:16:36,085 - INFO - 
+2026-06-12 11:16:38,116 - INFO - start state load cement fyash
+2026-06-12 11:16:41,834 - INFO - 68
+2026-06-12 11:16:42,053 - INFO - 138
+2026-06-12 11:16:42,568 - INFO - start state load fyash
+2026-06-12 11:16:42,631 - INFO - ค่า sand เป้าหมาย 800 ค่า Rock1 เป้าหมาย 1490 ค่า Rock2 เป้าหมาย 1790
+2026-06-12 11:16:42,631 - INFO - rock & sand weight < 0
+2026-06-12 11:16:43,209 - INFO - 2.5
+2026-06-12 11:16:43,302 - INFO - 800
+2026-06-12 11:16:46,036 - INFO - start state load sand
+2026-06-12 11:16:55,753 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:16:59,158 - INFO - 380
+2026-06-12 11:17:04,242 - ERROR - No response received after 3 retries, continue with next request
+2026-06-12 11:17:05,226 - INFO - start state load cement
+2026-06-12 11:17:08,304 - ERROR - Repeating....
+2026-06-12 11:17:12,365 - ERROR - No response received after 3 retries, continue with next request
+2026-06-12 11:17:13,084 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:17:16,474 - ERROR - No response received after 3 retries, continue with next request
+2026-06-12 11:17:16,646 - INFO - 1490
+2026-06-12 11:17:20,754 - ERROR - No response received after 3 retries, continue with next request
+2026-06-12 11:17:24,815 - ERROR - No response received after 3 retries, continue with next request
+2026-06-12 11:17:28,877 - ERROR - No response received after 3 retries, continue with next request
+2026-06-12 11:17:30,424 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:17:47,763 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:18:05,103 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:18:05,431 - INFO - start state load rock1
+2026-06-12 11:18:07,196 - INFO - Current cement weight: 307 KG
+2026-06-12 11:18:07,196 - INFO - cement loading success with weight 307 And Diff 0 KG
+2026-06-12 11:18:08,321 - INFO - cement and fyash loading success
+2026-06-12 11:18:13,507 - INFO - start state load rock2
+2026-06-12 11:18:20,818 - INFO - rock and sand is success
+2026-06-12 11:18:22,427 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:18:39,767 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:18:57,091 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:19:14,431 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:19:31,755 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:19:49,095 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:20:06,435 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=False, Chem=False
+2026-06-12 11:20:07,872 - INFO - ==================================================
+2026-06-12 11:20:07,872 - INFO - END BATCH LOGGING: ID 2026-06-12_11-16-36
+2026-06-12 11:20:07,872 - INFO - ==================================================

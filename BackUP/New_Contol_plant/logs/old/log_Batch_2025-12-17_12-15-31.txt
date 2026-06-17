@@ -1,0 +1,37 @@
+2025-12-17 12:15:31,156 - INFO - ==================================================
+2025-12-17 12:15:31,156 - INFO - START BATCH LOGGING: ID 2025-12-17_12-15-31
+2025-12-17 12:15:31,156 - INFO - ==================================================
+2025-12-17 12:15:31,157 - INFO - Total Queue Count to Load: 2.0
+2025-12-17 12:15:31,158 - INFO - 
+2025-12-17 12:15:31,159 - INFO - --- Start Queue #1 of 2 (Multiplier: 1.0) ---
+2025-12-17 12:15:31,159 - INFO -    Target Rock1: 370
+2025-12-17 12:15:31,160 - INFO -    Target Sand: 1030
+2025-12-17 12:15:31,160 - INFO -    Target Rock2: 680
+2025-12-17 12:15:31,160 - INFO -    Target Cement: 128
+2025-12-17 12:15:31,160 - INFO -    Target Flyash: 35
+2025-12-17 12:15:31,160 - INFO -    Target Water: 144
+2025-12-17 12:15:31,160 - INFO -    Target Chem1: 0.9
+2025-12-17 12:15:31,160 - INFO -    Target Chem2: 1.1
+2025-12-17 12:15:31,160 - INFO - 
+2025-12-17 12:15:33,693 - ERROR - Error reading cement weight from lineEdit
+2025-12-17 12:15:34,705 - ERROR - Error reading water weight from lineEdit
+2025-12-17 12:15:35,466 - INFO - feedback fyash = 28
+2025-12-17 12:15:36,479 - INFO - feedback water = 142
+2025-12-17 12:15:37,819 - INFO - feedback chem 1 = 0.9
+2025-12-17 12:15:42,018 - INFO - feedback sand = 961
+2025-12-17 12:15:45,069 - INFO - feedback cement = 163
+2025-12-17 12:15:59,261 - INFO - feedback chem 2 = 2.0
+2025-12-17 12:16:03,202 - INFO - sand is moist
+2025-12-17 12:16:05,254 - INFO - water is loaded
+2025-12-17 12:16:09,100 - INFO - feedback rock 1 = 1281
+2025-12-17 12:16:10,591 - INFO - เวลาที่ต้องเติมเพิ่ม1.7798529575610984
+2025-12-17 12:16:11,881 - INFO - chemical is loaded
+2025-12-17 12:16:23,237 - INFO - feedback rock 2 = 1961
+2025-12-17 12:16:35,145 - INFO - rock and sand is success
+2025-12-17 12:17:46,131 - ERROR - No response received after 3 retries, continue with next request
+2025-12-17 12:17:50,436 - ERROR - Repeating....
+2025-12-17 12:17:54,735 - ERROR - No response received after 3 retries, continue with next request
+2025-12-17 12:17:59,044 - ERROR - No response received after 3 retries, continue with next request
+2025-12-17 12:18:03,335 - ERROR - No response received after 3 retries, continue with next request
+2025-12-17 12:18:07,641 - ERROR - No response received after 3 retries, continue with next request
+2025-12-17 12:18:11,956 - ERROR - No response received after 3 retries, continue with next request

@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QMessageBox, QTreeWidgetItem
 from Controller.temp_mixer import TempMixer
 from Controller.Insert_to_customer_order import InsertToCustomerOrder
 from datetime import datetime
+import logging
 
 class load_work_queue(QObject):
     def __init__(self, main_window, db, temp_queue, reg_tab=None):
@@ -318,14 +319,32 @@ class load_work_queue(QObject):
 
     def clear_mixer_monitors(self):
         """Clear all mixer weight monitors to zero"""
-        self.main_window.mix_wieght_Loaded_rock_1_lineEdit.setText("0")
-        self.main_window.mix_wieght_Loaded_sand_lineEdit.setText("0")
-        self.main_window.mix_wieght_Loaded_rock_2_lineEdit.setText("0")
-        self.main_window.mix_wieght_Loaded_cement_lineEdit.setText("0")
-        self.main_window.mix_wieght_Loaded_fyash_lineEdit.setText("0")
-        self.main_window.mix_wieght_Loaded_water_lineEdit.setText("0")
-        self.main_window.mix_wieght_Loaded_chem_1_lineEdit.setText("0")
-        self.main_window.mix_wieght_Loaded_chem_2_lineEdit.setText("0")
+        fields_to_reset = [
+            "mix_monitor_rock_1_lineEdit",
+            "mix_monitor_sand_lineEdit",
+            "mix_monitor_rock_2_lineEdit",
+            "mix_monitor_cement_lineEdit",
+            "mix_monitor_fyash_lineEdit",
+            "mix_monitor_water_lineEdit",
+            "mix_monitor_chem_1_lineEdit",
+            "mix_monitor_chem_2_lineEdit",
+            "mix_monitor_sum_rock_and_sand_lineEdit",
+            "mix_monitor_sum_fyash_and_cement_lineEdit",
+            "mix_monitor_sum_chem_lineEdit",
+            "mix_wieght_Loaded_rock_1_lineEdit",
+            "mix_wieght_Loaded_sand_lineEdit",
+            "mix_wieght_Loaded_rock_2_lineEdit",
+            "mix_wieght_Loaded_cement_lineEdit",
+            "mix_wieght_Loaded_fyash_lineEdit",
+            "mix_wieght_Loaded_water_lineEdit",
+            "mix_wieght_Loaded_chem_1_lineEdit",
+            "mix_wieght_Loaded_chem_2_lineEdit",
+        ]
+        for field_name in fields_to_reset:
+            widget = getattr(self.main_window, field_name, None)
+            if widget is not None:
+                widget.setText("0")
+        logging.info("[TRACE] mixer_monitors_reset | fields=%s", fields_to_reset)
 
     def get_current_mixer(self):
         """Get current TempMixer object"""

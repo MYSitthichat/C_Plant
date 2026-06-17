@@ -1,0 +1,46 @@
+2026-04-21 11:48:34,360 - INFO - ==================================================
+2026-04-21 11:48:34,360 - INFO - START BATCH LOGGING: ID 2026-04-21_11-48-34
+2026-04-21 11:48:34,360 - INFO - ==================================================
+2026-04-21 11:48:34,360 - INFO - Total Queue Count to Load: 3.0
+2026-04-21 11:48:34,360 - INFO - 
+2026-04-21 11:48:34,360 - INFO - --- Start Queue #1 of 3 (Multiplier: 1.0) ---
+2026-04-21 11:48:34,360 - INFO -    Target Rock1: 350
+2026-04-21 11:48:34,360 - INFO -    Target Sand: 950
+2026-04-21 11:48:34,360 - INFO -    Target Rock2: 700
+2026-04-21 11:48:34,360 - INFO -    Target Cement: 232
+2026-04-21 11:48:34,360 - INFO -    Target Flyash: 45
+2026-04-21 11:48:34,375 - INFO -    Target Water: 180
+2026-04-21 11:48:34,375 - INFO -    Target Chem1: 1.3
+2026-04-21 11:48:34,375 - INFO -    Target Chem2: 0.4
+2026-04-21 11:48:34,375 - INFO - 
+2026-04-21 11:48:36,391 - INFO - start state load cement fyash
+2026-04-21 11:48:40,051 - INFO - 40
+2026-04-21 11:48:40,269 - INFO - 178
+2026-04-21 11:48:40,769 - INFO - start state load fyash
+2026-04-21 11:48:40,863 - INFO - 2.9
+2026-04-21 11:48:40,894 - INFO - ค่า sand เป้าหมาย 900 ค่า Rock1 เป้าหมาย 1200 ค่า Rock2 เป้าหมาย 1900
+2026-04-21 11:48:42,662 - INFO - 1847
+2026-04-21 11:48:45,368 - INFO - start state load sand
+2026-04-21 11:48:50,498 - INFO - water is loaded
+2026-04-21 11:48:50,607 - INFO - Water loaded successfully.
+2026-04-21 11:48:51,061 - INFO - 277
+2026-04-21 11:48:53,829 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=False
+2026-04-21 11:48:59,570 - INFO - start state load cement
+2026-04-21 11:49:06,624 - INFO - sand is moist
+2026-04-21 11:49:11,004 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=False
+2026-04-21 11:49:26,665 - INFO - sand is moist
+2026-04-21 11:49:28,198 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=False
+2026-04-21 11:49:33,862 - ERROR - No response received after 3 retries, continue with next request
+2026-04-21 11:49:38,133 - ERROR - Repeating....
+2026-04-21 11:49:42,418 - ERROR - No response received after 3 retries, continue with next request
+2026-04-21 11:49:45,375 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=False
+2026-04-21 11:49:46,689 - INFO - sand is moist
+2026-04-21 11:49:46,689 - INFO - sand is moist and count tinout = 3 this skip sand loading
+2026-04-21 11:49:46,704 - ERROR - No response received after 3 retries, continue with next request
+2026-04-21 11:49:50,816 - ERROR - No response received after 3 retries, continue with next request
+2026-04-21 11:49:54,822 - ERROR - No response received after 3 retries, continue with next request
+2026-04-21 11:49:58,840 - ERROR - No response received after 3 retries, continue with next request
+2026-04-21 11:50:02,531 - INFO - State 0 waiting - Flags: R&S=False, C&F=False, W=True, Chem=False
+2026-04-21 11:50:04,784 - INFO - ==================================================
+2026-04-21 11:50:04,784 - INFO - END BATCH LOGGING: ID 2026-04-21_11-48-34
+2026-04-21 11:50:04,784 - INFO - ==================================================

@@ -23,10 +23,10 @@ class AUTODA_Controller(QThread,QObject):
     weight_water = Signal(int)
     weight_chemical = Signal(float)  # เปลี่ยนเป็น float สำหรับทศนิยม
 
-    setpoint_rock_sand_read = Signal(int)
-    setpoint_cement_and_fyash_read = Signal(int)
-    setpoint_water_read = Signal(int)
-    setpoint_chemical_read = Signal(float)
+    setpoint_rock_sand_read = Signal(object)
+    setpoint_cement_and_fyash_read = Signal(object)
+    setpoint_water_read = Signal(object)
+    setpoint_chemical_read = Signal(object)
 
     
     def __init__(self,main_window,db):
@@ -413,7 +413,7 @@ class AUTODA_Controller(QThread,QObject):
                             continue
                         else:
                             print(f"No response received after {max_retries} retries for setpoint rock_sand")
-                            self.setpoint_rock_sand_read.emit(0)
+                            self.setpoint_rock_sand_read.emit(None)
                             return
                     
                     address_register = 314 #register set point rock and sand
@@ -427,7 +427,7 @@ class AUTODA_Controller(QThread,QObject):
                             continue
                         else:
                             print(f"No response received after {max_retries} retries, continue with next request")
-                            self.setpoint_rock_sand_read.emit(0)
+                            self.setpoint_rock_sand_read.emit(None)
                             return
                     
                     self.setpoint_rock_sand_read.emit(result.registers[1])
@@ -439,11 +439,11 @@ class AUTODA_Controller(QThread,QObject):
                         self.msleep(500)
                     else:
                         print(f"No response received after {max_retries} retries, continue with next request")
-                        self.setpoint_rock_sand_read.emit(0)
+                        self.setpoint_rock_sand_read.emit(None)
                         
         except Exception as e:
             print(f"Fatal exception in read_setpoint_rock_sand: {e}")
-            self.setpoint_rock_sand_read.emit(0)
+            self.setpoint_rock_sand_read.emit(None)
         finally:
             self.mutex.unlock()
 
@@ -463,7 +463,7 @@ class AUTODA_Controller(QThread,QObject):
                             continue
                         else:
                             print(f"No response received after {max_retries} retries for setpoint cement")
-                            self.setpoint_cement_and_fyash_read.emit(0)
+                            self.setpoint_cement_and_fyash_read.emit(None)
                             return
                     
                     address_register = 314 #register set point rock and sand
@@ -477,7 +477,7 @@ class AUTODA_Controller(QThread,QObject):
                             continue
                         else:
                             print(f"No response received after {max_retries} retries, continue with next request")
-                            self.setpoint_cement_and_fyash_read.emit(0)
+                            self.setpoint_cement_and_fyash_read.emit(None)
                             return
                     
                     self.setpoint_cement_and_fyash_read.emit(result.registers[1])
@@ -490,11 +490,11 @@ class AUTODA_Controller(QThread,QObject):
                         self.msleep(500)
                     else:
                         print(f"No response received after {max_retries} retries, continue with next request")
-                        self.setpoint_cement_and_fyash_read.emit(0)
+                        self.setpoint_cement_and_fyash_read.emit(None)
                         
         except Exception as e:
             print(f"Fatal exception in read_setpoint_cement_fyash: {e}")
-            self.setpoint_cement_and_fyash_read.emit(0)
+            self.setpoint_cement_and_fyash_read.emit(None)
         finally:
             self.mutex.unlock()
 
@@ -514,7 +514,7 @@ class AUTODA_Controller(QThread,QObject):
                             continue
                         else:
                             print(f"No response received after {max_retries} retries for setpoint water")
-                            self.setpoint_water_read.emit(0)
+                            self.setpoint_water_read.emit(None)
                             return
                     
                     address_register = 314 #register set point rock and sand
@@ -528,7 +528,7 @@ class AUTODA_Controller(QThread,QObject):
                             continue
                         else:
                             print(f"No response received after {max_retries} retries, continue with next request")
-                            self.setpoint_water_read.emit(0)
+                            self.setpoint_water_read.emit(None)
                             return
                     
                     self.setpoint_water_read.emit(result.registers[1])
@@ -540,11 +540,11 @@ class AUTODA_Controller(QThread,QObject):
                         self.msleep(500)
                     else:
                         print(f"No response received after {max_retries} retries, continue with next request")
-                        self.setpoint_water_read.emit(0)
+                        self.setpoint_water_read.emit(None)
                         
         except Exception as e:
             print(f"Fatal exception in read_setpoint_water: {e}")
-            self.setpoint_water_read.emit(0)
+            self.setpoint_water_read.emit(None)
         finally:
             self.mutex.unlock()
 
@@ -567,7 +567,7 @@ class AUTODA_Controller(QThread,QObject):
                             continue
                         else:
                             print(f"No response received after {max_retries} retries for setpoint chemical")
-                            self.setpoint_chemical_read.emit(0.0)
+                            self.setpoint_chemical_read.emit(None)
                             return
                     
                     address_register = 314
@@ -585,7 +585,7 @@ class AUTODA_Controller(QThread,QObject):
                             continue
                         else:
                             print(f"No response received after {max_retries} retries, continue with next request")
-                            self.setpoint_chemical_read.emit(0.0)
+                            self.setpoint_chemical_read.emit(None)
                             return
                     
                     high_word = result.registers[0]
@@ -603,11 +603,11 @@ class AUTODA_Controller(QThread,QObject):
                         self.msleep(500)
                     else:
                         print(f"No response received after {max_retries} retries, continue with next request")
-                        self.setpoint_chemical_read.emit(0.0)
+                        self.setpoint_chemical_read.emit(None)
                         
         except Exception as e:
             print(f"Fatal exception in read_setpoint_chemical: {e}")
-            self.setpoint_chemical_read.emit(0.0)
+            self.setpoint_chemical_read.emit(None)
         finally:
             self.mutex.unlock()
 
