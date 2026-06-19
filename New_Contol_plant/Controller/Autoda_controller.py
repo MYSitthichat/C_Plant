@@ -4,6 +4,7 @@ import os
 import sys
 from pymodbus.client import ModbusSerialClient
 import time
+import logging
 
 
 def get_divisor_from_code(div_code):
@@ -39,7 +40,38 @@ class AUTODA_Controller(QThread,QObject):
         # ตัวแปรสำหรับการจัดการทศนิยมของ Chemical
         self.chemical_divisor = 1
         self.chemical_decimal_initialized = False
+        self.weight_log_interval_seconds = 1.0
+        self._last_weight_log = {}
         self.read_config_file()
+
+    def _log(self, level, event, **context):
+        if context:
+            details = ", ".join(f"{key}={value!r}" for key, value in context.items())
+            logging.log(level, f"[AUTODA] {event} | {details}")
+        else:
+            logging.log(level, f"[AUTODA] {event}")
+
+    def _log_modbus_result(self, event, result, **context):
+        is_error = bool(result and hasattr(result, "isError") and result.isError())
+        context["result"] = str(result)
+        context["is_error"] = is_error
+        self._log(logging.ERROR if is_error else logging.INFO, event, **context)
+
+    def _log_weight_sample(self, material, weight, **context):
+        now = time.time()
+        previous = self._last_weight_log.get(material)
+        previous_weight = previous["weight"] if previous else None
+        previous_time = previous["time"] if previous else 0
+        changed = previous_weight != weight
+        interval_reached = now - previous_time >= self.weight_log_interval_seconds
+
+        if changed or interval_reached:
+            context["material"] = material
+            context["weight"] = weight
+            context["changed"] = changed
+            context["interval_seconds"] = self.weight_log_interval_seconds
+            self._log(logging.INFO, "read_weight_sample", **context)
+            self._last_weight_log[material] = {"weight": weight, "time": now}
     
     def int32_to_registers(self, value):
         if value < 0:
@@ -112,7 +144,7 @@ class AUTODA_Controller(QThread,QObject):
                         self.chemical_id = self.config.get('CHEMICAL_ID', int())
                         self.chemical_id = int(self.chemical_id)
         except FileNotFoundError:
-            print(f"port.conf file not found at {config_path}")
+            self._log(logging.ERROR, "config_file_missing", path=config_path)
     
     def connect_to_autodac(self):
         # debug
@@ -129,6 +161,16 @@ class AUTODA_Controller(QThread,QObject):
         parity = str(self.parity)
         data_bits = int(self.data_bits)
         timeout = int(self.timeout_error)
+        self._log(
+            logging.INFO,
+            "connect_begin",
+            port=autoda_port,
+            baudrate=baudrate,
+            parity=parity,
+            stop_bits=stop_bits,
+            data_bits=data_bits,
+            timeout=timeout,
+        )
 
         self.autoda_client = ModbusSerialClient(
             port=autoda_port,
@@ -140,11 +182,13 @@ class AUTODA_Controller(QThread,QObject):
         )
         try:
             if self.autoda_client.connect():
-                print(f"autoda status port {self.autoda_client.is_socket_open()}")
+                self._log(logging.INFO, "connect_success", port=autoda_port, socket_open=self.autoda_client.is_socket_open())
                 self.comport_error.emit([False, 'AutoDA'])
             else:
+                self._log(logging.ERROR, "connect_failed", port=autoda_port)
                 self.comport_error.emit([True, 'AutoDA'])
         except Exception as e:
+            self._log(logging.ERROR, "connect_exception", port=autoda_port, error=str(e))
             self.comport_error.emit([True, 'AutoDA'])
 
     def disconnect_to_autodac(self):
@@ -153,28 +197,28 @@ class AUTODA_Controller(QThread,QObject):
     def monitor_connection(self):
         """ตรวจสอบ connection status และ reconnect ถ้าจำเป็น"""
         if not hasattr(self, 'autoda_client') or not self.autoda_client:
-            print("AutoDA client not initialized")
+            self._log(logging.ERROR, "monitor_client_not_initialized")
             return False
         
         try:
             if not self.autoda_client.is_socket_open():
-                print("AutoDA serial port is closed - attempting reconnect...")
+                self._log(logging.WARNING, "monitor_socket_closed_reconnect_begin")
                 self.connect_to_autodac()
                 self.msleep(2000)  # รอ 2 วินาที
                 
                 if self.autoda_client and self.autoda_client.is_socket_open():
-                    print("✓ AutoDA reconnected successfully")
+                    self._log(logging.INFO, "monitor_reconnect_success")
                     # อ่านค่า chemical decimal setting ใหม่หลัง reconnect
                     self.chemical_decimal_initialized = False
                     self.read_chemical_decimal_setting()
                     return True
                 else:
-                    print("✗ AutoDA reconnect failed")
+                    self._log(logging.ERROR, "monitor_reconnect_failed")
                     self.comport_error.emit([True, 'AutoDA'])
                     return False
             return True
         except Exception as e:
-            print(f"Error checking AutoDA connection: {e}")
+            self._log(logging.ERROR, "monitor_exception", error=str(e))
             return False
 
     def ensure_connection(self, operation_name="operation"):
@@ -224,6 +268,7 @@ class AUTODA_Controller(QThread,QObject):
                         weight_value = raw_value - 65536
                     else:
                         weight_value = raw_value
+                    self._log_weight_sample("rock_sand", weight_value, raw_value=raw_value, device_id=self.rock_and_sand_id)
                     self.weight_rock_and_sand.emit(weight_value)
                     return
                     
@@ -275,6 +320,7 @@ class AUTODA_Controller(QThread,QObject):
                         weight_value = raw_value - 65536
                     else:
                         weight_value = raw_value
+                    self._log_weight_sample("cement_fyash", weight_value, raw_value=raw_value, device_id=self.cement_and_flyash_id)
                     self.weight_cement_and_fyash.emit(weight_value)
                     return
                     
@@ -326,6 +372,7 @@ class AUTODA_Controller(QThread,QObject):
                         weight_value = raw_value - 65536
                     else:
                         weight_value = raw_value
+                    self._log_weight_sample("water", weight_value, raw_value=raw_value, device_id=self.water_id)
                     self.weight_water.emit(weight_value)
                     return
                     
@@ -381,6 +428,7 @@ class AUTODA_Controller(QThread,QObject):
                     else:
                         signed_value = raw_value
                     float_value = signed_value / self.chemical_divisor
+                    self._log_weight_sample("chemical", float_value, raw_value=raw_value, signed_value=signed_value, divisor=self.chemical_divisor, device_id=self.chemical_id)
                     self.weight_chemical.emit(float_value)
                     return
                     
@@ -430,6 +478,7 @@ class AUTODA_Controller(QThread,QObject):
                             self.setpoint_rock_sand_read.emit(None)
                             return
                     
+                    self._log(logging.INFO, "read_setpoint_success", material="rock_sand", registers=result.registers, value=result.registers[1], device_id=rock_sand_address)
                     self.setpoint_rock_sand_read.emit(result.registers[1])
                     return
                     
@@ -480,6 +529,7 @@ class AUTODA_Controller(QThread,QObject):
                             self.setpoint_cement_and_fyash_read.emit(None)
                             return
                     
+                    self._log(logging.INFO, "read_setpoint_success", material="cement_fyash", registers=result.registers, value=result.registers[1], device_id=cement_and_fyash_address)
                     self.setpoint_cement_and_fyash_read.emit(result.registers[1])
                     return
                     
@@ -531,6 +581,7 @@ class AUTODA_Controller(QThread,QObject):
                             self.setpoint_water_read.emit(None)
                             return
                     
+                    self._log(logging.INFO, "read_setpoint_success", material="water", registers=result.registers, value=result.registers[1], device_id=water_address)
                     self.setpoint_water_read.emit(result.registers[1])
                     return
                     
@@ -594,6 +645,7 @@ class AUTODA_Controller(QThread,QObject):
                     if raw_int >= 0x80000000:
                         raw_int -= 0x100000000
                     float_setpoint = raw_int / self.chemical_divisor
+                    self._log(logging.INFO, "read_setpoint_success", material="chemical", registers=result.registers, raw_int=raw_int, value=float_setpoint, divisor=self.chemical_divisor, device_id=chemical_drress)
                     self.setpoint_chemical_read.emit(float_setpoint)
                     return
                     
@@ -614,9 +666,11 @@ class AUTODA_Controller(QThread,QObject):
     def write_set_point_rock_and_sand(self,value):
         self.mutex.lock()
         max_retries = 3
+        self._log(logging.INFO, "write_setpoint_begin", material="rock_sand", value=value, device_id=self.rock_and_sand_id)
         try:
             for attempt in range(max_retries):
                 try:
+                    self._log(logging.INFO, "write_setpoint_attempt", material="rock_sand", value=value, attempt=attempt + 1, max_retries=max_retries)
                     # ตรวจสอบ connection ก่อนเขียน
                     if not self.autoda_client or not self.autoda_client.is_socket_open():
                         if attempt < max_retries - 1:
@@ -633,7 +687,10 @@ class AUTODA_Controller(QThread,QObject):
                     unlock_address = 5      # Address 5 (คือ Register 40006)
                     unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
                     
+                    unlock_started_at = time.time()
+                    self._log(logging.INFO, "write_unlock_begin", material="rock_sand", address=unlock_address, value=unlock_code, device_id=self.rock_and_sand_id)
                     unlock_result = self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.rock_and_sand_id)
+                    self._log_modbus_result("write_unlock_end", unlock_result, material="rock_sand", address=unlock_address, device_id=self.rock_and_sand_id, duration_ms=round((time.time() - unlock_started_at) * 1000, 2))
                     if unlock_result.isError():
                         print(f"Error unlocking rock_sand register, attempt {attempt + 1}")
                         if attempt < max_retries - 1:
@@ -644,7 +701,10 @@ class AUTODA_Controller(QThread,QObject):
                     
                     self.msleep(100)
                     register_values = self.int32_to_registers(value)
+                    write_started_at = time.time()
+                    self._log(logging.INFO, "write_setpoint_register_begin", material="rock_sand", address=address_register, values=register_values, device_id=self.rock_and_sand_id)
                     write_result = self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.rock_and_sand_id)
+                    self._log_modbus_result("write_setpoint_register_end", write_result, material="rock_sand", address=address_register, values=register_values, device_id=self.rock_and_sand_id, duration_ms=round((time.time() - write_started_at) * 1000, 2))
                     
                     if write_result.isError():
                         print(f"Error writing setpoint rock_sand, attempt {attempt + 1}")
@@ -654,6 +714,7 @@ class AUTODA_Controller(QThread,QObject):
                         else:
                             return False
                     
+                    self._log(logging.INFO, "write_setpoint_success", material="rock_sand", value=value)
                     return True
                     
                 except Exception as e:
@@ -664,17 +725,20 @@ class AUTODA_Controller(QThread,QObject):
                         return False
                         
         except Exception as e:
-            print(f"Fatal exception in write_set_point_rock_and_sand: {e}")
+            self._log(logging.ERROR, "write_setpoint_fatal_exception", material="rock_sand", value=value, error=str(e))
             return False
         finally:
+            self._log(logging.INFO, "write_setpoint_end", material="rock_sand", value=value)
             self.mutex.unlock()
 
     def write_set_point_cement_and_fyash(self,value):
         self.mutex.lock()
         max_retries = 3
+        self._log(logging.INFO, "write_setpoint_begin", material="cement_fyash", value=value, device_id=self.cement_and_flyash_id)
         try:
             for attempt in range(max_retries):
                 try:
+                    self._log(logging.INFO, "write_setpoint_attempt", material="cement_fyash", value=value, attempt=attempt + 1, max_retries=max_retries)
                     # ตรวจสอบ connection ก่อนเขียน
                     if not self.autoda_client or not self.autoda_client.is_socket_open():
                         if attempt < max_retries - 1:
@@ -691,7 +755,10 @@ class AUTODA_Controller(QThread,QObject):
                     unlock_address = 5      # Address 5 (คือ Register 40006)
                     unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
                     
+                    unlock_started_at = time.time()
+                    self._log(logging.INFO, "write_unlock_begin", material="cement_fyash", address=unlock_address, value=unlock_code, device_id=self.cement_and_flyash_id)
                     unlock_result = self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.cement_and_flyash_id)
+                    self._log_modbus_result("write_unlock_end", unlock_result, material="cement_fyash", address=unlock_address, device_id=self.cement_and_flyash_id, duration_ms=round((time.time() - unlock_started_at) * 1000, 2))
                     if unlock_result.isError():
                         print(f"Error unlocking cement register, attempt {attempt + 1}")
                         if attempt < max_retries - 1:
@@ -702,7 +769,10 @@ class AUTODA_Controller(QThread,QObject):
                     
                     self.msleep(100)
                     register_values = self.int32_to_registers(value)
+                    write_started_at = time.time()
+                    self._log(logging.INFO, "write_setpoint_register_begin", material="cement_fyash", address=address_register, values=register_values, device_id=self.cement_and_flyash_id)
                     write_result = self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.cement_and_flyash_id)
+                    self._log_modbus_result("write_setpoint_register_end", write_result, material="cement_fyash", address=address_register, values=register_values, device_id=self.cement_and_flyash_id, duration_ms=round((time.time() - write_started_at) * 1000, 2))
                     
                     if write_result.isError():
                         print(f"Error writing setpoint cement, attempt {attempt + 1}")
@@ -712,6 +782,7 @@ class AUTODA_Controller(QThread,QObject):
                         else:
                             return False
                     
+                    self._log(logging.INFO, "write_setpoint_success", material="cement_fyash", value=value)
                     return True
                     
                 except Exception as e:
@@ -722,17 +793,20 @@ class AUTODA_Controller(QThread,QObject):
                         return False
                         
         except Exception as e:
-            print(f"Fatal exception in write_set_point_cement_and_fyash: {e}")
+            self._log(logging.ERROR, "write_setpoint_fatal_exception", material="cement_fyash", value=value, error=str(e))
             return False
         finally:
+            self._log(logging.INFO, "write_setpoint_end", material="cement_fyash", value=value)
             self.mutex.unlock()
 
     def write_set_point_water(self,value):
         self.mutex.lock()
         max_retries = 3
+        self._log(logging.INFO, "write_setpoint_begin", material="water", value=value, device_id=self.water_id)
         try:
             for attempt in range(max_retries):
                 try:
+                    self._log(logging.INFO, "write_setpoint_attempt", material="water", value=value, attempt=attempt + 1, max_retries=max_retries)
                     # ตรวจสอบ connection ก่อนเขียน
                     if not self.autoda_client or not self.autoda_client.is_socket_open():
                         if attempt < max_retries - 1:
@@ -749,7 +823,10 @@ class AUTODA_Controller(QThread,QObject):
                     unlock_address = 5      # Address 5 (คือ Register 40006)
                     unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
                     
+                    unlock_started_at = time.time()
+                    self._log(logging.INFO, "write_unlock_begin", material="water", address=unlock_address, value=unlock_code, device_id=self.water_id)
                     unlock_result = self.autoda_client.write_register(address=unlock_address,value=unlock_code,device_id=self.water_id)
+                    self._log_modbus_result("write_unlock_end", unlock_result, material="water", address=unlock_address, device_id=self.water_id, duration_ms=round((time.time() - unlock_started_at) * 1000, 2))
                     if unlock_result.isError():
                         print(f"Error unlocking water register, attempt {attempt + 1}")
                         if attempt < max_retries - 1:
@@ -760,7 +837,10 @@ class AUTODA_Controller(QThread,QObject):
                     
                     self.msleep(100)
                     register_values = self.int32_to_registers(value)
+                    write_started_at = time.time()
+                    self._log(logging.INFO, "write_setpoint_register_begin", material="water", address=address_register, values=register_values, device_id=self.water_id)
                     write_result = self.autoda_client.write_registers(address=address_register, values=register_values, device_id=self.water_id)
+                    self._log_modbus_result("write_setpoint_register_end", write_result, material="water", address=address_register, values=register_values, device_id=self.water_id, duration_ms=round((time.time() - write_started_at) * 1000, 2))
                     
                     if write_result.isError():
                         print(f"Error writing setpoint water, attempt {attempt + 1}")
@@ -770,6 +850,7 @@ class AUTODA_Controller(QThread,QObject):
                         else:
                             return False
                     
+                    self._log(logging.INFO, "write_setpoint_success", material="water", value=value)
                     return True
                     
                 except Exception as e:
@@ -780,13 +861,15 @@ class AUTODA_Controller(QThread,QObject):
                         return False
                         
         except Exception as e:
-            print(f"Fatal exception in write_set_point_water: {e}")
+            self._log(logging.ERROR, "write_setpoint_fatal_exception", material="water", value=value, error=str(e))
             return False
         finally:
+            self._log(logging.INFO, "write_setpoint_end", material="water", value=value)
             self.mutex.unlock()
     
     def write_set_point_chemical(self, value):
         self.mutex.lock()
+        self._log(logging.INFO, "write_setpoint_begin", material="chemical", value=value, device_id=self.chemical_id, divisor=self.chemical_divisor)
         try:
             if not self.chemical_decimal_initialized:
                 self.read_chemical_decimal_setting()
@@ -795,30 +878,39 @@ class AUTODA_Controller(QThread,QObject):
             unlock_code = 0x5AA5    # ค่า Hex 0x5AA5 (23205)
             try:
                 # Unlock register
+                unlock_started_at = time.time()
+                self._log(logging.INFO, "write_unlock_begin", material="chemical", address=unlock_address, value=unlock_code, device_id=self.chemical_id)
                 unlock_result = self.autoda_client.write_register(
                     address=unlock_address, 
                     value=unlock_code, 
                     device_id=self.chemical_id
                 )
+                self._log_modbus_result("write_unlock_end", unlock_result, material="chemical", address=unlock_address, device_id=self.chemical_id, duration_ms=round((time.time() - unlock_started_at) * 1000, 2))
                 if unlock_result.isError():
                     return False
                 self.msleep(100)
                 int_value = self.float_to_int_with_chemical_divisor(value)
                 register_values = self.int32_to_registers(int_value)
+                write_started_at = time.time()
+                self._log(logging.INFO, "write_setpoint_register_begin", material="chemical", address=address_register, value=value, int_value=int_value, values=register_values, device_id=self.chemical_id, divisor=self.chemical_divisor)
                 write_result = self.autoda_client.write_registers(
                     address=address_register, 
                     values=register_values, 
                     device_id=self.chemical_id
                 )
+                self._log_modbus_result("write_setpoint_register_end", write_result, material="chemical", address=address_register, values=register_values, device_id=self.chemical_id, duration_ms=round((time.time() - write_started_at) * 1000, 2))
                 if write_result.isError():
                     return False
                 else:
+                    self._log(logging.INFO, "write_setpoint_success", material="chemical", value=value, int_value=int_value, divisor=self.chemical_divisor)
                     return True
             except Exception as e:
+                self._log(logging.ERROR, "write_setpoint_exception", material="chemical", value=value, error=str(e))
                 return False
         except Exception as e:
-            print(f"Exception in read_setpoint_chemical: {e}")
+            self._log(logging.ERROR, "write_setpoint_fatal_exception", material="chemical", value=value, error=str(e))
         finally:
+            self._log(logging.INFO, "write_setpoint_end", material="chemical", value=value)
             self.mutex.unlock()
 
     def run(self):
@@ -834,10 +926,10 @@ class AUTODA_Controller(QThread,QObject):
                     if current_time - last_monitor_time > 10:
                         if not self.monitor_connection():
                             connection_error_count += 1
-                            print(f"Connection monitor failed ({connection_error_count}/{max_connection_errors})")
+                            self._log(logging.ERROR, "run_connection_monitor_failed", count=connection_error_count, max=max_connection_errors)
                             
                             if connection_error_count >= max_connection_errors:
-                                print(f"CRITICAL: AutoDA connection lost for {max_connection_errors} checks")
+                                self._log(logging.CRITICAL, "run_connection_lost", max=max_connection_errors)
                                 self.comport_error.emit([True, 'AutoDA'])
                                 connection_error_count = 0
                         else:
@@ -852,16 +944,16 @@ class AUTODA_Controller(QThread,QObject):
                     self.read_chemical()
                     
                 except Exception as e:
-                    print(f"Error in AutoDA Controller run loop: {e}")
+                    self._log(logging.ERROR, "run_loop_exception", error=str(e))
                     self.msleep(1000)
                 
         except Exception as e:
-            print(f"Fatal Error in AutoDA Controller: {e}")
+            self._log(logging.CRITICAL, "run_fatal_exception", error=str(e))
             
         finally:
             if self.autoda_client and self.autoda_client.is_socket_open():
                 self.autoda_client.close()
-                print("AutoDA Comport closed inside thread.")
+                self._log(logging.INFO, "run_port_closed")
                     
             self.msleep(100)
 
@@ -871,7 +963,7 @@ class AUTODA_Controller(QThread,QObject):
 
     def stop_controller(self):
         """เมธอดสำหรับสั่งหยุด Thread และปิด Port จากภายนอก"""
-        print("Stop signal received by AUTODA_Controller.")
+        self._log(logging.INFO, "stop_signal_received")
         self.running = False # บอกให้ loop ใน run() หยุดทำงาน
 
 

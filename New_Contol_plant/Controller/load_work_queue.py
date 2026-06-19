@@ -29,6 +29,7 @@ class load_work_queue(QObject):
         self.main_window.work_queue_treeWidget.clear()
         try:
             work_data = self.temp_queue.get_all_orders()
+            logging.info("[WORK_QUEUE] load_begin | count=%r" % (len(work_data) if work_data else 0))
             
             if not work_data:
                 pass
@@ -90,9 +91,13 @@ class load_work_queue(QObject):
                 
                 tree_item.setData(0, Qt.UserRole, combined_data)
                 self.main_window.work_queue_treeWidget.addTopLevelItem(tree_item)
+                logging.info(
+                    "[WORK_QUEUE] load_item | display_number=%r, temp_id=%r, customer=%r, formula=%r, amount=%r"
+                    % (display_number, order.get('temp_id'), order.get('name'), order.get('formula_name'), order.get('amount'))
+                )
                 
         except Exception as e:
-            print(f"!!! Error during load_work_queue: {e}")
+            logging.exception(f"[WORK_QUEUE] load_error | error={e}")
             import traceback
             traceback.print_exc()
 
@@ -100,6 +105,7 @@ class load_work_queue(QObject):
         """Cancel selected work from queue"""
         selected_items = self.main_window.work_queue_treeWidget.selectedItems()
         if not selected_items:
+            logging.warning("[WORK_QUEUE] cancel_no_selection")
             QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกคิวงานที่ต้องการยกเลิก")
             return
 
@@ -107,6 +113,7 @@ class load_work_queue(QObject):
         data = item_to_cancel.data(0, Qt.UserRole)
         temp_id = data['temp_id']
         customer_name = data['name']
+        logging.info("[WORK_QUEUE] cancel_requested | temp_id=%r, customer=%r" % (temp_id, customer_name))
 
         reply = QMessageBox.question(
             self.main_window, 
@@ -120,18 +127,22 @@ class load_work_queue(QObject):
             try:
                 self.temp_queue.remove_order(temp_id)
                 self.load_work_queue()
+                logging.info("[WORK_QUEUE] cancel_success | temp_id=%r, customer=%r" % (temp_id, customer_name))
                 QMessageBox.information(self.main_window, "สำเร็จ", "ยกเลิกคิวงานเรียบร้อยแล้ว")
             except Exception as e:
+                logging.exception(f"[WORK_QUEUE] cancel_error | temp_id={temp_id!r}, error={e}")
                 QMessageBox.warning(self.main_window, "ผิดพลาด", f"เกิดข้อผิดพลาด: {e}")
 
     def start_selected_work(self):
         selected_items = self.main_window.work_queue_treeWidget.selectedItems()
         if not selected_items:
+            logging.warning("[WORK_QUEUE] start_no_selection")
             QMessageBox.warning(self.main_window, "ไม่มีรายการที่เลือก", "กรุณาเลือกคิวงานที่ต้องการเริ่ม")
             return
 
         item_to_start = selected_items[0]
         data = item_to_start.data(0, Qt.UserRole)
+        logging.info("[WORK_QUEUE] start_selected | data=%r" % data)
 
         # Extract ALL data (already from database via load_work_queue)
         customer_id = data.get('customer_id')
@@ -193,6 +204,7 @@ class load_work_queue(QObject):
         # All totals = 0, Status_load = 0, batch_state from child_cement
         try:
             record_id = self.order_inserter.insert_start(self.current_mixer)
+            logging.info("[WORK_QUEUE] insert_start_returned | record_id=%r, customer=%r, formula=%r" % (record_id, customer_name, formula_name))
             
             if record_id:
                 self.current_order_id = record_id
@@ -215,7 +227,7 @@ class load_work_queue(QObject):
                 )
         except Exception as e:
             self.current_order_id = None
-            print(f"✗ Error inserting to database: {e}")
+            logging.exception(f"[WORK_QUEUE] insert_start_error | customer={customer_name!r}, formula={formula_name!r}, error={e}")
             import traceback
             traceback.print_exc()
             QMessageBox.warning(
@@ -243,10 +255,12 @@ class load_work_queue(QObject):
         
         # Remove from temporary queue
         self.temp_queue.remove_order(data['temp_id'])
+        logging.info("[WORK_QUEUE] temp_queue_removed | temp_id=%r" % data['temp_id'])
         self.load_work_queue()
         
         # Switch to mixer tab
         self.main_window.tab.setCurrentWidget(self.main_window.Mix_tab)
+        logging.info("[WORK_QUEUE] switched_to_mix_tab | customer=%r, formula=%r, amount=%r" % (customer_name, formula_name, amount))
 
     def complete_current_work(self):
         if not self.current_mixer:

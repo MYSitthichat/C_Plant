@@ -6,6 +6,8 @@ import time
 import sys
 import logging
 import os
+import inspect
+from logging.handlers import RotatingFileHandler
 from datetime import datetime
 from Controller.database_control import C_palne_Database
 from Controller.PLC_controller import PLC_Controller
@@ -326,15 +328,27 @@ class MainController(QObject):
         # ตั้งค่า default (อาจจะลง console หรือ log รวมรายวัน)
         # แต่ในที่นี้เราเน้น Batch Log ตามที่ User request
         # ดังนั้น setup_logging นี้อาจจะแค่เตรียมโฟลเดอร์ หรือตั้งค่า Console Handler
+        system_log_filename = os.path.join('logs', f"system_{datetime.now().strftime('%Y-%m-%d')}.log")
+        system_handler = RotatingFileHandler(
+            system_log_filename,
+            maxBytes=10 * 1024 * 1024,
+            backupCount=5,
+            encoding='utf-8',
+        )
+        system_handler.setFormatter(logging.Formatter(
+            '%(asctime)s - %(levelname)s - %(message)s'
+        ))
+
         logging.basicConfig(
             level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
             handlers=[
-                logging.StreamHandler() # แสดงใน Terminal
+                logging.StreamHandler(), # แสดงใน Terminal
+                system_handler,
             ],
             force=True
         )
-        # logging.info("=== System Started : เริ่มต้นการทำงานของระบบ ===")
+        logging.info(f"[SYSTEM] logging_initialized | system_log={system_log_filename!r}")
 
     def _format_log_context(self, **context):
         if not context:
@@ -343,6 +357,36 @@ class MainController(QObject):
 
     def _log_trace(self, event, **context):
         logging.info(f"[TRACE] {event}{self._format_log_context(**context)}")
+
+    def _install_controller_method_logging(self, controller, component, skip_methods=None):
+        skip_methods = set(skip_methods or [])
+        for method_name, _ in inspect.getmembers(type(controller), predicate=inspect.isfunction):
+            if method_name.startswith("_") or method_name in skip_methods:
+                continue
+            original = getattr(controller, method_name, None)
+            if not callable(original):
+                continue
+            if getattr(original, "_codex_logged", False):
+                continue
+
+            def logged_method(*args, _original=original, _method=method_name, _component=component, **kwargs):
+                started_at = time.time()
+                self._log_trace(f"{_component}_method_begin", method=_method, args=args, kwargs=kwargs)
+                try:
+                    result = _original(*args, **kwargs)
+                    self._log_trace(
+                        f"{_component}_method_end",
+                        method=_method,
+                        result=result,
+                        duration_ms=round((time.time() - started_at) * 1000, 2),
+                    )
+                    return result
+                except Exception as e:
+                    logging.exception(
+                        f"[TRACE] {_component}_method_error | method={_method}, "
+                        f"duration_ms={round((time.time() - started_at) * 1000, 2)}, error={e}"
+                    )
+                    raise
 
     def _log_flags_snapshot(self, reason):
         self._log_trace(
@@ -356,6 +400,12 @@ class MainController(QObject):
         )
 
     def _install_plc_command_logging(self):
+        self._install_controller_method_logging(
+            self.plc_controller,
+            "plc",
+            skip_methods={"msleep", "sleep", "start", "terminate", "wait", "quit", "exec"},
+        )
+        return
         methods = [
             "loading_rock1",
             "loading_sand",
@@ -396,6 +446,12 @@ class MainController(QObject):
             setattr(self.plc_controller, method_name, logged_command)
 
     def _install_autoda_command_logging(self):
+        self._install_controller_method_logging(
+            self.autoda_controller,
+            "autoda",
+            skip_methods={"msleep", "sleep", "start", "terminate", "wait", "quit", "exec"},
+        )
+        return
         methods = [
             "write_set_point_rock_and_sand",
             "write_set_point_cement_and_fyash",
@@ -441,6 +497,7 @@ class MainController(QObject):
         
         logging.info("==================================================")
         logging.info(f"START BATCH LOGGING: ID {self.current_batch_id}")
+        logging.info("[BATCH] batch_log_file_created | file=%r" % log_filename)
         logging.info("==================================================")
 
     def stop_batch_logging(self):
@@ -742,14 +799,39 @@ class MainController(QObject):
         for attempt in range(1, max_attempts + 1):
             pending = object()
             setattr(self, feedback_attr, pending)
+            self._log_trace(
+                "setpoint_confirm_attempt_begin",
+                label=label,
+                attempt=attempt,
+                max_attempts=max_attempts,
+                expected=expected,
+                feedback_attr=feedback_attr,
+            )
+            write_started_at = time.time()
             write_ok = write_method(expected)
+            self._log_trace(
+                "setpoint_write_returned",
+                label=label,
+                attempt=attempt,
+                expected=expected,
+                write_ok=write_ok,
+                duration_ms=round((time.time() - write_started_at) * 1000, 2),
+            )
             if not write_ok:
                 logging.error(f"{label} setpoint write failed on attempt {attempt}: expected {expected}")
                 time.sleep(0.5)
                 continue
 
             time.sleep(0.3)
+            read_started_at = time.time()
             read_method()
+            self._log_trace(
+                "setpoint_read_requested",
+                label=label,
+                attempt=attempt,
+                expected=expected,
+                duration_ms=round((time.time() - read_started_at) * 1000, 2),
+            )
             deadline = time.time() + 2.0
             feedback = getattr(self, feedback_attr, pending)
             while time.time() < deadline:
@@ -765,8 +847,21 @@ class MainController(QObject):
                 f"{label} setpoint confirm failed on attempt {attempt}: "
                 f"expected {expected}, feedback {feedback}"
             )
+            self._log_trace(
+                "setpoint_confirm_attempt_failed",
+                label=label,
+                attempt=attempt,
+                expected=expected,
+                feedback=feedback,
+            )
             time.sleep(0.5)
 
+        self._log_trace(
+            "setpoint_confirm_failed_all_attempts",
+            label=label,
+            expected=expected,
+            max_attempts=max_attempts,
+        )
         return False
 
     def _write_and_confirm_rock_sand_setpoint(self, setpoint, label, max_attempts=3):

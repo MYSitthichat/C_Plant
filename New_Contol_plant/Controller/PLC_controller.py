@@ -4,6 +4,7 @@ import os
 import sys
 from pymodbus.client import ModbusSerialClient
 import time
+import logging
 
 class PLC_Controller(QThread, QObject):
     comport_error = Signal(list)
@@ -32,6 +33,13 @@ class PLC_Controller(QThread, QObject):
         self.read_delay = 200  # delay สำหรับ read ยาวกว่า write
         self.error_count = {}
         self.max_error_count = 3
+
+    def _log(self, level, event, **context):
+        if context:
+            details = ", ".join(f"{key}={value!r}" for key, value in context.items())
+            logging.log(level, f"[PLC] {event} | {details}")
+        else:
+            logging.log(level, f"[PLC] {event}")
 
     def initialize_connections(self):
         self.connect_to_plc()
@@ -63,7 +71,7 @@ class PLC_Controller(QThread, QObject):
                         self.PLC_id = self.config.get('PLC_ID_WEIGHT', '')
                         
         except FileNotFoundError:
-            print(f"port.conf file not found at {config_path}")
+            self._log(logging.ERROR, "config_file_missing", path=config_path)
             
             
     def connect_to_plc(self):
@@ -73,6 +81,16 @@ class PLC_Controller(QThread, QObject):
         parity = str(self.parity)
         data_bits = int(self.data_bits)
         timeout = int(self.timeout_error)
+        self._log(
+            logging.INFO,
+            "connect_begin",
+            port=plc_port,
+            baudrate=baudrate,
+            parity=parity,
+            stop_bits=stop_bits,
+            data_bits=data_bits,
+            timeout=min(timeout, 1),
+        )
         
         reduced_timeout = min(timeout, 1)  # ไม่เกิน 1 วินาที
         
@@ -86,11 +104,14 @@ class PLC_Controller(QThread, QObject):
         )
         try:
             if self.plc_client.connect():
+                self._log(logging.INFO, "connect_success", port=plc_port, socket_open=self.plc_client.is_socket_open())
                 self.comport_error.emit([False, 'PLC'])
                 self.initialize_device_management()
             else:
+                self._log(logging.ERROR, "connect_failed", port=plc_port)
                 self.comport_error.emit([True, 'PLC'])
         except Exception as e:
+            self._log(logging.ERROR, "connect_exception", port=plc_port, error=str(e))
             self.comport_error.emit([True, 'PLC'])
     
     def initialize_device_management(self):
@@ -146,11 +167,13 @@ class PLC_Controller(QThread, QObject):
         self.write_queue = [item for item in self.write_queue[-10:] 
                            if not (item['address'] == address and item['device_id'] == device_id) 
                            or item == write_item]
+        self._log(logging.INFO, "write_queue_add", operation=operation_name, address=address, value=value, device_id=device_id, queue_size=len(self.write_queue))
 
     def process_write_queue(self):
         if self.write_queue and not self.write_in_progress:
             self.write_in_progress = True
             write_item = self.write_queue.pop(0)
+            self._log(logging.INFO, "write_queue_process_begin", item=write_item, queue_size=len(self.write_queue))
             def write_operation():
                 return self.plc_client.write_coil(
                     address=write_item['address'], 
@@ -165,13 +188,15 @@ class PLC_Controller(QThread, QObject):
             )
             self.write_in_progress = False
             if result and result.isError():
-                print(f"Failed to write coil {write_item['address']} to device {write_item['device_id']}: {result}")
+                self._log(logging.ERROR, "write_queue_process_failed", item=write_item, result=str(result))
                 return False
+            self._log(logging.INFO, "write_queue_process_end", item=write_item, success=result is not None, result=str(result))
             return result is not None
         return True
 
     def safe_write_coil(self, address, value, device_id, operation_name="write_coil"):
         """เพิ่ม write ลงใน queue เพื่อให้ได้ priority สูง"""
+        self._log(logging.INFO, "safe_write_coil", operation=operation_name, address=address, value=value, device_id=device_id)
         self.add_write_to_queue(address, value, device_id, operation_name)
         return self.process_write_queue()
     
@@ -378,6 +403,7 @@ class PLC_Controller(QThread, QObject):
         
         result = self.safe_modbus_operation(read_operation, self.PLC_id, "read_rock_sand_status", is_write=False)
         if result and not result.isError():
+            self._log(logging.INFO, "read_status", material="rock_sand", address=100, value=result.bits[0], result=str(result))
             self.status_loading_rock_and_sand.emit(result.bits[0])
         
     def reading_finish_load_cement_and_fyash(self):
@@ -386,6 +412,7 @@ class PLC_Controller(QThread, QObject):
         
         result = self.safe_modbus_operation(read_operation, self.PLC_id, "read_cement_flyash_status", is_write=False)
         if result and not result.isError():
+            self._log(logging.INFO, "read_status", material="cement_flyash", address=110, value=result.bits[0], result=str(result))
             self.status_loading_cement_and_fyash.emit(result.bits[0])
 
     def reading_finish_load_water(self):
@@ -394,6 +421,7 @@ class PLC_Controller(QThread, QObject):
         
         result = self.safe_modbus_operation(read_operation, self.PLC_id, "read_water_status", is_write=False)
         if result and not result.isError():
+            self._log(logging.INFO, "read_status", material="water", address=120, value=result.bits[0], result=str(result))
             self.status_loading_water.emit(result.bits[0])
 
     def reading_finish_load_chemical(self):
@@ -402,6 +430,7 @@ class PLC_Controller(QThread, QObject):
         
         result = self.safe_modbus_operation(read_operation, self.PLC_id, "read_chemical_status", is_write=False)
         if result and not result.isError():
+            self._log(logging.INFO, "read_status", material="chemical", address=130, value=result.bits[0], result=str(result))
             self.status_loading_chemical.emit(result.bits[0])
 
     def run(self):
@@ -432,16 +461,16 @@ class PLC_Controller(QThread, QObject):
                         self.msleep(20) 
                         
                 except Exception as e:
-                    print(f"Error in PLC Controller: {e}")
+                    self._log(logging.ERROR, "run_loop_exception", error=str(e))
                     self.msleep(50)
                     
         except Exception as e:
-            print(f"Critical error in PLC Controller thread: {e}")
+            self._log(logging.CRITICAL, "run_fatal_exception", error=str(e))
         
         finally:
             if self.plc_client and self.plc_client.is_socket_open():
                 self.plc_client.close()
-                print("PLC Comport closed inside thread.")
+                self._log(logging.INFO, "run_port_closed")
 
     def set_communication_parameters(self, communication_delay=20, read_delay=200, max_error_count=3, timeout_seconds=1):
         self.communication_delay = communication_delay  
@@ -485,7 +514,7 @@ class PLC_Controller(QThread, QObject):
 
     def stop_controller(self):
         """เมธอดสำหรับสั่งหยุด Thread และปิด Port จากภายนอก"""
-        print("Stop signal received by PLC_Controller.")
+        self._log(logging.INFO, "stop_signal_received")
         self.running = False # บอกให้ loop ใน run() หยุดทำงาน
 
     def clear_memory(self):
