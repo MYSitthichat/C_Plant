@@ -71,6 +71,10 @@ class MainController(QObject):
         self.is_rock1_frozen = False
         self.is_sand_frozen = False
         self.is_rock2_frozen = False
+        self.sand_success = False
+        self.rock1_success = False
+        self.rock2_success = False
+        self.rock_success = False
         
         # ตัวแปรสำหรับ stabilization delay
         self.rock1_stabilizing = False
@@ -87,6 +91,8 @@ class MainController(QObject):
         self.fyash_only_frozen = 0
         self.is_cement_frozen = False
         self.is_fyash_frozen = False
+        self.flyash_success = False
+        self.cement_success = False
         self.cement_stabilizing = False
         self.fyash_stabilizing = False
         self.cement_stabilize_start_time = 0
@@ -95,6 +101,7 @@ class MainController(QObject):
         # ตัวแปรสำหรับ freeze น้ำหนักแต่ละวัสดุ - Water
         self.water_frozen_weight = 0
         self.is_water_frozen = False
+        self.water_success = False
         self.water_stabilizing = False
         self.water_stabilize_start_time = 0
         
@@ -104,10 +111,16 @@ class MainController(QObject):
         self.chem2_only_frozen = 0
         self.is_chem1_frozen = False
         self.is_chem2_frozen = False
+        self.chem1_success = False
+        self.chem2_success = False
+        self.chemical_success = False
         self.chem1_stabilizing = False
         self.chem2_stabilizing = False
         self.chem1_stabilize_start_time = 0
         self.chem2_stabilize_start_time = 0
+        self.target_guard_stop_sent = set()
+        self.last_sand_moist_check_weight = 0
+        self.last_sand_moist_check_time = 0
         
         # ตัวแปรเป้าหมายน้ำหนัก
         self.target_rock1_weight = 0
@@ -220,6 +233,17 @@ class MainController(QObject):
         self.new_rock2 = 0
         self.time_out_sand_moist = 0
         self.sand_current_weight = 0
+        self.sand_success = False
+        self.rock1_success = False
+        self.rock2_success = False
+        self.flyash_success = False
+        self.cement_success = False
+        self.water_success = False
+        self.chem1_success = False
+        self.chem2_success = False
+        self.target_guard_stop_sent = set()
+        self.last_sand_moist_check_weight = 0
+        self.last_sand_moist_check_time = 0
         # ------------------------------
          
         self.temp_queue = TempQueue()
@@ -598,6 +622,7 @@ class MainController(QObject):
                     return
                 
             # สีเขียวเมื่อทำงาน, สีปกติเมื่อหยุด
+            self._log_trace("ui_device_status_change", device=device_name, is_running=is_running)
             active_color = "background-color: #4CAF50; color: white; font-weight: bold; border: 2px solid #2E7D32; border-radius: 10px;"
             inactive_color = "border: 2px solid; border-radius: 10px;"
             
@@ -706,7 +731,7 @@ class MainController(QObject):
         current_time = time.time()
         
         # ตรวจสอบ Sand freeze - รอให้ PLC ส่งสัญญาณเสร็จก่อน จึงค่อย stabilize (โหลดก่อน)
-        if (self.state_load_rock_and_sand == 2 and self.rock_success and not self.is_sand_frozen):
+        if (self.state_load_rock_and_sand == 2 and (self.sand_success or self.rock_success) and not self.is_sand_frozen):
             if not self.sand_stabilizing:
                 self.sand_stabilizing = True
                 self.sand_stabilize_start_time = current_time
@@ -720,7 +745,7 @@ class MainController(QObject):
                 # print(f"Sand frozen at: {self.sand_frozen_weight} kg (Sand only: {self.sand_only_frozen} kg)")
 
         # ตรวจสอบ Rock1 freeze - รอให้ PLC ส่งสัญญาณเสร็จก่อน จึงค่อย stabilize (โหลดที่ 2)
-        if (self.state_load_rock_and_sand == 4 and self.rock_success and not self.is_rock1_frozen):
+        if (self.state_load_rock_and_sand == 4 and (self.rock1_success or self.rock_success) and not self.is_rock1_frozen):
             if not self.rock1_stabilizing:
                 self.rock1_stabilizing = True
                 self.rock1_stabilize_start_time = current_time
@@ -734,7 +759,7 @@ class MainController(QObject):
                 # print(f"Rock1 frozen at total: {self.rock1_frozen_weight} kg (Rock1 only: {self.rock1_only_frozen} kg)")
 
         # ตรวจสอบ Rock2 freeze - รอให้ PLC ส่งสัญญาณเสร็จก่อน จึงค่อย stabilize (โหลดสุดท้าย)
-        if (self.state_load_rock_and_sand == 6 and self.rock_success and not self.is_rock2_frozen):
+        if (self.state_load_rock_and_sand == 6 and (self.rock2_success or self.rock_success) and not self.is_rock2_frozen):
             if not self.rock2_stabilizing:
                 self.rock2_stabilizing = True
                 self.rock2_stabilize_start_time = current_time
@@ -919,6 +944,169 @@ class MainController(QObject):
         self._log_trace("autoda_feedback", target="chemical", value=value)
         return self.feedback_setpoint_chemical
 
+    def _target_reached(self, current_weight, target_weight, tolerance=0):
+        try:
+            if target_weight is None or float(target_weight) <= 0:
+                return False
+            return float(current_weight) >= (float(target_weight) - float(tolerance))
+        except (TypeError, ValueError):
+            return False
+
+    def _request_stop_once(self, key, material, stop_callback, current_weight, target_weight, state):
+        if key in self.target_guard_stop_sent:
+            return
+        self.target_guard_stop_sent.add(key)
+        self._log_trace(
+            "weight_target_reached",
+            material=material,
+            current_weight=current_weight,
+            target=target_weight,
+            state=state,
+            action="plc_stop_requested",
+        )
+        try:
+            stop_callback()
+        except Exception as e:
+            logging.exception(f"[TRACE] stop_request_failed | material={material}, error={e}")
+
+    def _check_rock_sand_target_guard(self, current_weight):
+        state = getattr(self, 'state_load_rock_and_sand', 0)
+        if state == 2 and not self.is_sand_frozen and self._target_reached(current_weight, self.target_sand_total_weight):
+            self._request_stop_once(
+                "sand_target_stop",
+                "sand",
+                lambda: (
+                    self.plc_controller.loading_sand("stop"),
+                    self.plc_controller.start_vibrater_rock_and_sand("stop"),
+                ),
+                current_weight,
+                self.target_sand_total_weight,
+                state,
+            )
+            self.sand_success = True
+            self.sand_frozen_weight = current_weight
+            self.sand_only_frozen = current_weight
+            self.is_sand_frozen = True
+            self.sand_stabilizing = False
+            self._log_trace("weight_frozen", material="sand", total=self.sand_frozen_weight, only=self.sand_only_frozen, state=state, source="autoda_target_guard")
+
+        elif state == 4 and not self.is_rock1_frozen and self._target_reached(current_weight, self.target_rock1_weight):
+            self._request_stop_once(
+                "rock1_target_stop",
+                "rock1",
+                lambda: self.plc_controller.loading_rock1("stop"),
+                current_weight,
+                self.target_rock1_weight,
+                state,
+            )
+            self.rock1_success = True
+            self.rock1_frozen_weight = current_weight
+            self.rock1_only_frozen = max(0, current_weight - self.sand_frozen_weight if self.is_sand_frozen else current_weight)
+            self.is_rock1_frozen = True
+            self.rock1_stabilizing = False
+            self._log_trace("weight_frozen", material="rock1", total=self.rock1_frozen_weight, only=self.rock1_only_frozen, state=state, source="autoda_target_guard")
+
+        elif state == 6 and not self.is_rock2_frozen and self._target_reached(current_weight, self.target_rock2_total_weight):
+            self._request_stop_once(
+                "rock2_target_stop",
+                "rock2",
+                lambda: self.plc_controller.loading_rock2("stop"),
+                current_weight,
+                self.target_rock2_total_weight,
+                state,
+            )
+            self.rock2_success = True
+            self.rock2_frozen_weight = current_weight
+            rock1_total = self.rock1_frozen_weight if self.is_rock1_frozen else self.sand_frozen_weight if self.is_sand_frozen else 0
+            self.rock2_only_frozen = max(0, current_weight - rock1_total)
+            self.is_rock2_frozen = True
+            self.rock2_stabilizing = False
+            self._log_trace("weight_frozen", material="rock2", total=self.rock2_frozen_weight, only=self.rock2_only_frozen, state=state, source="autoda_target_guard")
+
+    def _check_cement_fyash_target_guard(self, current_weight):
+        state = getattr(self, 'state_load_cement_and_fyash', 0)
+        if state == 2 and not getattr(self, 'is_fyash_frozen', False) and self._target_reached(current_weight, getattr(self, 'target_fyash_weight', 0)):
+            self._request_stop_once(
+                "flyash_target_stop",
+                "flyash",
+                lambda: self.plc_controller.loading_flyash("stop"),
+                current_weight,
+                getattr(self, 'target_fyash_weight', 0),
+                state,
+            )
+            self.flyash_success = True
+            self.fyash_frozen_weight = current_weight
+            self.is_fyash_frozen = True
+            self.fyash_stabilizing = False
+            self._log_trace("weight_frozen", material="flyash", total=self.fyash_frozen_weight, state=state, source="autoda_target_guard")
+
+        elif state in (100, 101, 103) and not getattr(self, 'is_cement_frozen', False) and self._target_reached(current_weight, getattr(self, 'target_cement_total_weight', 0)):
+            self._request_stop_once(
+                "cement_target_stop",
+                "cement",
+                lambda: self.plc_controller.loading_cement("stop"),
+                current_weight,
+                getattr(self, 'target_cement_total_weight', 0),
+                state,
+            )
+            self.cement_success = True
+            self.cement_frozen_weight = current_weight
+            self.is_cement_frozen = True
+            self.cement_stabilizing = False
+            self.state_load_cement_and_fyash = 4
+            self._log_trace("weight_frozen", material="cement", total=self.cement_frozen_weight, state=state, source="autoda_target_guard")
+
+    def _check_water_target_guard(self, current_weight):
+        state = getattr(self, 'state_load_water', 0)
+        if state == 2 and not getattr(self, 'is_water_frozen', False) and self._target_reached(current_weight, self.target_water_weight):
+            self._request_stop_once(
+                "water_target_stop",
+                "water",
+                lambda: self.plc_controller.loading_water("stop"),
+                current_weight,
+                self.target_water_weight,
+                state,
+            )
+            self.water_success = True
+            self.water_frozen_weight = current_weight
+            self.is_water_frozen = True
+            self.water_stabilizing = False
+            self._log_trace("weight_frozen", material="water", total=self.water_frozen_weight, state=state, source="autoda_target_guard")
+
+    def _check_chemical_target_guard(self, current_weight):
+        state = getattr(self, 'state_load_chemical', 0)
+        if state == 2 and not getattr(self, 'is_chem1_frozen', False) and self._target_reached(current_weight, self.target_chem1_weight, tolerance=0.02):
+            self._request_stop_once(
+                "chem1_target_stop",
+                "chem1",
+                lambda: self.plc_controller.loading_chemical_1("stop"),
+                current_weight,
+                self.target_chem1_weight,
+                state,
+            )
+            self.chem1_success = True
+            self.chem1_frozen_weight = current_weight
+            self.is_chem1_frozen = True
+            self.chem1_stabilizing = False
+            self._log_trace("weight_frozen", material="chem1", total=self.chem1_frozen_weight, state=state, source="autoda_target_guard")
+
+        elif state == 4 and not getattr(self, 'is_chem2_frozen', False) and self._target_reached(current_weight, self.target_chem2_total_weight, tolerance=0.02):
+            self._request_stop_once(
+                "chem2_target_stop",
+                "chem2",
+                lambda: self.plc_controller.loading_chemical_2("stop"),
+                current_weight,
+                self.target_chem2_total_weight,
+                state,
+            )
+            self.chem2_success = True
+            self.chem2_frozen_weight = current_weight
+            chem1_frozen = getattr(self, 'chem1_frozen_weight', 0)
+            self.chem2_only_frozen = max(0, current_weight - chem1_frozen if getattr(self, 'is_chem1_frozen', False) else current_weight)
+            self.is_chem2_frozen = True
+            self.chem2_stabilizing = False
+            self._log_trace("weight_frozen", material="chem2", total=self.chem2_frozen_weight, only=self.chem2_only_frozen, state=state, source="autoda_target_guard")
+
     def update_weight_rock_and_sand(self, weight):
         try:
             # ตรวจสอบว่าไม่ได้อยู่ในช่วง tab switching
@@ -952,6 +1140,7 @@ class MainController(QObject):
             self.this_weight_to_new_offset = current_weight
             
             if self.is_loading_rock_and_sand_in_progress:
+                self._check_rock_sand_target_guard(current_weight)
                 self._check_freeze_conditions(current_weight)
             
             # อัพเดท display ตามลำดับใหม่: Sand → Rock1 → Rock2
@@ -1018,7 +1207,7 @@ class MainController(QObject):
         
         # ตรวจสอบ Flyash freeze - โหลดก่อน (state 2)
         if (self.state_load_cement_and_fyash == 2 and 
-            getattr(self, 'cement_success', False) and 
+            (getattr(self, 'flyash_success', False) or getattr(self, 'cement_success', False)) and
             not getattr(self, 'is_fyash_frozen', False)):
             
             if not self.fyash_stabilizing:
@@ -1081,6 +1270,7 @@ class MainController(QObject):
 
             # Check freeze conditions during loading
             if getattr(self, 'is_loading_cement_and_fyash_in_progress', False):
+                self._check_cement_fyash_target_guard(current_weight)
                 self._check_cement_fyash_freeze_conditions(current_weight)
 
             state = getattr(self, 'state_load_cement_and_fyash', 0)
@@ -1168,6 +1358,7 @@ class MainController(QObject):
 
             # Check freeze conditions during loading
             if getattr(self, 'is_loading_water_in_progress', False):
+                self._check_water_target_guard(current_weight)
                 self._check_water_freeze_conditions(current_weight)
 
             # Always display the appropriate weight (frozen or current)
@@ -1210,7 +1401,7 @@ class MainController(QObject):
         
         # ตรวจสอบ Chem1 freeze - รอให้ PLC ส่งสัญญาณเสร็จก่อน จึงค่อย stabilize
         if (self.state_load_chemical == 2 and 
-            getattr(self, 'chemical_success', False) and 
+            (getattr(self, 'chem1_success', False) or getattr(self, 'chemical_success', False)) and
             not getattr(self, 'is_chem1_frozen', False)):
             
             if not self.chem1_stabilizing:
@@ -1226,7 +1417,7 @@ class MainController(QObject):
                 
         # ตรวจสอบ Chem2 freeze - รอให้ PLC ส่งสัญญาณเสร็จก่อน จึงค่อย stabilize
         if (self.state_load_chemical == 4 and 
-            getattr(self, 'chemical_success', False) and 
+            (getattr(self, 'chem2_success', False) or getattr(self, 'chemical_success', False)) and
             not getattr(self, 'is_chem2_frozen', False)):
             
             if not self.chem2_stabilizing:
@@ -1272,6 +1463,7 @@ class MainController(QObject):
             current_weight = float(weight)
             # print(f"Chem weight {current_weight}")
             if getattr(self, 'is_loading_chemical_in_progress', False):
+                self._check_chemical_target_guard(current_weight)
                 self._check_chemical_freeze_conditions(current_weight)
                 
             state = getattr(self, 'state_load_chemical', 0)
@@ -1320,6 +1512,12 @@ class MainController(QObject):
         self._log_trace("plc_status", target="rock_sand", status=status)
         if status == True:
             self.rock_success = True
+            if self.state_load_rock_and_sand == 2:
+                self.sand_success = True
+            elif self.state_load_rock_and_sand == 4:
+                self.rock1_success = True
+            elif self.state_load_rock_and_sand == 6:
+                self.rock2_success = True
         else:
             self.rock_success = False
         if self.rock_and_sand_loading_success == True:
@@ -1344,6 +1542,8 @@ class MainController(QObject):
         self._log_trace("plc_status", target="cement_fyash", status=status)
         if status == True:
             self.cement_success = True
+            if self.state_load_cement_and_fyash == 2:
+                self.flyash_success = True
         else:
             self.cement_success = False
         if self.cement_and_fyash_loading_success == True:
@@ -1392,6 +1592,10 @@ class MainController(QObject):
         self._log_trace("plc_status", target="chemical", status=status)
         if status == True:
             self.chemical_success = True
+            if self.state_load_chemical == 2:
+                self.chem1_success = True
+            elif self.state_load_chemical == 4:
+                self.chem2_success = True
         else:
             self.chemical_success = False
         if self.chemical_loading_success == True:
@@ -2447,6 +2651,8 @@ class MainController(QObject):
                 log_label="Error reading rock 1 weight"
             )
         self._log_trace("initial_weight", sequence="rock_sand", current_weight=current_weight)
+        self.last_sand_moist_check_weight = current_weight
+        self.last_sand_moist_check_time = time.time()
         
         # คำนวณ setpoint (หักลบ offset) - ลำดับ: Sand → Rock1 → Rock2
         # Sand: โหลดแค่ sand เฉย ๆ ไม่มีอะไรก่อนหน้า
@@ -2486,6 +2692,10 @@ class MainController(QObject):
         self.target_sand_total_weight = sand
         self.target_rock1_weight = rock_1
         self.target_rock2_total_weight = rock_2
+        self.sand_success = False
+        self.rock1_success = False
+        self.rock2_success = False
+        self.rock_success = False
         
         # self.new_offset = self.this_weight_to_new_offset
 
@@ -2505,6 +2715,8 @@ class MainController(QObject):
                     # print(f"sand  {sand}")
                     logging.info(sand)
                     if self._write_and_confirm_rock_sand_setpoint(sand, "Sand"):
+                        self.sand_success = False
+                        self.rock_success = False
                         self.plc_controller.loading_sand("start")
                         time.sleep(0.1)
                         self.plc_controller.loading_sand("start")
@@ -2566,6 +2778,67 @@ class MainController(QObject):
                         self.state_load_rock_and_sand = 4
                         
                 if self.time_load_sand_target - self.start_load_sand_time >= 20:
+                    sand_check_weight = self._read_line_edit_number(
+                        "mix_monitor_sand_lineEdit",
+                        default=self.last_sand_moist_check_weight,
+                        number_type=int,
+                        log_label="Error reading sand weight for moist check"
+                    )
+                    sand_progress = sand_check_weight - self.last_sand_moist_check_weight
+                    if self._target_reached(sand_check_weight, self.target_sand_total_weight):
+                        self._log_trace(
+                            "plc_feedback_timeout",
+                            material="sand",
+                            current_weight=sand_check_weight,
+                            target=self.target_sand_total_weight,
+                            action="freeze_from_target",
+                        )
+                        self.sand_success = True
+                        self.sand_frozen_weight = sand_check_weight
+                        self.sand_only_frozen = sand_check_weight
+                        self.is_sand_frozen = True
+                        self.plc_controller.loading_sand("stop")
+                        self.plc_controller.start_vibrater_rock_and_sand("stop")
+                    elif sand_progress > 5:
+                        self._log_trace(
+                            "sand_moist_check_progressing",
+                            current_weight=sand_check_weight,
+                            previous_weight=self.last_sand_moist_check_weight,
+                            progress=sand_progress,
+                            target=self.target_sand_total_weight,
+                        )
+                        self.time_out_sand_moist = 0
+                    else:
+                        self.status_message.emit(f" ==================================== เธ—เธฃเธฒเธขเน€เธเธตเธขเธเธญเธฒเธเธเนเธฒเธเธเธฃเธธเธ“เธฒเน€เธเนเธเธ—เธฃเธฒเธข !!! ====================================")
+                        logging.warning("sand_moist_suspected")
+                        self._log_trace(
+                            "sand_moist_suspected",
+                            current_weight=sand_check_weight,
+                            previous_weight=self.last_sand_moist_check_weight,
+                            progress=sand_progress,
+                            target=self.target_sand_total_weight,
+                            timeout_count=self.time_out_sand_moist + 1,
+                        )
+                        self.time_out_sand_moist += 1
+                    self.last_sand_moist_check_weight = sand_check_weight
+                    self.last_sand_moist_check_time = time.time()
+                    self.start_load_sand_time = time.time()
+                    self.state_load_rock_and_sand = 2
+                    if self.time_out_sand_moist >= 3:
+                        self.sand_current_weight = sand_check_weight
+                        logging.warning("sand_moist_confirmed_after_3_timeouts")
+                        self._log_trace(
+                            "sand_moist_skip",
+                            current_weight=self.sand_current_weight,
+                            target=self.target_sand_total_weight,
+                            timeout_count=self.time_out_sand_moist,
+                        )
+                        self.is_sand_frozen = True
+                        self.sand_frozen_weight = self.sand_current_weight
+                        self.sand_only_frozen = self.sand_current_weight
+                        self.time_out_sand_moist = 0
+                    time.sleep(0.1)
+                    continue
                     self.status_message.emit(f" ==================================== ทรายเปียกอาจค้างกรุณาเช็คทราย !!! ====================================")
                     logging.info("sand is moist")
                     self.start_load_sand_time = time.time()
@@ -2619,6 +2892,8 @@ class MainController(QObject):
                         self.plc_controller.loading_rock1("stop")
                         time.sleep(1)
                         continue
+                    self.rock1_success = False
+                    self.rock_success = False
                     self.plc_controller.loading_rock1("start")
                     time.sleep(0.1)
                     self.plc_controller.loading_rock1("start")
@@ -2689,6 +2964,8 @@ class MainController(QObject):
                     self._log_trace("sequence_complete", sequence="rock_sand", sand=self.sand_only_frozen, rock1=self.rock1_only_frozen, rock2=self.rock2_only_frozen, skipped_rock2=True)
                     self.rock_sand_completed.emit()
                 else:
+                    self.rock2_success = False
+                    self.rock_success = False
                     self.plc_controller.loading_rock2("start")
                     time.sleep(0.1)
                     self.plc_controller.loading_rock2("start")
@@ -2755,6 +3032,8 @@ class MainController(QObject):
         self.target_cement_total_weight = cement_setpoint
         
         self.target_cement_weight = original_cement
+        self.flyash_success = False
+        self.cement_success = False
         self._log_trace(
             "setpoint_calculated",
             sequence="cement_fyash",
@@ -2780,6 +3059,8 @@ class MainController(QObject):
                     self.state_load_cement_and_fyash = 3
                 else:
                     if self._write_and_confirm_cement_fyash_setpoint(fyash_setpoint, "Flyash"):
+                        self.flyash_success = False
+                        self.cement_success = False
                         self.plc_controller.loading_flyash("start")
                         time.sleep(0.1)
                         self.plc_controller.loading_flyash("start")
@@ -2822,6 +3103,7 @@ class MainController(QObject):
                     time.sleep(1)
                     continue
                 self.retry_count = 0  # ตัวนับสำหรับการเติมปูนซ้ำ
+                self.cement_success = False
                 if original_cement <= 0:
                     self.is_cement_frozen = True
                     self.cement_frozen_weight = current_weight if current_weight > 0 else self.fyash_frozen_weight
@@ -3061,6 +3343,7 @@ class MainController(QObject):
             water += current_weight
         
         self.target_water_weight = water
+        self.water_success = False
         self._log_trace(
             "setpoint_calculated",
             sequence="water",
@@ -3088,6 +3371,7 @@ class MainController(QObject):
                     # print(water)
                     logging.info(water)
                     if self._write_and_confirm_water_setpoint(water):
+                        self.water_success = False
                         time.sleep(0.5)
                         self.plc_controller.loading_water("start")
                         time.sleep(0.1)
@@ -3166,6 +3450,9 @@ class MainController(QObject):
         
         self.target_chem1_weight = chem1
         self.target_chem2_total_weight = chem2
+        self.chem1_success = False
+        self.chem2_success = False
+        self.chemical_success = False
         self._log_trace(
             "setpoint_calculated",
             sequence="chemical",
@@ -3188,6 +3475,8 @@ class MainController(QObject):
                 else:
                     logging.info(chem1)
                     if self._write_and_confirm_chemical_setpoint(chem1, "Chemical 1"):
+                        self.chem1_success = False
+                        self.chemical_success = False
                         time.sleep(0.5)
                         self.plc_controller.loading_chemical_1("start")
                         time.sleep(0.1)
@@ -3232,6 +3521,8 @@ class MainController(QObject):
                     self._log_trace("sequence_complete", sequence="chemical", chem1=self.chem1_frozen_weight, chem2=self.chem2_frozen_weight, skipped_chem2=True)
                     self.chemical_completed.emit()
                 else:
+                    self.chem2_success = False
+                    self.chemical_success = False
                     self.plc_controller.loading_chemical_2("start")
                     time.sleep(0.1)
                     self.plc_controller.loading_chemical_2("start")

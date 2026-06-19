@@ -26,11 +26,24 @@ class PLC_Controller(QThread, QObject):
         self.write_success = False
         self.write_queue = []
         self.write_in_progress = False
+        self.max_write_retries = 5
+        self.write_retry_delay = 0.2
+        self.max_write_queue_size = 30
+        self.last_operation_skip_reason = None
+        self.plc_fault_active = False
+        self.plc_fault_reason = ""
+        self.plc_fault_context = {}
+        self.latched_fault_reasons = {"stop_command_failed", "write_command_failed", "write_response_error"}
+        self.last_successful_write = {}
+        self.duplicate_write_suppress_window = 0.75
+        self.stop_command_priority = -1
+        self.normal_command_priority = 1
+        self.plc_timeout_seconds = 2.0
         
         self.device_timeout = {}  
         self.last_communication_time = {} 
-        self.communication_delay = 20  # ลดเวลา delay ลงเพื่อ response เร็วขึ้น
-        self.read_delay = 200  # delay สำหรับ read ยาวกว่า write
+        self.communication_delay = 75
+        self.read_delay = 350
         self.error_count = {}
         self.max_error_count = 3
 
@@ -40,6 +53,67 @@ class PLC_Controller(QThread, QObject):
             logging.log(level, f"[PLC] {event} | {details}")
         else:
             logging.log(level, f"[PLC] {event}")
+
+    def _is_stop_command(self, item):
+        return item.get('value') == 0 or str(item.get('operation_name', '')).endswith('_stop')
+
+    def _write_state_key(self, address, device_id):
+        return (address, str(device_id))
+
+    def _same_write_target(self, item, address, device_id):
+        return item.get('address') == address and str(item.get('device_id')) == str(device_id)
+
+    def _set_plc_fault(self, reason, **context):
+        self.plc_fault_active = True
+        self.plc_fault_reason = reason
+        self.plc_fault_context = context
+        self._log(logging.CRITICAL, "fault_active", reason=reason, **context)
+
+    def clear_plc_fault(self, force=False, clear_reason="communication_success"):
+        if self.plc_fault_active and not force and self.plc_fault_reason in self.latched_fault_reasons:
+            self._log(
+                logging.WARNING,
+                "fault_clear_skipped",
+                reason=self.plc_fault_reason,
+                clear_reason=clear_reason,
+            )
+            return False
+        if self.plc_fault_active:
+            self._log(logging.INFO, "fault_cleared", previous_reason=self.plc_fault_reason, clear_reason=clear_reason)
+        self.plc_fault_active = False
+        self.plc_fault_reason = ""
+        self.plc_fault_context = {}
+        return True
+
+    def _fault_matches_write_item(self, write_item):
+        fault_item = self.plc_fault_context.get('item')
+        if not fault_item:
+            return False
+        return (
+            self._same_write_target(fault_item, write_item.get('address'), write_item.get('device_id'))
+            and fault_item.get('value') == write_item.get('value')
+        )
+
+    def reconnect_to_plc(self, reason="unknown"):
+        self._log(logging.WARNING, "reconnect_begin", reason=reason, port=self.plc_port)
+        try:
+            if hasattr(self, 'plc_client') and self.plc_client:
+                try:
+                    self.plc_client.close()
+                except Exception as close_error:
+                    self._log(logging.WARNING, "reconnect_close_failed", error=str(close_error))
+            time.sleep(0.2)
+            connected = self.plc_client.connect()
+            if connected:
+                self._log(logging.INFO, "reconnect_success", port=self.plc_port, socket_open=self.plc_client.is_socket_open())
+                self.initialize_device_management()
+                self.clear_plc_fault(clear_reason="reconnect_success")
+                return True
+            self._log(logging.ERROR, "reconnect_failed", port=self.plc_port)
+            return False
+        except Exception as e:
+            self._log(logging.ERROR, "reconnect_exception", port=self.plc_port, error=str(e))
+            return False
 
     def initialize_connections(self):
         self.connect_to_plc()
@@ -80,7 +154,12 @@ class PLC_Controller(QThread, QObject):
         stop_bits = int(self.stop_bits)
         parity = str(self.parity)
         data_bits = int(self.data_bits)
-        timeout = int(self.timeout_error)
+        try:
+            configured_timeout = float(self.timeout_error)
+        except (TypeError, ValueError):
+            configured_timeout = 2.0
+        effective_timeout = min(max(configured_timeout, 1.5), 2.0)
+        self.plc_timeout_seconds = effective_timeout
         self._log(
             logging.INFO,
             "connect_begin",
@@ -89,10 +168,9 @@ class PLC_Controller(QThread, QObject):
             parity=parity,
             stop_bits=stop_bits,
             data_bits=data_bits,
-            timeout=min(timeout, 1),
+            timeout_config=configured_timeout,
+            timeout_effective=effective_timeout,
         )
-        
-        reduced_timeout = min(timeout, 1)  # ไม่เกิน 1 วินาที
         
         self.plc_client = ModbusSerialClient(
             port=plc_port,
@@ -100,7 +178,7 @@ class PLC_Controller(QThread, QObject):
             parity=parity,
             stopbits=stop_bits,
             bytesize=data_bits,
-            timeout=reduced_timeout
+            timeout=effective_timeout
         )
         try:
             if self.plc_client.connect():
@@ -128,70 +206,290 @@ class PLC_Controller(QThread, QObject):
         self.plc_client.close()
     
     def safe_modbus_operation(self, operation_func, device_id, operation_name="unknown", is_write=False):
+        device_key = str(device_id)
+        self.last_operation_skip_reason = None
         try:
             current_time = time.time()
-            if device_id in self.error_count and self.error_count[device_id] >= self.max_error_count:
-                if current_time - self.last_communication_time.get(device_id, 0) < 5:  # รอ 5 วินาที
+            if device_key in self.error_count and self.error_count[device_key] >= self.max_error_count:
+                cooldown_remaining = 5 - (current_time - self.last_communication_time.get(device_key, 0))
+                if cooldown_remaining > 0:
+                    self.last_operation_skip_reason = "error_cooldown"
+                    self._log(
+                        logging.WARNING,
+                        "operation_skipped",
+                        operation=operation_name,
+                        device_id=device_key,
+                        reason="error_cooldown",
+                        cooldown_remaining=round(cooldown_remaining, 3),
+                        error_count=self.error_count.get(device_key, 0),
+                    )
                     return None
-                else:
-                    self.error_count[device_id] = 0
+                self.error_count[device_key] = 0
+
             delay = self.communication_delay if is_write else self.read_delay
-            last_comm_time = self.last_communication_time.get(device_id, 0)
-            if current_time - last_comm_time < (delay / 1000):
+            last_comm_time = self.last_communication_time.get(device_key, 0)
+            elapsed = current_time - last_comm_time
+            if elapsed < (delay / 1000):
+                self.last_operation_skip_reason = "communication_delay"
+                self._log(
+                    logging.DEBUG,
+                    "operation_deferred",
+                    operation=operation_name,
+                    device_id=device_key,
+                    reason="communication_delay",
+                    elapsed_ms=round(elapsed * 1000, 2),
+                    required_delay_ms=delay,
+                )
                 return None
-                
+
             result = operation_func()
-            self.last_communication_time[device_id] = current_time
-            if device_id in self.error_count:
-                self.error_count[device_id] = 0
-                
+            self.last_communication_time[device_key] = time.time()
+            if result is None:
+                self.last_operation_skip_reason = "no_response"
+                self.error_count[device_key] = self.error_count.get(device_key, 0) + 1
+                self._log(
+                    logging.WARNING,
+                    "operation_no_response",
+                    operation=operation_name,
+                    device_id=device_key,
+                    error_count=self.error_count.get(device_key, 0),
+                )
+                if self.error_count.get(device_key, 0) >= self.max_error_count:
+                    self.reconnect_to_plc(reason="no_response")
+                return None
+
+            if device_key in self.error_count:
+                self.error_count[device_key] = 0
             return result
-            
+
         except Exception as e:
-            if device_id not in self.error_count:
-                self.error_count[device_id] = 0
-            self.error_count[device_id] += 1
-            # print(f"Error in {operation_name} for device {device_id}: {e} (Error count: {self.error_count[device_id]})")
+            if device_key not in self.error_count:
+                self.error_count[device_key] = 0
+            self.error_count[device_key] += 1
+            self.last_operation_skip_reason = "exception"
+            self._log(
+                logging.ERROR,
+                "operation_exception",
+                operation=operation_name,
+                device_id=device_key,
+                error=str(e),
+                error_count=self.error_count[device_key],
+            )
+            if self.error_count.get(device_key, 0) >= self.max_error_count:
+                self.reconnect_to_plc(reason="exception")
             return None
-    
+
     def add_write_to_queue(self, address, value, device_id, operation_name="write_coil"):
-        """เพิ่ม write operation ลงใน priority queue"""
+        is_stop = value == 0 or str(operation_name).endswith("_stop")
+        state_key = self._write_state_key(address, device_id)
+        now = time.time()
         write_item = {
             'address': address,
             'value': value,
             'device_id': device_id,
             'operation_name': operation_name,
-            'timestamp': time.time()
+            'timestamp': now,
+            'attempts': 0,
+            'retry_after': 0,
+            'priority': self.stop_command_priority if is_stop else self.normal_command_priority,
         }
+
+        last_write = self.last_successful_write.get(state_key)
+        if (
+            last_write
+            and last_write.get('value') == value
+            and (now - last_write.get('timestamp', 0)) < self.duplicate_write_suppress_window
+        ):
+            self._log(
+                logging.DEBUG,
+                "write_queue_recent_duplicate_ignored",
+                operation=operation_name,
+                address=address,
+                value=value,
+                device_id=device_id,
+                age_ms=round((now - last_write.get('timestamp', 0)) * 1000, 2),
+            )
+            return
+
+        if is_stop:
+            existing_stop = next(
+                (
+                    item for item in self.write_queue
+                    if self._same_write_target(item, address, device_id) and self._is_stop_command(item)
+                ),
+                None,
+            )
+            if existing_stop:
+                existing_stop['priority'] = self.stop_command_priority
+                self.write_queue.sort(key=lambda item: (item.get('priority', self.normal_command_priority), item.get('timestamp', 0)))
+                self._log(
+                    logging.DEBUG,
+                    "write_queue_duplicate_stop_ignored",
+                    operation=operation_name,
+                    address=address,
+                    value=value,
+                    device_id=device_id,
+                    attempts=existing_stop.get('attempts', 0),
+                    queue_size=len(self.write_queue),
+                )
+                return
+
+            removed_count = sum(
+                1 for item in self.write_queue
+                if self._same_write_target(item, address, device_id) and not self._is_stop_command(item)
+            )
+            self.write_queue = [
+                item for item in self.write_queue
+                if not (self._same_write_target(item, address, device_id) and not self._is_stop_command(item))
+            ]
+            if removed_count:
+                self._log(
+                    logging.INFO,
+                    "write_queue_start_superseded_by_stop",
+                    operation=operation_name,
+                    address=address,
+                    device_id=device_id,
+                    removed_count=removed_count,
+                )
+        else:
+            pending_stop = any(
+                self._same_write_target(item, address, device_id) and self._is_stop_command(item)
+                for item in self.write_queue
+            )
+            if pending_stop:
+                self._log(
+                    logging.WARNING,
+                    "write_queue_start_blocked_by_pending_stop",
+                    operation=operation_name,
+                    address=address,
+                    value=value,
+                    device_id=device_id,
+                    queue_size=len(self.write_queue),
+                )
+                return
+
+            existing_same = next(
+                (
+                    item for item in self.write_queue
+                    if self._same_write_target(item, address, device_id) and item.get('value') == value
+                ),
+                None,
+            )
+            if existing_same:
+                self._log(
+                    logging.DEBUG,
+                    "write_queue_duplicate_ignored",
+                    operation=operation_name,
+                    address=address,
+                    value=value,
+                    device_id=device_id,
+                    attempts=existing_same.get('attempts', 0),
+                    queue_size=len(self.write_queue),
+                )
+                return
+
+            self.write_queue = [
+                item for item in self.write_queue
+                if not (
+                    self._same_write_target(item, address, device_id)
+                    and item.get('value') == value
+                )
+            ]
         self.write_queue.append(write_item)
-        self.write_queue = [item for item in self.write_queue[-10:] 
-                           if not (item['address'] == address and item['device_id'] == device_id) 
-                           or item == write_item]
+        if len(self.write_queue) > self.max_write_queue_size:
+            removable = next((i for i, item in enumerate(self.write_queue) if not self._is_stop_command(item)), None)
+            if removable is not None:
+                dropped = self.write_queue.pop(removable)
+                self._log(logging.WARNING, "write_queue_trimmed", dropped=dropped, queue_size=len(self.write_queue))
+        self.write_queue.sort(key=lambda item: (item.get('priority', self.normal_command_priority), item.get('timestamp', 0)))
         self._log(logging.INFO, "write_queue_add", operation=operation_name, address=address, value=value, device_id=device_id, queue_size=len(self.write_queue))
 
     def process_write_queue(self):
         if self.write_queue and not self.write_in_progress:
             self.write_in_progress = True
-            write_item = self.write_queue.pop(0)
-            self._log(logging.INFO, "write_queue_process_begin", item=write_item, queue_size=len(self.write_queue))
-            def write_operation():
-                return self.plc_client.write_coil(
-                    address=write_item['address'], 
-                    value=write_item['value'], 
-                    device_id=write_item['device_id']
+            try:
+                write_item = self.write_queue[0]
+                now = time.time()
+                retry_after = write_item.get('retry_after', 0)
+                if retry_after and now < retry_after:
+                    self._log(logging.DEBUG, "write_queue_retry_wait", item=write_item, wait_ms=round((retry_after - now) * 1000, 2))
+                    return False
+
+                self._log(logging.INFO, "write_queue_process_begin", item=write_item, queue_size=len(self.write_queue))
+
+                def write_operation():
+                    return self.plc_client.write_coil(
+                        address=write_item['address'],
+                        value=write_item['value'],
+                        device_id=write_item['device_id']
+                    )
+
+                result = self.safe_modbus_operation(
+                    write_operation,
+                    str(write_item['device_id']),
+                    write_item['operation_name'],
+                    is_write=True
                 )
-            result = self.safe_modbus_operation(
-                write_operation, 
-                str(write_item['device_id']), 
-                write_item['operation_name'],
-                is_write=True
-            )
-            self.write_in_progress = False
-            if result and result.isError():
-                self._log(logging.ERROR, "write_queue_process_failed", item=write_item, result=str(result))
-                return False
-            self._log(logging.INFO, "write_queue_process_end", item=write_item, success=result is not None, result=str(result))
-            return result is not None
+                reason = self.last_operation_skip_reason
+
+                if result is None:
+                    if reason == "communication_delay":
+                        self._log(logging.DEBUG, "write_queue_deferred", item=write_item, reason=reason)
+                        return False
+
+                    write_item['attempts'] = write_item.get('attempts', 0) + 1
+                    write_item['retry_after'] = time.time() + self.write_retry_delay
+                    self._log(
+                        logging.WARNING,
+                        "write_queue_retry_scheduled",
+                        item=write_item,
+                        reason=reason or "unknown",
+                        attempt=write_item['attempts'],
+                        max_retries=self.max_write_retries,
+                    )
+                    if write_item['attempts'] >= self.max_write_retries:
+                        dropped = self.write_queue.pop(0)
+                        self._log(
+                            logging.ERROR,
+                            "write_queue_process_dropped",
+                            item=dropped,
+                            reason=reason or "unknown",
+                            max_retries=self.max_write_retries,
+                        )
+                        if self._is_stop_command(dropped):
+                            self._set_plc_fault("stop_command_failed", item=dropped, reason=reason or "unknown")
+                        else:
+                            self._set_plc_fault("write_command_failed", item=dropped, reason=reason or "unknown")
+                    return False
+
+                if result and result.isError():
+                    write_item['attempts'] = write_item.get('attempts', 0) + 1
+                    write_item['retry_after'] = time.time() + self.write_retry_delay
+                    self._log(
+                        logging.ERROR,
+                        "write_queue_process_failed",
+                        item=write_item,
+                        result=str(result),
+                        attempt=write_item['attempts'],
+                        max_retries=self.max_write_retries,
+                    )
+                    if write_item['attempts'] >= self.max_write_retries:
+                        dropped = self.write_queue.pop(0)
+                        self._set_plc_fault("write_response_error", item=dropped, result=str(result))
+                    return False
+
+                completed = self.write_queue.pop(0)
+                self.last_successful_write[self._write_state_key(completed['address'], completed['device_id'])] = {
+                    'value': completed['value'],
+                    'timestamp': time.time(),
+                    'operation_name': completed['operation_name'],
+                }
+                if self.plc_fault_active and self._fault_matches_write_item(completed):
+                    self.clear_plc_fault(force=True, clear_reason="failed_write_confirmed_success")
+                self._log(logging.INFO, "write_queue_process_end", item=completed, success=True, result=str(result), queue_size=len(self.write_queue))
+                return True
+            finally:
+                self.write_in_progress = False
         return True
 
     def safe_write_coil(self, address, value, device_id, operation_name="write_coil"):
@@ -455,7 +753,7 @@ class PLC_Controller(QThread, QObject):
                             read_functions[read_index]()
                             read_index = (read_index + 1) % len(read_functions)
                             read_cycle_count = 0
-                            self.msleep(100)
+                            self.msleep(self.read_delay)
                     else:
                         read_cycle_count += 1
                         self.msleep(20) 
@@ -472,13 +770,21 @@ class PLC_Controller(QThread, QObject):
                 self.plc_client.close()
                 self._log(logging.INFO, "run_port_closed")
 
-    def set_communication_parameters(self, communication_delay=20, read_delay=200, max_error_count=3, timeout_seconds=1):
+    def set_communication_parameters(self, communication_delay=75, read_delay=350, max_error_count=3, timeout_seconds=2.0):
         self.communication_delay = communication_delay  
         self.read_delay = read_delay 
         self.max_error_count = max_error_count
+        self.plc_timeout_seconds = timeout_seconds
         if hasattr(self, 'plc_client') and self.plc_client:
             self.plc_client.timeout = timeout_seconds
-            # print(f"Updated communication parameters - Write delay: {communication_delay}ms, Read delay: {read_delay}ms, Max errors: {max_error_count}, Timeout: {timeout_seconds}s")
+        self._log(
+            logging.INFO,
+            "communication_parameters_updated",
+            communication_delay_ms=communication_delay,
+            read_delay_ms=read_delay,
+            max_error_count=max_error_count,
+            timeout_seconds=timeout_seconds,
+        )
     
     def get_communication_status(self):
         status = {}
